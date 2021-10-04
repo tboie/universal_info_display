@@ -10,8 +10,6 @@ import M, { T } from "./M";
 let SELECTED = "";
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let PREV_POINTER_POS: undefined | { x: number; y: number } = undefined;
-const RSZ_AREA_MIN = 25,
-  RSZ_AREA_MAX = 75;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -51,35 +49,21 @@ const SET_UNIT = (
   u: T,
   dim: "w" | "h",
   d: number,
-  /*
-    s1: "t" | "r",
-    s2: "b" | "l",
-    */
   a: number,
   ele: HTMLDivElement
 ) => {
-  // bottom right
+  // bottom & right
   if (t === "RSZ_BR") {
     dim === "w"
       ? (u.w += d) && (u.tX = (u.x / u.w) * 100)
       : (u.h += d) && (u.tY = (u.y / u.h) * 100);
   }
-  // top left
+  // top & left
   else if (t === "RSZ_TL") {
     dim === "w"
       ? (u.w -= d) && (u.x = a - u.w) && (u.tX = ((a - u.w) / u.w) * 100)
       : (u.h -= d) && (u.y = a - u.h) && (u.tY = ((a - u.h) / u.h) * 100);
   }
-  // move
-  /*
-      else if (
-        (d > 0 && !c[dim === "w" ? s1 : s2].length) ||
-        (d < 0 && !c[dim === "w" ? s2 : s1].length)
-      ) {
-        dim === "w" ? (tX = ((x += d) * 100) / w) : (tY = ((y += d) * 100) / h);
-      }
-      */
-
   dim === "w" ? (ele.style.width = u.w + "%") : (ele.style.height = u.h + "%");
   ele.style.transform = `translate(${u.tX}%,${u.tY}%)`;
   SAVE(i, u);
@@ -96,35 +80,36 @@ const MODIFY = () => {
           PREV_POINTER_POS.y
         );
 
-        const mX = ((POINTER_POS.x - M[v].x) / M[v].w) * 100;
-        const mY = ((POINTER_POS.y - M[v].y) / M[v].h) * 100;
         const ELE = document.getElementById(v.toString()) as HTMLDivElement;
 
-        // TODO: MAKE THIS WORK
         if (ELE) {
-          if (DIST.x !== 0 && mX <= M[v].x + RSZ_AREA_MIN) {
-            SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-            //console.log(v + " left");
+          if (DIST.x < 0) {
+            if (M[v].x + M[v].w < 100) {
+              SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+            } else {
+              SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+            }
           }
-          if (DIST.y !== 0 && mY <= M[v].y + RSZ_AREA_MIN) {
-            SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-            //console.log(v + " top");
+          if (DIST.x > 0) {
+            if (M[v].x > 0) {
+              SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+            } else {
+              SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+            }
           }
-          if (
-            DIST.x !== 0 &&
-            mX >= M[v].x + M[v].w - RSZ_AREA_MAX
-            //&& mX < 100 - RSZ_AREA_MAX
-          ) {
-            SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-            //console.log(v + " right");
+          if (DIST.y < 0) {
+            if (M[v].y + M[v].h < 100) {
+              SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+            } else {
+              SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+            }
           }
-          if (
-            DIST.y !== 0 &&
-            mY >= M[v].y + M[v].h - RSZ_AREA_MAX
-            //&& mX < 100 - RSZ_AREA_MAX
-          ) {
-            SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-            //console.log(v + " bottom");
+          if (DIST.y > 0) {
+            if (M[v].y > 0) {
+              SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+            } else {
+              SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+            }
           }
         }
       }
