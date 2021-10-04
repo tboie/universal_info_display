@@ -86,7 +86,7 @@ const MODIFY = () => {
 
         if (ELE) {
           // Moving Left
-          if (DIST.x < 0) {
+          if (DIST.x < 0 || DIST.x > 0) {
             // Lock exists on right
             if (typeof M[v].l.r !== "undefined") {
               // No Lock on Left
@@ -122,45 +122,8 @@ const MODIFY = () => {
               }
             }
           }
-          // Moving Right
-          if (DIST.x > 0) {
-            // No Lock on Right
-            if (typeof M[v].l.r !== "undefined") {
-              // No Lock on Left
-              if (typeof M[v].l.l === "undefined") {
-                // @ts-ignore
-                if (M[v].x + M[v].w > M[v].l.r) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                } else {
-                  SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                }
-              }
-              // Lock on Left
-              else {
-                // @ts-ignore
-                if (M[v].x > M[v].l.l) {
-                  SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                }
-                // @ts-ignore
-                if (M[v].x + M[v].w > M[v].l.r) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                }
-              }
-            }
-            // Lock exists on Left
-            else if (typeof M[v].l.l !== "undefined") {
-              // @ts-ignore
-              if (M[v].x > M[v].l.l) {
-                SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-              }
-              // @ts-ignore
-              if (M[v].x + M[v].w > M[v].l.l) {
-                SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-              }
-            }
-          }
           // Moving Up
-          if (DIST.y < 0) {
+          if (DIST.y < 0 || DIST.y > 0) {
             // Lock exists on Bottom
             if (typeof M[v].l.b !== "undefined") {
               // No Lock on Top
@@ -185,43 +148,6 @@ const MODIFY = () => {
               }
             }
             // Lock exists on Top
-            else if (typeof M[v].l.t !== "undefined") {
-              // @ts-ignore
-              if (M[v].y > M[v].l.t) {
-                SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-              }
-              // @ts-ignore
-              if (M[v].y + M[v].h > M[v].l.t) {
-                SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-              }
-            }
-          }
-          // Moving Down
-          if (DIST.y > 0) {
-            // No Lock on Bottom
-            if (typeof M[v].l.b !== "undefined") {
-              // No Lock on Top
-              if (typeof M[v].l.t === "undefined") {
-                // @ts-ignore
-                if (M[v].y + M[v].h > M[v].l.b) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                } else {
-                  SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                }
-              }
-              // Lock on Top
-              else {
-                // @ts-ignore
-                if (M[v].y > M[v].l.t) {
-                  SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                }
-                // @ts-ignore
-                if (M[v].y + M[v].h > M[v].l.b) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                }
-              }
-            }
-            // Lock exists on Left
             else if (typeof M[v].l.t !== "undefined") {
               // @ts-ignore
               if (M[v].y > M[v].l.t) {
