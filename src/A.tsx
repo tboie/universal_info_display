@@ -279,22 +279,18 @@ window.onload = () => {
   }
 };
 
-const A = (p: T) => {
-  let { i, t, x, y, w, h, z, c, bp, aB, aR, tX, tY } = p;
-
-  return (
-    <div
-      id={`${i}`}
-      className={`${S.A} ${bp.map((bp) => S[bp]).join(" ")}`}
-      style={{
-        transform: `translate(${(x * 100) / w}%,${(y * 100) / h}%)`,
-        width: `${w}%`,
-        height: `${h}%`,
-        zIndex: z,
-      }}
-      onPointerDown={(ev) => PRESS(ev, i)}
-    />
-  );
-};
+const A = (p: T) => (
+  <div
+    id={`${p.i}`}
+    className={`${S.A} ${p.bp.map((bp) => S[bp]).join(" ")}`}
+    style={{
+      transform: `translate(${(p.x * 100) / p.w}%,${(p.y * 100) / p.h}%)`,
+      width: `${p.w}%`,
+      height: `${p.h}%`,
+      zIndex: p.z,
+    }}
+    onPointerDown={(ev) => PRESS(ev, p.i)}
+  />
+);
 
 export default A;
