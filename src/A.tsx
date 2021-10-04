@@ -166,7 +166,7 @@ const MODIFY = () => {
 };
 
 // SET ANCHORS AND TRANSLATE VALS TO DATA
-const PRESS = (ev: React.PointerEvent<HTMLDivElement>, i?: number) => {
+const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i?: number) => {
   ev.stopPropagation();
   ev.preventDefault();
   if (typeof i !== "undefined") {
@@ -184,6 +184,25 @@ const PRESS = (ev: React.PointerEvent<HTMLDivElement>, i?: number) => {
     });
   }
 };
+
+/*
+const PRESS_LOCK = (
+  ev: React.PointerEvent<HTMLDivElement>,
+  u: T,
+  s: "t" | "r" | "b" | "l"
+) => {
+  ev.stopPropagation();
+  ev.preventDefault();
+  u.l[s]
+    ? (u.l[s] = undefined)
+    : s === "l" || s === "r"
+    ? (u.l[s] = u.x + u.w / 2)
+    : (u.l[s] = u.y + u.h / 2);
+
+  ev.currentTarget.style.backgroundColor = u.l[s] ? "lightgray" : "transparent";
+  SAVE(u.i || 0, u);
+};
+*/
 
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
@@ -214,26 +233,26 @@ const A = (p: T) => (
       height: `${p.h}%`,
       zIndex: p.z,
     }}
-    onPointerDown={(ev) => PRESS(ev, p.i)}
+    onPointerDown={(ev) => PRESS_UNIT(ev, p.i)}
   >
     {
-      // Lol it works????
-      // use transforms if serious
+      // quickly testing...
       [
         { top: 0, left: 0, right: 0 },
         { right: 0, top: 0, bottom: 0 },
         { bottom: 0, right: 0, left: 0 },
         { left: 0, top: 0, bottom: 0 },
       ].map((pos, idx) => {
-        const s = ["t", "r", "b", "l"];
+        const sides = ["t", "r", "b", "l"];
+        const side = sides[idx] as "t" | "r" | "b" | "l";
         return (
           <div
+            key={idx}
             className={`${S.lock} ${
-              typeof p.l[s[idx] as "t" | "r" | "b" | "r"] !== "undefined"
-                ? S.on
-                : ""
+              typeof p.l[side] !== "undefined" ? S.on : ""
             }`}
             style={pos}
+            //onPointerDown={(ev) => PRESS_LOCK(ev, p, side)}
           />
         );
       })
