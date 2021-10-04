@@ -129,6 +129,11 @@ window.onload = () => {
     root.addEventListener("pointerup", (e) => {
       SELECTED = "";
     });
+    root.addEventListener("pointerleave", (e) => {
+      SELECTED = "";
+      POINTER_POS = undefined;
+      PREV_POINTER_POS = undefined;
+    });
   }
 };
 
