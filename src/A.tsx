@@ -117,6 +117,26 @@ const MODIFY = () => {
   }
 };
 
+// SET ANCHORS AND TRANSLATE VALS TO DATA
+const PRESS = (ev: React.PointerEvent<HTMLDivElement>, i?: number) => {
+  ev.stopPropagation();
+  ev.preventDefault();
+  if (typeof i !== "undefined") {
+    SELECTED = `${i}`;
+    GET_CONNECTED_UNITS().forEach((v) => {
+      const unit_tX = (M[v].x * 100) / M[v].w;
+      const unit_tY = (M[v].y * 100) / M[v].h;
+      const unit_aR = (M[v].w * unit_tX) / 100 + M[v].w;
+      const unit_aB = (M[v].h * unit_tY) / 100 + M[v].h;
+
+      Object.assign(M[v], { tX: unit_tX });
+      Object.assign(M[v], { tY: unit_tY });
+      Object.assign(M[v], { aR: unit_aR });
+      Object.assign(M[v], { aB: unit_aB });
+    });
+  }
+};
+
 // TODO: USE ROOT DIV FUNCTIONALITY/COORDS FOR POINTER DATA
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
@@ -150,27 +170,7 @@ const A = (p: T) => {
         height: `${h}%`,
         zIndex: z,
       }}
-      onPointerDown={(ev) => {
-        ev.stopPropagation();
-        ev.preventDefault();
-
-        if (typeof i !== "undefined") {
-          SELECTED = `${i}`;
-          GET_CONNECTED_UNITS().forEach((v) => {
-            // SET ANCHORS AND TRANSLATE VALS TO DATA
-            // TODO: OPTIMIZE?
-            const unit_tX = (M[v].x * 100) / M[v].w;
-            const unit_tY = (M[v].y * 100) / M[v].h;
-            const unit_aR = (M[v].w * unit_tX) / 100 + M[v].w;
-            const unit_aB = (M[v].h * unit_tY) / 100 + M[v].h;
-
-            Object.assign(M[v], { tX: unit_tX });
-            Object.assign(M[v], { tY: unit_tY });
-            Object.assign(M[v], { aR: unit_aR });
-            Object.assign(M[v], { aB: unit_aB });
-          });
-        }
-      }}
+      onPointerDown={(ev) => PRESS(ev, i)}
     />
   );
 };
