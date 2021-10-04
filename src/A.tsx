@@ -86,7 +86,7 @@ const MODIFY = () => {
           // Moving Left
           if (DIST.x < 0) {
             // Lock exists on right
-            if (M[v].l.r) {
+            if (typeof M[v].l.r !== "undefined") {
               // No Lock on Left
               if (typeof M[v].l.l === "undefined") {
                 // @ts-ignore
@@ -122,7 +122,8 @@ const MODIFY = () => {
           }
         }
         if (DIST.x > 0) {
-          if (M[v].l.r) {
+          // No Lock on Right
+          if (typeof M[v].l.r !== "undefined") {
             // No Lock on Left
             if (typeof M[v].l.l === "undefined") {
               // @ts-ignore
