@@ -84,6 +84,7 @@ const MODIFY = () => {
 
         if (ELE) {
           if (DIST.x < 0) {
+            // TODO: implement lock checks
             if (M[v].x + M[v].w < 100) {
               SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
             } else {
@@ -91,6 +92,7 @@ const MODIFY = () => {
             }
           }
           if (DIST.x > 0) {
+            // TODO: implement lock checks
             if (M[v].x > 0) {
               SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
             } else {
@@ -98,6 +100,7 @@ const MODIFY = () => {
             }
           }
           if (DIST.y < 0) {
+            // TODO: implement lock checks
             if (M[v].y + M[v].h < 100) {
               SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
             } else {
@@ -105,6 +108,7 @@ const MODIFY = () => {
             }
           }
           if (DIST.y > 0) {
+            // TODO: implement lock checks
             if (M[v].y > 0) {
               SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
             } else {
