@@ -185,7 +185,6 @@ const PRESS = (ev: React.PointerEvent<HTMLDivElement>, i?: number) => {
   }
 };
 
-// TODO: USE ROOT DIV FUNCTIONALITY/COORDS FOR POINTER DATA
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
   if (root) {
@@ -216,7 +215,30 @@ const A = (p: T) => (
       zIndex: p.z,
     }}
     onPointerDown={(ev) => PRESS(ev, p.i)}
-  />
+  >
+    {
+      // Lol it works????
+      // use transforms if serious
+      [
+        { top: 0, left: 0, right: 0 },
+        { right: 0, top: 0, bottom: 0 },
+        { bottom: 0, right: 0, left: 0 },
+        { left: 0, top: 0, bottom: 0 },
+      ].map((pos, idx) => {
+        const s = ["t", "r", "b", "l"];
+        return (
+          <div
+            className={`${S.lock} ${
+              typeof p.l[s[idx] as "t" | "r" | "b" | "r"] !== "undefined"
+                ? S.on
+                : ""
+            }`}
+            style={pos}
+          />
+        );
+      })
+    }
+  </div>
 );
 
 export default A;

@@ -6,6 +6,18 @@
   background-color: black;
 }
 
+.lock {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  margin: auto;
+  border: 1px solid lightgray;
+}
+
+.on {
+  background-color: lightgray;
+}
+
 .sm {
   @media only screen and (min-width: 460px) and (max-width: 599px) {
     display: block;
