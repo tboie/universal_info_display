@@ -171,7 +171,16 @@ const A = (p: T) => {
           });
         }
       }}
-    />
+    >
+      {[
+        { top: 0, left: 0, right: 0 },
+        { right: 0, top: 0, bottom: 0 },
+        { bottom: 0, right: 0, left: 0 },
+        { left: 0, top: 0, bottom: 0 },
+      ].map((pos) => (
+        <div className={S.lock} style={pos} />
+      ))}
+    </div>
   );
 };
 
