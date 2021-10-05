@@ -18,14 +18,14 @@
   background-color: lightgray;
 }
 
-.sm {
-  @media only screen and (min-width: 460px) and (max-width: 599px) {
+@media only screen and (min-width: 460px) and (max-width: 599px) {
+  .sm {
     display: block;
   }
 }
 
-.lg {
-  @media only screen and (min-width: 600px) and (max-width: 1000px) {
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+  .lg {
     display: block;
   }
 }

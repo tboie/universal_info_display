@@ -1,4 +1,4 @@
-import S from "./A.module.scss";
+import "./A.css";
 import M, { T } from "./M";
 
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
@@ -226,7 +226,7 @@ window.onload = () => {
 const A = (p: T) => (
   <div
     id={`${p.i}`}
-    className={`${S.A} ${p.bp.map((bp) => S[bp]).join(" ")}`}
+    className={`A ${p.bp.join(" ")}`}
     style={{
       transform: `translate(${(p.x * 100) / p.w}%,${(p.y * 100) / p.h}%)`,
       width: `${p.w}%`,
@@ -248,9 +248,7 @@ const A = (p: T) => (
         return (
           <div
             key={idx}
-            className={`${S.lock} ${
-              typeof p.l[side] !== "undefined" ? S.on : ""
-            }`}
+            className={`lock ${typeof p.l[side] !== "undefined" ? "on" : ""}`}
             style={pos}
             //onPointerDown={(ev) => PRESS_LOCK(ev, p, side)}
           />
