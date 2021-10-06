@@ -65,14 +65,12 @@ const SET_UNIT = (
       : (u.y = a - (u.h -= d)) && (u.tY = ((a - u.h) / u.h) * 100);
   }
   // move
-  /*
-      else if (
-        (d > 0 && !c[dim === "w" ? s1 : s2].length) ||
-        (d < 0 && !c[dim === "w" ? s2 : s1].length)
-      ) {
-        dim === "w" ? (tX = ((x += d) * 100) / w) : (tY = ((y += d) * 100) / h);
-      }
-      */
+  else if (t === "MOVE") {
+    dim === "w"
+      ? (u.tX = ((u.x += d) * 100) / u.w)
+      : (u.tY = ((u.y += d) * 100) / u.h);
+  }
+
   dim === "w" ? (ele.style.width = u.w + "%") : (ele.style.height = u.h + "%");
   ele.style.transform = `translate(${u.tX}%,${u.tY}%)`;
   SAVE(i, u);
