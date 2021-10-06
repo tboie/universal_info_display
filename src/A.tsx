@@ -128,6 +128,11 @@ const MODIFY = () => {
                 SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
               }
             }
+            // No Lock Left or Right
+            // Move X
+            else {
+              SET_UNIT(v, "MOVE", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+            }
           }
           // Moving Up
           if (DIST.y < 0 || DIST.y > 0) {
@@ -164,6 +169,11 @@ const MODIFY = () => {
               if (M[v].y + M[v].h > M[v].l.t) {
                 SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
               }
+            }
+            // No Lock Top or Bottom
+            // Move Y
+            else {
+              SET_UNIT(v, "MOVE", M[v], "h", DIST.y, M[v].aB || 0, ELE);
             }
           }
         }
