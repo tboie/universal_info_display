@@ -55,15 +55,24 @@ const SET_UNIT = (
   // bottom & right
   if (t === "RSZ_BR") {
     dim === "w"
-      ? (u.w += d) && (u.tX = (u.x / u.w) * 100)
-      : (u.h += d) && (u.tY = (u.y / u.h) * 100);
+      ? (u.tX = (u.x / (u.w += d)) * 100)
+      : (u.tY = (u.y / (u.h += d)) * 100);
   }
   // top & left
   else if (t === "RSZ_TL") {
     dim === "w"
-      ? (u.w -= d) && (u.x = a - u.w) && (u.tX = ((a - u.w) / u.w) * 100)
-      : (u.h -= d) && (u.y = a - u.h) && (u.tY = ((a - u.h) / u.h) * 100);
+      ? (u.x = a - (u.w -= d)) && (u.tX = ((a - u.w) / u.w) * 100)
+      : (u.y = a - (u.h -= d)) && (u.tY = ((a - u.h) / u.h) * 100);
   }
+  // move
+  /*
+      else if (
+        (d > 0 && !c[dim === "w" ? s1 : s2].length) ||
+        (d < 0 && !c[dim === "w" ? s2 : s1].length)
+      ) {
+        dim === "w" ? (tX = ((x += d) * 100) / w) : (tY = ((y += d) * 100) / h);
+      }
+      */
   dim === "w" ? (ele.style.width = u.w + "%") : (ele.style.height = u.h + "%");
   ele.style.transform = `translate(${u.tX}%,${u.tY}%)`;
   SAVE(i, u);
