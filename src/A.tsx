@@ -225,6 +225,8 @@ window.onload = () => {
   }
 };
 
+// ThreeJS tips:
+// https://discoverthreejs.com/tips-and-tricks/
 function Box(props: any) {
   // This reference will give us direct access to the THREE.Mesh object
   const ref: any = useRef();
