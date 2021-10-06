@@ -1,5 +1,7 @@
 import "./A.css";
 import M, { T } from "./M";
+import React, { useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 // TODO:
@@ -223,6 +225,30 @@ window.onload = () => {
   }
 };
 
+function Box(props: any) {
+  // This reference will give us direct access to the THREE.Mesh object
+  const ref: any = useRef();
+  // Set up state for the hovered and active state
+  const [hovered, setHover] = useState(false);
+  const [active, setActive] = useState(false);
+  // Subscribe this component to the render-loop, rotate the mesh every frame
+  useFrame((state, delta) => (ref.current.rotation.x += 0.01));
+  // Return the view, these are regular Threejs elements expressed in JSX
+  return (
+    <mesh
+      {...props}
+      ref={ref}
+      scale={active ? 1.5 : 1}
+      onClick={(event) => setActive(!active)}
+      onPointerOver={(event) => setHover(true)}
+      onPointerOut={(event) => setHover(false)}
+    >
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+    </mesh>
+  );
+}
+
 const A = (p: T) => (
   <div
     id={`${p.i}`}
@@ -235,26 +261,12 @@ const A = (p: T) => (
     }}
     onPointerDown={(ev) => PRESS_UNIT(ev, p.i)}
   >
-    {
-      // quickly testing...
-      [
-        { top: 0, left: 0, right: 0 },
-        { right: 0, top: 0, bottom: 0 },
-        { bottom: 0, right: 0, left: 0 },
-        { left: 0, top: 0, bottom: 0 },
-      ].map((pos, idx) => {
-        const sides = ["t", "r", "b", "l"];
-        const side = sides[idx] as "t" | "r" | "b" | "l";
-        return (
-          <div
-            key={idx}
-            className={`lock ${typeof p.l[side] !== "undefined" ? "on" : ""}`}
-            style={pos}
-            //onPointerDown={(ev) => PRESS_LOCK(ev, p, side)}
-          />
-        );
-      })
-    }
+    <Canvas>
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <Box position={[-1.2, 0, 0]} />
+      <Box position={[1.2, 0, 0]} />
+    </Canvas>
   </div>
 );
 
