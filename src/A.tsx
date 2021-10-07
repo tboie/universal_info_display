@@ -7,7 +7,7 @@ import M, { T } from "./M";
 //  2) ORGANIZE
 //  3) IMPLEMENT SIDE LOCKS
 
-let SELECTED = "";
+let SELECTED_UNIT = -1;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let PREV_POINTER_POS: undefined | { x: number; y: number } = undefined;
 
@@ -26,17 +26,14 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
-const GET_CONNECTED_UNITS = () => {
-  let ret: number[] = [];
+const GET_CONNECTED_UNITS = (i: number) => {
+  let ret = [SELECTED_UNIT];
 
-  if (SELECTED) {
-    ret.push(parseInt(SELECTED));
-    const conns = M[parseInt(SELECTED)].c;
-    if (conns) {
-      for (const [key, value] of Object.entries(conns)) {
-        if (value.length) {
-          value.forEach((v) => !ret.includes(v) && ret.push(v));
-        }
+  const conns = M[SELECTED_UNIT].c;
+  if (conns) {
+    for (const [key, value] of Object.entries(conns)) {
+      if (value.length) {
+        value.forEach((v) => !ret.includes(v) && ret.push(v));
       }
     }
   }
@@ -76,130 +73,129 @@ const SET_UNIT = (
   SAVE(i, u);
 };
 
-const MODIFY = () => {
-  if (SELECTED) {
-    GET_CONNECTED_UNITS().forEach((v) => {
-      if (POINTER_POS && PREV_POINTER_POS) {
-        const DIST = GET_DISTANCE(
-          POINTER_POS.x,
-          POINTER_POS.y,
-          PREV_POINTER_POS.x,
-          PREV_POINTER_POS.y
-        );
+const MODIFY = (i: number) => {
+  GET_CONNECTED_UNITS(SELECTED_UNIT).forEach((v) => {
+    if (POINTER_POS && PREV_POINTER_POS) {
+      const DIST = GET_DISTANCE(
+        POINTER_POS.x,
+        POINTER_POS.y,
+        PREV_POINTER_POS.x,
+        PREV_POINTER_POS.y
+      );
 
-        const ELE = document.getElementById(v.toString()) as HTMLDivElement;
+      const ELE = document.getElementById(v.toString()) as HTMLDivElement;
 
-        // Lols it works???????
+      // Lols it works???????
 
-        if (ELE) {
-          // Moving Left
-          if (DIST.x < 0 || DIST.x > 0) {
-            // Lock exists on right
-            if (typeof M[v].l.r !== "undefined") {
-              // No Lock on Left
-              if (typeof M[v].l.l === "undefined") {
-                // @ts-ignore
-                if (M[v].x + M[v].w > M[v].l.r) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                } else {
-                  SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                }
-              }
-              // Lock on Left
-              else {
-                // @ts-ignore
-                if (M[v].x > M[v].l.l) {
-                  SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                }
-                // @ts-ignore
-                if (M[v].x + M[v].w > M[v].l.r) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
-                }
+      if (ELE) {
+        // Moving Left
+        if (DIST.x < 0 || DIST.x > 0) {
+          // Lock exists on right
+          if (typeof M[v].l.r !== "undefined") {
+            // No Lock on Left
+            if (typeof M[v].l.l === "undefined") {
+              // @ts-ignore
+              if (M[v].x + M[v].w > M[v].l.r) {
+                SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+              } else {
+                SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
               }
             }
-            // Lock exists on Left
-            else if (typeof M[v].l.l !== "undefined") {
+            // Lock on Left
+            else {
               // @ts-ignore
               if (M[v].x > M[v].l.l) {
                 SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
               }
               // @ts-ignore
-              if (M[v].x + M[v].w > M[v].l.l) {
+              if (M[v].x + M[v].w > M[v].l.r) {
                 SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
               }
             }
-            // No Lock Left or Right
-            // Move X
-            else {
-              SET_UNIT(v, "MOVE", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+          }
+          // Lock exists on Left
+          else if (typeof M[v].l.l !== "undefined") {
+            // @ts-ignore
+            if (M[v].x > M[v].l.l) {
+              SET_UNIT(v, "RSZ_TL", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+            }
+            // @ts-ignore
+            if (M[v].x + M[v].w > M[v].l.l) {
+              SET_UNIT(v, "RSZ_BR", M[v], "w", DIST.x, M[v].aR || 0, ELE);
             }
           }
-          // Moving Up
-          if (DIST.y < 0 || DIST.y > 0) {
-            // Lock exists on Bottom
-            if (typeof M[v].l.b !== "undefined") {
-              // No Lock on Top
-              if (typeof M[v].l.t === "undefined") {
-                // @ts-ignore
-                if (M[v].y + M[v].h > M[v].l.b) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                } else {
-                  SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                }
-              }
-              // Lock on Top
-              else {
-                // @ts-ignore
-                if (M[v].y > M[v].l.t) {
-                  SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                }
-                // @ts-ignore
-                if (M[v].y + M[v].h > M[v].l.b) {
-                  SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
-                }
+          // No Lock Left or Right
+          // Move X
+          else {
+            SET_UNIT(v, "MOVE", M[v], "w", DIST.x, M[v].aR || 0, ELE);
+          }
+        }
+        // Moving Up
+        if (DIST.y < 0 || DIST.y > 0) {
+          // Lock exists on Bottom
+          if (typeof M[v].l.b !== "undefined") {
+            // No Lock on Top
+            if (typeof M[v].l.t === "undefined") {
+              // @ts-ignore
+              if (M[v].y + M[v].h > M[v].l.b) {
+                SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+              } else {
+                SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
               }
             }
-            // Lock exists on Top
-            else if (typeof M[v].l.t !== "undefined") {
+            // Lock on Top
+            else {
               // @ts-ignore
               if (M[v].y > M[v].l.t) {
                 SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
               }
               // @ts-ignore
-              if (M[v].y + M[v].h > M[v].l.t) {
+              if (M[v].y + M[v].h > M[v].l.b) {
                 SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
               }
             }
-            // No Lock Top or Bottom
-            // Move Y
-            else {
-              SET_UNIT(v, "MOVE", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+          }
+          // Lock exists on Top
+          else if (typeof M[v].l.t !== "undefined") {
+            // @ts-ignore
+            if (M[v].y > M[v].l.t) {
+              SET_UNIT(v, "RSZ_TL", M[v], "h", DIST.y, M[v].aB || 0, ELE);
             }
+            // @ts-ignore
+            if (M[v].y + M[v].h > M[v].l.t) {
+              SET_UNIT(v, "RSZ_BR", M[v], "h", DIST.y, M[v].aB || 0, ELE);
+            }
+          }
+          // No Lock Top or Bottom
+          // Move Y
+          else {
+            SET_UNIT(v, "MOVE", M[v], "h", DIST.y, M[v].aB || 0, ELE);
           }
         }
       }
-    });
-  }
+    }
+  });
 };
 
-// SET ANCHORS AND TRANSLATE VALS TO DATA
-const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i?: number) => {
+// SET UNIT POSITION ANCHORS AND TRANSLATE COORDINATES
+const SET_UNIT_ANCHORS = (i: number) => {
+  const unit_tX = (M[i].x * 100) / M[i].w;
+  const unit_tY = (M[i].y * 100) / M[i].h;
+  const unit_aR = (M[i].w * unit_tX) / 100 + M[i].w;
+  const unit_aB = (M[i].h * unit_tY) / 100 + M[i].h;
+
+  Object.assign(M[i], { tX: unit_tX });
+  Object.assign(M[i], { tY: unit_tY });
+  Object.assign(M[i], { aR: unit_aR });
+  Object.assign(M[i], { aB: unit_aB });
+};
+
+// UNIT PRESSED
+const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
-  if (typeof i !== "undefined") {
-    SELECTED = `${i}`;
-    GET_CONNECTED_UNITS().forEach((v) => {
-      const unit_tX = (M[v].x * 100) / M[v].w;
-      const unit_tY = (M[v].y * 100) / M[v].h;
-      const unit_aR = (M[v].w * unit_tX) / 100 + M[v].w;
-      const unit_aB = (M[v].h * unit_tY) / 100 + M[v].h;
-
-      Object.assign(M[v], { tX: unit_tX });
-      Object.assign(M[v], { tY: unit_tY });
-      Object.assign(M[v], { aR: unit_aR });
-      Object.assign(M[v], { aB: unit_aB });
-    });
-  }
+  M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
+  SELECTED_UNIT = i;
 };
 
 /*
@@ -225,15 +221,17 @@ window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
   if (root) {
     root.addEventListener("pointermove", (e) => {
-      POINTER_POS = GET_POINTER_COORDS(root, e);
-      MODIFY();
-      PREV_POINTER_POS = GET_POINTER_COORDS(root, e);
+      if (SELECTED_UNIT > -1) {
+        POINTER_POS = GET_POINTER_COORDS(root, e);
+        MODIFY(SELECTED_UNIT);
+        PREV_POINTER_POS = GET_POINTER_COORDS(root, e);
+      }
     });
     root.addEventListener("pointerup", (e) => {
-      SELECTED = "";
+      SELECTED_UNIT = -1;
     });
     root.addEventListener("pointerleave", (e) => {
-      SELECTED = "";
+      SELECTED_UNIT = -1;
       POINTER_POS = undefined;
       PREV_POINTER_POS = undefined;
     });
@@ -250,7 +248,9 @@ const A = (p: T) => (
       height: `${p.h}%`,
       zIndex: p.z,
     }}
-    onPointerDown={(ev) => PRESS_UNIT(ev, p.i)}
+    onPointerDown={(ev) =>
+      PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
+    }
   >
     {
       // quickly testing...
