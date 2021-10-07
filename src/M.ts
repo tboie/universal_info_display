@@ -13,6 +13,7 @@ export type T = {
   aB?: number;
   tX?: number;
   tY?: number;
+  updated?: boolean;
 };
 
 export default [
