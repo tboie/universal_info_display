@@ -220,11 +220,13 @@ window.onload = () => {
       SELECTED_UNIT = -1;
       POINTER_POS = undefined;
       PREV_POINTER_POS = undefined;
+      console.log(M);
     });
     root.addEventListener("pointerleave", (e) => {
       SELECTED_UNIT = -1;
       POINTER_POS = undefined;
       PREV_POINTER_POS = undefined;
+      console.log(M);
     });
   }
 };
