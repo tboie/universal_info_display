@@ -107,9 +107,7 @@ const MODIFY = (i: number) => {
           // @ts-ignore
           if (M[i].x > M[i].l.l) {
             SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-          }
-          // @ts-ignore
-          if (M[i].x + M[i].w > M[i].l.l) {
+          } else {
             SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
           }
         }
@@ -149,9 +147,7 @@ const MODIFY = (i: number) => {
           // @ts-ignore
           if (M[i].y > M[i].l.t) {
             SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-          }
-          // @ts-ignore
-          if (M[i].y + M[i].h > M[i].l.t) {
+          } else {
             SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
           }
         }
