@@ -153,6 +153,15 @@ const MODIFY = (i: number) => {
         }
         // No Lock on Top or Bottom
         else {
+          /*
+          if (DIST.y < 0) {
+            M[i].l.b = M[i].y + M[i].h;
+            M[i].c.b.forEach((i) => {
+              if (!M[i].l.t) {
+                M[i].l.t = M[i].y;
+              }
+            });
+          }*/
           SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
       }
@@ -189,24 +198,22 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   SELECTED_UNIT = i;
 };
 
-/*
-const PRESS_LOCK = (
-  ev: React.PointerEvent<HTMLDivElement>,
-  u: T,
-  s: "t" | "r" | "b" | "l"
-) => {
-  ev.stopPropagation();
-  ev.preventDefault();
-  u.l[s]
-    ? (u.l[s] = undefined)
-    : s === "l" || s === "r"
-    ? (u.l[s] = u.x + u.w / 2)
-    : (u.l[s] = u.y + u.h / 2);
+const PRESS_LOCK = (ele: HTMLDivElement, u: T, s: "t" | "r" | "b" | "l") => {
+  if (u.l[s]) {
+    u.l[s] = undefined;
+  } else if (s === "t") {
+    u.l[s] = u.y;
+  } else if (s === "b") {
+    u.l[s] = u.x + u.h;
+  } else if (s === "l") {
+    u.l[s] = u.x;
+  } else if (s === "r") {
+    u.l[s] = u.x + u.w;
+  }
 
-  ev.currentTarget.style.backgroundColor = u.l[s] ? "lightgray" : "transparent";
-  SAVE(u.i || 0, u);
+  ele.classList.toggle("on");
+  u.i && SAVE(u.i, u);
 };
-*/
 
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
@@ -234,6 +241,7 @@ window.onload = () => {
   }
 };
 
+// Save original w/h to oW/oH
 M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
 const A = (p: T) => (
@@ -265,7 +273,11 @@ const A = (p: T) => (
             key={idx}
             className={`lock ${typeof p.l[side] !== "undefined" ? "on" : ""}`}
             style={pos}
-            //onPointerDown={(ev) => PRESS_LOCK(ev, p, side)}
+            onPointerDown={(ev) => {
+              ev.stopPropagation();
+              ev.preventDefault();
+              p.i && PRESS_LOCK(ev.currentTarget, M[p.i], side);
+            }}
           ></div>
         );
       })
