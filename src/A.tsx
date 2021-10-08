@@ -175,9 +175,7 @@ const MODIFY = (i: number) => {
 
     GET_CONNECTED_UNITS(i)
       .filter((idx) => !M[idx].updated)
-      .forEach((ii) => {
-        MODIFY(ii);
-      });
+      .forEach((ii) => MODIFY(ii));
   }
 };
 
@@ -228,8 +226,8 @@ window.onload = () => {
       if (SELECTED_UNIT > -1) {
         POINTER_POS = GET_POINTER_COORDS(root, e);
         MODIFY(SELECTED_UNIT);
-        M.forEach((u) => (u.updated = false));
         PREV_POINTER_POS = GET_POINTER_COORDS(root, e);
+        M.forEach((u) => (u.updated = false));
       }
     });
     root.addEventListener("pointerup", (e) => {
