@@ -234,6 +234,8 @@ window.onload = () => {
     });
     root.addEventListener("pointerup", (e) => {
       SELECTED_UNIT = -1;
+      POINTER_POS = undefined;
+      PREV_POINTER_POS = undefined;
     });
     root.addEventListener("pointerleave", (e) => {
       SELECTED_UNIT = -1;
