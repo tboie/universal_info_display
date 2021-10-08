@@ -13,6 +13,8 @@ export type T = {
   aB?: number;
   tX?: number;
   tY?: number;
+  oW?: number;
+  oH?: number;
   updated?: boolean;
 };
 

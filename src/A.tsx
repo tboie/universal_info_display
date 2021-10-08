@@ -157,8 +157,11 @@ const MODIFY = (i: number) => {
         }
       }
     }
+
+    // Set updated flag
     M[i].updated = true;
 
+    // Modify connected units
     GET_CONNECTED_UNITS(i)
       .filter((idx) => !M[idx].updated)
       .forEach((ii) => MODIFY(ii));
@@ -230,6 +233,8 @@ window.onload = () => {
     });
   }
 };
+
+M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
 const A = (p: T) => (
   <div
