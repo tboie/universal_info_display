@@ -23,16 +23,11 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
 const GET_CONNECTED_UNITS = (i: number) => {
-  let ret: number[] = [];
-  const conns = M[i].c;
-  if (conns) {
-    for (const [key, value] of Object.entries(conns)) {
-      if (value.length) {
-        value.forEach((i) => !ret.includes(i) && ret.push(i));
-      }
-    }
+  let units: number[] = [];
+  for (const [key, value] of Object.entries(M[i].c)) {
+    value.length && value.forEach((i) => !units.includes(i) && units.push(i));
   }
-  return ret;
+  return units;
 };
 
 const SET_UNIT = (
