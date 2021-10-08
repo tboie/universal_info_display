@@ -72,7 +72,7 @@ const MODIFY = (i: number) => {
       PREV_POINTER_POS.y
     );
 
-    const ELE = document.getElementById(i.toString()) as HTMLDivElement;
+    const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
 
     // Lols it works???????
 
@@ -198,21 +198,19 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   SELECTED_UNIT = i;
 };
 
-const PRESS_LOCK = (ele: HTMLDivElement, u: T, s: "t" | "r" | "b" | "l") => {
-  if (u.l[s]) {
-    u.l[s] = undefined;
+const PRESS_LOCK = (i: number, s: "t" | "r" | "b" | "l") => {
+  if (M[i].l[s]) {
+    M[i].l[s] = undefined;
   } else if (s === "t") {
-    u.l[s] = u.y;
+    M[i].l[s] = M[i].y;
   } else if (s === "b") {
-    u.l[s] = u.x + u.h;
+    M[i].l[s] = M[i].y + M[i].h;
   } else if (s === "l") {
-    u.l[s] = u.x;
+    M[i].l[s] = M[i].x;
   } else if (s === "r") {
-    u.l[s] = u.x + u.w;
+    M[i].l[s] = M[i].x + M[i].w;
   }
-
-  ele.classList.toggle("on");
-  u.i && SAVE(u.i, u);
+  document.querySelector(`#U${i} .${s}`)?.classList.toggle("on");
 };
 
 window.onload = () => {
@@ -246,7 +244,7 @@ M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
 const A = (p: T) => (
   <div
-    id={`${p.i}`}
+    id={`U${p.i}`}
     className={`A ${p.bp.join(" ")}`}
     style={{
       transform: `translate(${(p.x * 100) / p.w}%,${(p.y * 100) / p.h}%)`,
@@ -271,12 +269,14 @@ const A = (p: T) => (
         return (
           <div
             key={idx}
-            className={`lock ${typeof p.l[side] !== "undefined" ? "on" : ""}`}
+            className={`lock ${side} ${
+              typeof p.l[side] !== "undefined" ? "on" : ""
+            }`}
             style={pos}
-            onPointerDown={(ev) => {
+            onClick={(ev) => {
               ev.stopPropagation();
               ev.preventDefault();
-              p.i && PRESS_LOCK(ev.currentTarget, M[p.i], side);
+              typeof p.i !== "undefined" && PRESS_LOCK(p.i, side);
             }}
           ></div>
         );
