@@ -2,10 +2,6 @@ import "./A.css";
 import M, { T } from "./M";
 
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
-// TODO:
-//  1) FIX
-//  2) ORGANIZE
-//  3) IMPLEMENT SIDE LOCKS
 
 let SELECTED_UNIT = -1;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
