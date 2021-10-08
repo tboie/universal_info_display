@@ -86,9 +86,9 @@ const MODIFY = (i: number) => {
     // Lols it works???????
 
     if (ELE) {
-      // Moving Left
+      // Mouse Moving Left/Right
       if (DIST.x < 0 || DIST.x > 0) {
-        // Lock exists on right
+        // Lock on Right
         if (typeof M[i].l.r !== "undefined") {
           // No Lock on Left
           if (typeof M[i].l.l === "undefined") {
@@ -111,7 +111,7 @@ const MODIFY = (i: number) => {
             }
           }
         }
-        // Lock exists on Left
+        // Lock on Left
         else if (typeof M[i].l.l !== "undefined") {
           // @ts-ignore
           if (M[i].x > M[i].l.l) {
@@ -123,14 +123,14 @@ const MODIFY = (i: number) => {
           }
         }
         // No Lock Left or Right
-        // Move X
         else {
           SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
         }
       }
-      // Moving Up
+
+      // Mouse Moving Up/Down
       if (DIST.y < 0 || DIST.y > 0) {
-        // Lock exists on Bottom
+        // Lock on Bottom
         if (typeof M[i].l.b !== "undefined") {
           // No Lock on Top
           if (typeof M[i].l.t === "undefined") {
@@ -153,7 +153,7 @@ const MODIFY = (i: number) => {
             }
           }
         }
-        // Lock exists on Top
+        // Lock on Top
         else if (typeof M[i].l.t !== "undefined") {
           // @ts-ignore
           if (M[i].y > M[i].l.t) {
@@ -164,8 +164,7 @@ const MODIFY = (i: number) => {
             SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
           }
         }
-        // No Lock Top or Bottom
-        // Move Y
+        // No Lock on Top or Bottom
         else {
           SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
