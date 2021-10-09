@@ -19,6 +19,7 @@ export type T = {
   maxW?: number;
   minH?: number;
   maxH?: number;
+  tempL?: { t?: number; r?: number; b?: number; l?: number };
   updated?: boolean;
 };
 
