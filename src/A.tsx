@@ -22,10 +22,12 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
-const GET_CONNECTED_UNITS = (i: number) => {
+const GET_CONNECTED_UNITS = (i: number, s?: "t" | "r" | "b" | "l") => {
   let units: number[] = [];
   for (const [key, value] of Object.entries(M[i].c)) {
-    value.length && value.forEach((i) => !units.includes(i) && units.push(i));
+    (s ? key === s : true) &&
+      value.length &&
+      value.forEach((i) => !units.includes(i) && units.push(i));
   }
   return units;
 };
