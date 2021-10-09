@@ -6,6 +6,7 @@ let SELECTED_UNIT = -1;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let PREV_POINTER_POS: undefined | { x: number; y: number } = undefined;
 let DRAG_TYPE: "RSZ" | "MOVE" | undefined = undefined;
+//let LOCKS_SET = false;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -29,11 +30,8 @@ const GET_CONNECTED_UNITS = (i: number, s?: T_SIDE[], r?: boolean) => {
       value.forEach((i) => {
         if (!units.includes(i)) {
           units.push(i);
-
           if (s && r) {
-            units.forEach((u) => {
-              units = units.concat(GET_CONNECTED_UNITS(u, [key as T_SIDE], r));
-            });
+            units = units.concat(GET_CONNECTED_UNITS(i, [key as T_SIDE], r));
           }
         }
       });
@@ -197,6 +195,11 @@ const MODIFY = (i: number) => {
                 GET_CONNECTED_UNITS(i, ["l", "r"], true).forEach((u) => {
                   TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
                 });
+
+                GET_CONNECTED_UNITS(i, ["b"], true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, ["t"], false, true);
+                });
+
                 LOCKS_SET = true;
               }
               SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
