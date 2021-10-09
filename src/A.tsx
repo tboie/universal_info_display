@@ -224,22 +224,27 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   SELECTED_UNIT = i;
 };
 
-const TOGGLE_LOCK = (i: number, s: "t" | "r" | "b" | "l", temp?: boolean) => {
+const TOGGLE_UNIT_LOCKS = (
+  i: number,
+  sides: ("t" | "r" | "b" | "l")[],
+  temp?: boolean
+) => {
   const lock = temp ? M[i].tempL : M[i].l;
-
   if (lock) {
-    if (typeof lock[s] !== "undefined") {
-      lock[s] = undefined;
-    } else if (s === "t") {
-      lock[s] = M[i].y;
-    } else if (s === "b") {
-      lock[s] = M[i].y + M[i].h;
-    } else if (s === "l") {
-      lock[s] = M[i].x;
-    } else if (s === "r") {
-      lock[s] = M[i].x + M[i].w;
-    }
-    document.querySelector(`#U${i} .${s}`)?.classList.toggle("on");
+    sides.forEach((s) => {
+      if (typeof lock[s] !== "undefined") {
+        lock[s] = undefined;
+      } else if (s === "t") {
+        lock[s] = M[i].y;
+      } else if (s === "b") {
+        lock[s] = M[i].y + M[i].h;
+      } else if (s === "l") {
+        lock[s] = M[i].x;
+      } else if (s === "r") {
+        lock[s] = M[i].x + M[i].w;
+      }
+      document.querySelector(`#U${i} .${s}`)?.classList.toggle("on");
+    });
   }
 };
 
@@ -306,7 +311,7 @@ const A = (p: T) => (
             onClick={(ev) => {
               ev.stopPropagation();
               ev.preventDefault();
-              typeof p.i !== "undefined" && TOGGLE_LOCK(p.i, side);
+              typeof p.i !== "undefined" && TOGGLE_UNIT_LOCKS(p.i, [side]);
             }}
           ></div>
         );
