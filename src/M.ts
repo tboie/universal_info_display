@@ -1,3 +1,5 @@
+export type T_SIDE = "t" | "r" | "b" | "l";
+export type T_LOCK = { t?: number; r?: number; b?: number; l?: number };
 export type T = {
   i?: number;
   t: string;
@@ -6,7 +8,7 @@ export type T = {
   w: number;
   h: number;
   z: number;
-  l: { t?: number; r?: number; b?: number; l?: number };
+  l: T_LOCK;
   c: { t: number[]; r: number[]; b: number[]; l: number[] };
   bp: ("sm" | "lg")[];
   aR?: number;
@@ -19,7 +21,7 @@ export type T = {
   maxW?: number;
   minH?: number;
   maxH?: number;
-  tempL?: { t?: number; r?: number; b?: number; l?: number };
+  tempL?: T_LOCK;
   updated?: boolean;
 };
 

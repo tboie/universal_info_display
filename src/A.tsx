@@ -1,6 +1,5 @@
 import "./A.css";
-import M, { T } from "./M";
-
+import M, { T, T_SIDE } from "./M";
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 
 let SELECTED_UNIT = -1;
@@ -23,21 +22,22 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
-const GET_CONNECTED_UNITS = (
-  i: number,
-  s?: ("t" | "r" | "b" | "l")[],
-  r?: boolean
-) => {
+const GET_CONNECTED_UNITS = (i: number, s?: T_SIDE[], r?: boolean) => {
   let units: number[] = [];
   for (const [key, value] of Object.entries(M[i].c)) {
-    (s ? s.includes(key as "t" | "r" | "b" | "l") : true) &&
-      value.length &&
-      value.forEach((i) => !units.includes(i) && units.push(i));
-  }
-  if (s && r) {
-    units.forEach((u) => {
-      units = units.concat(GET_CONNECTED_UNITS(u, s, r));
-    });
+    if (s ? s.includes(key as T_SIDE) : true && value.length) {
+      value.forEach((i) => {
+        if (!units.includes(i)) {
+          units.push(i);
+
+          if (s && r) {
+            units.forEach((u) => {
+              units = units.concat(GET_CONNECTED_UNITS(u, [key as T_SIDE], r));
+            });
+          }
+        }
+      });
+    }
   }
   return [...new Set(units)];
 };
@@ -190,16 +190,15 @@ const MODIFY = (i: number) => {
         // No Lock on Top or Bottom
         else {
           /*
-          if (DIST.y < 0) {
-            if (DRAG_TYPE === "RSZ") {
+          if (DRAG_TYPE === "RSZ") {
+            if (DIST.y < 0) {
+              if (SELECTED_UNIT === i && !LOCKS_SET) {
                 TOGGLE_UNIT_LOCKS(i, ["b"], false, true);
-                GET_CONNECTED_UNITS(i, ["l"], true).forEach((u) => {
+                GET_CONNECTED_UNITS(i, ["l", "r"], true).forEach((u) => {
                   TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
                 });
-              if (SELECTED_UNIT === i) {
-                GET_CONNECTED_UNITS(i, ["l", "r"]).forEach((u) => {});
+                LOCKS_SET = true;
               }
-
               SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
             }
           }
@@ -321,7 +320,7 @@ const A = (p: T) => (
         { left: 0, top: 0, bottom: 0 },
       ].map((pos, idx) => {
         const sides = ["t", "r", "b", "l"];
-        const side = sides[idx] as "t" | "r" | "b" | "l";
+        const side = sides[idx] as T_SIDE;
         return (
           <div
             key={idx}
