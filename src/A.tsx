@@ -198,7 +198,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   SELECTED_UNIT = i;
 };
 
-const PRESS_LOCK = (i: number, s: "t" | "r" | "b" | "l") => {
+const TOGGLE_LOCK = (i: number, s: "t" | "r" | "b" | "l") => {
   if (M[i].l[s]) {
     M[i].l[s] = undefined;
   } else if (s === "t") {
@@ -276,7 +276,7 @@ const A = (p: T) => (
             onClick={(ev) => {
               ev.stopPropagation();
               ev.preventDefault();
-              typeof p.i !== "undefined" && PRESS_LOCK(p.i, side);
+              typeof p.i !== "undefined" && TOGGLE_LOCK(p.i, side);
             }}
           ></div>
         );
