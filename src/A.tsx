@@ -6,6 +6,7 @@ import M, { T } from "./M";
 let SELECTED_UNIT = -1;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let PREV_POINTER_POS: undefined | { x: number; y: number } = undefined;
+let DRAG_TYPE: "RSZ" | "MOVE" | undefined = undefined;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -22,14 +23,23 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
-const GET_CONNECTED_UNITS = (i: number, s?: ("t" | "r" | "b" | "l")[]) => {
+const GET_CONNECTED_UNITS = (
+  i: number,
+  s?: ("t" | "r" | "b" | "l")[],
+  r?: boolean
+) => {
   let units: number[] = [];
   for (const [key, value] of Object.entries(M[i].c)) {
     (s ? s.includes(key as "t" | "r" | "b" | "l") : true) &&
       value.length &&
       value.forEach((i) => !units.includes(i) && units.push(i));
   }
-  return units;
+  if (s && r) {
+    units.forEach((u) => {
+      units = units.concat(GET_CONNECTED_UNITS(u, s, r));
+    });
+  }
+  return [...new Set(units)];
 };
 
 const SET_UNIT = (
@@ -181,25 +191,31 @@ const MODIFY = (i: number) => {
         else {
           /*
           if (DIST.y < 0) {
-            M[i].l.b = M[i].y + M[i].h;
-            M[i].c.b.forEach((i) => {
-              if (!M[i].l.t) {
-                M[i].l.t = M[i].y;
+            if (DRAG_TYPE === "RSZ") {
+                TOGGLE_UNIT_LOCKS(i, ["b"], false, true);
+                GET_CONNECTED_UNITS(i, ["l"], true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
+                });
+              if (SELECTED_UNIT === i) {
+                GET_CONNECTED_UNITS(i, ["l", "r"]).forEach((u) => {});
               }
-            });
-          }*/
+
+              SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
+            }
+          }
+          */
           SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
       }
+
+      // Set updated flag
+      M[i].updated = true;
+
+      // Modify connected units
+      GET_CONNECTED_UNITS(i)
+        .filter((idx) => !M[idx].updated)
+        .forEach((ii) => MODIFY(ii));
     }
-
-    // Set updated flag
-    M[i].updated = true;
-
-    // Modify connected units
-    GET_CONNECTED_UNITS(i)
-      .filter((idx) => !M[idx].updated)
-      .forEach((ii) => MODIFY(ii));
   }
 };
 
@@ -221,18 +237,20 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
+  DRAG_TYPE = "RSZ";
   SELECTED_UNIT = i;
 };
 
 const TOGGLE_UNIT_LOCKS = (
   i: number,
   sides: ("t" | "r" | "b" | "l")[],
-  temp?: boolean
+  temp?: boolean,
+  on?: boolean
 ) => {
   const lock = temp ? M[i].tempL : M[i].l;
   if (lock) {
     sides.forEach((s) => {
-      if (typeof lock[s] !== "undefined") {
+      if ((typeof lock[s] !== "undefined" && !on) || on === false) {
         lock[s] = undefined;
       } else if (s === "t") {
         lock[s] = M[i].y;
@@ -243,7 +261,10 @@ const TOGGLE_UNIT_LOCKS = (
       } else if (s === "r") {
         lock[s] = M[i].x + M[i].w;
       }
-      document.querySelector(`#U${i} .${s}`)?.classList.toggle("on");
+      const ele = document.querySelector(`#U${i} .${s}`)?.classList;
+      if (ele) {
+        typeof lock[s] !== "undefined" ? ele.add("on") : ele.remove("on");
+      }
     });
   }
 };
