@@ -74,17 +74,41 @@ const MODIFY = (i: number) => {
 
     const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
 
+    let locks: { t?: number; r?: number; b?: number; l?: number } = {
+      t: undefined,
+      r: undefined,
+      b: undefined,
+      l: undefined,
+    };
+
+    // Use temp locks if exists
+    if (M[i].tempL) {
+      locks = M[i].tempL || {};
+    }
+    if (typeof locks.t === "undefined") {
+      locks.t = M[i].l.t;
+    }
+    if (typeof locks.r === "undefined") {
+      locks.r = M[i].l.r;
+    }
+    if (typeof locks.b === "undefined") {
+      locks.b = M[i].l.b;
+    }
+    if (typeof locks.l === "undefined") {
+      locks.l = M[i].l.l;
+    }
+
     // Lols it works???????
 
     if (ELE) {
       // Mouse Moving Left/Right
       if (DIST.x < 0 || DIST.x > 0) {
         // Lock on Right
-        if (typeof M[i].l.r !== "undefined") {
+        if (typeof locks.r !== "undefined") {
           // No Lock on Left
-          if (typeof M[i].l.l === "undefined") {
+          if (typeof locks.l === "undefined") {
             // @ts-ignore
-            if (M[i].x + M[i].w > M[i].l.r) {
+            if (M[i].x + M[i].w > locks.r) {
               SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
             } else {
               SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
@@ -93,19 +117,19 @@ const MODIFY = (i: number) => {
           // Lock on Left
           else {
             // @ts-ignore
-            if (M[i].x > M[i].l.l) {
+            if (M[i].x > locks.l) {
               SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
             }
             // @ts-ignore
-            if (M[i].x + M[i].w > M[i].l.r) {
+            if (M[i].x + M[i].w > locks.r) {
               SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
             }
           }
         }
         // Lock on Left
-        else if (typeof M[i].l.l !== "undefined") {
+        else if (typeof locks.l !== "undefined") {
           // @ts-ignore
-          if (M[i].x > M[i].l.l) {
+          if (M[i].x > locks.l) {
             SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
           } else {
             SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
@@ -120,11 +144,11 @@ const MODIFY = (i: number) => {
       // Mouse Moving Up/Down
       if (DIST.y < 0 || DIST.y > 0) {
         // Lock on Bottom
-        if (typeof M[i].l.b !== "undefined") {
+        if (typeof locks.b !== "undefined") {
           // No Lock on Top
-          if (typeof M[i].l.t === "undefined") {
+          if (typeof locks.t === "undefined") {
             // @ts-ignore
-            if (M[i].y + M[i].h > M[i].l.b) {
+            if (M[i].y + M[i].h > locks.b) {
               SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
             } else {
               SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
@@ -133,19 +157,19 @@ const MODIFY = (i: number) => {
           // Lock on Top
           else {
             // @ts-ignore
-            if (M[i].y > M[i].l.t) {
+            if (M[i].y > locks.t) {
               SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
             }
             // @ts-ignore
-            if (M[i].y + M[i].h > M[i].l.b) {
+            if (M[i].y + M[i].h > locks.b) {
               SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
             }
           }
         }
         // Lock on Top
-        else if (typeof M[i].l.t !== "undefined") {
+        else if (typeof locks.t !== "undefined") {
           // @ts-ignore
-          if (M[i].y > M[i].l.t) {
+          if (M[i].y > locks.t) {
             SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
           } else {
             SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
@@ -198,19 +222,23 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   SELECTED_UNIT = i;
 };
 
-const TOGGLE_LOCK = (i: number, s: "t" | "r" | "b" | "l") => {
-  if (M[i].l[s]) {
-    M[i].l[s] = undefined;
-  } else if (s === "t") {
-    M[i].l[s] = M[i].y;
-  } else if (s === "b") {
-    M[i].l[s] = M[i].y + M[i].h;
-  } else if (s === "l") {
-    M[i].l[s] = M[i].x;
-  } else if (s === "r") {
-    M[i].l[s] = M[i].x + M[i].w;
+const TOGGLE_LOCK = (i: number, s: "t" | "r" | "b" | "l", temp?: boolean) => {
+  const lock = temp ? M[i].tempL : M[i].l;
+
+  if (lock) {
+    if (typeof lock[s] !== "undefined") {
+      lock[s] = undefined;
+    } else if (s === "t") {
+      lock[s] = M[i].y;
+    } else if (s === "b") {
+      lock[s] = M[i].y + M[i].h;
+    } else if (s === "l") {
+      lock[s] = M[i].x;
+    } else if (s === "r") {
+      lock[s] = M[i].x + M[i].w;
+    }
+    document.querySelector(`#U${i} .${s}`)?.classList.toggle("on");
   }
-  document.querySelector(`#U${i} .${s}`)?.classList.toggle("on");
 };
 
 window.onload = () => {
