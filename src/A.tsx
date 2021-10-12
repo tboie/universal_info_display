@@ -1,5 +1,6 @@
 import "./A.css";
 import M, { T, T_SIDE } from "./M";
+
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 
 let SELECTED_UNIT = -1;
@@ -22,34 +23,65 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
-const GET_CONNECTED_UNITS = (i: number, s?: T_SIDE[], r?: boolean) => {
+const GET_CONNECTED_UNITS = (
+  i: number,
+  s?: T_SIDE[],
+  nc?: boolean,
+  r?: boolean
+) => {
   let units: number[] = [];
+
   for (const [key, value] of Object.entries(M[i].c)) {
     if (s ? s.includes(key as T_SIDE) : true && value.length) {
       value.forEach((ii) => {
+        const ol = units.length;
         if (!units.includes(ii)) {
           if (s) {
             if (key === "l" || key === "r") {
-              if (!M[i].c.t.includes(ii) && !M[i].c.b.includes(ii)) {
-                units.push(ii);
-                if (r) {
-                  units = units.concat(
-                    GET_CONNECTED_UNITS(ii, [key as T_SIDE], r)
-                  );
+              if (nc) {
+                if (!M[i].c.t.includes(ii) && !M[i].c.b.includes(ii)) {
+                  units.push(ii);
+                }
+              } else {
+                if (s.length > 1) {
+                  if (s.includes("t") && !M[i].c.b.includes(ii)) {
+                    units.push(ii);
+                  }
+                  if (s.includes("b") && !M[i].c.t.includes(ii)) {
+                    units.push(ii);
+                  }
+                } else {
+                  units.push(ii);
                 }
               }
             } else {
-              if (!M[i].c.l.includes(ii) && !M[i].c.r.includes(ii)) {
-                units.push(ii);
-                if (r) {
-                  units = units.concat(
-                    GET_CONNECTED_UNITS(ii, [key as T_SIDE], r)
-                  );
+              if (nc) {
+                if (!M[i].c.l.includes(ii) && !M[i].c.r.includes(ii)) {
+                  units.push(ii);
+                }
+              } else {
+                if (s.length > 1) {
+                  if (s.includes("l") && !M[i].c.r.includes(ii)) {
+                    units.push(ii);
+                  }
+                  if (s.includes("r") && !M[i].c.l.includes(ii)) {
+                    units.push(ii);
+                  }
+                } else {
+                  units.push(ii);
                 }
               }
             }
+            if (r && ol < units.length) {
+              units = units.concat(GET_CONNECTED_UNITS(ii, s, nc, r));
+            }
           } else {
             units.push(ii);
+            if (r) {
+              units = units.concat(
+                GET_CONNECTED_UNITS(ii, [key as T_SIDE], nc, r)
+              );
+            }
           }
         }
       });
@@ -231,7 +263,7 @@ const MODIFY = (i: number) => {
               }
               if (up || down) {
                 // Bottom Locks ON for Units Connected Left/Right
-                GET_CONNECTED_UNITS(i, ["l", "r"], true).forEach((u) => {
+                GET_CONNECTED_UNITS(i, ["l", "r"], false, true).forEach((u) => {
                   // Ignore Corner Units
                   if (!M[i].c.b.includes(u) && !M[i].c.t.includes(u)) {
                     TOGGLE_UNIT_LOCKS(u, [up ? "b" : "t"], false, true);
@@ -239,7 +271,7 @@ const MODIFY = (i: number) => {
                 });
                 // Top Locks ON for Units Connected at Bottom
                 TOGGLE_UNIT_LOCKS(i, [up ? "b" : "t"], false, true);
-                GET_CONNECTED_UNITS(i, [up ? "b" : "t"], true).forEach((u) => {
+                GET_CONNECTED_UNITS(i, [up ? "b" : "t"], false,  true).forEach((u) => {
                   TOGGLE_UNIT_LOCKS(u, [up ? "t" : "b"], false, true);
                 });
 
@@ -254,7 +286,8 @@ const MODIFY = (i: number) => {
                 );
               }
             }
-          }*/
+          }
+          */
           SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
       }
@@ -290,7 +323,6 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
   DRAG_TYPE = "RSZ";
   SELECTED_UNIT = i;
-  console.log(GET_CONNECTED_UNITS(i));
 };
 
 const TOGGLE_UNIT_LOCKS = (
