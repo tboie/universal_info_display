@@ -73,7 +73,23 @@ const GET_CONNECTED_UNITS = (
               }
             }
             if (r && ol < units.length) {
-              units = units.concat(GET_CONNECTED_UNITS(ii, s, nc, r));
+              if (s.includes("r") && s.includes("l")) {
+                units = units.concat(
+                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("r")), nc, r)
+                );
+                units = units.concat(
+                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("l")), nc, r)
+                );
+              } else if (s.includes("t") && s.includes("b")) {
+                units = units.concat(
+                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("t")), nc, r)
+                );
+                units = units.concat(
+                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("b")), nc, r)
+                );
+              } else {
+                units = units.concat(GET_CONNECTED_UNITS(ii, s, nc, r));
+              }
             }
           } else {
             units.push(ii);
@@ -382,7 +398,8 @@ window.onload = () => {
 };
 
 // Save original w/h to oW/oH
-M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
+// TODO: implement
+// M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
 const A = (p: T) => (
   <div
