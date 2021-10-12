@@ -23,87 +23,39 @@ const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
 
 const SAVE = (i: number, u: T) => Object.assign(M[i], u);
 
-const GET_CONNECTED_UNITS = (
-  i: number,
-  s?: T_SIDE[],
-  nc?: boolean,
-  r?: boolean
-) => {
+const GET_CONNECTED_UNITS = (i: number, s?: T_SIDE, r?: boolean) => {
   let units: number[] = [];
-
-  for (const [key, value] of Object.entries(M[i].c)) {
-    if (s ? s.includes(key as T_SIDE) : true && value.length) {
+  if (s) {
+    M[i].c[s].forEach((u) => {
+      if (s === "r" || s === "l") {
+        if (!M[i].c.t.includes(u) && !M[i].c.b.includes(u)) {
+          units.push(u);
+          if (r) {
+            units = units.concat(GET_CONNECTED_UNITS(u, s, r));
+          }
+        }
+      } else if (s === "t" || s === "b") {
+        if (!M[i].c.r.includes(u) && !M[i].c.l.includes(u)) {
+          units.push(u);
+          if (r) {
+            units = units.concat(GET_CONNECTED_UNITS(u, s, r));
+          }
+        }
+      }
+    });
+  } else {
+    for (const [key, value] of Object.entries(M[i].c)) {
       value.forEach((ii) => {
-        const ol = units.length;
         if (!units.includes(ii)) {
-          if (s) {
-            if (key === "l" || key === "r") {
-              if (nc) {
-                if (!M[i].c.t.includes(ii) && !M[i].c.b.includes(ii)) {
-                  units.push(ii);
-                }
-              } else {
-                if (s.length > 1) {
-                  if (s.includes("t") && !M[i].c.b.includes(ii)) {
-                    units.push(ii);
-                  }
-                  if (s.includes("b") && !M[i].c.t.includes(ii)) {
-                    units.push(ii);
-                  }
-                } else {
-                  units.push(ii);
-                }
-              }
-            } else {
-              if (nc) {
-                if (!M[i].c.l.includes(ii) && !M[i].c.r.includes(ii)) {
-                  units.push(ii);
-                }
-              } else {
-                if (s.length > 1) {
-                  if (s.includes("l") && !M[i].c.r.includes(ii)) {
-                    units.push(ii);
-                  }
-                  if (s.includes("r") && !M[i].c.l.includes(ii)) {
-                    units.push(ii);
-                  }
-                } else {
-                  units.push(ii);
-                }
-              }
-            }
-            if (r && ol < units.length) {
-              if (s.includes("r") && s.includes("l")) {
-                units = units.concat(
-                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("r")), nc, r)
-                );
-                units = units.concat(
-                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("l")), nc, r)
-                );
-              } else if (s.includes("t") && s.includes("b")) {
-                units = units.concat(
-                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("t")), nc, r)
-                );
-                units = units.concat(
-                  GET_CONNECTED_UNITS(i, s.splice(s.indexOf("b")), nc, r)
-                );
-              } else {
-                units = units.concat(GET_CONNECTED_UNITS(ii, s, nc, r));
-              }
-            }
-          } else {
-            units.push(ii);
-            if (r) {
-              units = units.concat(
-                GET_CONNECTED_UNITS(ii, [key as T_SIDE], nc, r)
-              );
-            }
+          units.push(ii);
+          if (r) {
+            units = units.concat(GET_CONNECTED_UNITS(ii, key as T_SIDE, r));
           }
         }
       });
     }
   }
-  return [...new Set(units)];
+  return units;
 };
 
 const SET_UNIT = (
@@ -255,7 +207,7 @@ const MODIFY = (i: number) => {
         else {
           /*
           if (SELECTED_UNIT === i) {
-            // Testing Middle Square Resize for 9 Unit Connected Grid
+            // Testing Middle Row Square Resize for 9 Unit Connected Grid
             if (DRAG_TYPE === "RSZ") {
               let up = false,
                 down = false,
@@ -278,32 +230,39 @@ const MODIFY = (i: number) => {
                 left = false;
               }
               if (up || down) {
-                // Bottom Locks ON for Units Connected Left/Right
-                GET_CONNECTED_UNITS(i, ["l", "r"], false, true).forEach((u) => {
-                  // Ignore Corner Units
-                  if (!M[i].c.b.includes(u) && !M[i].c.t.includes(u)) {
-                    TOGGLE_UNIT_LOCKS(u, [up ? "b" : "t"], false, true);
-                  }
-                });
-                // Top Locks ON for Units Connected at Bottom
-                TOGGLE_UNIT_LOCKS(i, [up ? "b" : "t"], false, true);
-                GET_CONNECTED_UNITS(i, [up ? "b" : "t"], false,  true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, [up ? "t" : "b"], false, true);
-                });
+                if (up) {
+                  // Bottom Lock Left/Right Units
+                  TOGGLE_UNIT_LOCKS(i, ["b"], false, true);
 
-                SET_UNIT(
-                  i,
-                  up ? "RSZ_TL" : "RSZ_BR",
-                  M[i],
-                  "h",
-                  DIST.y,
-                  M[i].aB || 0,
-                  ELE
-                );
+                  GET_CONNECTED_UNITS(i, "l", true).forEach((u) => {
+                    TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
+                  });
+                  GET_CONNECTED_UNITS(i, "r", true).forEach((u) => {
+                    TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
+                  });
+
+                  //Top/Bottom Lock Bottom Units
+                  /*
+                  GET_CONNECTED_UNITS(i, "b", true).forEach((u) => {
+                    TOGGLE_UNIT_LOCKS(u, ["t"], false, true);
+                    TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
+
+                    GET_CONNECTED_UNITS(u, "r", true).forEach((uu) => {
+                      TOGGLE_UNIT_LOCKS(uu, ["t"], false, true);
+                      TOGGLE_UNIT_LOCKS(uu, ["b"], false, true);
+                    });
+
+                    GET_CONNECTED_UNITS(u, "l", true).forEach((uu) => {
+                      TOGGLE_UNIT_LOCKS(uu, ["t"], false, true);
+                      TOGGLE_UNIT_LOCKS(uu, ["b"], false, true);
+                    });
+                  });
+                  
+                }
               }
             }
-          }
-          */
+          }*/
+
           SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
       }
