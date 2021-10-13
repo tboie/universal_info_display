@@ -5,8 +5,10 @@ import M, { T, T_SIDE } from "./M";
 
 let SELECTED_UNIT = -1;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
-let PREV_POINTER_POS: undefined | { x: number; y: number } = undefined;
-let DRAG_TYPE: "RSZ" | "MOVE" | undefined = undefined;
+let POINTER_PREV_POS: undefined | { x: number; y: number } = undefined;
+let POINTER_MOVE_X: "R" | "L" | undefined = undefined;
+let POINTER_MOVE_Y: "T" | "B" | undefined = undefined;
+let POINTER_MOVE_TYPE: "RSZ" | "MOVE" | undefined = undefined;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -92,12 +94,12 @@ const SET_UNIT = (
 };
 
 const MODIFY = (i: number) => {
-  if (!M[i].updated && POINTER_POS && PREV_POINTER_POS) {
+  if (!M[i].updated && POINTER_POS && POINTER_PREV_POS) {
     const DIST = GET_DISTANCE(
       POINTER_POS.x,
       POINTER_POS.y,
-      PREV_POINTER_POS.x,
-      PREV_POINTER_POS.y
+      POINTER_PREV_POS.x,
+      POINTER_PREV_POS.y
     );
 
     const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
@@ -165,7 +167,45 @@ const MODIFY = (i: number) => {
         }
         // No Lock Left or Right
         else {
-          SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
+          if (SELECTED_UNIT === i) {
+            // Testing Middle Row Square Resize for 9 Unit Connected Grid
+            if (POINTER_MOVE_TYPE === "RSZ") {
+              if (DIST.x < 0) {
+                POINTER_MOVE_X = "L";
+              } else if (DIST.x > 0) {
+                POINTER_MOVE_X = "R";
+              }
+
+              if (POINTER_MOVE_X) {
+                const base = POINTER_MOVE_X === "R" ? "l" : "r";
+
+                TOGGLE_UNIT_LOCKS(i, [base], false, true);
+                GET_CONNECTED_UNITS(i, "t", true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
+                });
+                GET_CONNECTED_UNITS(i, "b", true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
+                });
+
+                GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, ["r", "l"], false, true);
+                  GET_CONNECTED_UNITS(u, "t", true).forEach((uu) => {
+                    TOGGLE_UNIT_LOCKS(uu, ["r", "l"], false, true);
+                  });
+                  GET_CONNECTED_UNITS(u, "b", true).forEach((uu) => {
+                    TOGGLE_UNIT_LOCKS(uu, ["r", "l"], false, true);
+                  });
+                });
+
+                if (POINTER_MOVE_X === "R") {
+                  SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
+                } else if (POINTER_MOVE_X === "L") {
+                  SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
+                }
+                // SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
+              }
+            }
+          }
         }
       }
 
@@ -205,65 +245,44 @@ const MODIFY = (i: number) => {
         }
         // No Lock on Top or Bottom
         else {
-          /*
           if (SELECTED_UNIT === i) {
             // Testing Middle Row Square Resize for 9 Unit Connected Grid
-            if (DRAG_TYPE === "RSZ") {
-              let up = false,
-                down = false,
-                right = false,
-                left = false;
-
-              // Mouse Moving Up
+            if (POINTER_MOVE_TYPE === "RSZ") {
               if (DIST.y < 0) {
-                up = true;
-                down = false;
+                POINTER_MOVE_Y = "T";
               } else if (DIST.y > 0) {
-                down = true;
-                up = false;
+                POINTER_MOVE_Y = "B";
               }
-              if (DIST.x < 0) {
-                left = true;
-                right = false;
-              } else if (DIST.x > 0) {
-                right = true;
-                left = false;
-              }
-              if (up || down) {
-                if (up) {
-                  // Bottom Lock Left/Right Units
-                  TOGGLE_UNIT_LOCKS(i, ["b"], false, true);
 
-                  GET_CONNECTED_UNITS(i, "l", true).forEach((u) => {
-                    TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
+              if (POINTER_MOVE_Y) {
+                const base = POINTER_MOVE_Y === "T" ? "b" : "t";
+                TOGGLE_UNIT_LOCKS(i, [base], false, true);
+                GET_CONNECTED_UNITS(i, "l", true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
+                });
+                GET_CONNECTED_UNITS(i, "r", true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
+                });
+
+                GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
+                  TOGGLE_UNIT_LOCKS(u, ["t", "b"], false, true);
+                  GET_CONNECTED_UNITS(u, "r", true).forEach((uu) => {
+                    TOGGLE_UNIT_LOCKS(uu, ["t", "b"], false, true);
                   });
-                  GET_CONNECTED_UNITS(i, "r", true).forEach((u) => {
-                    TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
+                  GET_CONNECTED_UNITS(u, "l", true).forEach((uu) => {
+                    TOGGLE_UNIT_LOCKS(uu, ["t", "b"], false, true);
                   });
+                });
 
-                  //Top/Bottom Lock Bottom Units
-                  /*
-                  GET_CONNECTED_UNITS(i, "b", true).forEach((u) => {
-                    TOGGLE_UNIT_LOCKS(u, ["t"], false, true);
-                    TOGGLE_UNIT_LOCKS(u, ["b"], false, true);
-
-                    GET_CONNECTED_UNITS(u, "r", true).forEach((uu) => {
-                      TOGGLE_UNIT_LOCKS(uu, ["t"], false, true);
-                      TOGGLE_UNIT_LOCKS(uu, ["b"], false, true);
-                    });
-
-                    GET_CONNECTED_UNITS(u, "l", true).forEach((uu) => {
-                      TOGGLE_UNIT_LOCKS(uu, ["t"], false, true);
-                      TOGGLE_UNIT_LOCKS(uu, ["b"], false, true);
-                    });
-                  });
-                  
+                if (POINTER_MOVE_Y === "B") {
+                  SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
+                } else if (POINTER_MOVE_Y === "T") {
+                  SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
                 }
+                //SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
               }
             }
-          }*/
-
-          SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
+          }
         }
       }
 
@@ -296,7 +315,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
-  DRAG_TYPE = "RSZ";
+  POINTER_MOVE_TYPE = "RSZ";
   SELECTED_UNIT = i;
 };
 
@@ -335,22 +354,26 @@ window.onload = () => {
       if (SELECTED_UNIT > -1) {
         POINTER_POS = GET_POINTER_COORDS(root, e);
         MODIFY(SELECTED_UNIT);
-        PREV_POINTER_POS = GET_POINTER_COORDS(root, e);
+        POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
         M.forEach((u) => (u.updated = false));
       }
     });
     root.addEventListener("pointerup", (e) => {
       SELECTED_UNIT = -1;
       POINTER_POS = undefined;
-      PREV_POINTER_POS = undefined;
-      DRAG_TYPE = undefined;
+      POINTER_PREV_POS = undefined;
+      POINTER_MOVE_TYPE = undefined;
+      POINTER_MOVE_X = undefined;
+      POINTER_MOVE_Y = undefined;
       console.log(M);
     });
     root.addEventListener("pointerleave", (e) => {
       SELECTED_UNIT = -1;
       POINTER_POS = undefined;
-      PREV_POINTER_POS = undefined;
-      DRAG_TYPE = undefined;
+      POINTER_PREV_POS = undefined;
+      POINTER_MOVE_TYPE = undefined;
+      POINTER_MOVE_X = undefined;
+      POINTER_MOVE_Y = undefined;
       console.log(M);
     });
   }
