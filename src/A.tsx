@@ -129,7 +129,7 @@ const MODIFY = (i: number) => {
 
     const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
 
-    //const locks = M[i].tempL || {};
+    // const locks = M[i].tempL || {};
     const locks = M[i].l;
 
     if (ELE) {
@@ -251,6 +251,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
+  M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
   POINTER_MOVE_TYPE = "RSZ";
   SELECTED_UNIT = i;
 };
@@ -353,7 +354,6 @@ const A = (p: T) => (
             onClick={(ev) => {
               ev.stopPropagation();
               ev.preventDefault();
-              typeof p.i !== "undefined" && TOGGLE_UNIT_LOCKS(p.i, [side]);
             }}
           ></div>
         );
