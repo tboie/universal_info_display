@@ -20,13 +20,26 @@ const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
 };
 
 const SET_SELECTED_CORNER = (i: number) => {
+  SELECTED_CORNER = undefined;
   if (POINTER_POS) {
-    if (POINTER_POS.x < M[i].x + M[i].w - M[i].w / 2) {
-      SELECTED_CORNER =
-        POINTER_POS.y < M[i].y + M[i].h - M[i].h / 2 ? "tl" : "bl";
+    if (POINTER_POS.x < M[i].x + 10) {
+      if (POINTER_POS.y < M[i].y + 10) {
+        SELECTED_CORNER = "tl";
+      } else if (POINTER_POS.y > M[i].y + M[i].h - 10) {
+        SELECTED_CORNER = "bl";
+      }
+    } else if (POINTER_POS.x > M[i].x + 10) {
+      if (POINTER_POS.y > M[i].y + M[i].h - 10) {
+        SELECTED_CORNER = "br";
+      } else if (POINTER_POS.y < M[i].y + 10) {
+        SELECTED_CORNER = "tr";
+      }
+    }
+
+    if (!SELECTED_CORNER) {
+      POINTER_MOVE_TYPE = "MOVE";
     } else {
-      SELECTED_CORNER =
-        POINTER_POS.y < M[i].y + M[i].h - M[i].h / 2 ? "tr" : "br";
+      POINTER_MOVE_TYPE = "RSZ";
     }
   }
 };
@@ -216,8 +229,8 @@ const MODIFY = (i: number) => {
           }
         }
 
+        // Lock on Bottom, No Lock on Top
         if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
-          // Lock on Bottom, No Lock on Top
           SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
         // Lock on Top, No Lock on Bottonm
@@ -266,7 +279,6 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
   M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
-  POINTER_MOVE_TYPE = "RSZ";
   SELECTED_UNIT = i;
 };
 
@@ -276,7 +288,6 @@ const TOGGLE_UNIT_LOCKS = (
   temp?: boolean,
   on?: boolean
 ) => {
-  console.log(i);
   const lock = temp ? M[i].tempL : M[i].l;
   if (lock) {
     sides.forEach((s) => {
@@ -315,7 +326,6 @@ window.onload = () => {
       M.forEach((u, ii) =>
         TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
       );
-
       SELECTED_UNIT = -1;
       SELECTED_CORNER = undefined;
       POINTER_POS = undefined;
@@ -329,7 +339,6 @@ window.onload = () => {
       M.forEach((u, ii) =>
         TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
       );
-
       SELECTED_UNIT = -1;
       SELECTED_CORNER = undefined;
       POINTER_POS = undefined;
