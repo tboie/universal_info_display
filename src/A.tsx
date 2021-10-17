@@ -1,5 +1,5 @@
 import "./A.css";
-import M, { T, T_SIDE } from "./M";
+import M, { T, T_SIDE, T_LOCK } from "./M";
 
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 
@@ -93,6 +93,31 @@ const SET_UNIT = (
   SAVE(i, u);
 };
 
+const SET_UNIT_RESIZE_LOCKS = (
+  i: number,
+  base: "t" | "r" | "b" | "l",
+  sides: [T_SIDE, T_SIDE],
+  dir: [T_SIDE, T_SIDE]
+) => {
+  TOGGLE_UNIT_LOCKS(i, [base], false, true);
+  GET_CONNECTED_UNITS(i, dir[0], true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, [base], false, true);
+  });
+  GET_CONNECTED_UNITS(i, dir[1], true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, [base], false, true);
+  });
+
+  GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, sides, false, true);
+    GET_CONNECTED_UNITS(u, dir[0], true).forEach((uu) => {
+      TOGGLE_UNIT_LOCKS(uu, sides, false, true);
+    });
+    GET_CONNECTED_UNITS(u, dir[1], true).forEach((uu) => {
+      TOGGLE_UNIT_LOCKS(uu, sides, false, true);
+    });
+  });
+};
+
 const MODIFY = (i: number) => {
   if (!M[i].updated && POINTER_POS && POINTER_PREV_POS) {
     const DIST = GET_DISTANCE(
@@ -104,184 +129,95 @@ const MODIFY = (i: number) => {
 
     const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
 
-    let locks: { t?: number; r?: number; b?: number; l?: number } = {
-      t: undefined,
-      r: undefined,
-      b: undefined,
-      l: undefined,
-    };
-
-    // Use temp locks if exists
-    if (M[i].tempL) {
-      locks = M[i].tempL || {};
-    }
-    if (typeof locks.t === "undefined") {
-      locks.t = M[i].l.t;
-    }
-    if (typeof locks.r === "undefined") {
-      locks.r = M[i].l.r;
-    }
-    if (typeof locks.b === "undefined") {
-      locks.b = M[i].l.b;
-    }
-    if (typeof locks.l === "undefined") {
-      locks.l = M[i].l.l;
-    }
-
-    // Lols it works???????
+    //const locks = M[i].tempL || {};
+    const locks = M[i].l;
 
     if (ELE) {
       // Mouse Moving Left/Right
       if (DIST.x < 0 || DIST.x > 0) {
-        // Lock on Right
-        if (typeof locks.r !== "undefined") {
-          // No Lock on Left
-          if (typeof locks.l === "undefined") {
-            // @ts-ignore
-            if (M[i].x + M[i].w > locks.r) {
-              SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-            } else {
-              SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-            }
-          }
-          // Lock on Left
-          else {
-            // @ts-ignore
-            if (M[i].x > locks.l) {
-              SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-            }
-            // @ts-ignore
-            if (M[i].x + M[i].w > locks.r) {
-              SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-            }
-          }
+        if (DIST.x < 0) {
+          POINTER_MOVE_X = "L";
+        } else if (DIST.x > 0) {
+          POINTER_MOVE_X = "R";
         }
-        // Lock on Left
-        else if (typeof locks.l !== "undefined") {
-          // @ts-ignore
-          if (M[i].x > locks.l) {
-            SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-          } else {
-            SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-          }
-        }
-        // No Lock Left or Right
-        else {
-          if (SELECTED_UNIT === i) {
-            // Testing Middle Row Square Resize for 9 Unit Connected Grid
-            if (POINTER_MOVE_TYPE === "RSZ") {
-              if (DIST.x < 0) {
-                POINTER_MOVE_X = "L";
-              } else if (DIST.x > 0) {
-                POINTER_MOVE_X = "R";
-              }
 
+        // Lock on Right, No Lock Left
+        if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
+          SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
+        }
+        // Lock on Left, No Lock on Right
+        else if (
+          typeof locks.l !== "undefined" &&
+          typeof locks.r === "undefined"
+        ) {
+          SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
+        }
+
+        // No Lock Left or Right
+        else if (
+          typeof locks.l === "undefined" &&
+          typeof locks.r === "undefined"
+        ) {
+          // Testing Middle Row Square Resize for 9 Unit Connected Grid
+          if (SELECTED_UNIT === i) {
+            if (POINTER_MOVE_TYPE === "RSZ") {
               if (POINTER_MOVE_X) {
                 const base = POINTER_MOVE_X === "R" ? "l" : "r";
-
-                TOGGLE_UNIT_LOCKS(i, [base], false, true);
-                GET_CONNECTED_UNITS(i, "t", true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
-                });
-                GET_CONNECTED_UNITS(i, "b", true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
-                });
-
-                GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, ["r", "l"], false, true);
-                  GET_CONNECTED_UNITS(u, "t", true).forEach((uu) => {
-                    TOGGLE_UNIT_LOCKS(uu, ["r", "l"], false, true);
-                  });
-                  GET_CONNECTED_UNITS(u, "b", true).forEach((uu) => {
-                    TOGGLE_UNIT_LOCKS(uu, ["r", "l"], false, true);
-                  });
-                });
+                SET_UNIT_RESIZE_LOCKS(i, base, ["r", "l"], ["t", "b"]);
 
                 if (POINTER_MOVE_X === "R") {
                   SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
                 } else if (POINTER_MOVE_X === "L") {
                   SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
                 }
-                // SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
               }
             }
+          } else {
+            SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
           }
         }
       }
 
       // Mouse Moving Up/Down
       if (DIST.y < 0 || DIST.y > 0) {
-        // Lock on Bottom
-        if (typeof locks.b !== "undefined") {
-          // No Lock on Top
-          if (typeof locks.t === "undefined") {
-            // @ts-ignore
-            if (M[i].y + M[i].h > locks.b) {
-              SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-            } else {
-              SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-            }
-          }
-          // Lock on Top
-          else {
-            // @ts-ignore
-            if (M[i].y > locks.t) {
-              SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-            }
-            // @ts-ignore
-            if (M[i].y + M[i].h > locks.b) {
-              SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-            }
-          }
+        if (DIST.y < 0) {
+          POINTER_MOVE_Y = "T";
+        } else if (DIST.y > 0) {
+          POINTER_MOVE_Y = "B";
         }
-        // Lock on Top
-        else if (typeof locks.t !== "undefined") {
-          // @ts-ignore
-          if (M[i].y > locks.t) {
-            SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-          } else {
-            SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-          }
+
+        // Lock on Bottom, No Lock on Top
+        if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
+          SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
+        }
+        // Lock on Top, No Lock on Bottonm
+        else if (
+          typeof locks.t !== "undefined" &&
+          typeof locks.b === "undefined"
+        ) {
+          SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
         // No Lock on Top or Bottom
-        else {
+        else if (
+          typeof locks.b === "undefined" &&
+          typeof locks.t === "undefined"
+        ) {
           if (SELECTED_UNIT === i) {
             // Testing Middle Row Square Resize for 9 Unit Connected Grid
             if (POINTER_MOVE_TYPE === "RSZ") {
-              if (DIST.y < 0) {
-                POINTER_MOVE_Y = "T";
-              } else if (DIST.y > 0) {
-                POINTER_MOVE_Y = "B";
-              }
-
               if (POINTER_MOVE_Y) {
                 const base = POINTER_MOVE_Y === "T" ? "b" : "t";
-                TOGGLE_UNIT_LOCKS(i, [base], false, true);
-                GET_CONNECTED_UNITS(i, "l", true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
-                });
-                GET_CONNECTED_UNITS(i, "r", true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, [base], false, true);
-                });
-
-                GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
-                  TOGGLE_UNIT_LOCKS(u, ["t", "b"], false, true);
-                  GET_CONNECTED_UNITS(u, "r", true).forEach((uu) => {
-                    TOGGLE_UNIT_LOCKS(uu, ["t", "b"], false, true);
-                  });
-                  GET_CONNECTED_UNITS(u, "l", true).forEach((uu) => {
-                    TOGGLE_UNIT_LOCKS(uu, ["t", "b"], false, true);
-                  });
-                });
+                SET_UNIT_RESIZE_LOCKS(i, base, ["t", "b"], ["l", "r"]);
 
                 if (POINTER_MOVE_Y === "B") {
                   SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
                 } else if (POINTER_MOVE_Y === "T") {
                   SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
                 }
-                //SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
               }
             }
+          } else {
+            SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
           }
         }
       }
