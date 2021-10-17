@@ -112,21 +112,21 @@ const SET_UNIT_RESIZE_LOCKS = (
   sides: [T_SIDE, T_SIDE],
   dir: [T_SIDE, T_SIDE]
 ) => {
-  TOGGLE_UNIT_LOCKS(i, [base], false, true);
+  TOGGLE_UNIT_LOCKS(i, [base], true, true);
   GET_CONNECTED_UNITS(i, dir[0], true).forEach((u) => {
-    TOGGLE_UNIT_LOCKS(u, [base], false, true);
+    TOGGLE_UNIT_LOCKS(u, [base], true, true);
   });
   GET_CONNECTED_UNITS(i, dir[1], true).forEach((u) => {
-    TOGGLE_UNIT_LOCKS(u, [base], false, true);
+    TOGGLE_UNIT_LOCKS(u, [base], true, true);
   });
 
   GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
-    TOGGLE_UNIT_LOCKS(u, sides, false, true);
+    TOGGLE_UNIT_LOCKS(u, sides, true, true);
     GET_CONNECTED_UNITS(u, dir[0], true).forEach((uu) => {
-      TOGGLE_UNIT_LOCKS(uu, sides, false, true);
+      TOGGLE_UNIT_LOCKS(uu, sides, true, true);
     });
     GET_CONNECTED_UNITS(u, dir[1], true).forEach((uu) => {
-      TOGGLE_UNIT_LOCKS(uu, sides, false, true);
+      TOGGLE_UNIT_LOCKS(uu, sides, true, true);
     });
   });
 };
@@ -142,8 +142,8 @@ const MODIFY = (i: number) => {
 
     const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
 
-    // const locks = M[i].tempL || {};
-    const locks = M[i].l;
+    const locks = M[i].tempL || {};
+    //const locks = M[i].l;
 
     if (ELE) {
       // Mouse Moving Left/Right
@@ -265,7 +265,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
-  // M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
+  M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
   POINTER_MOVE_TYPE = "RSZ";
   SELECTED_UNIT = i;
 };
@@ -276,6 +276,7 @@ const TOGGLE_UNIT_LOCKS = (
   temp?: boolean,
   on?: boolean
 ) => {
+  console.log(i);
   const lock = temp ? M[i].tempL : M[i].l;
   if (lock) {
     sides.forEach((s) => {
@@ -292,7 +293,7 @@ const TOGGLE_UNIT_LOCKS = (
       }
       const ele = document.querySelector(`#U${i} .${s}`)?.classList;
       if (ele) {
-        typeof lock[s] !== "undefined" ? ele.add("on") : ele.remove("on");
+        typeof M[i].l[s] !== "undefined" ? ele.add("on") : ele.remove("on");
       }
     });
   }
@@ -311,6 +312,10 @@ window.onload = () => {
       }
     });
     root.addEventListener("pointerup", (e) => {
+      M.forEach((u, ii) =>
+        TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
+      );
+
       SELECTED_UNIT = -1;
       SELECTED_CORNER = undefined;
       POINTER_POS = undefined;
@@ -321,6 +326,10 @@ window.onload = () => {
       console.log(M);
     });
     root.addEventListener("pointerleave", (e) => {
+      M.forEach((u, ii) =>
+        TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
+      );
+
       SELECTED_UNIT = -1;
       SELECTED_CORNER = undefined;
       POINTER_POS = undefined;
