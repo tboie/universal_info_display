@@ -371,6 +371,7 @@ const A = (p: T) => (
             onClick={(ev) => {
               ev.stopPropagation();
               ev.preventDefault();
+              typeof p.i !== "undefined" && TOGGLE_UNIT_LOCKS(p.i, [side]);
             }}
           ></div>
         );
