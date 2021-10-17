@@ -28,7 +28,7 @@ const SET_SELECTED_CORNER = (i: number) => {
       } else if (POINTER_POS.y > M[i].y + M[i].h - 10) {
         SELECTED_CORNER = "bl";
       }
-    } else if (POINTER_POS.x > M[i].x + 10) {
+    } else if (POINTER_POS.x > M[i].x + M[i].w - 10) {
       if (POINTER_POS.y > M[i].y + M[i].h - 10) {
         SELECTED_CORNER = "br";
       } else if (POINTER_POS.y < M[i].y + 10) {
