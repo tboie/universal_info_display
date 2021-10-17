@@ -9,6 +9,7 @@ let POINTER_PREV_POS: undefined | { x: number; y: number } = undefined;
 let POINTER_MOVE_X: "R" | "L" | undefined = undefined;
 let POINTER_MOVE_Y: "T" | "B" | undefined = undefined;
 let POINTER_MOVE_TYPE: "RSZ" | "MOVE" | undefined = undefined;
+let SELECTED_CORNER: undefined | "tr" | "tl" | "br" | "bl" = undefined;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -16,6 +17,18 @@ const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
     x: R ? (ev.pageX / R.width) * 100 : 0,
     y: R ? (ev.pageY / R.height) * 100 : 0,
   };
+};
+
+const SET_SELECTED_CORNER = (i: number) => {
+  if (POINTER_POS) {
+    if (POINTER_POS.x < M[i].x + M[i].w - M[i].w / 2) {
+      SELECTED_CORNER =
+        POINTER_POS.y < M[i].y + M[i].h - M[i].h / 2 ? "tl" : "bl";
+    } else {
+      SELECTED_CORNER =
+        POINTER_POS.y < M[i].y + M[i].h - M[i].h / 2 ? "tr" : "br";
+    }
+  }
 };
 
 const GET_DISTANCE = (x1: number, y1: number, x2: number, y2: number) => ({
@@ -141,6 +154,22 @@ const MODIFY = (i: number) => {
           POINTER_MOVE_X = "R";
         }
 
+        // Set Unit Resize locks
+        if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i) {
+          if (
+            typeof locks.l === "undefined" &&
+            typeof locks.r === "undefined"
+          ) {
+            if (POINTER_MOVE_X) {
+              if (SELECTED_CORNER === "tl" || SELECTED_CORNER === "bl") {
+                SET_UNIT_RESIZE_LOCKS(i, "r", ["r", "l"], ["t", "b"]);
+              } else {
+                SET_UNIT_RESIZE_LOCKS(i, "l", ["r", "l"], ["t", "b"]);
+              }
+            }
+          }
+        }
+
         // Lock on Right, No Lock Left
         if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
           SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
@@ -158,23 +187,7 @@ const MODIFY = (i: number) => {
           typeof locks.l === "undefined" &&
           typeof locks.r === "undefined"
         ) {
-          // Testing Middle Row Square Resize for 9 Unit Connected Grid
-          if (SELECTED_UNIT === i) {
-            if (POINTER_MOVE_TYPE === "RSZ") {
-              if (POINTER_MOVE_X) {
-                const base = POINTER_MOVE_X === "R" ? "l" : "r";
-                SET_UNIT_RESIZE_LOCKS(i, base, ["r", "l"], ["t", "b"]);
-
-                if (POINTER_MOVE_X === "R") {
-                  SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-                } else if (POINTER_MOVE_X === "L") {
-                  SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-                }
-              }
-            }
-          } else {
-            SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-          }
+          SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
         }
       }
 
@@ -186,8 +199,25 @@ const MODIFY = (i: number) => {
           POINTER_MOVE_Y = "B";
         }
 
-        // Lock on Bottom, No Lock on Top
+        // Set Unit Resize locks
+        if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i) {
+          if (
+            typeof locks.b === "undefined" &&
+            typeof locks.t === "undefined"
+          ) {
+            // Testing Middle Row Square Resize for 9 Unit Connected Grid
+            if (POINTER_MOVE_Y) {
+              if (SELECTED_CORNER === "br" || SELECTED_CORNER === "bl") {
+                SET_UNIT_RESIZE_LOCKS(i, "t", ["t", "b"], ["l", "r"]);
+              } else {
+                SET_UNIT_RESIZE_LOCKS(i, "b", ["t", "b"], ["l", "r"]);
+              }
+            }
+          }
+        }
+
         if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
+          // Lock on Bottom, No Lock on Top
           SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
         // Lock on Top, No Lock on Bottonm
@@ -202,23 +232,7 @@ const MODIFY = (i: number) => {
           typeof locks.b === "undefined" &&
           typeof locks.t === "undefined"
         ) {
-          if (SELECTED_UNIT === i) {
-            // Testing Middle Row Square Resize for 9 Unit Connected Grid
-            if (POINTER_MOVE_TYPE === "RSZ") {
-              if (POINTER_MOVE_Y) {
-                const base = POINTER_MOVE_Y === "T" ? "b" : "t";
-                SET_UNIT_RESIZE_LOCKS(i, base, ["t", "b"], ["l", "r"]);
-
-                if (POINTER_MOVE_Y === "B") {
-                  SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-                } else if (POINTER_MOVE_Y === "T") {
-                  SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-                }
-              }
-            }
-          } else {
-            SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-          }
+          SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
         }
       }
 
@@ -251,7 +265,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
-  M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
+  // M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
   POINTER_MOVE_TYPE = "RSZ";
   SELECTED_UNIT = i;
 };
@@ -290,6 +304,7 @@ window.onload = () => {
     root.addEventListener("pointermove", (e) => {
       if (SELECTED_UNIT > -1) {
         POINTER_POS = GET_POINTER_COORDS(root, e);
+        SET_SELECTED_CORNER(SELECTED_UNIT);
         MODIFY(SELECTED_UNIT);
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
         M.forEach((u) => (u.updated = false));
@@ -297,6 +312,7 @@ window.onload = () => {
     });
     root.addEventListener("pointerup", (e) => {
       SELECTED_UNIT = -1;
+      SELECTED_CORNER = undefined;
       POINTER_POS = undefined;
       POINTER_PREV_POS = undefined;
       POINTER_MOVE_TYPE = undefined;
@@ -306,6 +322,7 @@ window.onload = () => {
     });
     root.addEventListener("pointerleave", (e) => {
       SELECTED_UNIT = -1;
+      SELECTED_CORNER = undefined;
       POINTER_POS = undefined;
       POINTER_PREV_POS = undefined;
       POINTER_MOVE_TYPE = undefined;
