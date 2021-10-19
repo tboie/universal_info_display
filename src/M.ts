@@ -30,8 +30,8 @@ const units: T[] = [];
 let x = 0,
   y = 0;
 
-for (x = 0; x < 10; x++) {
-  for (y = 0; y < 10; y++) {
+for (y = 0; y < 10; y++) {
+  for (x = 0; x < 10; x++) {
     // set connections
     let cT: number[] = [];
     let cB: number[] = [];
