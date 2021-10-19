@@ -25,6 +25,90 @@ export type T = {
   updated?: boolean;
 };
 
+// 10x10 Grid
+const units: T[] = [];
+let x = 0,
+  y = 0;
+
+for (x = 0; x < 10; x++) {
+  for (y = 0; y < 10; y++) {
+    // set connections
+    let cT: number[] = [];
+    let cB: number[] = [];
+    let cL: number[] = [];
+    let cR: number[] = [];
+
+    //top
+    if (y > 0) {
+      cT.push(x + y * 10 - 10);
+
+      if (x > 0) {
+        cT.push(x - 1 + y * 10 - 10);
+      }
+      if (x < 9) {
+        cT.push(x + 1 + y * 10 - 10);
+      }
+    }
+
+    //bottom
+    if (y < 9) {
+      cB.push(x + y * 10 + 10);
+
+      if (x > 0) {
+        cB.push(x - 1 + y * 10 + 10);
+      }
+      if (x < 9) {
+        cB.push(x + 1 + y * 10 + 10);
+      }
+    }
+
+    //right
+    if (x < 9) {
+      cR.push(x + y * 10 + 1);
+
+      if (y > 0) {
+        cR.push(x + y * 10 + 1 - 10);
+      }
+      if (y < 9) {
+        cR.push(x + y * 10 + 1 + 10);
+      }
+    }
+
+    //left
+    if (x > 0) {
+      cL.push(x + y * 10 - 1);
+
+      if (y > 0) {
+        cL.push(x + y * 10 - 1 - 10);
+      }
+      if (y < 9) {
+        cL.push(x + y * 10 - 1 + 10);
+      }
+    }
+
+    units.push({
+      t: "s",
+      x: x * 10,
+      y: y * 10,
+      w: 10,
+      h: 10,
+      z: 0,
+      l: {
+        t: y === 0 ? 0 : undefined,
+        b: y === 9 ? 100 : undefined,
+        r: x === 9 ? 100 : undefined,
+        l: x === 0 ? 0 : undefined,
+      },
+      c: { t: cT, r: cR, b: cB, l: cL },
+      bp: ["sm", "lg"],
+    } as T);
+  }
+}
+
+export default units;
+
+/*
+// 9 Unit Grid
 export default [
   // top row
   {
@@ -129,3 +213,5 @@ export default [
     bp: ["sm", "lg"],
   },
 ] as T[];
+
+*/

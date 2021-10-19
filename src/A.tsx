@@ -55,6 +55,7 @@ const GET_CONNECTED_UNITS = (i: number, s?: T_SIDE, r?: boolean) => {
   let units: number[] = [];
   if (s) {
     M[i].c[s].forEach((u) => {
+      // right and left direction, not in corner
       if (s === "r" || s === "l") {
         if (!M[i].c.t.includes(u) && !M[i].c.b.includes(u)) {
           units.push(u);
@@ -62,7 +63,9 @@ const GET_CONNECTED_UNITS = (i: number, s?: T_SIDE, r?: boolean) => {
             units = units.concat(GET_CONNECTED_UNITS(u, s, r));
           }
         }
-      } else if (s === "t" || s === "b") {
+      }
+      // top and bottom direction, not in corner
+      else if (s === "t" || s === "b") {
         if (!M[i].c.r.includes(u) && !M[i].c.l.includes(u)) {
           units.push(u);
           if (r) {
@@ -129,6 +132,7 @@ const SET_UNIT_RESIZE_LOCKS = (
   GET_CONNECTED_UNITS(i, dir[0], true).forEach((u) => {
     TOGGLE_UNIT_LOCKS(u, [base], true, true);
   });
+
   GET_CONNECTED_UNITS(i, dir[1], true).forEach((u) => {
     TOGGLE_UNIT_LOCKS(u, [base], true, true);
   });
@@ -175,9 +179,9 @@ const MODIFY = (i: number) => {
           ) {
             if (POINTER_MOVE_X) {
               if (SELECTED_CORNER === "tl" || SELECTED_CORNER === "bl") {
-                SET_UNIT_RESIZE_LOCKS(i, "r", ["r", "l"], ["t", "b"]);
+                //SET_UNIT_RESIZE_LOCKS(i, "r", ["r", "l"], ["t", "b"]);
               } else {
-                SET_UNIT_RESIZE_LOCKS(i, "l", ["r", "l"], ["t", "b"]);
+                //SET_UNIT_RESIZE_LOCKS(i, "l", ["r", "l"], ["t", "b"]);
               }
             }
           }
@@ -221,9 +225,9 @@ const MODIFY = (i: number) => {
             // Testing Middle Row Square Resize for 9 Unit Connected Grid
             if (POINTER_MOVE_Y) {
               if (SELECTED_CORNER === "br" || SELECTED_CORNER === "bl") {
-                SET_UNIT_RESIZE_LOCKS(i, "t", ["t", "b"], ["l", "r"]);
+                //SET_UNIT_RESIZE_LOCKS(i, "t", ["t", "b"], ["l", "r"]);
               } else {
-                SET_UNIT_RESIZE_LOCKS(i, "b", ["t", "b"], ["l", "r"]);
+                //SET_UNIT_RESIZE_LOCKS(i, "b", ["t", "b"], ["l", "r"]);
               }
             }
           }
@@ -304,7 +308,7 @@ const TOGGLE_UNIT_LOCKS = (
       }
       const ele = document.querySelector(`#U${i} .${s}`)?.classList;
       if (ele) {
-        typeof M[i].l[s] !== "undefined" ? ele.add("on") : ele.remove("on");
+        typeof lock[s] !== "undefined" ? ele.add("on") : ele.remove("on");
       }
     });
   }
