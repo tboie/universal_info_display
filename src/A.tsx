@@ -124,27 +124,40 @@ const SET_UNIT = (
 
 const SET_UNIT_RESIZE_LOCKS = (
   i: number,
-  base: "t" | "r" | "b" | "l",
-  sides: [T_SIDE, T_SIDE],
-  dir: [T_SIDE, T_SIDE]
+  corner: "tl" | "tr" | "br" | "bl"
 ) => {
-  TOGGLE_UNIT_LOCKS(i, [base], true, true);
-  GET_CONNECTED_UNITS(i, dir[0], true).forEach((u) => {
-    TOGGLE_UNIT_LOCKS(u, [base], true, true);
+  const bY = corner[0] === "t" ? "b" : "t";
+  const bX = corner[1] === "r" ? "l" : "r";
+
+  TOGGLE_UNIT_LOCKS(i, [bY], true, true);
+  GET_CONNECTED_UNITS(i, bY, true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, ["t", "b", "l", "r"], true, true);
+
+    GET_CONNECTED_UNITS(u, "l", true).forEach((uu) => {
+      TOGGLE_UNIT_LOCKS(uu, ["t", "b", "l", "r"], true, true);
+    });
+    GET_CONNECTED_UNITS(u, "r", true).forEach((uu) => {
+      TOGGLE_UNIT_LOCKS(uu, ["t", "b", "l", "r"], true, true);
+    });
   });
 
-  GET_CONNECTED_UNITS(i, dir[1], true).forEach((u) => {
-    TOGGLE_UNIT_LOCKS(u, [base], true, true);
+  TOGGLE_UNIT_LOCKS(i, [bX], true, true);
+  GET_CONNECTED_UNITS(i, bX, true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, ["l", "r", "t", "b"], true, true);
+
+    GET_CONNECTED_UNITS(u, "t", true).forEach((uu) => {
+      TOGGLE_UNIT_LOCKS(uu, ["l", "r", "t", "b"], true, true);
+    });
+    GET_CONNECTED_UNITS(u, "b", true).forEach((uu) => {
+      TOGGLE_UNIT_LOCKS(uu, ["l", "r", "t", "b"], true, true);
+    });
   });
 
-  GET_CONNECTED_UNITS(i, base, true).forEach((u) => {
-    TOGGLE_UNIT_LOCKS(u, sides, true, true);
-    GET_CONNECTED_UNITS(u, dir[0], true).forEach((uu) => {
-      TOGGLE_UNIT_LOCKS(uu, sides, true, true);
-    });
-    GET_CONNECTED_UNITS(u, dir[1], true).forEach((uu) => {
-      TOGGLE_UNIT_LOCKS(uu, sides, true, true);
-    });
+  GET_CONNECTED_UNITS(i, corner[0] as T_SIDE, true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, [corner[1] === "l" ? "r" : "l"], true, true);
+  });
+  GET_CONNECTED_UNITS(i, corner[1] as T_SIDE, true).forEach((u) => {
+    TOGGLE_UNIT_LOCKS(u, [corner[0] === "t" ? "b" : "t"], true, true);
   });
 };
 
@@ -172,19 +185,13 @@ const MODIFY = (i: number) => {
         }
 
         // Set Unit Resize locks
-        if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i) {
-          if (
-            typeof locks.l === "undefined" &&
-            typeof locks.r === "undefined"
-          ) {
-            if (POINTER_MOVE_X) {
-              if (SELECTED_CORNER === "tl" || SELECTED_CORNER === "bl") {
-                //SET_UNIT_RESIZE_LOCKS(i, "r", ["r", "l"], ["t", "b"]);
-              } else {
-                //SET_UNIT_RESIZE_LOCKS(i, "l", ["r", "l"], ["t", "b"]);
-              }
-            }
-          }
+        if (
+          POINTER_MOVE_TYPE === "RSZ" &&
+          SELECTED_UNIT === i &&
+          SELECTED_CORNER &&
+          POINTER_MOVE_X
+        ) {
+          SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
         }
 
         // Lock on Right, No Lock Left
@@ -217,20 +224,13 @@ const MODIFY = (i: number) => {
         }
 
         // Set Unit Resize locks
-        if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i) {
-          if (
-            typeof locks.b === "undefined" &&
-            typeof locks.t === "undefined"
-          ) {
-            // Testing Middle Row Square Resize for 9 Unit Connected Grid
-            if (POINTER_MOVE_Y) {
-              if (SELECTED_CORNER === "br" || SELECTED_CORNER === "bl") {
-                //SET_UNIT_RESIZE_LOCKS(i, "t", ["t", "b"], ["l", "r"]);
-              } else {
-                //SET_UNIT_RESIZE_LOCKS(i, "b", ["t", "b"], ["l", "r"]);
-              }
-            }
-          }
+        if (
+          POINTER_MOVE_TYPE === "RSZ" &&
+          SELECTED_UNIT === i &&
+          SELECTED_CORNER &&
+          POINTER_MOVE_Y
+        ) {
+          SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
         }
 
         // Lock on Bottom, No Lock on Top
@@ -283,6 +283,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
   M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
+  ev.currentTarget.style.zIndex = "9999";
   SELECTED_UNIT = i;
 };
 
@@ -307,7 +308,7 @@ const TOGGLE_UNIT_LOCKS = (
         lock[s] = M[i].x + M[i].w;
       }
       const ele = document.querySelector(`#U${i} .${s}`)?.classList;
-      if (ele) {
+      if (ele && !temp) {
         typeof lock[s] !== "undefined" ? ele.add("on") : ele.remove("on");
       }
     });
