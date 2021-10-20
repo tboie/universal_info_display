@@ -337,6 +337,10 @@ window.onload = () => {
       }
     });
     root.addEventListener("pointerup", (e) => {
+      const eleU = document.getElementById("U" + SELECTED_UNIT) as HTMLElement;
+      if (eleU) {
+        eleU.style.zIndex = M[SELECTED_UNIT].z.toString();
+      }
       M.forEach((u, ii) =>
         TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
       );
@@ -350,6 +354,10 @@ window.onload = () => {
       console.log(M);
     });
     root.addEventListener("pointerleave", (e) => {
+      const eleU = document.getElementById("U" + SELECTED_UNIT) as HTMLElement;
+      if (eleU) {
+        eleU.style.zIndex = M[SELECTED_UNIT].z.toString();
+      }
       M.forEach((u, ii) =>
         TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
       );
@@ -360,7 +368,6 @@ window.onload = () => {
       POINTER_MOVE_TYPE = undefined;
       POINTER_MOVE_X = undefined;
       POINTER_MOVE_Y = undefined;
-      console.log(M);
     });
   }
 };
