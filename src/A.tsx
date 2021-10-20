@@ -4,12 +4,12 @@ import M, { T, T_SIDE, T_LOCK } from "./M";
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 
 let SELECTED_UNIT = -1;
+let SELECTED_CORNER: undefined | "tr" | "tl" | "br" | "bl" = undefined;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let POINTER_PREV_POS: undefined | { x: number; y: number } = undefined;
 let POINTER_MOVE_X: "R" | "L" | undefined = undefined;
 let POINTER_MOVE_Y: "T" | "B" | undefined = undefined;
 let POINTER_MOVE_TYPE: "RSZ" | "MOVE" | undefined = undefined;
-let SELECTED_CORNER: undefined | "tr" | "tl" | "br" | "bl" = undefined;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -20,18 +20,22 @@ const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
 };
 
 const SET_SELECTED_CORNER = (i: number) => {
+  const BOUNDARY_X = M[i].w * 0.15;
+  const BOUNDARY_Y = M[i].h * 0.15;
+
   SELECTED_CORNER = undefined;
   if (POINTER_POS) {
-    if (POINTER_POS.x < M[i].x + 10) {
-      if (POINTER_POS.y < M[i].y + 10) {
+    if (POINTER_POS.x < M[i].x + BOUNDARY_X) {
+      if (POINTER_POS.y < M[i].y + BOUNDARY_Y) {
         SELECTED_CORNER = "tl";
-      } else if (POINTER_POS.y > M[i].y + M[i].h - 10) {
+      } else if (POINTER_POS.y > M[i].y + M[i].h - BOUNDARY_Y) {
+        console.log("BL");
         SELECTED_CORNER = "bl";
       }
-    } else if (POINTER_POS.x > M[i].x + M[i].w - 10) {
-      if (POINTER_POS.y > M[i].y + M[i].h - 10) {
+    } else if (POINTER_POS.x > M[i].x + M[i].w - BOUNDARY_X) {
+      if (POINTER_POS.y > M[i].y + M[i].h - BOUNDARY_Y) {
         SELECTED_CORNER = "br";
-      } else if (POINTER_POS.y < M[i].y + 10) {
+      } else if (POINTER_POS.y < M[i].y + BOUNDARY_Y) {
         SELECTED_CORNER = "tr";
       }
     }
@@ -283,6 +287,12 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.preventDefault();
   M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
   M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
+
+  const root = document.getElementById("root") as HTMLDivElement;
+  if (root) {
+    POINTER_POS = GET_POINTER_COORDS(root, ev);
+    SET_SELECTED_CORNER(i);
+  }
   ev.currentTarget.style.zIndex = "9999";
   SELECTED_UNIT = i;
 };
@@ -321,7 +331,6 @@ window.onload = () => {
     root.addEventListener("pointermove", (e) => {
       if (SELECTED_UNIT > -1) {
         POINTER_POS = GET_POINTER_COORDS(root, e);
-        SET_SELECTED_CORNER(SELECTED_UNIT);
         MODIFY(SELECTED_UNIT);
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
         M.forEach((u) => (u.updated = false));
