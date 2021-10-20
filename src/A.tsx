@@ -20,8 +20,8 @@ const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
 };
 
 const SET_SELECTED_CORNER = (i: number) => {
-  const BOUNDARY_X = M[i].w * 0.15;
-  const BOUNDARY_Y = M[i].h * 0.15;
+  const BOUNDARY_X = M[i].w * 0.2;
+  const BOUNDARY_Y = M[i].h * 0.2;
 
   SELECTED_CORNER = undefined;
   if (POINTER_POS) {
