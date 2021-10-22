@@ -29,7 +29,6 @@ const SET_SELECTED_CORNER = (i: number) => {
       if (POINTER_POS.y < M[i].y + BOUNDARY_Y) {
         SELECTED_CORNER = "tl";
       } else if (POINTER_POS.y > M[i].y + M[i].h - BOUNDARY_Y) {
-        console.log("BL");
         SELECTED_CORNER = "bl";
       }
     } else if (POINTER_POS.x > M[i].x + M[i].w - BOUNDARY_X) {
@@ -99,8 +98,7 @@ const SET_UNIT = (
   u: T,
   dim: "w" | "h",
   d: number,
-  a: number,
-  ele: HTMLDivElement
+  a: number
 ) => {
   // bottom & right
   if (t === "RSZ_BR") {
@@ -121,8 +119,14 @@ const SET_UNIT = (
       : (u.tY = ((u.y += d) * 100) / u.h);
   }
 
-  dim === "w" ? (ele.style.width = u.w + "%") : (ele.style.height = u.h + "%");
-  ele.style.transform = `translate(${u.tX}%,${u.tY}%)`;
+  const ele = document.getElementById(`U${i}`) as HTMLElement;
+  if (ele) {
+    dim === "w"
+      ? (ele.style.width = u.w + "%")
+      : (ele.style.height = u.h + "%");
+    ele.style.transform = `translate(${u.tX}%,${u.tY}%)`;
+  }
+
   SAVE(i, u);
 };
 
@@ -165,106 +169,67 @@ const SET_UNIT_RESIZE_LOCKS = (
   });
 };
 
-const MODIFY = (i: number) => {
-  if (!M[i].updated && POINTER_POS && POINTER_PREV_POS) {
-    const DIST = GET_DISTANCE(
-      POINTER_POS.x,
-      POINTER_POS.y,
-      POINTER_PREV_POS.x,
-      POINTER_PREV_POS.y
-    );
-
-    const ELE = document.getElementById(`U${i}`) as HTMLDivElement;
-
+const MODIFY = (i: number, DIST: { x: number; y: number }) => {
+  if (!M[i].updated) {
     const locks = M[i].tempL || {};
     //const locks = M[i].l;
 
-    if (ELE) {
-      // Mouse Moving Left/Right
-      if (DIST.x < 0 || DIST.x > 0) {
-        if (DIST.x < 0) {
-          POINTER_MOVE_X = "L";
-        } else if (DIST.x > 0) {
-          POINTER_MOVE_X = "R";
-        }
-
-        // Set Unit Resize locks
-        if (
-          POINTER_MOVE_TYPE === "RSZ" &&
-          SELECTED_UNIT === i &&
-          SELECTED_CORNER &&
-          POINTER_MOVE_X
-        ) {
-          SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
-        }
-
-        // Lock on Right, No Lock Left
-        if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
-          SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-        }
-        // Lock on Left, No Lock on Right
-        else if (
-          typeof locks.l !== "undefined" &&
-          typeof locks.r === "undefined"
-        ) {
-          SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-        }
-
-        // No Lock Left or Right
-        else if (
-          typeof locks.l === "undefined" &&
-          typeof locks.r === "undefined"
-        ) {
-          SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0, ELE);
-        }
-      }
-
-      // Mouse Moving Up/Down
-      if (DIST.y < 0 || DIST.y > 0) {
-        if (DIST.y < 0) {
-          POINTER_MOVE_Y = "T";
-        } else if (DIST.y > 0) {
-          POINTER_MOVE_Y = "B";
-        }
-
-        // Set Unit Resize locks
-        if (
-          POINTER_MOVE_TYPE === "RSZ" &&
-          SELECTED_UNIT === i &&
-          SELECTED_CORNER &&
-          POINTER_MOVE_Y
-        ) {
-          SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
-        }
-
-        // Lock on Bottom, No Lock on Top
-        if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
-          SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-        }
-        // Lock on Top, No Lock on Bottonm
-        else if (
-          typeof locks.t !== "undefined" &&
-          typeof locks.b === "undefined"
-        ) {
-          SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-        }
-        // No Lock on Top or Bottom
-        else if (
-          typeof locks.b === "undefined" &&
-          typeof locks.t === "undefined"
-        ) {
-          SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0, ELE);
-        }
-      }
-
-      // Set updated flag
-      M[i].updated = true;
-
-      // Modify connected units
-      GET_CONNECTED_UNITS(i)
-        .filter((idx) => !M[idx].updated)
-        .forEach((ii) => MODIFY(ii));
+    if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i && SELECTED_CORNER) {
+      SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
     }
+
+    // Mouse Moving Left/Right
+    if (DIST.x > 0 || DIST.x < 0) {
+      // Lock on Right, No Lock Left
+      if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
+        SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0);
+      }
+      // Lock on Left, No Lock on Right
+      else if (
+        typeof locks.l !== "undefined" &&
+        typeof locks.r === "undefined"
+      ) {
+        SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0);
+      }
+
+      // No Lock Left or Right
+      else if (
+        typeof locks.l === "undefined" &&
+        typeof locks.r === "undefined"
+      ) {
+        SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
+      }
+    }
+
+    // Mouse Moving Up/Down
+    if (DIST.y > 0 || DIST.y < 0) {
+      // Lock on Bottom, No Lock on Top
+      if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
+        SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0);
+      }
+      // Lock on Top, No Lock on Bottonm
+      else if (
+        typeof locks.t !== "undefined" &&
+        typeof locks.b === "undefined"
+      ) {
+        SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0);
+      }
+      // No Lock on Top or Bottom
+      else if (
+        typeof locks.b === "undefined" &&
+        typeof locks.t === "undefined"
+      ) {
+        SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
+      }
+    }
+
+    // Set updated flag
+    M[i].updated = true;
+
+    // Modify connected units
+    GET_CONNECTED_UNITS(i)
+      .filter((idx) => !M[idx].updated)
+      .forEach((ii) => MODIFY(ii, DIST));
   }
 };
 
@@ -325,49 +290,65 @@ const TOGGLE_UNIT_LOCKS = (
   }
 };
 
+const RESET_POINTER = () => {
+  const eleU = document.getElementById("U" + SELECTED_UNIT) as HTMLElement;
+  if (eleU) {
+    eleU.style.zIndex = M[SELECTED_UNIT].z.toString();
+  }
+  M.forEach((u, ii) =>
+    TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
+  );
+  SELECTED_UNIT = -1;
+  SELECTED_CORNER = undefined;
+  POINTER_POS = undefined;
+  POINTER_PREV_POS = undefined;
+  POINTER_MOVE_TYPE = undefined;
+  POINTER_MOVE_X = undefined;
+  POINTER_MOVE_Y = undefined;
+  console.log(M);
+};
+
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
   if (root) {
     root.addEventListener("pointermove", (e) => {
       if (SELECTED_UNIT > -1) {
         POINTER_POS = GET_POINTER_COORDS(root, e);
-        MODIFY(SELECTED_UNIT);
+        if (POINTER_POS && POINTER_PREV_POS) {
+          const DIST = GET_DISTANCE(
+            POINTER_POS.x,
+            POINTER_POS.y,
+            POINTER_PREV_POS.x,
+            POINTER_PREV_POS.y
+          );
+
+          if (DIST.x < 0) {
+            POINTER_MOVE_X = "L";
+          } else if (DIST.x > 0) {
+            POINTER_MOVE_X = "R";
+          } else {
+            POINTER_MOVE_X = undefined;
+          }
+
+          if (DIST.y < 0) {
+            POINTER_MOVE_Y = "T";
+          } else if (DIST.y > 0) {
+            POINTER_MOVE_Y = "B";
+          } else {
+            POINTER_MOVE_Y = undefined;
+          }
+
+          MODIFY(SELECTED_UNIT, DIST);
+        }
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
         M.forEach((u) => (u.updated = false));
       }
     });
     root.addEventListener("pointerup", (e) => {
-      const eleU = document.getElementById("U" + SELECTED_UNIT) as HTMLElement;
-      if (eleU) {
-        eleU.style.zIndex = M[SELECTED_UNIT].z.toString();
-      }
-      M.forEach((u, ii) =>
-        TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
-      );
-      SELECTED_UNIT = -1;
-      SELECTED_CORNER = undefined;
-      POINTER_POS = undefined;
-      POINTER_PREV_POS = undefined;
-      POINTER_MOVE_TYPE = undefined;
-      POINTER_MOVE_X = undefined;
-      POINTER_MOVE_Y = undefined;
-      console.log(M);
+      RESET_POINTER();
     });
     root.addEventListener("pointerleave", (e) => {
-      const eleU = document.getElementById("U" + SELECTED_UNIT) as HTMLElement;
-      if (eleU) {
-        eleU.style.zIndex = M[SELECTED_UNIT].z.toString();
-      }
-      M.forEach((u, ii) =>
-        TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
-      );
-      SELECTED_UNIT = -1;
-      SELECTED_CORNER = undefined;
-      POINTER_POS = undefined;
-      POINTER_PREV_POS = undefined;
-      POINTER_MOVE_TYPE = undefined;
-      POINTER_MOVE_X = undefined;
-      POINTER_MOVE_Y = undefined;
+      RESET_POINTER();
     });
   }
 };
