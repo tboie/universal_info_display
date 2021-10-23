@@ -7,8 +7,6 @@ let SELECTED_UNIT = -1;
 let SELECTED_CORNER: undefined | "tr" | "tl" | "br" | "bl" = undefined;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let POINTER_PREV_POS: undefined | { x: number; y: number } = undefined;
-let POINTER_MOVE_X: "R" | "L" | undefined = undefined;
-let POINTER_MOVE_Y: "T" | "B" | undefined = undefined;
 let POINTER_MOVE_TYPE: "RSZ" | "MOVE" | undefined = undefined;
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
@@ -345,8 +343,6 @@ const RESET_POINTER = () => {
   POINTER_POS = undefined;
   POINTER_PREV_POS = undefined;
   POINTER_MOVE_TYPE = undefined;
-  POINTER_MOVE_X = undefined;
-  POINTER_MOVE_Y = undefined;
   console.log(M);
 };
 
@@ -363,22 +359,6 @@ window.onload = () => {
             POINTER_PREV_POS.x,
             POINTER_PREV_POS.y
           );
-
-          if (DIST.x < 0) {
-            POINTER_MOVE_X = "L";
-          } else if (DIST.x > 0) {
-            POINTER_MOVE_X = "R";
-          } else {
-            POINTER_MOVE_X = undefined;
-          }
-
-          if (DIST.y < 0) {
-            POINTER_MOVE_Y = "T";
-          } else if (DIST.y > 0) {
-            POINTER_MOVE_Y = "B";
-          } else {
-            POINTER_MOVE_Y = undefined;
-          }
 
           MODIFY(SELECTED_UNIT, DIST);
         }
