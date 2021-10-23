@@ -226,7 +226,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }) => {
         // @ts-ignore
         if (M[i].h - DIST.y > M[i].maxH) {
           // @ts-ignore
-          DIST.y += M[i].h - DIST.h - M[i].maxH;
+          DIST.y += M[i].h - DIST.y - M[i].maxH;
         }
         // @ts-ignore
         else if (M[i].h - DIST.y < M[i].minH) {
