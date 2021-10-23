@@ -132,8 +132,7 @@ const SET_UNIT = (
 
 const SET_UNIT_RESIZE_LOCKS = (
   i: number,
-  corner: "tl" | "tr" | "br" | "bl",
-  DIST: { x: number; y: number }
+  corner: "tl" | "tr" | "br" | "bl"
 ) => {
   let bY: "t" | "r" | "b" | "l" = corner[0] === "t" ? "b" : "t";
   let bX: "t" | "r" | "b" | "l" = corner[1] === "r" ? "l" : "r";
@@ -175,7 +174,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }) => {
     const locks = M[i].tempL || {};
 
     if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i && SELECTED_CORNER) {
-      SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER, DIST);
+      SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
     }
 
     // Mouse Moving Left/Right
