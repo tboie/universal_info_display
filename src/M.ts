@@ -92,6 +92,10 @@ for (y = 0; y < 10; y++) {
       y: y * 10,
       w: 10,
       h: 10,
+      minW: 5,
+      maxW: 25,
+      minH: 5,
+      maxH: 25,
       z: 0,
       l: {
         t: y === 0 ? 0 : undefined,
