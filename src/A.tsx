@@ -355,6 +355,16 @@ export const ADD_UNIT = (U: T) => {
 };
 
 export const REMOVE_UNIT = (i: number) => {
+  // remove from all unit connections
+  M.forEach((u) => {
+    for (const [key, value] of Object.entries(u.c)) {
+      const idx = M[u.i]?.c[key as T_SIDE].indexOf(i);
+      if (idx > -1) {
+        M[u.i].c[key as T_SIDE].splice(idx, 1);
+      }
+    }
+  });
+  // remove from units array
   M.splice(i, 1);
 };
 
