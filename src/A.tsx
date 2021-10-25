@@ -346,6 +346,17 @@ const RESET_POINTER = () => {
   console.log(M);
 };
 
+// TODO
+/*
+const ADD_UNIT = (U: T) => {
+
+}
+
+const REMOVE_UNIT = (i: number) => {
+
+}
+*/
+
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
   if (root) {

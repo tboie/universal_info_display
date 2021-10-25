@@ -1,7 +1,7 @@
 export type T_SIDE = "t" | "r" | "b" | "l";
 export type T_LOCK = { t?: number; r?: number; b?: number; l?: number };
 export type T = {
-  i?: number;
+  i: number;
   t: string;
   x: number;
   y: number;
@@ -117,6 +117,7 @@ export default units;
 export default [
   // top row
   {
+    i: 0,
     t: "s",
     x: 0,
     y: 0,
@@ -132,6 +133,7 @@ export default [
     bp: ["sm", "lg"],
   },
   {
+    i: 1,
     t: "s",
     x: 33.333,
     y: 0,
@@ -147,6 +149,7 @@ export default [
     bp: ["sm", "lg"],
   },
   {
+    i: 2,
     t: "s",
     x: 66.666,
     y: 0,
@@ -163,6 +166,7 @@ export default [
   },
   // middle row
   {
+    i: 3,
     t: "s",
     x: 0,
     y: 33.333,
@@ -178,6 +182,7 @@ export default [
     bp: ["sm", "lg"],
   },
   {
+    i: 4,
     t: "s",
     x: 33.333,
     y: 33.333,
@@ -193,6 +198,7 @@ export default [
     bp: ["sm", "lg"],
   },
   {
+    i: 5,
     t: "s",
     x: 66.666,
     y: 33.333,
@@ -209,6 +215,7 @@ export default [
   },
   //bottom row
   {
+    i: 6,
     t: "s",
     x: 0,
     y: 66.666,
@@ -224,6 +231,7 @@ export default [
     bp: ["sm", "lg"],
   },
   {
+    i: 7,
     t: "s",
     x: 33.333,
     y: 66.666,
@@ -239,6 +247,7 @@ export default [
     bp: ["sm", "lg"],
   },
   {
+    i: 8,
     t: "s",
     x: 66.666,
     y: 66.666,
