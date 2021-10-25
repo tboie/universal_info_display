@@ -26,6 +26,7 @@ export type T = {
 };
 
 // 10x10 Grid
+/*
 const units: T[] = [];
 let x = 0,
   y = 0;
@@ -110,8 +111,8 @@ for (y = 0; y < 10; y++) {
 }
 
 export default units;
+*/
 
-/*
 // 9 Unit Grid
 export default [
   // top row
@@ -124,6 +125,10 @@ export default [
     z: 0,
     l: { t: 0, l: 0 },
     c: { t: [], r: [1, 4], b: [3, 4], l: [] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   {
@@ -135,6 +140,10 @@ export default [
     z: 0,
     l: { t: 0 },
     c: { t: [], r: [2, 5], b: [3, 4, 5], l: [0, 3] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   {
@@ -146,6 +155,10 @@ export default [
     z: 0,
     l: { t: 0, r: 100 },
     c: { t: [], r: [], b: [5, 4], l: [1, 4] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   // middle row
@@ -158,6 +171,10 @@ export default [
     z: 0,
     l: { l: 0 },
     c: { t: [0, 1], r: [1, 4, 7], b: [6, 7], l: [] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   {
@@ -169,6 +186,10 @@ export default [
     z: 0,
     l: {},
     c: { t: [0, 1, 2], r: [2, 5, 8], b: [6, 7, 8], l: [0, 3, 6] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   {
@@ -180,6 +201,10 @@ export default [
     z: 0,
     l: { r: 100 },
     c: { t: [1, 2], r: [], b: [7, 8], l: [1, 4, 7] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   //bottom row
@@ -192,6 +217,10 @@ export default [
     z: 0,
     l: { l: 0, b: 100 },
     c: { t: [3, 4], r: [4, 7], b: [], l: [] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   {
@@ -203,6 +232,10 @@ export default [
     z: 0,
     l: { b: 100 },
     c: { t: [3, 4, 5], r: [5, 8], b: [], l: [3, 6] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
   {
@@ -214,8 +247,10 @@ export default [
     z: 0,
     l: { r: 100, b: 100 },
     c: { t: [4, 5], r: [], b: [], l: [4, 7] },
+    minW: 5,
+    maxW: 50,
+    minH: 5,
+    maxH: 50,
     bp: ["sm", "lg"],
   },
 ] as T[];
-
-*/

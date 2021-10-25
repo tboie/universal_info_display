@@ -1,9 +1,12 @@
-.A {
+.U {
   position: absolute;
   touch-action: none;
   display: none;
-  border: 1px solid white;
-  background-color: black;
+  border: 1px solid #fff;
+  background-color: #000;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
 }
 
 .lock {
@@ -20,12 +23,12 @@
 
 @media only screen and (min-width: 0px) and (max-width: 599px) {
   .sm {
-    display: block;
+    display: flex;
   }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 20000px) {
   .lg {
-    display: block;
+    display: flex;
   }
 }

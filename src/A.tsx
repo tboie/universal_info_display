@@ -373,16 +373,31 @@ window.onload = () => {
       RESET_POINTER();
     });
   }
+
+  // Unit Dimensions Text Resize Observer
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (let entry of entries) {
+      if (entry.contentBoxSize) {
+        const span = entry.target.querySelector(".dimensions");
+        if (span) {
+          span.innerHTML = `${entry.contentRect.width.toFixed(
+            2
+          )} x ${entry.contentRect.height.toFixed(2)}`;
+        }
+      }
+    }
+  });
+  document.querySelectorAll(".U").forEach((ele) => resizeObserver.observe(ele));
 };
 
 // Save original w/h to oW/oH
 // TODO: implement
 // M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
-const A = (p: T) => (
+const U = (p: T) => (
   <div
     id={`U${p.i}`}
-    className={`A ${p.bp.join(" ")}`}
+    className={`U ${p.bp.join(" ")}`}
     style={{
       transform: `translate(${(p.x * 100) / p.w}%,${(p.y * 100) / p.h}%)`,
       width: `${p.w}%`,
@@ -393,6 +408,7 @@ const A = (p: T) => (
       PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
     }
   >
+    <span className="dimensions" />
     {
       // quickly testing...
       [
@@ -422,4 +438,4 @@ const A = (p: T) => (
   </div>
 );
 
-export default A;
+export default U;

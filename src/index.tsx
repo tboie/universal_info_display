@@ -5,14 +5,14 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
 import "./N.css";
-import A from "./A";
+import U from "./A";
 import M from "./M";
 
 ReactDOM.render(
   <React.StrictMode>
     <>
       {M.map((m, i) => (
-        <A key={i} i={i} {...m} />
+        <U key={i} i={i} {...m} />
       ))}
     </>
   </React.StrictMode>,
