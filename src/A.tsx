@@ -290,16 +290,20 @@ const SET_UNIT_ANCHORS = (i: number) => {
 const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
   ev.stopPropagation();
   ev.preventDefault();
-  M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
-  M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
 
-  const root = document.getElementById("root") as HTMLDivElement;
-  if (root) {
-    POINTER_POS = GET_POINTER_COORDS(root, ev);
-    SET_SELECTED_CORNER(i);
+  // exists in data
+  if (M[i]) {
+    M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
+    M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
+
+    const root = document.getElementById("root") as HTMLDivElement;
+    if (root) {
+      POINTER_POS = GET_POINTER_COORDS(root, ev);
+      SET_SELECTED_CORNER(i);
+    }
+    ev.currentTarget.style.zIndex = "9999";
+    SELECTED_UNIT = i;
   }
-  ev.currentTarget.style.zIndex = "9999";
-  SELECTED_UNIT = i;
 };
 
 const TOGGLE_UNIT_LOCKS = (
@@ -346,16 +350,13 @@ const RESET_POINTER = () => {
   console.log(M);
 };
 
-// TODO
-/*
-const ADD_UNIT = (U: T) => {
+export const ADD_UNIT = (U: T) => {
+  M.push(U);
+};
 
-}
-
-const REMOVE_UNIT = (i: number) => {
-
-}
-*/
+export const REMOVE_UNIT = (i: number) => {
+  M.splice(i, 1);
+};
 
 window.onload = () => {
   const root = document.getElementById("root") as HTMLDivElement;
@@ -405,7 +406,7 @@ window.onload = () => {
 // TODO: implement
 // M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
-const U = (p: T) => (
+const U = (p: T & { remove: (i: number) => void }) => (
   <div
     id={`U${p.i}`}
     className={`U ${p.bp.join(" ")}`}
@@ -420,6 +421,17 @@ const U = (p: T) => (
     }
   >
     <span className="dimensions" />
+
+    <button
+      className="delete"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        p.remove(p.i);
+      }}
+    >
+      DEL
+    </button>
     {
       // quickly testing...
       [

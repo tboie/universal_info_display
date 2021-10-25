@@ -5,15 +5,23 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
 import "./N.css";
-import U from "./A";
+import U, { ADD_UNIT, REMOVE_UNIT } from "./A";
 import M, { T } from "./M";
 
 const DESIGNER = () => {
   const [UNITS, SET_UNITS] = useState(M);
+
+  /* const ADD = () => {} */
+
+  const REMOVE = (i: number) => {
+    REMOVE_UNIT(i);
+    SET_UNITS(UNITS.filter((u) => u.i !== i));
+  };
+
   return (
     <>
-      {UNITS.map((u) => (
-        <U key={u.i} {...u} />
+      {UNITS.map((d) => (
+        <U key={d.i} {...d} remove={(i) => REMOVE(i)} />
       ))}
     </>
   );
@@ -21,11 +29,11 @@ const DESIGNER = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <DESIGNER />
-    {/* PRODUCTION LOAD
+    {/* DESIGNER */ <DESIGNER />}
+    {/* PRODUCTION
       <>
-        {M.map((m) => (
-          <U key={m.i} {...m} />
+        {M.map((d) => (
+          <U key={d.i} {...d} />
         ))}
       </>
       */}

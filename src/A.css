@@ -21,6 +21,15 @@
   background-color: lightgray;
 }
 
+.dimensions {
+  position: absolute;
+}
+
+.delete {
+  position: absolute;
+  margin-top: 64px;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 599px) {
   .sm {
     display: flex;
