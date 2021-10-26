@@ -447,6 +447,7 @@ const REMOVE_RESIZE_OBSERVER = (i: number) => {
 
 export const ADD_UNIT = (U: T) => {
   M.push(U);
+  SET_UNIT_CONNECTIONS(U.i);
   return M[M.length - 1];
 };
 
@@ -454,9 +455,9 @@ export const ADD_UNIT = (U: T) => {
 // Returns new unit
 export const SPLIT_UNIT = (i: number) => {
   REMOVE_ALL_CONNECTIONS(i);
+  // Reduce width by 1/2
   SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
-  // set unit connections
-  const UNIT = ADD_UNIT({
+  return ADD_UNIT({
     i: M.length,
     t: "s",
     x: M[i].x + M[i].w,
@@ -464,7 +465,7 @@ export const SPLIT_UNIT = (i: number) => {
     w: M[i].w,
     h: M[i].h,
     z: M[i].z,
-    // TODO: SET BOTH OF THESE
+    // TODO: SET LOCKS
     l: {},
     c: {
       t: [] as number[],
@@ -474,8 +475,6 @@ export const SPLIT_UNIT = (i: number) => {
     },
     bp: M[i].bp,
   });
-  SET_UNIT_CONNECTIONS(UNIT.i);
-  return UNIT;
 };
 
 export const REMOVE_UNIT = (i: number) => {
