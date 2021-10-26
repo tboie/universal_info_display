@@ -457,6 +457,7 @@ export const SPLIT_UNIT = (i: number) => {
   REMOVE_ALL_CONNECTIONS(i);
   // Reduce width by 1/2
   SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
+  TOGGLE_UNIT_LOCKS(i, ["r"], false, false);
   return ADD_UNIT({
     i: M.length,
     t: "s",
@@ -465,8 +466,12 @@ export const SPLIT_UNIT = (i: number) => {
     w: M[i].w,
     h: M[i].h,
     z: M[i].z,
-    // TODO: SET LOCKS
-    l: {},
+    l: {
+      l: undefined,
+      r: Math.ceil(M[i].x + M[i].w + M[i].w) >= 100 ? 100 : undefined,
+      t: M[i].y <= 0 ? 0 : undefined,
+      b: Math.ceil(M[i].y + M[i].h) >= 100 ? 100 : undefined,
+    },
     c: {
       t: [] as number[],
       r: [] as number[],
