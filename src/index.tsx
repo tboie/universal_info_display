@@ -16,7 +16,11 @@ const DESIGNER = () => {
     SET_UNITS(UNITS.filter((u) => u.i !== i));
   };
 
-  const SPLIT = (i: number) => SPLIT_UNIT(i);
+  const SPLIT = (i: number) => {
+    const newUnits = [...UNITS];
+    newUnits.push(SPLIT_UNIT(i));
+    SET_UNITS(newUnits);
+  };
 
   return (
     <>

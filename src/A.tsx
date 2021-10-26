@@ -1,5 +1,6 @@
 import "./A.css";
 import M, { T, T_SIDE, T_LOCK } from "./M";
+import { useEffect } from "react";
 
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 
@@ -8,6 +9,7 @@ let SELECTED_CORNER: undefined | "tr" | "tl" | "br" | "bl" = undefined;
 let POINTER_POS: undefined | { x: number; y: number } = undefined;
 let POINTER_PREV_POS: undefined | { x: number; y: number } = undefined;
 let POINTER_MOVE_TYPE: "RSZ" | "MOVE" | undefined = undefined;
+let RESIZE_OBSERVERS: ResizeObserver[] = [];
 
 const GET_POINTER_COORDS = (root: HTMLDivElement, ev: any) => {
   const R = root.getBoundingClientRect();
@@ -388,10 +390,43 @@ const REMOVE_ALL_CONNECTIONS = (i: number) => {
   });
 };
 
-export const ADD_UNIT = (U: T) => {
-  M.push(U);
+const ADD_RESIZE_OBSERVER = (i: number) => {
+  // Unit Dimensions Text Resize Observer
+  RESIZE_OBSERVERS.push(
+    new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.contentBoxSize) {
+          const span = entry.target.querySelector(".dimensions");
+          if (span) {
+            span.innerHTML = `${entry.contentRect.width.toFixed(
+              2
+            )} x ${entry.contentRect.height.toFixed(2)}`;
+          }
+        }
+      }
+    })
+  );
+  const ele = document.getElementById("U" + i);
+  if (ele) {
+    RESIZE_OBSERVERS[i].observe(ele);
+  }
 };
 
+const REMOVE_RESIZE_OBSERVER = (i: number) => {
+  const ele = document.getElementById("U" + i);
+  if (ele) {
+    RESIZE_OBSERVERS[i].disconnect();
+    RESIZE_OBSERVERS[i].unobserve(ele);
+  }
+};
+
+export const ADD_UNIT = (U: T) => {
+  M.push(U);
+  return M[M.length - 1];
+};
+
+// Cuts Unit Width by 1/2, Adds new unit as other 1/2
+// Returns new unit
 export const SPLIT_UNIT = (i: number) => {
   REMOVE_ALL_CONNECTIONS(i);
   SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
@@ -414,6 +449,24 @@ export const SPLIT_UNIT = (i: number) => {
       M[u.i].c[o_side].push(i);
       // console.log(u.i + " added " + i + " to connection side " + o_side);
     });
+  });
+  return ADD_UNIT({
+    i: M.length,
+    t: "s",
+    x: M[i].x + M[i].w,
+    y: M[i].y,
+    w: M[i].w,
+    h: M[i].h,
+    z: M[i].z,
+    // TODO: SET BOTH OF THESE
+    l: {},
+    c: {
+      t: [] as number[],
+      r: [] as number[],
+      b: [] as number[],
+      l: [] as number[],
+    },
+    bp: M[i].bp,
   });
 };
 
@@ -456,21 +509,6 @@ window.onload = () => {
       RESET_POINTER();
     });
   }
-
-  // Unit Dimensions Text Resize Observer
-  const resizeObserver = new ResizeObserver((entries) => {
-    for (let entry of entries) {
-      if (entry.contentBoxSize) {
-        const span = entry.target.querySelector(".dimensions");
-        if (span) {
-          span.innerHTML = `${entry.contentRect.width.toFixed(
-            2
-          )} x ${entry.contentRect.height.toFixed(2)}`;
-        }
-      }
-    }
-  });
-  document.querySelectorAll(".U").forEach((ele) => resizeObserver.observe(ele));
 };
 
 // Save original w/h to oW/oH
@@ -479,68 +517,75 @@ window.onload = () => {
 
 const U = (
   p: T & { remove: (i: number) => void; split: (i: number) => void }
-) => (
-  <div
-    id={`U${p.i}`}
-    className={`U ${p.bp.join(" ")}`}
-    style={{
-      transform: `translate(${(p.x * 100) / p.w}%,${(p.y * 100) / p.h}%)`,
-      width: `${p.w}%`,
-      height: `${p.h}%`,
-      zIndex: p.z,
-    }}
-    onPointerDown={(ev) =>
-      PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
-    }
-  >
-    <span className="dimensions" />
-    <button
-      className="split"
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        p.split(p.i);
+) => {
+  useEffect(() => {
+    ADD_RESIZE_OBSERVER(p.i);
+    return () => REMOVE_RESIZE_OBSERVER(p.i);
+  }, []);
+
+  return (
+    <div
+      id={`U${p.i}`}
+      className={`U ${p.bp.join(" ")}`}
+      style={{
+        transform: `translate(${(p.x * 100) / p.w}%,${(p.y * 100) / p.h}%)`,
+        width: `${p.w}%`,
+        height: `${p.h}%`,
+        zIndex: p.z,
       }}
+      onPointerDown={(ev) =>
+        PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
+      }
     >
-      SPLT
-    </button>
-    <button
-      className="delete"
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        p.remove(p.i);
-      }}
-    >
-      DEL
-    </button>
-    {
-      // quickly testing...
-      [
-        { top: 0, left: 0, right: 0 },
-        { right: 0, top: 0, bottom: 0 },
-        { bottom: 0, right: 0, left: 0 },
-        { left: 0, top: 0, bottom: 0 },
-      ].map((pos, idx) => {
-        const sides = ["t", "r", "b", "l"];
-        const side = sides[idx] as T_SIDE;
-        return (
-          <div
-            key={idx}
-            className={`lock ${side} ${
-              typeof p.l[side] !== "undefined" ? "on" : ""
-            }`}
-            style={pos}
-            onClick={(ev) => {
-              ev.stopPropagation();
-              ev.preventDefault();
-              typeof p.i !== "undefined" && TOGGLE_UNIT_LOCKS(p.i, [side]);
-            }}
-          ></div>
-        );
-      })
-    }
-  </div>
-);
+      <span className="dimensions" />
+      <button
+        className="split"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          p.split(p.i);
+        }}
+      >
+        SPLT
+      </button>
+      <button
+        className="delete"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          p.remove(p.i);
+        }}
+      >
+        DEL
+      </button>
+      {
+        // quickly testing...
+        [
+          { top: 0, left: 0, right: 0 },
+          { right: 0, top: 0, bottom: 0 },
+          { bottom: 0, right: 0, left: 0 },
+          { left: 0, top: 0, bottom: 0 },
+        ].map((pos, idx) => {
+          const sides = ["t", "r", "b", "l"];
+          const side = sides[idx] as T_SIDE;
+          return (
+            <div
+              key={idx}
+              className={`lock ${side} ${
+                typeof p.l[side] !== "undefined" ? "on" : ""
+              }`}
+              style={pos}
+              onClick={(ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+                typeof p.i !== "undefined" && TOGGLE_UNIT_LOCKS(p.i, [side]);
+              }}
+            ></div>
+          );
+        })
+      }
+    </div>
+  );
+};
 
 export default U;
