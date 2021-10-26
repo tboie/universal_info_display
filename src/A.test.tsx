@@ -6,7 +6,7 @@ test("renders", () => {
   render(
     <>
       {M.map((m, i) => (
-        <U key={i} {...m} remove={() => {}} />
+        <U key={i} {...m} remove={() => {}} split={() => {}} />
       ))}
     </>
   );

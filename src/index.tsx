@@ -5,23 +5,23 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
 import "./N.css";
-import U, { ADD_UNIT, REMOVE_UNIT } from "./A";
-import M, { T } from "./M";
+import U, { SPLIT_UNIT, REMOVE_UNIT } from "./A";
+import M from "./M";
 
 const DESIGNER = () => {
   const [UNITS, SET_UNITS] = useState(M);
-
-  /* const ADD = () => {} */
 
   const REMOVE = (i: number) => {
     REMOVE_UNIT(i);
     SET_UNITS(UNITS.filter((u) => u.i !== i));
   };
 
+  const SPLIT = (i: number) => SPLIT_UNIT(i);
+
   return (
     <>
       {UNITS.map((d) => (
-        <U key={d.i} {...d} remove={(i) => REMOVE(i)} />
+        <U key={d.i} {...d} remove={(i) => REMOVE(i)} split={(i) => SPLIT(i)} />
       ))}
     </>
   );

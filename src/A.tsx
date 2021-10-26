@@ -354,6 +354,12 @@ export const ADD_UNIT = (U: T) => {
   M.push(U);
 };
 
+export const SPLIT_UNIT = (i: number) => {
+  //M[i].w = (M[i].w / 2) * -1;
+
+  SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
+};
+
 export const REMOVE_UNIT = (i: number) => {
   // remove from all unit connections
   M.forEach((u) => {
@@ -422,7 +428,9 @@ window.onload = () => {
 // TODO: implement
 // M.forEach((u) => (u.oW = u.w) && (u.oH = u.h));
 
-const U = (p: T & { remove: (i: number) => void }) => (
+const U = (
+  p: T & { remove: (i: number) => void; split: (i: number) => void }
+) => (
   <div
     id={`U${p.i}`}
     className={`U ${p.bp.join(" ")}`}
@@ -437,7 +445,16 @@ const U = (p: T & { remove: (i: number) => void }) => (
     }
   >
     <span className="dimensions" />
-
+    <button
+      className="split"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        p.split(p.i);
+      }}
+    >
+      SPLT
+    </button>
     <button
       className="delete"
       onClick={(e) => {
