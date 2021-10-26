@@ -350,13 +350,29 @@ const RESET_POINTER = () => {
   console.log(M);
 };
 
-const UNIT_CONTAINS = (a: T, b: T) => {
-  return !(
-    b.x < a.x ||
-    b.y < a.y ||
-    b.x + b.w > a.x + a.w ||
-    b.y + b.h > a.y + a.h
-  );
+// unit b touches a
+const UNIT_TOUCHES = (a: T, b: T) => {
+  let sides: T_SIDE[] = [];
+
+  // has horizontal gap
+  if (a.x > b.x + b.w || b.x > a.x + a.w) return [];
+  // has vertical gap
+  if (a.y > b.y + b.h || b.y > a.y + a.h) return [];
+
+  if (a.x < b.x) {
+    sides.push("r");
+  }
+  if (a.y < b.y) {
+    sides.push("b");
+  }
+  if (b.y < a.y) {
+    sides.push("t");
+  }
+  if (b.x < a.x) {
+    sides.push("l");
+  }
+
+  return sides;
 };
 
 const REMOVE_ALL_CONNECTIONS = (i: number) => {
@@ -379,7 +395,26 @@ export const ADD_UNIT = (U: T) => {
 export const SPLIT_UNIT = (i: number) => {
   REMOVE_ALL_CONNECTIONS(i);
   SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
-  // todo: reset connections using UNIT_CONTAINS
+  // set unit connections
+  M.filter((u) => !u.deleted && u.i !== i).forEach((u) => {
+    UNIT_TOUCHES(M[i], M[u.i]).forEach((side: T_SIDE) => {
+      M[i].c[side as T_SIDE].push(u.i);
+      // console.log(i + " added " + u.i + " to connection side " + side);
+      // set opposite side for other unit
+      let o_side: T_SIDE = "t";
+      if (side === "t") {
+        o_side = "b";
+      } else if (side === "b") {
+        o_side = "t";
+      } else if (side === "l") {
+        o_side = "r";
+      } else {
+        o_side = "l";
+      }
+      M[u.i].c[o_side].push(i);
+      // console.log(u.i + " added " + i + " to connection side " + o_side);
+    });
+  });
 };
 
 export const REMOVE_UNIT = (i: number) => {
