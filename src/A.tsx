@@ -361,6 +361,7 @@ const UNIT_TOUCHES = (a: T, b: T) => {
   // has vertical gap
   if (a.y > b.y + b.h || b.y > a.y + a.h) return [];
 
+  // TODO: verify
   if (a.x < b.x) {
     sides.push("r");
   }
@@ -375,6 +376,30 @@ const UNIT_TOUCHES = (a: T, b: T) => {
   }
 
   return sides;
+};
+
+const SET_UNIT_CONNECTIONS = (i: number) => {
+  M.forEach((u) => {
+    if (u.i !== i) {
+      UNIT_TOUCHES(M[i], M[u.i]).forEach((side: T_SIDE) => {
+        M[i].c[side as T_SIDE].push(u.i);
+        // console.log(i + " added " + u.i + " to connection side " + side);
+        // set opposite side for other unit
+        let o_side: T_SIDE = "t";
+        if (side === "t") {
+          o_side = "b";
+        } else if (side === "b") {
+          o_side = "t";
+        } else if (side === "l") {
+          o_side = "r";
+        } else {
+          o_side = "l";
+        }
+        M[u.i].c[o_side].push(i);
+        // console.log(u.i + " added " + i + " to connection side " + o_side);
+      });
+    }
+  });
 };
 
 const REMOVE_ALL_CONNECTIONS = (i: number) => {
@@ -431,26 +456,7 @@ export const SPLIT_UNIT = (i: number) => {
   REMOVE_ALL_CONNECTIONS(i);
   SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
   // set unit connections
-  M.filter((u) => !u.deleted && u.i !== i).forEach((u) => {
-    UNIT_TOUCHES(M[i], M[u.i]).forEach((side: T_SIDE) => {
-      M[i].c[side as T_SIDE].push(u.i);
-      // console.log(i + " added " + u.i + " to connection side " + side);
-      // set opposite side for other unit
-      let o_side: T_SIDE = "t";
-      if (side === "t") {
-        o_side = "b";
-      } else if (side === "b") {
-        o_side = "t";
-      } else if (side === "l") {
-        o_side = "r";
-      } else {
-        o_side = "l";
-      }
-      M[u.i].c[o_side].push(i);
-      // console.log(u.i + " added " + i + " to connection side " + o_side);
-    });
-  });
-  return ADD_UNIT({
+  const UNIT = ADD_UNIT({
     i: M.length,
     t: "s",
     x: M[i].x + M[i].w,
@@ -468,6 +474,8 @@ export const SPLIT_UNIT = (i: number) => {
     },
     bp: M[i].bp,
   });
+  SET_UNIT_CONNECTIONS(UNIT.i);
+  return UNIT;
 };
 
 export const REMOVE_UNIT = (i: number) => {
