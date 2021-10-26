@@ -364,8 +364,14 @@ export const REMOVE_UNIT = (i: number) => {
       }
     }
   });
-  // remove from units array
-  M.splice(i, 1);
+
+  /* for now, it's just removed from dom using state
+     and data connections, then a deleted flag is set.
+     many functions reference the units by array index.
+   */
+
+  M[i].deleted = true;
+  //M.splice(i, 1);
 };
 
 window.onload = () => {

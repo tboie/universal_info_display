@@ -23,6 +23,7 @@ export type T = {
   maxH?: number;
   tempL?: T_LOCK;
   updated?: boolean;
+  deleted?: boolean;
 };
 
 // 10x10 Grid
