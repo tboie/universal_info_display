@@ -350,18 +350,18 @@ const RESET_POINTER = () => {
   console.log(M);
 };
 
-export const ADD_UNIT = (U: T) => {
-  M.push(U);
+const UNIT_CONTAINS = (a: T, b: T) => {
+  return !(
+    b.x < a.x ||
+    b.y < a.y ||
+    b.x + b.w > a.x + a.w ||
+    b.y + b.h > a.y + a.h
+  );
 };
 
-export const SPLIT_UNIT = (i: number) => {
-  //M[i].w = (M[i].w / 2) * -1;
-
-  SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
-};
-
-export const REMOVE_UNIT = (i: number) => {
-  // remove from all unit connections
+const REMOVE_ALL_CONNECTIONS = (i: number) => {
+  M[i].c = { t: [], r: [], b: [], l: [] };
+  // remove from all other unit connections
   M.forEach((u) => {
     for (const [key, value] of Object.entries(u.c)) {
       const idx = M[u.i]?.c[key as T_SIDE].indexOf(i);
@@ -370,6 +370,20 @@ export const REMOVE_UNIT = (i: number) => {
       }
     }
   });
+};
+
+export const ADD_UNIT = (U: T) => {
+  M.push(U);
+};
+
+export const SPLIT_UNIT = (i: number) => {
+  REMOVE_ALL_CONNECTIONS(i);
+  SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
+  // todo: reset connections using UNIT_CONTAINS
+};
+
+export const REMOVE_UNIT = (i: number) => {
+  REMOVE_ALL_CONNECTIONS(i);
 
   /* for now, it's just removed from dom using state
      and data connections, then a deleted flag is set.
