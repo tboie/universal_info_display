@@ -459,13 +459,10 @@ export const SPLIT_UNIT = (i: number) => {
   SET_UNIT(i, "RSZ_BR", M[i], "w", (M[i].w / 2) * -1, M[i].aR || 0);
   TOGGLE_UNIT_LOCKS(i, ["r"], false, false);
   return ADD_UNIT({
+    ...M[i],
     i: M.length,
     t: "s",
     x: M[i].x + M[i].w,
-    y: M[i].y,
-    w: M[i].w,
-    h: M[i].h,
-    z: M[i].z,
     l: {
       l: undefined,
       r: Math.ceil(M[i].x + M[i].w + M[i].w) >= 100 ? 100 : undefined,
