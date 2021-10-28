@@ -567,12 +567,6 @@ const U = (
       onPointerDown={(ev) =>
         PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
       }
-      onPointerEnter={(ev) => {
-        if (SELECTED_UNIT > -1) {
-          RESET_POINTER();
-          PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1);
-        }
-      }}
     >
       <span className="dimensions" />
       <button
