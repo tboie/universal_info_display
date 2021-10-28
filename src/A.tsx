@@ -169,6 +169,48 @@ const SET_UNIT_RESIZE_LOCKS = (
   });
 };
 
+const GET_OPPOSITE_SIDE = (s: T_SIDE) => {
+  if (s === "t") {
+    return "b";
+  } else if (s === "r") {
+    return "l";
+  } else if (s === "l") {
+    return "r";
+  } else {
+    return "t";
+  }
+};
+
+const SET_CONNECTIONS = (i: number) => {
+  M.forEach((u) => {
+    if (u.i !== i) {
+      // disconnection
+      if (GET_CONNECTED_UNITS(i).includes(u.i)) {
+        if (UNIT_TOUCHES(M[i], M[u.i]).length === 0) {
+          (["t", "r", "b", "l"] as T_SIDE[]).forEach((s) => {
+            if (M[i].c[s].includes(u.i)) {
+              M[i].c[s].splice(M[i].c[s].indexOf(u.i), 1);
+            }
+            if (M[u.i].c[s].includes(i)) {
+              M[u.i].c[s].splice(M[u.i].c[s].indexOf(i), 1);
+            }
+          });
+        }
+      }
+      // new connection
+      else {
+        UNIT_TOUCHES(M[i], M[u.i]).forEach((s) => {
+          const os = GET_OPPOSITE_SIDE(s);
+          M[i].c[s].push(u.i);
+          if (!M[u.i].c[os].includes(i)) {
+            M[u.i].c[os].push(i);
+          }
+        });
+      }
+    }
+  });
+};
+
 const MODIFY = (i: number, DIST: { x: number; y: number }) => {
   if (!M[i].updated) {
     const locks = M[i].tempL || {};
@@ -378,30 +420,6 @@ const UNIT_TOUCHES = (a: T, b: T) => {
   return sides;
 };
 
-const SET_UNIT_CONNECTIONS = (i: number) => {
-  M.forEach((u) => {
-    if (u.i !== i) {
-      UNIT_TOUCHES(M[i], M[u.i]).forEach((side: T_SIDE) => {
-        M[i].c[side as T_SIDE].push(u.i);
-        // console.log(i + " added " + u.i + " to connection side " + side);
-        // set opposite side for other unit
-        let o_side: T_SIDE = "t";
-        if (side === "t") {
-          o_side = "b";
-        } else if (side === "b") {
-          o_side = "t";
-        } else if (side === "l") {
-          o_side = "r";
-        } else {
-          o_side = "l";
-        }
-        M[u.i].c[o_side].push(i);
-        // console.log(u.i + " added " + i + " to connection side " + o_side);
-      });
-    }
-  });
-};
-
 const REMOVE_ALL_CONNECTIONS = (i: number) => {
   M[i].c = { t: [], r: [], b: [], l: [] };
   // remove from all other unit connections
@@ -447,7 +465,7 @@ const REMOVE_RESIZE_OBSERVER = (i: number) => {
 
 export const ADD_UNIT = (U: T) => {
   M.push(U);
-  SET_UNIT_CONNECTIONS(U.i);
+  SET_CONNECTIONS(U.i);
   return M[M.length - 1];
 };
 
@@ -505,6 +523,7 @@ window.onload = () => {
             POINTER_PREV_POS.y
           );
 
+          SET_CONNECTIONS(SELECTED_UNIT);
           MODIFY(SELECTED_UNIT, DIST);
         }
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
