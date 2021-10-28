@@ -39,6 +39,11 @@
   margin-left: 64px;
 }
 
+.selected {
+  border-color: lightgreen;
+  border-width: 4px;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 599px) {
   .sm {
     display: flex;

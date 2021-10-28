@@ -346,6 +346,8 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
       SET_SELECTED_CORNER(i);
     }
     ev.currentTarget.style.zIndex = "9999";
+    ev.currentTarget.classList.add("selected");
+
     SELECTED_UNIT = i;
   }
 };
@@ -383,9 +385,10 @@ const RESET_POINTER = () => {
   if (eleU) {
     eleU.style.zIndex = M[SELECTED_UNIT].z.toString();
   }
-  M.forEach((u, ii) =>
-    TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false)
-  );
+  M.forEach((u, ii) => {
+    TOGGLE_UNIT_LOCKS(ii, ["t", "r", "b", "l"], true, false);
+    document.querySelector(`#U${u.i}`)?.classList.remove("selected");
+  });
   SELECTED_UNIT = -1;
   SELECTED_CORNER = undefined;
   POINTER_POS = undefined;
@@ -564,6 +567,12 @@ const U = (
       onPointerDown={(ev) =>
         PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
       }
+      onPointerEnter={(ev) => {
+        if (SELECTED_UNIT > -1) {
+          RESET_POINTER();
+          PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1);
+        }
+      }}
     >
       <span className="dimensions" />
       <button
