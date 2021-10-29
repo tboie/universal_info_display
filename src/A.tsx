@@ -330,14 +330,15 @@ const TOGGLE_UNIT_LOCKS = (
   i: number,
   sides: ("t" | "r" | "b" | "l")[],
   temp?: boolean,
-  val?: number | boolean
+  on?: boolean,
+  val?: number
 ) => {
   const lock = temp ? M[i].tempL : M[i].l;
   if (lock) {
     sides.forEach((s) => {
-      if (typeof lock[s] !== "undefined" || typeof val === "undefined") {
+      if ((typeof lock[s] !== "undefined" && !on) || on === false) {
         lock[s] = undefined;
-      } else if (typeof val === "number") {
+      } else if (typeof val !== "undefined") {
         lock[s] = val;
       } else if (s === "t") {
         lock[s] = M[i].y;
