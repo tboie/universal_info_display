@@ -214,10 +214,6 @@ const SET_CONNECTIONS = (i: number) => {
 const MODIFY = (i: number, DIST: { x: number; y: number }) => {
   const locks = M[i].tempL || {};
 
-  if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i && SELECTED_CORNER) {
-    SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
-  }
-
   // Mouse Moving Left/Right
   if (DIST.x > 0 || DIST.x < 0) {
     // Lock on Right, No Lock Left
@@ -318,6 +314,10 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
     if (root) {
       POINTER_POS = GET_POINTER_COORDS(root, ev);
       SET_SELECTED_CORNER(i);
+
+      if (SELECTED_CORNER && POINTER_MOVE_TYPE === "RSZ") {
+        SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
+      }
     }
     ev.currentTarget.style.zIndex = "9999";
     ev.currentTarget.classList.add("selected");
