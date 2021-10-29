@@ -22,7 +22,6 @@ export type T = {
   minH?: number;
   maxH?: number;
   tempL?: T_LOCK;
-  updated?: boolean;
   deleted?: boolean;
 };
 

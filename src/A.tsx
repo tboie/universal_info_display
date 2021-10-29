@@ -212,108 +212,82 @@ const SET_CONNECTIONS = (i: number) => {
 };
 
 const MODIFY = (i: number, DIST: { x: number; y: number }) => {
-  if (!M[i].updated) {
-    const locks = M[i].tempL || {};
+  const locks = M[i].tempL || {};
 
-    if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i && SELECTED_CORNER) {
-      SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
-    }
+  if (POINTER_MOVE_TYPE === "RSZ" && SELECTED_UNIT === i && SELECTED_CORNER) {
+    SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
+  }
 
-    // Mouse Moving Left/Right
-    if (DIST.x > 0 || DIST.x < 0) {
-      // Lock on Right, No Lock Left
-      if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
+  // Mouse Moving Left/Right
+  if (DIST.x > 0 || DIST.x < 0) {
+    // Lock on Right, No Lock Left
+    if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
+      // @ts-ignore
+      if (M[i].w - DIST.x > M[i].maxW) {
         // @ts-ignore
-        if (M[i].w - DIST.x > M[i].maxW) {
-          // @ts-ignore
-          DIST.x += M[i].w - DIST.x - M[i].maxW;
-        }
-        // @ts-ignore
-        else if (M[i].w - DIST.x < M[i].minW) {
-          // @ts-ignore
-          DIST.x += M[i].w - DIST.x - M[i].minW;
-        }
-
-        SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0);
+        DIST.x += M[i].w - DIST.x - M[i].maxW;
       }
-      // Lock on Left, No Lock on Right
-      else if (
-        typeof locks.l !== "undefined" &&
-        typeof locks.r === "undefined"
-      ) {
+      // @ts-ignore
+      else if (M[i].w - DIST.x < M[i].minW) {
         // @ts-ignore
-        if (M[i].w + DIST.x > M[i].maxW) {
-          //@ts-ignore
-          DIST.x -= M[i].w + DIST.x - M[i].maxW;
-        }
+        DIST.x += M[i].w - DIST.x - M[i].minW;
+      }
+      SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0);
+    }
+    // Lock on Left, No Lock on Right
+    else if (typeof locks.l !== "undefined" && typeof locks.r === "undefined") {
+      // @ts-ignore
+      if (M[i].w + DIST.x > M[i].maxW) {
         //@ts-ignore
-        else if (M[i].w + DIST.x < M[i].minW) {
-          //@ts-ignore
-          DIST.x -= M[i].w + DIST.x - M[i].minW;
-        }
-
-        SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0);
+        DIST.x -= M[i].w + DIST.x - M[i].maxW;
       }
-
-      // No Lock Left or Right
-      else if (
-        typeof locks.l === "undefined" &&
-        typeof locks.r === "undefined"
-      ) {
-        SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
-      }
-    }
-    // Mouse Moving Up/Down
-    if (DIST.y > 0 || DIST.y < 0) {
-      // Lock on Bottom, No Lock on Top
-      if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
-        // @ts-ignore
-        if (M[i].h - DIST.y > M[i].maxH) {
-          // @ts-ignore
-          DIST.y += M[i].h - DIST.y - M[i].maxH;
-        }
-        // @ts-ignore
-        else if (M[i].h - DIST.y < M[i].minH) {
-          // @ts-ignore
-          DIST.y += M[i].h - DIST.y - M[i].minH;
-        }
-
-        SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0);
-      }
-      // Lock on Top, No Lock on Bottonm
-      else if (
-        typeof locks.t !== "undefined" &&
-        typeof locks.b === "undefined"
-      ) {
-        // @ts-ignore
-        if (M[i].h + DIST.y > M[i].maxH) {
-          //@ts-ignore
-          DIST.y -= M[i].h + DIST.y - M[i].maxH;
-        }
+      //@ts-ignore
+      else if (M[i].w + DIST.x < M[i].minW) {
         //@ts-ignore
-        else if (M[i].h + DIST.y < M[i].minH) {
-          //@ts-ignore
-          DIST.y -= M[i].h + DIST.y - M[i].minH;
-        }
-
-        SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0);
+        DIST.x -= M[i].w + DIST.x - M[i].minW;
       }
-      // No Lock on Top or Bottom
-      else if (
-        typeof locks.b === "undefined" &&
-        typeof locks.t === "undefined"
-      ) {
-        SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
-      }
+      SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0);
     }
 
-    // Set updated flag
-    M[i].updated = true;
-
-    // Modify connected units
-    GET_CONNECTED_UNITS(i)
-      .filter((idx) => !M[idx].updated)
-      .forEach((ii) => MODIFY(ii, DIST));
+    // No Lock Left or Right
+    else if (typeof locks.l === "undefined" && typeof locks.r === "undefined") {
+      SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
+    }
+  }
+  // Mouse Moving Up/Down
+  if (DIST.y > 0 || DIST.y < 0) {
+    // Lock on Bottom, No Lock on Top
+    if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
+      // @ts-ignore
+      if (M[i].h - DIST.y > M[i].maxH) {
+        // @ts-ignore
+        DIST.y += M[i].h - DIST.y - M[i].maxH;
+      }
+      // @ts-ignore
+      else if (M[i].h - DIST.y < M[i].minH) {
+        // @ts-ignore
+        DIST.y += M[i].h - DIST.y - M[i].minH;
+      }
+      SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0);
+    }
+    // Lock on Top, No Lock on Bottonm
+    else if (typeof locks.t !== "undefined" && typeof locks.b === "undefined") {
+      // @ts-ignore
+      if (M[i].h + DIST.y > M[i].maxH) {
+        //@ts-ignore
+        DIST.y -= M[i].h + DIST.y - M[i].maxH;
+      }
+      //@ts-ignore
+      else if (M[i].h + DIST.y < M[i].minH) {
+        //@ts-ignore
+        DIST.y -= M[i].h + DIST.y - M[i].minH;
+      }
+      SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0);
+    }
+    // No Lock on Top or Bottom
+    else if (typeof locks.b === "undefined" && typeof locks.t === "undefined") {
+      SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
+    }
   }
 };
 
@@ -526,11 +500,24 @@ window.onload = () => {
             POINTER_PREV_POS.y
           );
 
-          SET_CONNECTIONS(SELECTED_UNIT);
-          MODIFY(SELECTED_UNIT, DIST);
+          /*
+          M.forEach((u) => SET_CONNECTIONS(u.i));
+          const conns = M.map((u) => GET_CONNECTED_UNITS(u.i));
+          */
+
+          M.forEach((u) => MODIFY(u.i, DIST));
+
+          /*
+          M.forEach((u) =>
+            conns[u.i].forEach((uu) => {
+              if (UNIT_TOUCHES(M[u.i], M[uu]).length == 0) {
+                //console.log(u.i + "lost connection to unit " + uu);
+              }
+            })
+          );
+          */
         }
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
-        M.forEach((u) => (u.updated = false));
       }
     });
     root.addEventListener("pointerup", (e) => {
