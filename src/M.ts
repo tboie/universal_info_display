@@ -11,6 +11,7 @@ export type T = {
   l: T_LOCK;
   c: { t: number[]; r: number[]; b: number[]; l: number[] };
   bp: ("sm" | "lg")[];
+  d?: { x: number; y: number };
   aR?: number;
   aB?: number;
   tX?: number;
