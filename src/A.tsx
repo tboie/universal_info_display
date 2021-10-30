@@ -211,11 +211,11 @@ const SET_CONNECTIONS = (i: number) => {
   });
 };
 
-const MODIFY = (i: number, DIST?: { x: number; y: number }) => {
+const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   const locks = M[i].tempL || {};
 
   // Mouse Moving Left/Right
-  if (DIST?.x) {
+  if (DIST.x) {
     // Lock on Right, No Lock Left
     if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
       // @ts-ignore
@@ -228,7 +228,9 @@ const MODIFY = (i: number, DIST?: { x: number; y: number }) => {
         // @ts-ignore
         DIST.x += M[i].w - DIST.x - M[i].minW;
       }
-      SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0);
+      if (SET) {
+        SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0);
+      }
     }
     // Lock on Left, No Lock on Right
     else if (typeof locks.l !== "undefined" && typeof locks.r === "undefined") {
@@ -242,16 +244,20 @@ const MODIFY = (i: number, DIST?: { x: number; y: number }) => {
         //@ts-ignore
         DIST.x -= M[i].w + DIST.x - M[i].minW;
       }
-      SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0);
+      if (SET) {
+        SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0);
+      }
     }
 
     // No Lock Left or Right
     else if (typeof locks.l === "undefined" && typeof locks.r === "undefined") {
-      SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
+      if (SET) {
+        SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
+      }
     }
   }
   // Mouse Moving Up/Down
-  if (DIST?.y) {
+  if (DIST.y) {
     // Lock on Bottom, No Lock on Top
     if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
       // @ts-ignore
@@ -264,7 +270,9 @@ const MODIFY = (i: number, DIST?: { x: number; y: number }) => {
         // @ts-ignore
         DIST.y += M[i].h - DIST.y - M[i].minH;
       }
-      SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0);
+      if (SET) {
+        SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0);
+      }
     }
     // Lock on Top, No Lock on Bottonm
     else if (typeof locks.t !== "undefined" && typeof locks.b === "undefined") {
@@ -278,11 +286,15 @@ const MODIFY = (i: number, DIST?: { x: number; y: number }) => {
         //@ts-ignore
         DIST.y -= M[i].h + DIST.y - M[i].minH;
       }
-      SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0);
+      if (SET) {
+        SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0);
+      }
     }
     // No Lock on Top or Bottom
     else if (typeof locks.b === "undefined" && typeof locks.t === "undefined") {
-      SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
+      if (SET) {
+        SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
+      }
     }
   }
 };
@@ -316,7 +328,7 @@ const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
       SET_SELECTED_CORNER(i);
 
       if (SELECTED_CORNER && POINTER_MOVE_TYPE === "RSZ") {
-        SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
+        // SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
       }
     }
     ev.currentTarget.style.zIndex = "9999";
@@ -504,26 +516,10 @@ window.onload = () => {
             POINTER_PREV_POS.y
           );
 
-          /*
-          M.forEach((u) => SET_CONNECTIONS(u.i));
-          const conns = M.map((u) => GET_CONNECTED_UNITS(u.i));
-          */
-
-          /* TODO: calc array of change data for each unit (dists, move type, w/h... etc)
-              then call SET_UNIT with it */
-
           M.forEach((u) => (M[u.i].d = DIST));
-          M.forEach((u) => MODIFY(u.i, u.d));
-
-          /*
-          M.forEach((u) =>
-            conns[u.i].forEach((uu) => {
-              if (UNIT_TOUCHES(M[u.i], M[uu]).length == 0) {
-                //console.log(u.i + "lost connection to unit " + uu);
-              }
-            })
-          );
-          */
+          // min/max bug fixed now lols?????
+          M.forEach((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, false));
+          M.forEach((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, true));
         }
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
       }
