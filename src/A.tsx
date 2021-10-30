@@ -211,11 +211,11 @@ const SET_CONNECTIONS = (i: number) => {
   });
 };
 
-const MODIFY = (i: number, DIST: { x: number; y: number }) => {
+const MODIFY = (i: number, DIST?: { x: number; y: number }) => {
   const locks = M[i].tempL || {};
 
   // Mouse Moving Left/Right
-  if (DIST.x) {
+  if (DIST?.x) {
     // Lock on Right, No Lock Left
     if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
       // @ts-ignore
@@ -251,7 +251,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }) => {
     }
   }
   // Mouse Moving Up/Down
-  if (DIST.y) {
+  if (DIST?.y) {
     // Lock on Bottom, No Lock on Top
     if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
       // @ts-ignore
@@ -511,7 +511,9 @@ window.onload = () => {
 
           /* TODO: calc array of change data for each unit (dists, move type, w/h... etc)
               then call SET_UNIT with it */
-          M.forEach((u) => MODIFY(u.i, (M[u.i].d = DIST)));
+
+          M.forEach((u) => (M[u.i].d = DIST));
+          M.forEach((u) => MODIFY(u.i, u.d));
 
           /*
           M.forEach((u) =>
