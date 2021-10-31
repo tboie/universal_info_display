@@ -515,10 +515,10 @@ window.onload = () => {
             POINTER_PREV_POS.y
           );
 
-          M.forEach((u) => (M[u.i].d = DIST));
-          // min/max bug fixed now lols?????
-          M.forEach((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, false));
-          M.forEach((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, true));
+          const UNITS = M.filter((u) => !u.deleted);
+          UNITS.forEach((u) => (M[u.i].d = DIST));
+          UNITS.forEach((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, false));
+          UNITS.forEach((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, true));
         }
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
       }
