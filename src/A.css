@@ -7,6 +7,7 @@
   color: #fff;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .lock {
@@ -21,27 +22,17 @@
   background-color: lightgray;
 }
 
-.dimensions {
-  position: absolute;
-}
-
-.delete,
-.split {
-  position: absolute;
-  margin-top: 64px;
-}
-
-.delete {
-  margin-right: 64px;
-}
-
-.split {
-  margin-left: 64px;
-}
-
 .selected {
   border-color: lightgreen;
   border-width: 4px;
+}
+
+.split {
+  color: lightgreen;
+}
+
+.delete {
+  color: red;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 599px) {

@@ -432,11 +432,10 @@ const ADD_RESIZE_OBSERVER = (i: number) => {
     new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry.contentBoxSize) {
-          const span = entry.target.querySelector(".dimensions");
-          if (span) {
-            span.innerHTML = `${entry.contentRect.width.toFixed(
-              2
-            )} x ${entry.contentRect.height.toFixed(2)}`;
+          const span = entry.target.querySelectorAll(".dimension");
+          if (span.length) {
+            span[0].innerHTML = `${entry.contentRect.width.toFixed(2)}`;
+            span[1].innerHTML = `${entry.contentRect.height.toFixed(2)}`;
           }
         }
       }
@@ -559,8 +558,10 @@ const U = (
         PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
       }
     >
-      <span className="dimensions" />
-      <button
+      <span className="dimension" />
+      <span className="dimension" />
+
+      <span
         className="split"
         onClick={(e) => {
           e.stopPropagation();
@@ -569,8 +570,8 @@ const U = (
         }}
       >
         SPLT
-      </button>
-      <button
+      </span>
+      <span
         className="delete"
         onClick={(e) => {
           e.stopPropagation();
@@ -579,7 +580,7 @@ const U = (
         }}
       >
         DEL
-      </button>
+      </span>
       {
         // quickly testing...
         [
