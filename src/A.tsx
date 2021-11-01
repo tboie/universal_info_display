@@ -217,7 +217,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
 
   // Mouse Moving Left/Right
   // Lock on Right, No Lock Left
-  if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
+  if (locks.r && !locks.l) {
     type = "RSZ_TL";
 
     // @ts-ignore
@@ -232,7 +232,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
     }
   }
   // Lock on Left, No Lock on Right
-  else if (typeof locks.l !== "undefined" && typeof locks.r === "undefined") {
+  else if (locks.l && !locks.r) {
     type = "RSZ_BR";
 
     // @ts-ignore
@@ -247,7 +247,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
     }
   }
   // No Lock Left or Right
-  else if (typeof locks.l === "undefined" && typeof locks.r === "undefined") {
+  else if (!locks.l && !locks.r) {
     type = "MOVE";
   }
 
@@ -258,7 +258,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   type = "";
   // Mouse Moving Up/Down
   // Lock on Bottom, No Lock on Top
-  if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
+  if (locks.b && !locks.t) {
     type = "RSZ_TL";
 
     // @ts-ignore
@@ -273,7 +273,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
     }
   }
   // Lock on Top, No Lock on Bottonm
-  else if (typeof locks.t !== "undefined" && typeof locks.b === "undefined") {
+  else if (locks.t && !locks.b) {
     type = "RSZ_BR";
 
     // @ts-ignore
@@ -288,7 +288,7 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
     }
   }
   // No Lock on Top or Bottom
-  else if (typeof locks.b === "undefined" && typeof locks.t === "undefined") {
+  else if (!locks.b && !locks.t) {
     type = "MOVE";
   }
 
@@ -334,24 +334,15 @@ const TOGGLE_UNIT_LOCKS = (
   i: number,
   sides: ("t" | "r" | "b" | "l")[],
   temp?: boolean,
-  on?: boolean,
-  val?: number
+  on?: boolean
 ) => {
   const lock = temp ? M[i].tempL : M[i].l;
   if (lock) {
     sides.forEach((s) => {
-      if ((typeof lock[s] !== "undefined" && !on) || on === false) {
-        lock[s] = undefined;
-      } else if (typeof val !== "undefined") {
-        lock[s] = val;
-      } else if (s === "t") {
-        lock[s] = M[i].y;
-      } else if (s === "b") {
-        lock[s] = M[i].y + M[i].h;
-      } else if (s === "l") {
-        lock[s] = M[i].x;
-      } else if (s === "r") {
-        lock[s] = M[i].x + M[i].w;
+      if ((lock[s] && !on) || on === false) {
+        lock[s] = false;
+      } else if (on || !lock[s]) {
+        lock[s] = true;
       }
       const ele = document.querySelector(`#U${i} .${s}`)?.classList;
       if (ele && !temp) {
@@ -466,10 +457,10 @@ export const SPLIT_UNIT = (i: number) => {
     t: "s",
     x: M[i].x + M[i].w,
     l: {
-      l: undefined,
-      r: Math.ceil(M[i].x + M[i].w + M[i].w) >= 100 ? 100 : undefined,
-      t: M[i].y <= 0 ? 0 : undefined,
-      b: Math.ceil(M[i].y + M[i].h) >= 100 ? 100 : undefined,
+      l: false,
+      r: Math.ceil(M[i].x + M[i].w + M[i].w) >= 100,
+      t: M[i].y <= 0,
+      b: Math.ceil(M[i].y + M[i].h) >= 100,
     },
     c: {
       t: [] as number[],

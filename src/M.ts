@@ -1,5 +1,5 @@
 export type T_SIDE = "t" | "r" | "b" | "l";
-export type T_LOCK = { t?: number; r?: number; b?: number; l?: number };
+export type T_LOCK = { t?: boolean; r?: boolean; b?: boolean; l?: boolean };
 export type T = {
   i: number;
   t: string;
@@ -125,7 +125,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { t: 0, l: 0 },
+    l: { t: true, l: true },
     c: { t: [], r: [1, 4], b: [3, 4], l: [] },
     minW: 5,
     maxW: 50,
@@ -141,7 +141,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { t: 0 },
+    l: { t: true },
     c: { t: [], r: [2, 5], b: [3, 4, 5], l: [0, 3] },
     minW: 5,
     maxW: 50,
@@ -157,7 +157,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { t: 0, r: 100 },
+    l: { t: true, r: true },
     c: { t: [], r: [], b: [5, 4], l: [1, 4] },
     minW: 5,
     maxW: 50,
@@ -174,7 +174,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { l: 0 },
+    l: { l: true },
     c: { t: [0, 1], r: [1, 4, 7], b: [6, 7], l: [] },
     minW: 5,
     maxW: 50,
@@ -206,7 +206,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { r: 100 },
+    l: { r: true },
     c: { t: [1, 2], r: [], b: [7, 8], l: [1, 4, 7] },
     minW: 5,
     maxW: 50,
@@ -223,7 +223,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { l: 0, b: 100 },
+    l: { l: true, b: true },
     c: { t: [3, 4], r: [4, 7], b: [], l: [] },
     minW: 5,
     maxW: 50,
@@ -239,7 +239,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { b: 100 },
+    l: { b: true },
     c: { t: [3, 4, 5], r: [5, 8], b: [], l: [3, 6] },
     minW: 5,
     maxW: 50,
@@ -255,7 +255,7 @@ export default [
     w: 33.333,
     h: 33.333,
     z: 0,
-    l: { r: 100, b: 100 },
+    l: { r: true, b: true },
     c: { t: [4, 5], r: [], b: [], l: [4, 7] },
     minW: 5,
     maxW: 50,
