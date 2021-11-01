@@ -213,10 +213,13 @@ const SET_CONNECTIONS = (i: number) => {
 
 const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   const locks = M[i].tempL || {};
+  let type: "RSZ_TL" | "RSZ_BR" | "MOVE" | "" = "";
 
   // Mouse Moving Left/Right
   // Lock on Right, No Lock Left
   if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
+    type = "RSZ_TL";
+
     // @ts-ignore
     if (M[i].w - DIST.x > M[i].maxW) {
       // @ts-ignore
@@ -227,12 +230,11 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
       // @ts-ignore
       DIST.x += M[i].w - DIST.x - M[i].minW;
     }
-    if (SET) {
-      SET_UNIT(i, "RSZ_TL", M[i], "w", DIST.x, M[i].aR || 0);
-    }
   }
   // Lock on Left, No Lock on Right
   else if (typeof locks.l !== "undefined" && typeof locks.r === "undefined") {
+    type = "RSZ_BR";
+
     // @ts-ignore
     if (M[i].w + DIST.x > M[i].maxW) {
       //@ts-ignore
@@ -243,21 +245,22 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
       //@ts-ignore
       DIST.x -= M[i].w + DIST.x - M[i].minW;
     }
-    if (SET) {
-      SET_UNIT(i, "RSZ_BR", M[i], "w", DIST.x, M[i].aR || 0);
-    }
   }
-
   // No Lock Left or Right
   else if (typeof locks.l === "undefined" && typeof locks.r === "undefined") {
-    if (SET) {
-      SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
-    }
+    type = "MOVE";
   }
 
+  if (type && SET) {
+    SET_UNIT(i, type, M[i], "w", DIST.x, M[i].aR || 0);
+  }
+
+  type = "";
   // Mouse Moving Up/Down
   // Lock on Bottom, No Lock on Top
   if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
+    type = "RSZ_TL";
+
     // @ts-ignore
     if (M[i].h - DIST.y > M[i].maxH) {
       // @ts-ignore
@@ -268,12 +271,11 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
       // @ts-ignore
       DIST.y += M[i].h - DIST.y - M[i].minH;
     }
-    if (SET) {
-      SET_UNIT(i, "RSZ_TL", M[i], "h", DIST.y, M[i].aB || 0);
-    }
   }
   // Lock on Top, No Lock on Bottonm
   else if (typeof locks.t !== "undefined" && typeof locks.b === "undefined") {
+    type = "RSZ_BR";
+
     // @ts-ignore
     if (M[i].h + DIST.y > M[i].maxH) {
       //@ts-ignore
@@ -284,15 +286,14 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
       //@ts-ignore
       DIST.y -= M[i].h + DIST.y - M[i].minH;
     }
-    if (SET) {
-      SET_UNIT(i, "RSZ_BR", M[i], "h", DIST.y, M[i].aB || 0);
-    }
   }
   // No Lock on Top or Bottom
   else if (typeof locks.b === "undefined" && typeof locks.t === "undefined") {
-    if (SET) {
-      SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
-    }
+    type = "MOVE";
+  }
+
+  if (type && SET) {
+    SET_UNIT(i, type, M[i], "h", DIST.y, M[i].aB || 0);
   }
 };
 
@@ -310,29 +311,23 @@ const SET_UNIT_ANCHORS = (i: number) => {
 };
 
 // UNIT PRESSED
-const PRESS_UNIT = (ev: React.PointerEvent<HTMLDivElement>, i: number) => {
-  ev.stopPropagation();
-  ev.preventDefault();
+const PRESS_UNIT = (i: number, ele: HTMLElement) => {
+  M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
+  M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
 
-  // exists in data
-  if (M[i]) {
-    M.forEach((u, ii) => SET_UNIT_ANCHORS(ii));
-    M.forEach((u, ii) => (M[ii].tempL = JSON.parse(JSON.stringify(M[ii].l))));
+  const root = document.getElementById("root") as HTMLDivElement;
+  if (root) {
+    POINTER_POS = GET_POINTER_COORDS(root, ele);
+    SET_SELECTED_CORNER(i);
 
-    const root = document.getElementById("root") as HTMLDivElement;
-    if (root) {
-      POINTER_POS = GET_POINTER_COORDS(root, ev);
-      SET_SELECTED_CORNER(i);
-
-      if (SELECTED_CORNER && POINTER_MOVE_TYPE === "RSZ") {
-        // SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
-      }
+    if (SELECTED_CORNER && POINTER_MOVE_TYPE === "RSZ") {
+      // SET_UNIT_RESIZE_LOCKS(i, SELECTED_CORNER);
     }
-    ev.currentTarget.style.zIndex = "9999";
-    ev.currentTarget.classList.add("selected");
-
-    SELECTED_UNIT = i;
   }
+  ele.style.zIndex = "9999";
+  ele.classList.add("selected");
+
+  SELECTED_UNIT = i;
 };
 
 const TOGGLE_UNIT_LOCKS = (
@@ -552,9 +547,11 @@ const U = (
         height: `${p.h}%`,
         zIndex: p.z,
       }}
-      onPointerDown={(ev) =>
-        PRESS_UNIT(ev, typeof p.i !== "undefined" ? p.i : -1)
-      }
+      onPointerDown={(ev) => {
+        ev.stopPropagation();
+        ev.preventDefault();
+        PRESS_UNIT(p.i, ev.currentTarget);
+      }}
     >
       <span className="dimension" />
       <span className="dimension" />
@@ -599,7 +596,7 @@ const U = (
               onClick={(ev) => {
                 ev.stopPropagation();
                 ev.preventDefault();
-                typeof p.i !== "undefined" && TOGGLE_UNIT_LOCKS(p.i, [side]);
+                TOGGLE_UNIT_LOCKS(p.i, [side]);
               }}
             ></div>
           );
