@@ -214,12 +214,7 @@ const SET_CONNECTIONS = (i: number) => {
 const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   const locks = M[i].tempL || {};
 
-  if (i === 1) {
-    console.log("set " + i + "  " + M[1].d?.x);
-  }
-
   // Mouse Moving Left/Right
-  //  if (DIST.x) {
   // Lock on Right, No Lock Left
   if (typeof locks.r !== "undefined" && typeof locks.l === "undefined") {
     // @ts-ignore
@@ -259,9 +254,8 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
       SET_UNIT(i, "MOVE", M[i], "w", DIST.x, M[i].aR || 0);
     }
   }
-  // }
+
   // Mouse Moving Up/Down
-  // if (DIST.y) {
   // Lock on Bottom, No Lock on Top
   if (typeof locks.b !== "undefined" && typeof locks.t === "undefined") {
     // @ts-ignore
@@ -300,7 +294,6 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
       SET_UNIT(i, "MOVE", M[i], "h", DIST.y, M[i].aB || 0);
     }
   }
-  //}
 };
 
 // SET UNIT POSITION ANCHORS AND TRANSLATE COORDINATES
