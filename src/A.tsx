@@ -346,7 +346,7 @@ const TOGGLE_UNIT_LOCKS = (
       }
       const ele = document.querySelector(`#U${i} .${s}`)?.classList;
       if (ele && !temp) {
-        typeof lock[s] !== "undefined" ? ele.add("on") : ele.remove("on");
+        lock[s] ? ele.add("on") : ele.remove("on");
       }
     });
   }
