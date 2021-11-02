@@ -18,10 +18,10 @@ export type T = {
   tY?: number;
   oW?: number;
   oH?: number;
-  minW?: number;
-  maxW?: number;
-  minH?: number;
-  maxH?: number;
+  minW: number;
+  maxW: number;
+  minH: number;
+  maxH: number;
   tempL?: T_LOCK;
   deleted?: boolean;
 };

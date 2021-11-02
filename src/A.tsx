@@ -220,14 +220,9 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   if (locks.r && !locks.l) {
     type = "RSZ_TL";
 
-    // @ts-ignore
     if (M[i].w - DIST.x > M[i].maxW) {
-      // @ts-ignore
       DIST.x += M[i].w - DIST.x - M[i].maxW;
-    }
-    // @ts-ignore
-    else if (M[i].w - DIST.x < M[i].minW) {
-      // @ts-ignore
+    } else if (M[i].w - DIST.x < M[i].minW) {
       DIST.x += M[i].w - DIST.x - M[i].minW;
     }
   }
@@ -235,14 +230,9 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   else if (locks.l && !locks.r) {
     type = "RSZ_BR";
 
-    // @ts-ignore
     if (M[i].w + DIST.x > M[i].maxW) {
-      //@ts-ignore
       DIST.x -= M[i].w + DIST.x - M[i].maxW;
-    }
-    //@ts-ignore
-    else if (M[i].w + DIST.x < M[i].minW) {
-      //@ts-ignore
+    } else if (M[i].w + DIST.x < M[i].minW) {
       DIST.x -= M[i].w + DIST.x - M[i].minW;
     }
   }
@@ -261,14 +251,9 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   if (locks.b && !locks.t) {
     type = "RSZ_TL";
 
-    // @ts-ignore
     if (M[i].h - DIST.y > M[i].maxH) {
-      // @ts-ignore
       DIST.y += M[i].h - DIST.y - M[i].maxH;
-    }
-    // @ts-ignore
-    else if (M[i].h - DIST.y < M[i].minH) {
-      // @ts-ignore
+    } else if (M[i].h - DIST.y < M[i].minH) {
       DIST.y += M[i].h - DIST.y - M[i].minH;
     }
   }
@@ -276,14 +261,9 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   else if (locks.t && !locks.b) {
     type = "RSZ_BR";
 
-    // @ts-ignore
     if (M[i].h + DIST.y > M[i].maxH) {
-      //@ts-ignore
       DIST.y -= M[i].h + DIST.y - M[i].maxH;
-    }
-    //@ts-ignore
-    else if (M[i].h + DIST.y < M[i].minH) {
-      //@ts-ignore
+    } else if (M[i].h + DIST.y < M[i].minH) {
       DIST.y -= M[i].h + DIST.y - M[i].minH;
     }
   }
