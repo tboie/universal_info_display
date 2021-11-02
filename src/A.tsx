@@ -128,6 +128,7 @@ const SET_UNIT = (
   }
 
   SAVE(i, u);
+  SET_UNIT_ANCHORS(i);
 };
 
 const SET_UNIT_RESIZE_LOCKS = (
@@ -211,9 +212,107 @@ const SET_CONNECTIONS = (i: number) => {
   });
 };
 
-const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
+const MODIFY = (i: number, D: { x: number; y: number }, SET: boolean) => {
   const locks = M[i].tempL || {};
   let type: "RSZ_TL" | "RSZ_BR" | "MOVE" | "" = "";
+  let DIST = { ...D };
+
+  // min/max lock toggles
+  if (M[i].w === M[i].maxW) {
+    if (locks.l && !locks.r) {
+      if (M[i].w + D.x >= M[i].maxW) {
+        GET_CONNECTED_UNITS(i, "r").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["l"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "r").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["l"], true, false);
+        });
+      }
+    } else if (!locks.l && locks.r) {
+      if (M[i].w - D.x >= M[i].maxW) {
+        GET_CONNECTED_UNITS(i, "l").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["r"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "l").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["r"], true, false);
+        });
+      }
+    }
+  }
+
+  if (M[i].w === M[i].minW) {
+    if (locks.l && !locks.r) {
+      if (M[i].w + D.x <= M[i].minW) {
+        GET_CONNECTED_UNITS(i, "r").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["l"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "r").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["l"], true, false);
+        });
+      }
+    } else if (!locks.l && locks.r) {
+      if (M[i].w - D.x <= M[i].minW) {
+        GET_CONNECTED_UNITS(i, "l").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["r"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "l").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["r"], true, false);
+        });
+      }
+    }
+  }
+
+  if (M[i].h === M[i].maxH) {
+    if (locks.t && !locks.b) {
+      if (M[i].h + D.y >= M[i].maxH) {
+        GET_CONNECTED_UNITS(i, "b").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["t"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "b").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["t"], true, false);
+        });
+      }
+    } else if (!locks.t && locks.b) {
+      if (M[i].h - D.y >= M[i].maxH) {
+        GET_CONNECTED_UNITS(i, "t").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["b"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "t").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["b"], true, false);
+        });
+      }
+    }
+  }
+
+  if (M[i].h === M[i].minH) {
+    if (locks.t && !locks.b) {
+      if (M[i].h + D.y <= M[i].minH) {
+        GET_CONNECTED_UNITS(i, "b").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["t"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "b").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["t"], true, false);
+        });
+      }
+    } else if (!locks.t && locks.b) {
+      if (M[i].h - D.y <= M[i].minH) {
+        GET_CONNECTED_UNITS(i, "t").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["b"], true, true);
+        });
+      } else {
+        GET_CONNECTED_UNITS(i, "t").forEach((u) => {
+          TOGGLE_UNIT_LOCKS(u, ["b"], true, false);
+        });
+      }
+    }
+  }
 
   // Mouse Moving Left/Right
   // Lock on Right, No Lock Left
@@ -275,6 +374,8 @@ const MODIFY = (i: number, DIST: { x: number; y: number }, SET: boolean) => {
   if (type && SET) {
     SET_UNIT(i, type, M[i], "h", DIST.y, M[i].aB || 0);
   }
+
+  return DIST;
 };
 
 // SET UNIT POSITION ANCHORS AND TRANSLATE COORDINATES
@@ -479,11 +580,33 @@ window.onload = () => {
           );
 
           const UNITS = M.filter(
-            (u) => !u.deleted && Object.assign(M[u.i], { d: { ...DIST } })
+            (u) => !u.deleted && Object.assign(M[u.i], { d: DIST })
           );
-          UNITS.forEach((u) => u.d && MODIFY(u.i, u.d, false));
-          UNITS.forEach((u) => u.d && MODIFY(u.i, u.d, true));
+
+          // When a unit hits min/max, the distance
+          // is modified, so units connected to it need
+          // to be modified with the difference.
+          // This next code is innacurate, but better than before.
+
+          // It gets the smallest modified unit distance (x,y) !== 0, and applies to all
+
+          const D = UNITS.map((u) => MODIFY(u.i, u.d || { x: 0, y: 0 }, false));
+
+          let DX = D.sort((a, b) => a.x - b.x).filter((d) => d.x !== 0);
+          if (DIST.x < 0) {
+            DX = DX.reverse();
+          }
+          const dX = DX[0]?.x || 0;
+
+          let DY = D.sort((a, b) => a.y - b.y).filter((d) => d.y !== 0);
+          if (DIST.y < 0) {
+            DY = DY.reverse();
+          }
+          const dY = DY[0]?.y || 0;
+
+          UNITS.forEach((u) => u.d && MODIFY(u.i, { x: dX, y: dY }, true));
         }
+
         POINTER_PREV_POS = GET_POINTER_COORDS(root, e);
       }
     });
