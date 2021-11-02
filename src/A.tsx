@@ -131,6 +131,7 @@ const SET_UNIT = (
   SET_UNIT_ANCHORS(i);
 };
 
+/*
 const SET_UNIT_RESIZE_LOCKS = (
   i: number,
   corner: "tl" | "tr" | "br" | "bl"
@@ -169,6 +170,7 @@ const SET_UNIT_RESIZE_LOCKS = (
     TOGGLE_UNIT_LOCKS(u, [corner[0] === "t" ? "b" : "t"], true, true);
   });
 };
+*/
 
 const GET_OPPOSITE_SIDE = (s: T_SIDE) => {
   if (s === "t") {
