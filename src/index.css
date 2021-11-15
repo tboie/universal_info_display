@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html,
+body,
+#root {
+  background-color: #101010;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.DB_BTN {
+  position: absolute;
+  background-color: gray;
+  color: white;
+  z-index: 101;
+  top: 2px;
+  left: 2px;
+  cursor: pointer;
+}
+
+.DB_BTN_ON {
+  background-color: lightgray;
+  color: black;
+}
+
+#DB_BTN_LOCKS_OFF {
+  left: 64px;
+}
+
+#DB_BTN_LOCKS_BORDER {
+  top: 32px;
+}
+
+#DB_BTN_MODIFY_ALL {
+  top: 32px;
+  left: 78px;
+}
+
+#DB_BTN_EDIT {
+  top: 62px;
+}
