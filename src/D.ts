@@ -30,7 +30,8 @@ export type T = {
 /*
 const units: T[] = [];
 let x = 0,
-  y = 0;
+  y = 0,
+  i = 0;
 
 for (y = 0; y < 10; y++) {
   for (x = 0; x < 10; x++) {
@@ -89,6 +90,7 @@ for (y = 0; y < 10; y++) {
     }
 
     units.push({
+      i: i,
       t: "s",
       x: x * 10,
       y: y * 10,
@@ -106,18 +108,19 @@ for (y = 0; y < 10; y++) {
         l: x === 0 ? 0 : undefined,
       },
       c: { t: cT, r: cR, b: cB, l: cL },
-      bp: ["sm", "lg"],
+      bp: ["sm", "md", "lg"],
     } as T);
+
+    i = i + 1;
   }
 }
 
 export default units;
-*/
 
 /*** 
 LG
 ***/
-
+/*
 // 9 Unit Grid
 /*
 export default [
