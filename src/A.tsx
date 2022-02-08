@@ -1,6 +1,7 @@
 import "./A.css";
 import D, { T, T_SIDE } from "./D";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { debounce } from "ts-debounce";
 
 // UNIVERSAL RESPONSIVE DASHBOARD DESIGNER - POC v1 (something to work with)
 
@@ -836,6 +837,7 @@ const U = (
         PRESS_UNIT(p.i, ev.currentTarget, ev);
       }}
     >
+      <UniversalItemDisplay />
       {/*!p.edit && <img className="img-test" src="/logo512.png" alt="" />*/}
       {p.edit && (
         <div className="edit">
@@ -916,6 +918,230 @@ const U = (
           })}
         </div>
       )}
+    </div>
+  );
+};
+
+/*
+    //@ts-ignore
+    const scrollLeft = e.currentTarget?.scrollLeft;
+    //@ts-ignore
+    const width = e.currentTarget?.getBoundingClientRect().width;
+    let allWidth = width * (data.length - 1);
+    const percent = (scrollLeft / allWidth) * 100;
+
+    const numberContainer = document.querySelector(
+      "#universal_item_display_number_container"
+    );
+
+    if (numberContainer) {
+      allWidth = width * 2;
+      //const left = numberContainer.scrollLeft;
+      //numberContainer.scrollTo(allWidth, 0);
+    }
+    */
+
+const data = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  22, 23, 24,
+];
+let itemsPressed = false;
+let numbersPressed = false;
+const UniversalItemDisplay = () => {
+  const [selectedIdx, setSelectedIdx] = useState(0);
+
+  useEffect(() => {
+    const eles = document.querySelectorAll(".item_container");
+    eles.forEach((ele) => {
+      ele.addEventListener("touchstart", () => {
+        itemsPressed = true;
+        numbersPressed = false;
+      });
+    });
+
+    const numberContainer = document.querySelector(
+      "#universal_item_display_number_container"
+    ) as HTMLElement;
+
+    if (numberContainer) {
+      numberContainer.addEventListener("touchstart", () => {
+        itemsPressed = false;
+        numbersPressed = true;
+      });
+    }
+  }, []);
+
+  return (
+    <div id="universal_item_display" className="universal_item_display">
+      <ItemSlider selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx} />
+      <NumberSlider selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx} />
+    </div>
+  );
+};
+
+let observer: IntersectionObserver;
+
+const ItemSlider = ({
+  selectedIdx,
+  setSelectedIdx,
+}: {
+  selectedIdx: number;
+  setSelectedIdx: any;
+}) => {
+  useEffect(() => {
+    const handleIntersect = (entries: any, observer: any) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          if (itemsPressed) {
+            const id = entry.target.id;
+            const selected = parseInt(id.substr(5, id.length));
+            setSelectedIdx(selected);
+          }
+        }
+      });
+    };
+
+    const options = {
+      root: document.querySelector(
+        "#universal_item_display_slider"
+      ) as HTMLElement,
+      threshold: 0,
+      rootMargin: "-50%",
+    };
+
+    let observer: IntersectionObserver;
+    observer = new IntersectionObserver(handleIntersect, options);
+
+    const boxElements = document.querySelectorAll(".item_container");
+    data.forEach((num) => {
+      const boxElement = boxElements[num];
+      observer.observe(boxElement);
+    });
+  }, []);
+
+  useEffect(() => {
+    const container = document.querySelector(
+      "#universal_item_display_slider"
+    ) as HTMLElement;
+    const ele = document.querySelectorAll(".item_container")[
+      selectedIdx
+    ] as HTMLElement;
+
+    if (container && ele && !itemsPressed) {
+      container.style.overflowX = "hidden";
+      ele.scrollIntoView();
+      setTimeout(function () {
+        container.style.overflowX = "scroll";
+      }, 10);
+    }
+  }, [selectedIdx]);
+
+  useEffect(() => {
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div id="universal_item_display_slider" className="item_slider">
+      {data.map((sq) => (
+        <div key={sq} id={`slide${sq.toString()}`} className="item_container">
+          <GridItems page={sq} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const NumberSlider = ({
+  selectedIdx,
+  setSelectedIdx,
+}: {
+  selectedIdx: number;
+  setSelectedIdx: any;
+}) => {
+  useEffect(() => {
+    const handleIntersect = (entries: any, observer: any) => {
+      entries.forEach((entry: any, idx: number) => {
+        if (entry.isIntersecting) {
+          if (numbersPressed) {
+            const id = entry.target.id;
+            const selected = parseInt(id.substr(3, id.length));
+            setSelectedIdx(selected);
+          }
+        }
+      });
+    };
+
+    const options = {
+      root: document.querySelector(
+        "#universal_item_display_number_container"
+      ) as HTMLElement,
+      threshold: 0,
+      rootMargin: "-50%",
+    };
+
+    let observer: IntersectionObserver;
+    observer = new IntersectionObserver(handleIntersect, options);
+
+    const boxElements = document.querySelectorAll(".number");
+    data.forEach((num) => {
+      const boxElement = boxElements[num];
+      observer.observe(boxElement);
+    });
+  }, []);
+
+  useEffect(() => {
+    const container = document.querySelector(
+      "#universal_item_display_number_container"
+    );
+    const ele = document.querySelectorAll(".number")[selectedIdx];
+
+    if (container && ele && !numbersPressed) {
+      // @ts-ignore
+      container.style.overflowX = "hidden";
+      ele.scrollIntoView({ inline: "center" });
+      setTimeout(function () {
+        // @ts-ignore
+        container.style.overflowX = "scroll";
+      }, 10);
+    }
+  }, [selectedIdx]);
+
+  useEffect(() => {
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div id="universal_item_display_number_container" className="number_slider">
+      {data.map((num) => {
+        return (
+          <span
+            key={num}
+            id={`num${num}`}
+            className={`number ${num === data.length - 1 ? "last" : ""} ${
+              num === selectedIdx ? "selected" : ""
+            }`}
+          >
+            {num}
+          </span>
+        );
+      })}
+    </div>
+  );
+};
+
+const GridItems = ({ page }: { page: number }) => {
+  const [selectedIdx, setSelectedIdx] = useState(0);
+
+  return (
+    <div className="item-grid">
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((num) => {
+        return (
+          <div className={`item`}>
+            <img src="/loop1.gif"></img>
+            <span>{`${page}${num}`}</span>
+          </div>
+        );
+      })}
     </div>
   );
 };

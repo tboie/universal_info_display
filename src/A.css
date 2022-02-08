@@ -2,7 +2,6 @@
   position: absolute;
   display: none;
   border: 1px solid lightgray;
-  background-color: #000;
   overflow: hidden;
   touch-action: none;
 }
@@ -153,4 +152,90 @@
   .lg {
     display: flex;
   }
+}
+
+.universal_item_display {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.universal_item_display .item_slider {
+  height: 80%;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+.universal_item_display .item_container {
+  height: 100%;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.universal_item_display .item_container span {
+  font-size: 2rem;
+}
+
+.universal_item_display .number_slider {
+  background-color: pink;
+  height: 20%;
+  width: 100%;
+  overflow-x: scroll;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.number {
+  font-size: 2rem;
+  padding: 1rem;
+  display: block;
+}
+
+.number:first-of-type {
+  padding-left: calc(50% - 1rem);
+}
+
+.number.last {
+  padding-right: calc(50% - 1rem);
+}
+
+.number.selected {
+  color: green;
+  text-decoration: underline;
+  border: 0;
+}
+
+.item-grid {
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+}
+
+.item-grid .item {
+  position: relative;
+  background-color: gray;
+}
+
+.item-grid .item span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: lightblue;
+  z-index: 5;
+}
+
+.item-grid img {
+  width: 100%;
 }

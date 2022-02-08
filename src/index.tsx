@@ -17,7 +17,7 @@ import DATA from "./D";
 
 const DESIGNER = () => {
   const [UNITS, SET_UNITS] = useState(DATA);
-  const [EDIT, SET_EDIT] = useState(true);
+  const [EDIT, SET_EDIT] = useState(false);
 
   const REMOVE = (i: number) => {
     REMOVE_UNIT(i);
