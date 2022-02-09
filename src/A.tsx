@@ -921,31 +921,13 @@ const U = (
   );
 };
 
-/*
-    //@ts-ignore
-    const scrollLeft = e.currentTarget?.scrollLeft;
-    //@ts-ignore
-    const width = e.currentTarget?.getBoundingClientRect().width;
-    let allWidth = width * (data.length - 1);
-    const percent = (scrollLeft / allWidth) * 100;
-
-    const numberContainer = document.querySelector(
-      "#universal_item_display_number_container"
-    );
-
-    if (numberContainer) {
-      allWidth = width * 2;
-      //const left = numberContainer.scrollLeft;
-      //numberContainer.scrollTo(allWidth, 0);
-    }
-    */
-
 const data = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
   22, 23, 24,
 ];
 let itemsPressed = false;
 let numbersPressed = false;
+
 const UniversalItemDisplay = () => {
   const [selectedIdx, setSelectedIdx] = useState(0);
 
@@ -1019,6 +1001,10 @@ const ItemSlider = ({
   }, []);
 
   useEffect(() => {
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const container = document.querySelector(
       "#universal_item_display_slider"
     ) as HTMLElement;
@@ -1034,10 +1020,6 @@ const ItemSlider = ({
       }, 10);
     }
   }, [selectedIdx]);
-
-  useEffect(() => {
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div id="universal_item_display_slider" className="item_slider">
@@ -1089,25 +1071,25 @@ const NumberSlider = ({
   }, []);
 
   useEffect(() => {
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const container = document.querySelector(
       "#universal_item_display_number_container"
-    );
-    const ele = document.querySelectorAll(".number")[selectedIdx];
+    ) as HTMLElement;
+    const ele = document.querySelectorAll(".number")[
+      selectedIdx
+    ] as HTMLElement;
 
     if (container && ele && !numbersPressed) {
-      // @ts-ignore
       container.style.overflowX = "hidden";
       ele.scrollIntoView({ inline: "center" });
       setTimeout(function () {
-        // @ts-ignore
         container.style.overflowX = "scroll";
       }, 10);
     }
   }, [selectedIdx]);
-
-  useEffect(() => {
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div id="universal_item_display_number_container" className="number_slider">
