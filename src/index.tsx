@@ -58,6 +58,7 @@ const DESIGNER = () => {
           edit={EDIT}
         />
       ))}
+      {/*
       <button
         id="DB_BTN_LOCKS_ON"
         className="DB_BTN"
@@ -97,6 +98,7 @@ const DESIGNER = () => {
       >
         EDIT
       </button>
+      */}
     </>
   );
 };

@@ -161,20 +161,35 @@
 }
 
 .universal_item_display .item_slider {
+  position: relative;
   height: 80%;
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
   overflow-y: hidden;
+  z-index: 1;
 }
 
 .universal_item_display .item_container {
+  background-color: white;
+  color: black;
   height: 100%;
   width: 100%;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+}
+
+#all {
+  white-space: normal;
+  word-break: break-word;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  background-color: white;
+  color: black;
 }
 
 .universal_item_display .item_container span {
