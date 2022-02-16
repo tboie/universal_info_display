@@ -1071,32 +1071,35 @@ const ItemSlider = ({
 
   useEffect(() => {
     if (init) {
-      overflowing.some((val, idx) => {
-        if (val && textChunks[idx]) {
-          const words = textChunks[idx].split(" ");
+      // stop warnings
+      setTimeout(() => {
+        overflowing.some((val, idx) => {
+          if (val && textChunks[idx]) {
+            const words = textChunks[idx].split(" ");
 
-          if (idx !== textChunks.length - 1) {
-            const newText2 =
-              words[words.length - 1] + " " + textChunks[idx + 1];
+            if (idx !== textChunks.length - 1) {
+              const newText2 =
+                words[words.length - 1] + " " + textChunks[idx + 1];
 
-            words.pop();
-            const newText1 = words.join(" ");
+              words.pop();
+              const newText1 = words.join(" ");
 
-            setTextChunks((prevState) =>
-              prevState.map((txt, i) => {
-                if (i === idx) {
-                  return newText1;
-                } else if (i === idx + 1) {
-                  return newText2;
-                } else {
-                  return txt;
-                }
-              })
-            );
+              setTextChunks((prevState) =>
+                prevState.map((txt, i) => {
+                  if (i === idx) {
+                    return newText1;
+                  } else if (i === idx + 1) {
+                    return newText2;
+                  } else {
+                    return txt;
+                  }
+                })
+              );
 
-            return true;
+              return true;
+            }
           }
-        }
+        });
       });
     }
   }, [textChunks]);
