@@ -1004,7 +1004,6 @@ const ItemSlider = ({
     observer = new IntersectionObserver(handleIntersect, options);
 
     const boxElements = document.querySelectorAll(".item_container");
-    console.log("init " + init);
     //data.forEach((num) => {
     const boxElement = boxElements[0];
     observer.observe(boxElement);
@@ -1044,11 +1043,14 @@ const ItemSlider = ({
   }
 
   const handleChange = (isOverflowing: boolean, i: number) => {
-    //console.log("changed " + i + " isOverflowing: " + isOverflowing);
-    overflowing[i] = isOverflowing;
+    if (typeof overflowing[i] !== "undefined") {
+      overflowing[i] = isOverflowing;
+    } else {
+      overflowing.push(isOverflowing);
+    }
   };
 
-  useEffect(() => {
+  const calc = () => {
     const winH = window.innerHeight;
     const allH = document.getElementById("all")?.getBoundingClientRect().height;
 
@@ -1062,45 +1064,61 @@ const ItemSlider = ({
       init = true;
       if (chunks) {
         for (let i = 1; i < chunks.length; i++) {
-          overflowing.push(true);
+          overflowing.push(false);
         }
         setTextChunks(chunks);
       }
     }
-  }, []);
+  };
 
   useEffect(() => {
-    if (init) {
-      // stop warnings
-      setTimeout(() => {
-        overflowing.some((val, idx) => {
-          if (val && textChunks[idx]) {
-            const words = textChunks[idx].split(" ");
+    calc();
+  }, []);
 
-            if (idx !== textChunks.length - 1) {
-              const newText2 =
-                words[words.length - 1] + " " + textChunks[idx + 1];
+  const proc = () => {
+    // stop warnings
+    setTimeout(() => {
+      overflowing.some((val, idx) => {
+        if (val && textChunks[idx]) {
+          const words = textChunks[idx].split(" ");
 
-              words.pop();
-              const newText1 = words.join(" ");
+          if (idx !== textChunks.length - 1) {
+            const newText2 =
+              words[words.length - 1] + " " + textChunks[idx + 1];
 
-              setTextChunks((prevState) =>
-                prevState.map((txt, i) => {
-                  if (i === idx) {
-                    return newText1;
-                  } else if (i === idx + 1) {
-                    return newText2;
-                  } else {
-                    return txt;
-                  }
-                })
-              );
+            words.pop();
+            const newText1 = words.join(" ");
 
+            setTextChunks((prevState) =>
+              prevState.map((txt, i) => {
+                if (i === idx) {
+                  return newText1;
+                } else if (i === idx + 1) {
+                  return newText2;
+                } else {
+                  return txt;
+                }
+              })
+            );
+            return true;
+          } else if (idx === textChunks.length - 1) {
+            if (val) {
+              setTextChunks((prevState) => {
+                let newCopy = [...prevState];
+                newCopy.push("[END]");
+                return newCopy;
+              });
               return true;
             }
           }
-        });
+        }
       });
+    });
+  };
+
+  useEffect(() => {
+    if (init) {
+      proc();
     }
   }, [textChunks]);
 

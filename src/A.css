@@ -175,7 +175,9 @@
   color: black;
   height: 100%;
   width: 100%;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #all {
@@ -184,10 +186,6 @@
   word-break: break-word;
   width: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
-  background-color: white;
-  color: black;
 }
 
 .universal_item_display .item_container span {
