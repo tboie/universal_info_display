@@ -927,15 +927,23 @@ const U = (
   );
 };
 
-const data = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-  22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-];
+// globals
+let init = false;
 let itemsPressed = false;
 let numbersPressed = false;
+let overflowing: boolean[] = [];
+
+type Section = {
+  selectedIdx: number;
+  setSelectedIdx: (val: any) => void;
+  pages: boolean[];
+  setPages: (val: any) => void;
+};
 
 const UniversalItemDisplay = () => {
   const [selectedIdx, setSelectedIdx] = useState(0);
+  // TODO: add overflow/loading state?
+  const [pages, setPages] = useState([]);
 
   useEffect(() => {
     const eles = document.querySelectorAll(".item_container");
@@ -960,23 +968,28 @@ const UniversalItemDisplay = () => {
 
   return (
     <div id="universal_item_display" className="universal_item_display">
-      <ItemSlider selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx} />
-      <NumberSlider selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx} />
+      <ItemSlider
+        pages={pages}
+        setPages={setPages}
+        selectedIdx={selectedIdx}
+        setSelectedIdx={setSelectedIdx}
+      />
+      <NumberSlider
+        pages={pages}
+        setPages={setPages}
+        selectedIdx={selectedIdx}
+        setSelectedIdx={setSelectedIdx}
+      />
     </div>
   );
 };
 
-let observer: IntersectionObserver;
-let overflowing: boolean[] = [];
-let init = false;
-
 const ItemSlider = ({
+  pages,
+  setPages,
   selectedIdx,
   setSelectedIdx,
-}: {
-  selectedIdx: number;
-  setSelectedIdx: any;
-}) => {
+}: Section) => {
   const [textChunks, setTextChunks] = useState<string[]>([text]);
 
   useEffect(() => {
@@ -985,7 +998,7 @@ const ItemSlider = ({
         if (entry.isIntersecting) {
           if (itemsPressed) {
             const id = entry.target.id;
-            const selected = parseInt(id.substr(5, id.length));
+            const selected = parseInt(id.substr(4, id.length));
             setSelectedIdx(selected);
           }
         }
@@ -1000,19 +1013,15 @@ const ItemSlider = ({
       rootMargin: "-50%",
     };
 
-    let observer: IntersectionObserver;
-    observer = new IntersectionObserver(handleIntersect, options);
-
+    const observer = new IntersectionObserver(handleIntersect, options);
     const boxElements = document.querySelectorAll(".item_container");
-    //data.forEach((num) => {
-    const boxElement = boxElements[0];
-    observer.observe(boxElement);
-    //});
-  }, []);
+    pages.forEach((num, idx) => {
+      const boxElement = boxElements[idx];
+      observer.observe(boxElement);
+    });
 
-  useEffect(() => {
     return () => observer.disconnect();
-  }, []);
+  }, [pages]);
 
   useEffect(() => {
     const container = document.querySelector(
@@ -1025,24 +1034,13 @@ const ItemSlider = ({
     if (container && ele && !itemsPressed) {
       container.style.overflowX = "hidden";
       ele.scrollIntoView();
-      setTimeout(function () {
+      setTimeout(() => {
         container.style.overflowX = "scroll";
       }, 10);
     }
   }, [selectedIdx]);
 
-  function chunkString(str: string, len: number) {
-    const size = Math.ceil(str.length / len);
-    const r = Array(size);
-    let offset = 0;
-    for (let i = 0; i < size; i++) {
-      r[i] = str.substr(offset, len);
-      offset += len;
-    }
-    return r;
-  }
-
-  const handleChange = (isOverflowing: boolean, i: number) => {
+  const overflowChanged = (isOverflowing: boolean, i: number) => {
     if (typeof overflowing[i] !== "undefined") {
       overflowing[i] = isOverflowing;
     } else {
@@ -1051,6 +1049,17 @@ const ItemSlider = ({
   };
 
   const calc = () => {
+    function chunkString(str: string, len: number) {
+      const size = Math.ceil(str.length / len);
+      const r = Array(size);
+      let offset = 0;
+      for (let i = 0; i < size; i++) {
+        r[i] = str.substr(offset, len);
+        offset += len;
+      }
+      return r;
+    }
+
     const winH = window.innerHeight;
     const allH = document.getElementById("all")?.getBoundingClientRect().height;
 
@@ -1101,6 +1110,7 @@ const ItemSlider = ({
               })
             );
             return true;
+            // TODO: fix
           } else if (idx === textChunks.length - 1) {
             if (val) {
               setTextChunks((prevState) => {
@@ -1117,6 +1127,7 @@ const ItemSlider = ({
   };
 
   useEffect(() => {
+    setPages(textChunks.map((page) => true));
     if (init) {
       proc();
     }
@@ -1127,9 +1138,9 @@ const ItemSlider = ({
       <div id="all">{text}</div>
 
       {textChunks.map((txt, idx) => (
-        <div key={idx} className="item_container">
+        <div key={idx} className="item_container" id={`page${idx}`}>
           <DetectableOverflow
-            onChange={(overflowing) => handleChange(overflowing, idx)}
+            onChange={(overflowing) => overflowChanged(overflowing, idx)}
             style={{
               whiteSpace: "normal",
               wordBreak: "break-word",
@@ -1148,12 +1159,11 @@ const ItemSlider = ({
 };
 
 const NumberSlider = ({
+  pages,
+  setPages,
   selectedIdx,
   setSelectedIdx,
-}: {
-  selectedIdx: number;
-  setSelectedIdx: any;
-}) => {
+}: Section) => {
   useEffect(() => {
     const handleIntersect = (entries: any, observer: any) => {
       entries.forEach((entry: any, idx: number) => {
@@ -1175,19 +1185,15 @@ const NumberSlider = ({
       rootMargin: "-50%",
     };
 
-    let observer: IntersectionObserver;
-    observer = new IntersectionObserver(handleIntersect, options);
-
+    let observer = new IntersectionObserver(handleIntersect, options);
     const boxElements = document.querySelectorAll(".number");
-    data.forEach((num) => {
-      const boxElement = boxElements[num];
+    pages.forEach((num, idx) => {
+      const boxElement = boxElements[idx];
       observer.observe(boxElement);
     });
-  }, []);
 
-  useEffect(() => {
     return () => observer.disconnect();
-  }, []);
+  }, [pages]);
 
   useEffect(() => {
     const container = document.querySelector(
@@ -1200,7 +1206,7 @@ const NumberSlider = ({
     if (container && ele && !numbersPressed) {
       container.style.overflowX = "hidden";
       ele.scrollIntoView({ inline: "center" });
-      setTimeout(function () {
+      setTimeout(() => {
         container.style.overflowX = "scroll";
       }, 10);
     }
@@ -1208,12 +1214,12 @@ const NumberSlider = ({
 
   return (
     <div id="universal_item_display_number_container" className="number_slider">
-      {data.map((num) => {
+      {pages.map((page, num) => {
         return (
           <span
             key={num}
             id={`num${num}`}
-            className={`number ${num === data.length - 1 ? "last" : ""} ${
+            className={`number ${num === pages.length - 1 ? "last" : ""} ${
               num === selectedIdx ? "selected" : ""
             }`}
           >
