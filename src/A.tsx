@@ -1078,6 +1078,25 @@ const ItemSlider = ({
         setTextChunks(chunks);
       }
     }
+
+    // scroll speed
+    const container = document.getElementById("universal_item_display_slider");
+    if (container) {
+      let lastOffset = container.scrollLeft;
+      let lastDate = new Date().getTime();
+
+      container.addEventListener("scroll", (e) => {
+        const delayInMs = e.timeStamp - lastDate;
+        const ele = e.target as HTMLDivElement;
+
+        const offset = ele.scrollLeft - lastOffset;
+        const speedInpxPerMs = offset / delayInMs;
+        console.log(speedInpxPerMs);
+
+        lastDate = e.timeStamp;
+        lastOffset = ele.scrollLeft;
+      });
+    }
   };
 
   useEffect(() => {
