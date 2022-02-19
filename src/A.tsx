@@ -928,10 +928,10 @@ const U = (
 };
 
 // globals
-let init = false;
 let itemsPressed = false;
 let numbersPressed = false;
-let overflowing: boolean[] = [];
+let scrollSpeed = 0; // pixels per MS
+let scrollDirection = "stopped";
 
 type Section = {
   selectedIdx: number;
@@ -944,27 +944,6 @@ const UniversalItemDisplay = () => {
   const [selectedIdx, setSelectedIdx] = useState(0);
   // TODO: add overflow/loading state?
   const [pages, setPages] = useState([]);
-
-  useEffect(() => {
-    const eles = document.querySelectorAll(".item_container");
-    eles.forEach((ele) => {
-      ele.addEventListener("touchstart", () => {
-        itemsPressed = true;
-        numbersPressed = false;
-      });
-    });
-
-    const numberContainer = document.querySelector(
-      "#universal_item_display_number_container"
-    ) as HTMLElement;
-
-    if (numberContainer) {
-      numberContainer.addEventListener("touchstart", () => {
-        itemsPressed = false;
-        numbersPressed = true;
-      });
-    }
-  }, []);
 
   return (
     <div id="universal_item_display" className="universal_item_display">
@@ -992,60 +971,12 @@ const ItemSlider = ({
 }: Section) => {
   const [textChunks, setTextChunks] = useState<string[]>([text]);
 
-  useEffect(() => {
-    const handleIntersect = (entries: any, observer: any) => {
-      entries.forEach((entry: any) => {
-        if (entry.isIntersecting) {
-          if (itemsPressed) {
-            const id = entry.target.id;
-            const selected = parseInt(id.substr(4, id.length));
-            setSelectedIdx(selected);
-          }
-        }
-      });
-    };
-
-    const options = {
-      root: document.querySelector(
-        "#universal_item_display_slider"
-      ) as HTMLElement,
-      threshold: 0,
-      rootMargin: "-50%",
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, options);
-    const boxElements = document.querySelectorAll(".item_container");
-    pages.forEach((num, idx) => {
-      const boxElement = boxElements[idx];
-      observer.observe(boxElement);
-    });
-
-    return () => observer.disconnect();
-  }, [pages]);
-
-  useEffect(() => {
-    const container = document.querySelector(
-      "#universal_item_display_slider"
-    ) as HTMLElement;
-    const ele = document.querySelectorAll(".item_container")[
-      selectedIdx
-    ] as HTMLElement;
-
-    if (container && ele && !itemsPressed) {
-      container.style.overflowX = "hidden";
-      ele.scrollIntoView();
-      setTimeout(() => {
-        container.style.overflowX = "scroll";
-      }, 10);
-    }
-  }, [selectedIdx]);
-
   const overflowChanged = (isOverflowing: boolean, i: number) => {
-    if (typeof overflowing[i] !== "undefined") {
-      overflowing[i] = isOverflowing;
-    } else {
-      overflowing.push(isOverflowing);
-    }
+    setPages((prevState: any) => {
+      let copy = [...prevState];
+      copy[i] = isOverflowing;
+      return copy;
+    });
   };
 
   const calc = () => {
@@ -1061,7 +992,9 @@ const ItemSlider = ({
     }
 
     const winH = window.innerHeight;
-    const allH = document.getElementById("all")?.getBoundingClientRect().height;
+    const allH = document
+      .getElementById("all-text")
+      ?.getBoundingClientRect().height;
 
     if (winH && allH) {
       const numScreens = Math.floor(allH / (winH - winH * 0.2));
@@ -1070,11 +1003,7 @@ const ItemSlider = ({
       );
       const chunks = chunkString(textChunks[0], charsPerScreen);
 
-      init = true;
       if (chunks) {
-        for (let i = 1; i < chunks.length; i++) {
-          overflowing.push(false);
-        }
         setTextChunks(chunks);
       }
     }
@@ -1090,8 +1019,15 @@ const ItemSlider = ({
         const ele = e.target as HTMLDivElement;
 
         const offset = ele.scrollLeft - lastOffset;
-        const speedInpxPerMs = offset / delayInMs;
-        console.log(speedInpxPerMs);
+        scrollSpeed = offset / delayInMs;
+
+        if (lastOffset === ele.scrollLeft) {
+          scrollDirection = "stopped";
+        } else if (lastOffset < ele.scrollLeft) {
+          scrollDirection = "left";
+        } else if (lastOffset > ele.scrollLeft) {
+          scrollDirection = "right";
+        }
 
         lastDate = e.timeStamp;
         lastOffset = ele.scrollLeft;
@@ -1106,7 +1042,7 @@ const ItemSlider = ({
   const proc = () => {
     // stop warnings
     setTimeout(() => {
-      overflowing.some((val, idx) => {
+      pages.some((val, idx) => {
         if (val && textChunks[idx]) {
           const words = textChunks[idx].split(" ");
 
@@ -1128,6 +1064,7 @@ const ItemSlider = ({
                 }
               })
             );
+
             return true;
             // TODO: fix
           } else if (idx === textChunks.length - 1) {
@@ -1137,6 +1074,7 @@ const ItemSlider = ({
                 newCopy.push("[END]");
                 return newCopy;
               });
+
               return true;
             }
           }
@@ -1146,18 +1084,17 @@ const ItemSlider = ({
   };
 
   useEffect(() => {
-    setPages(textChunks.map((page) => true));
-    if (init) {
+    if (textChunks.length) {
       proc();
     }
   }, [textChunks]);
 
   return (
     <div id="universal_item_display_slider" className="item_slider">
-      <div id="all">{text}</div>
+      <div id="all-text">{text}</div>
 
       {textChunks.map((txt, idx) => (
-        <div key={idx} className="item_container" id={`page${idx}`}>
+        <div key={idx} className={`page_loader`}>
           <DetectableOverflow
             onChange={(overflowing) => overflowChanged(overflowing, idx)}
             style={{
@@ -1173,6 +1110,104 @@ const ItemSlider = ({
           {/*<GridItems page={sq}/> */}
         </div>
       ))}
+
+      {pages
+        .filter((p) => p === false)
+        .map((p, i) => (
+          <Page
+            key={i}
+            num={i}
+            text={textChunks[i]}
+            setSelectedIdx={setSelectedIdx}
+          />
+        ))}
+    </div>
+  );
+};
+
+const Page = ({
+  text,
+  num,
+  setSelectedIdx,
+}: {
+  text: string;
+  num: number;
+  setSelectedIdx: (val: number) => void;
+}) => {
+  useEffect(() => {
+    const handleSnapLeft = (entries: any, observer: any) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          if (itemsPressed) {
+            const id = entry.target.id;
+            const selected = parseInt(id.substr(4, id.length));
+
+            if (scrollDirection === "left") {
+              if (scrollSpeed < 0.8) {
+                const container = document.querySelector(
+                  "#universal_item_display_slider"
+                ) as HTMLElement;
+
+                container.style.overflowX = "hidden";
+                setTimeout(() => {
+                  entry.target.scrollIntoView();
+                  setSelectedIdx(selected);
+                }, 50);
+                setTimeout(() => {
+                  container.style.overflowX = "scroll";
+                }, 100);
+              } else {
+                setSelectedIdx(selected);
+              }
+            }
+          }
+        }
+      });
+    };
+
+    const handleSnapRight = (entries: any, observer: any) => {};
+
+    const container = document.querySelector(
+      "#universal_item_display_slider"
+    ) as HTMLElement;
+
+    const optSnapLeft = {
+      root: container,
+      threshold: 0,
+      rootMargin: "0% -90% 0% 0%",
+    };
+    const optSnapRight = {
+      root: container,
+      threshold: 0,
+      rootMargin: "0% 0% 0% -90%",
+    };
+
+    const obsSnapLeft = new IntersectionObserver(handleSnapLeft, optSnapLeft);
+    const obsSnapRight = new IntersectionObserver(
+      handleSnapRight,
+      optSnapRight
+    );
+
+    const ele = document.querySelectorAll(".page")[num];
+    obsSnapLeft.observe(ele);
+    obsSnapRight.observe(ele);
+
+    return () => {
+      obsSnapLeft.disconnect();
+      obsSnapRight.disconnect();
+    };
+  }, []);
+
+  return (
+    <div
+      id={`page${num}`}
+      className="page"
+      onTouchStart={(e) => {
+        itemsPressed = true;
+        numbersPressed = false;
+      }}
+    >
+      {text}
     </div>
   );
 };
@@ -1213,6 +1248,19 @@ const NumberSlider = ({
 
     return () => observer.disconnect();
   }, [pages]);
+
+  useEffect(() => {
+    const numberContainer = document.querySelector(
+      "#universal_item_display_number_container"
+    ) as HTMLElement;
+
+    if (numberContainer) {
+      numberContainer.addEventListener("touchstart", () => {
+        itemsPressed = false;
+        numbersPressed = true;
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const container = document.querySelector(
