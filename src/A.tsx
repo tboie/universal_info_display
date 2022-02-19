@@ -1118,6 +1118,7 @@ const ItemSlider = ({
             key={i}
             num={i}
             text={textChunks[i]}
+            selectedIdx={selectedIdx}
             setSelectedIdx={setSelectedIdx}
           />
         ))}
@@ -1128,10 +1129,12 @@ const ItemSlider = ({
 const Page = ({
   text,
   num,
+  selectedIdx,
   setSelectedIdx,
 }: {
   text: string;
   num: number;
+  selectedIdx: number;
   setSelectedIdx: (val: number) => void;
 }) => {
   useEffect(() => {
@@ -1239,44 +1242,25 @@ const NumberSlider = ({
       rootMargin: "-50%",
     };
 
-    let observer = new IntersectionObserver(handleIntersect, options);
-    const boxElements = document.querySelectorAll(".number");
-    pages.forEach((num, idx) => {
-      const boxElement = boxElements[idx];
-      observer.observe(boxElement);
-    });
+    const obs = new IntersectionObserver(handleIntersect, options);
+    document.querySelectorAll(".number").forEach((num) => obs.observe(num));
 
-    return () => observer.disconnect();
+    return () => obs.disconnect();
   }, [pages]);
 
   useEffect(() => {
-    const numberContainer = document.querySelector(
-      "#universal_item_display_number_container"
-    ) as HTMLElement;
-
-    if (numberContainer) {
-      numberContainer.addEventListener("touchstart", () => {
+    document
+      .querySelector("#universal_item_display_number_container")
+      ?.addEventListener("touchstart", () => {
         itemsPressed = false;
         numbersPressed = true;
       });
-    }
   }, []);
 
   useEffect(() => {
-    const container = document.querySelector(
-      "#universal_item_display_number_container"
-    ) as HTMLElement;
-    const ele = document.querySelectorAll(".number")[
-      selectedIdx
-    ] as HTMLElement;
-
-    if (container && ele && !numbersPressed) {
-      container.style.overflowX = "hidden";
-      ele.scrollIntoView({ inline: "center" });
-      setTimeout(() => {
-        container.style.overflowX = "scroll";
-      }, 10);
-    }
+    document
+      .querySelectorAll(numbersPressed ? ".page" : ".number")
+      [selectedIdx]?.scrollIntoView({ inline: "center" });
   }, [selectedIdx]);
 
   return (
