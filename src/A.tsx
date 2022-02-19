@@ -1143,16 +1143,16 @@ const Page = ({
             const selected = parseInt(id.substr(4, id.length));
 
             if (scrollDirection === "left") {
-              if (scrollSpeed < 0.8) {
+              if (scrollSpeed < 0.3) {
                 const container = document.querySelector(
                   "#universal_item_display_slider"
                 ) as HTMLElement;
 
                 container.style.overflowX = "hidden";
-                setTimeout(() => {
-                  entry.target.scrollIntoView();
-                  setSelectedIdx(selected);
-                }, 50);
+                entry.target.scrollIntoView({
+                  inline: "center",
+                });
+                setSelectedIdx(selected);
                 setTimeout(() => {
                   container.style.overflowX = "scroll";
                 }, 100);
@@ -1174,7 +1174,7 @@ const Page = ({
     const optSnapLeft = {
       root: container,
       threshold: 0,
-      rootMargin: "0% -90% 0% 0%",
+      rootMargin: "0% -95% 0% 0%",
     };
     const optSnapRight = {
       root: container,
