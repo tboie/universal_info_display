@@ -1146,17 +1146,19 @@ const Page = ({
             const selected = parseInt(id.substr(4, id.length));
 
             if (scrollDirection === "left") {
-              if (scrollSpeed < 0.3) {
+              if (scrollSpeed < 0.4) {
                 const container = document.querySelector(
                   "#universal_item_display_slider"
                 ) as HTMLElement;
 
                 container.style.overflowX = "hidden";
-                entry.target.scrollIntoView({
-                  inline: "center",
-                });
-                setSelectedIdx(selected);
                 setTimeout(() => {
+                  entry.target.scrollIntoView({
+                    inline: "center",
+                  });
+                }, 10);
+                setTimeout(() => {
+                  setSelectedIdx(selected);
                   container.style.overflowX = "scroll";
                 }, 100);
               } else {
@@ -1168,7 +1170,39 @@ const Page = ({
       });
     };
 
-    const handleSnapRight = (entries: any, observer: any) => {};
+    const handleSnapRight = (entries: any, observer: any) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          if (itemsPressed) {
+            console.log("right");
+            const id = entry.target.id;
+            const selected = parseInt(id.substr(4, id.length));
+            console.log(selected);
+
+            if (scrollDirection === "right") {
+              if (scrollSpeed * -1 < 0.4) {
+                const container = document.querySelector(
+                  "#universal_item_display_slider"
+                ) as HTMLElement;
+
+                container.style.overflowX = "hidden";
+                setTimeout(() => {
+                  entry.target.scrollIntoView({
+                    inline: "center",
+                  });
+                }, 10);
+                setTimeout(() => {
+                  setSelectedIdx(selected);
+                  container.style.overflowX = "scroll";
+                }, 100);
+              } else {
+                setSelectedIdx(selected);
+              }
+            }
+          }
+        }
+      });
+    };
 
     const container = document.querySelector(
       "#universal_item_display_slider"
@@ -1182,7 +1216,7 @@ const Page = ({
     const optSnapRight = {
       root: container,
       threshold: 0,
-      rootMargin: "0% 0% 0% -90%",
+      rootMargin: "0% 0% 0% -95%",
     };
 
     const obsSnapLeft = new IntersectionObserver(handleSnapLeft, optSnapLeft);
@@ -1200,6 +1234,26 @@ const Page = ({
       obsSnapRight.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!itemsPressed) {
+      const container = document.querySelector(
+        "#universal_item_display_slider"
+      ) as HTMLElement;
+
+      const elePage = document.querySelectorAll(".page")[selectedIdx];
+
+      container.style.overflowX = "hidden";
+      setTimeout(() => {
+        elePage.scrollIntoView({
+          inline: "center",
+        });
+      }, 10);
+      setTimeout(() => {
+        container.style.overflowX = "scroll";
+      }, 100);
+    }
+  }, [selectedIdx]);
 
   return (
     <div
@@ -1258,9 +1312,20 @@ const NumberSlider = ({
   }, []);
 
   useEffect(() => {
-    document
-      .querySelectorAll(numbersPressed ? ".page" : ".number")
-      [selectedIdx]?.scrollIntoView({ inline: "center" });
+    if (!numbersPressed) {
+      const eleNum = document.querySelectorAll(".number")[selectedIdx];
+      const container = document.querySelector(
+        "#universal_item_display_number_container"
+      ) as HTMLDivElement;
+
+      container.style.overflowX = "hidden";
+      eleNum?.scrollIntoView({
+        inline: "center",
+      });
+      setTimeout(() => {
+        container.style.overflowX = "scroll";
+      }, 10);
+    }
   }, [selectedIdx]);
 
   return (
