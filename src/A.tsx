@@ -1209,7 +1209,7 @@ const Page = ({
     const optSnapLeft = {
       root: container,
       threshold: 0,
-      rootMargin: "0% -95% 0% 0%",
+      rootMargin: "0% -93% 0% 0%",
     };
     const optPageChange = {
       root: container,
@@ -1219,7 +1219,7 @@ const Page = ({
     const optSnapRight = {
       root: container,
       threshold: 0,
-      rootMargin: "0% 0% 0% -95%",
+      rootMargin: "0% 0% 0% -93%",
     };
 
     const obsPageChange = new IntersectionObserver(
