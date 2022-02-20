@@ -1250,12 +1250,11 @@ const Page = ({
       const container = document.querySelector(
         "#universal_item_display_slider"
       ) as HTMLElement;
-
       const elePage = document.querySelectorAll(".page")[selectedIdx];
 
       container.style.overflowX = "hidden";
       setTimeout(() => {
-        elePage.scrollIntoView({
+        elePage?.scrollIntoView({
           inline: "center",
         });
       }, 10);
