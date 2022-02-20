@@ -1142,9 +1142,6 @@ const Page = ({
       entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
           if (itemsPressed) {
-            const id = entry.target.id;
-            const selected = parseInt(id.substr(4, id.length));
-
             if (scrollDirection === "left") {
               if (scrollSpeed < 0.4) {
                 const container = document.querySelector(
@@ -1158,11 +1155,8 @@ const Page = ({
                   });
                 }, 10);
                 setTimeout(() => {
-                  setSelectedIdx(selected);
                   container.style.overflowX = "scroll";
                 }, 100);
-              } else {
-                setSelectedIdx(selected);
               }
             }
           }
@@ -1174,11 +1168,6 @@ const Page = ({
       entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
           if (itemsPressed) {
-            console.log("right");
-            const id = entry.target.id;
-            const selected = parseInt(id.substr(4, id.length));
-            console.log(selected);
-
             if (scrollDirection === "right") {
               if (scrollSpeed * -1 < 0.4) {
                 const container = document.querySelector(
@@ -1192,13 +1181,22 @@ const Page = ({
                   });
                 }, 10);
                 setTimeout(() => {
-                  setSelectedIdx(selected);
                   container.style.overflowX = "scroll";
                 }, 100);
-              } else {
-                setSelectedIdx(selected);
               }
             }
+          }
+        }
+      });
+    };
+
+    const handlePageChange = (entries: any, observer: any) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          if (itemsPressed) {
+            const id = entry.target.id;
+            const selected = parseInt(id.substr(4, id.length));
+            setSelectedIdx(selected);
           }
         }
       });
@@ -1213,12 +1211,21 @@ const Page = ({
       threshold: 0,
       rootMargin: "0% -95% 0% 0%",
     };
+    const optPageChange = {
+      root: container,
+      threshold: 0,
+      rootMargin: "-50%",
+    };
     const optSnapRight = {
       root: container,
       threshold: 0,
       rootMargin: "0% 0% 0% -95%",
     };
 
+    const obsPageChange = new IntersectionObserver(
+      handlePageChange,
+      optPageChange
+    );
     const obsSnapLeft = new IntersectionObserver(handleSnapLeft, optSnapLeft);
     const obsSnapRight = new IntersectionObserver(
       handleSnapRight,
@@ -1226,10 +1233,13 @@ const Page = ({
     );
 
     const ele = document.querySelectorAll(".page")[num];
+
+    obsPageChange.observe(ele);
     obsSnapLeft.observe(ele);
     obsSnapRight.observe(ele);
 
     return () => {
+      obsPageChange.disconnect();
       obsSnapLeft.disconnect();
       obsSnapRight.disconnect();
     };
