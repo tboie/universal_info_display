@@ -1137,6 +1137,7 @@ const Page = ({
   selectedIdx: number;
   setSelectedIdx: (val: number) => void;
 }) => {
+  // IntersectionObservers for page snaps and page changes
   useEffect(() => {
     const handleSnapLeft = (entries: any, observer: any) => {
       entries.forEach((entry: any) => {
@@ -1245,6 +1246,7 @@ const Page = ({
     };
   }, []);
 
+  // Center page when changed
   useEffect(() => {
     if (!itemsPressed) {
       const container = document.querySelector(
@@ -1284,6 +1286,7 @@ const NumberSlider = ({
   selectedIdx,
   setSelectedIdx,
 }: Section) => {
+  // Select page when centered
   useEffect(() => {
     const handleIntersect = (entries: any, observer: any) => {
       entries.forEach((entry: any, idx: number) => {
@@ -1311,6 +1314,7 @@ const NumberSlider = ({
     return () => obs.disconnect();
   }, [pages]);
 
+  // Toggle pressed flag on touch start
   useEffect(() => {
     document
       .querySelector("#universal_item_display_number_container")
@@ -1320,6 +1324,7 @@ const NumberSlider = ({
       });
   }, []);
 
+  // Center selected page change
   useEffect(() => {
     if (!numbersPressed) {
       const eleNum = document.querySelectorAll(".number")[selectedIdx];
