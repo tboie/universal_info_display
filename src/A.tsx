@@ -927,11 +927,22 @@ const U = (
   );
 };
 
+// ***
+// Universal Info Display
+// ***
+
+// 1st: display all text into 1 div and split text into pages using element height and viewport height
+// Two: Mount pages from above and detect overflow on them
+// Finally: from 1st page to last, detect if overflowing and move word to next if true
+// 3: Display text
+// Now: Improve
+// TODO: Don't break text on word for #1
+
 // globals
 let itemsPressed = false;
 let numbersPressed = false;
 let scrollSpeed = 0; // pixels per MS
-let scrollDirection = "stopped";
+let scrollDirection: "stopped" | "left" | "right" = "stopped";
 
 type Section = {
   selectedIdx: number;
@@ -942,7 +953,6 @@ type Section = {
 
 const UniversalItemDisplay = () => {
   const [selectedIdx, setSelectedIdx] = useState(0);
-  // TODO: add overflow/loading state?
   const [pages, setPages] = useState([]);
 
   return (
@@ -971,6 +981,7 @@ const ItemSlider = ({
 }: Section) => {
   const [textChunks, setTextChunks] = useState<string[]>([text]);
 
+  // callback on element change
   const overflowChanged = (isOverflowing: boolean, i: number) => {
     setPages((prevState: any) => {
       let copy = [...prevState];
@@ -980,6 +991,7 @@ const ItemSlider = ({
   };
 
   const calc = () => {
+    // Split text into pages using heights
     function chunkString(str: string, len: number) {
       const size = Math.ceil(str.length / len);
       const r = Array(size);
@@ -1008,7 +1020,7 @@ const ItemSlider = ({
       }
     }
 
-    // scroll speed
+    // scroll speed/direction
     const container = document.getElementById("universal_item_display_slider");
     if (container) {
       let lastOffset = container.scrollLeft;
@@ -1035,10 +1047,7 @@ const ItemSlider = ({
     }
   };
 
-  useEffect(() => {
-    calc();
-  }, []);
-
+  // move word to next page
   const proc = () => {
     // stop warnings
     setTimeout(() => {
@@ -1082,6 +1091,10 @@ const ItemSlider = ({
       });
     });
   };
+
+  useEffect(() => {
+    calc();
+  }, []);
 
   useEffect(() => {
     if (textChunks.length) {
