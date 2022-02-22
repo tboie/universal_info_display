@@ -944,30 +944,30 @@ let numbersPressed = false;
 let scrollSpeed = 0; // pixels per MS
 let scrollDirection: "stopped" | "left" | "right" = "stopped";
 
-type Section = {
-  selectedIdx: number;
-  setSelectedIdx: (val: any) => void;
+type ViewSection = {
+  selectedPageIdx: number;
+  setSelectedPageIdx: (val: any) => void;
   pages: boolean[];
-  setPages: (val: any) => void;
+  setPagesBool: (val: any) => void;
 };
 
 const UniversalItemDisplay = () => {
-  const [selectedIdx, setSelectedIdx] = useState(0);
-  const [pages, setPages] = useState([]);
+  const [selectedPageIdx, setSelectedPageIdx] = useState(0);
+  const [pagesBool, setPagesBool] = useState([]);
 
   return (
     <div id="universal_item_display" className="universal_item_display">
       <ItemSlider
-        pages={pages}
-        setPages={setPages}
-        selectedIdx={selectedIdx}
-        setSelectedIdx={setSelectedIdx}
+        pages={pagesBool}
+        setPagesBool={setPagesBool}
+        selectedPageIdx={selectedPageIdx}
+        setSelectedPageIdx={setSelectedPageIdx}
       />
       <NumberSlider
-        pages={pages}
-        setPages={setPages}
-        selectedIdx={selectedIdx}
-        setSelectedIdx={setSelectedIdx}
+        pages={pagesBool}
+        setPagesBool={setPagesBool}
+        selectedPageIdx={selectedPageIdx}
+        setSelectedPageIdx={setSelectedPageIdx}
       />
     </div>
   );
@@ -975,15 +975,15 @@ const UniversalItemDisplay = () => {
 
 const ItemSlider = ({
   pages,
-  setPages,
-  selectedIdx,
-  setSelectedIdx,
-}: Section) => {
+  setPagesBool,
+  selectedPageIdx,
+  setSelectedPageIdx,
+}: ViewSection) => {
   const [textChunks, setTextChunks] = useState<string[]>([text]);
 
   // callback on element change
   const overflowChanged = (isOverflowing: boolean, i: number) => {
-    setPages((prevState: any) => {
+    setPagesBool((prevState: any) => {
       let copy = [...prevState];
       copy[i] = isOverflowing;
       return copy;
@@ -1131,24 +1131,35 @@ const ItemSlider = ({
             key={i}
             num={i}
             text={textChunks[i]}
-            selectedIdx={selectedIdx}
-            setSelectedIdx={setSelectedIdx}
+            selectedPageIdx={selectedPageIdx}
+            setSelectedPageIdx={setSelectedPageIdx}
           />
         ))}
     </div>
   );
 };
 
+/*
+const Group = ({
+  pages,
+  setPagesBool,
+  selectedPageIdx,
+  setSelectedPageIdx,
+}: ViewSection) => {
+  return <div></div>;
+};
+*/
+
 const Page = ({
   text,
   num,
-  selectedIdx,
-  setSelectedIdx,
+  selectedPageIdx,
+  setSelectedPageIdx,
 }: {
   text: string;
   num: number;
-  selectedIdx: number;
-  setSelectedIdx: (val: number) => void;
+  selectedPageIdx: number;
+  setSelectedPageIdx: (val: number) => void;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -1210,7 +1221,7 @@ const Page = ({
           if (itemsPressed) {
             const id = entry.target.id;
             const selected = parseInt(id.substr(4, id.length));
-            setSelectedIdx(selected);
+            setSelectedPageIdx(selected);
           }
         }
       });
@@ -1265,7 +1276,7 @@ const Page = ({
       const container = document.querySelector(
         "#universal_item_display_slider"
       ) as HTMLElement;
-      const elePage = document.querySelectorAll(".page")[selectedIdx];
+      const elePage = document.querySelectorAll(".page")[selectedPageIdx];
 
       container.style.overflowX = "hidden";
       setTimeout(() => {
@@ -1277,7 +1288,7 @@ const Page = ({
         container.style.overflowX = "scroll";
       }, 100);
     }
-  }, [selectedIdx]);
+  }, [selectedPageIdx]);
 
   return (
     <div
@@ -1295,10 +1306,10 @@ const Page = ({
 
 const NumberSlider = ({
   pages,
-  setPages,
-  selectedIdx,
-  setSelectedIdx,
-}: Section) => {
+  setPagesBool,
+  selectedPageIdx,
+  setSelectedPageIdx,
+}: ViewSection) => {
   // Select page when centered
   useEffect(() => {
     const handleIntersect = (entries: any, observer: any) => {
@@ -1307,7 +1318,7 @@ const NumberSlider = ({
           if (numbersPressed) {
             const id = entry.target.id;
             const selected = parseInt(id.substr(3, id.length));
-            setSelectedIdx(selected);
+            setSelectedPageIdx(selected);
           }
         }
       });
@@ -1340,7 +1351,7 @@ const NumberSlider = ({
   // Center selected page change
   useEffect(() => {
     if (!numbersPressed) {
-      const eleNum = document.querySelectorAll(".number")[selectedIdx];
+      const eleNum = document.querySelectorAll(".number")[selectedPageIdx];
       const container = document.querySelector(
         "#universal_item_display_number_container"
       ) as HTMLDivElement;
@@ -1353,7 +1364,7 @@ const NumberSlider = ({
         container.style.overflowX = "scroll";
       }, 10);
     }
-  }, [selectedIdx]);
+  }, [selectedPageIdx]);
 
   return (
     <div id="universal_item_display_number_container" className="number_slider">
@@ -1363,7 +1374,7 @@ const NumberSlider = ({
             key={num}
             id={`num${num}`}
             className={`number ${num === pages.length - 1 ? "last" : ""} ${
-              num === selectedIdx ? "selected" : ""
+              num === selectedPageIdx ? "selected" : ""
             }`}
           >
             {num}
@@ -1375,7 +1386,7 @@ const NumberSlider = ({
 };
 
 const GridItems = ({ page }: { page: number }) => {
-  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [selectedPageIdx, setSelectedPageIdx] = useState(0);
 
   return (
     <div className="item-grid">
