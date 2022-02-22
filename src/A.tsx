@@ -948,7 +948,7 @@ let scrollDirection: "stopped" | "left" | "right" = "stopped";
 type ViewSection = {
   selectedPageIdx: number;
   setSelectedPageIdx: (val: any) => void;
-  pages: boolean[];
+  pagesBool: boolean[];
   setPagesBool: (val: any) => void;
 };
 
@@ -959,13 +959,13 @@ const UniversalItemDisplay = () => {
   return (
     <div id="universal_item_display" className="universal_item_display">
       <ItemSlider
-        pages={pagesBool}
+        pagesBool={pagesBool}
         setPagesBool={setPagesBool}
         selectedPageIdx={selectedPageIdx}
         setSelectedPageIdx={setSelectedPageIdx}
       />
       <NumberSlider
-        pages={pagesBool}
+        pagesBool={pagesBool}
         setPagesBool={setPagesBool}
         selectedPageIdx={selectedPageIdx}
         setSelectedPageIdx={setSelectedPageIdx}
@@ -975,7 +975,7 @@ const UniversalItemDisplay = () => {
 };
 
 const ItemSlider = ({
-  pages,
+  pagesBool,
   setPagesBool,
   selectedPageIdx,
   setSelectedPageIdx,
@@ -1052,7 +1052,7 @@ const ItemSlider = ({
   const proc = () => {
     // stop warnings
     setTimeout(() => {
-      pages.some((val, idx) => {
+      pagesBool.some((val, idx) => {
         if (val && textChunks[idx]) {
           const words = textChunks[idx].split(" ");
 
@@ -1125,7 +1125,7 @@ const ItemSlider = ({
         </div>
       ))}
 
-      {pages
+      {pagesBool
         .filter((p) => p === false)
         .map((p, i) => (
           <Page
@@ -1306,7 +1306,7 @@ const Page = ({
 };
 
 const NumberSlider = ({
-  pages,
+  pagesBool,
   setPagesBool,
   selectedPageIdx,
   setSelectedPageIdx,
@@ -1337,7 +1337,7 @@ const NumberSlider = ({
     document.querySelectorAll(".number").forEach((num) => obs.observe(num));
 
     return () => obs.disconnect();
-  }, [pages]);
+  }, [pagesBool]);
 
   // Toggle pressed flag on touch start
   useEffect(() => {
@@ -1369,12 +1369,12 @@ const NumberSlider = ({
 
   return (
     <div id="universal_item_display_number_container" className="number_slider">
-      {pages.map((page, num) => {
+      {pagesBool.map((page, num) => {
         return (
           <span
             key={num}
             id={`num${num}`}
-            className={`number ${num === pages.length - 1 ? "last" : ""} ${
+            className={`number ${num === pagesBool.length - 1 ? "last" : ""} ${
               num === selectedPageIdx ? "selected" : ""
             }`}
           >
