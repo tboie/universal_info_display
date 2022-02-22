@@ -929,6 +929,7 @@ const U = (
 
 // ***
 // Universal Info Display
+// [Coded using purpose-oriented-programming]
 // ***
 
 // 1st: display all text into 1 div and split text into pages using element height and viewport height
