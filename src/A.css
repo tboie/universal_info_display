@@ -154,13 +154,13 @@
   }
 }
 
-.universal_item_display {
+.universal_info_display {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-.universal_item_display .item_slider {
+.universal_info_display .content_slider {
   position: relative;
   height: 80%;
   width: 100%;
@@ -170,7 +170,7 @@
   z-index: 1;
 }
 
-.universal_item_display .page_loader {
+.universal_info_display .page_loader {
   background-color: white;
   color: black;
   height: 100%;
@@ -182,7 +182,7 @@
   align-items: center;*/
 }
 
-.universal_item_display .page {
+.universal_info_display .page {
   background-color: white;
   color: black;
   height: 100%;
@@ -195,7 +195,7 @@
   align-items: center;*/
 }
 
-.universal_item_display #all-text {
+.universal_info_display #all-text {
   visibility: hidden;
   white-space: normal;
   word-break: break-word;
@@ -203,11 +203,11 @@
   position: absolute;
 }
 
-.universal_item_display .item_container span {
+.universal_info_display .content_container span {
   font-size: 2rem;
 }
 
-.universal_item_display .number_slider {
+.universal_info_display_nav_slider {
   background-color: pink;
   height: 20%;
   width: 100%;
@@ -217,27 +217,27 @@
   flex-wrap: nowrap;
 }
 
-.universal_item_display .number {
+.universal_info_display .number {
   font-size: 2rem;
   padding: 1rem;
   display: block;
 }
 
-.universal_item_display .number:first-of-type {
+.universal_info_display .number:first-of-type {
   padding-left: calc(50% - 1rem);
 }
 
-.universal_item_display .number.last {
+.universal_info_display .number.last {
   padding-right: calc(50% - 1rem);
 }
 
-.universal_item_display .number.selected {
+.universal_info_display .number.selected {
   color: green;
   text-decoration: underline;
   border: 0;
 }
 
-.universal_item_display .item-grid {
+.universal_info_display .item-grid {
   z-index: 4;
   width: 100%;
   height: 100%;
@@ -248,12 +248,12 @@
   grid-row-gap: 2px;
 }
 
-.universal_item_display .item-grid .item {
+.universal_info_display .item-grid .item {
   position: relative;
   background-color: gray;
 }
 
-.universal_item_display .item-grid .item span {
+.universal_info_display .item-grid .item span {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -262,6 +262,6 @@
   z-index: 5;
 }
 
-.universal_item_display .item-grid img {
+.universal_info_display .item-grid img {
   width: 100%;
 }
