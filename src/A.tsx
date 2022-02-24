@@ -970,6 +970,7 @@ const UniversalInfoDisplay = ({ type }: { type: "text" | "item" }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
+  const [items, setItems] = useState([]);
   const [groups, setGroups] = useState(["one", "two", "three"]);
 
   const props = {
@@ -1134,35 +1135,40 @@ const ContentSlider = ({
     <div id="universal_info_display_content_slider" className="content_slider">
       <div id="all-text">{text}</div>
 
-      {textChunks.map((txt, idx) => (
-        <div key={idx} className={`page_loader`}>
-          <DetectableOverflow
-            onChange={(overflowing) => overflowChanged(overflowing, idx)}
-            style={{
-              whiteSpace: "normal",
-              wordBreak: "break-word",
-              overflow: "scroll",
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            {txt}
-          </DetectableOverflow>
-          {/*<GridItems page={sq}/> */}
-        </div>
-      ))}
+      {
+        /* initial page loader */
+        type === "text" &&
+          textChunks.map((txt, idx) => (
+            <div key={idx} className={`page_loader`}>
+              <DetectableOverflow
+                onChange={(overflowing) => overflowChanged(overflowing, idx)}
+                style={{
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  overflow: "scroll",
+                  height: "100%",
+                  width: "100%",
+                }}
+              >
+                {txt}
+              </DetectableOverflow>
+              {/*<GridItems page={sq}/> */}
+            </div>
+          ))
+      }
 
-      {pagesBool
-        .filter((p) => p === false)
-        .map((p, i) => (
-          <Page
-            key={i}
-            num={i}
-            text={textChunks[i]}
-            selectedPageIdx={selectedPageIdx}
-            setSelectedPageIdx={setSelectedPageIdx}
-          />
-        ))}
+      {type === "text" &&
+        pagesBool
+          .filter((p) => p === false)
+          .map((p, i) => (
+            <Page
+              key={i}
+              num={i}
+              text={textChunks[i]}
+              selectedPageIdx={selectedPageIdx}
+              setSelectedPageIdx={setSelectedPageIdx}
+            />
+          ))}
     </div>
   );
 };
