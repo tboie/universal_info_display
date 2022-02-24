@@ -842,7 +842,7 @@ const U = (
         PRESS_UNIT(p.i, ev.currentTarget, ev);
       }}
     >
-      <UniversalInfoDisplay />
+      <UniversalInfoDisplay type="text" />
       {/*!p.edit && <img className="img-test" src="/logo512.png" alt="" />*/}
       {p.edit && (
         <div className="edit">
@@ -932,6 +932,7 @@ const U = (
 // [Coded using purpose-oriented-programming]
 // ***
 
+// [TEXT CALCS]
 // 1st: display all text into 1 div and split text into pages using element height and viewport height
 // Two: Mount pages from above and detect overflow on them
 // Finally: from 1st page to last, detect if overflowing and move word to next if true
@@ -965,7 +966,7 @@ type NavSlider = {
   type: "group" | "page";
 };
 
-const UniversalInfoDisplay = () => {
+const UniversalInfoDisplay = ({ type }: { type: "text" | "item" }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
@@ -982,7 +983,7 @@ const UniversalInfoDisplay = () => {
 
   return (
     <div className="universal_info_display">
-      <ContentSlider {...props} />
+      <ContentSlider {...props} type={type} data={[]} />
       <NavSlider {...props} type={"page"} />
       <NavSlider {...props} groups={groups} type={"group"} />
     </div>
@@ -990,50 +991,56 @@ const UniversalInfoDisplay = () => {
 };
 
 const ContentSlider = ({
+  type,
+  data,
   pagesBool,
   setPagesBool,
   selectedPageIdx,
   setSelectedPageIdx,
   selectedGroupIdx,
-}: ViewSection) => {
+}: ViewSection & { type: "text" | "item"; data: any }) => {
   const [textChunks, setTextChunks] = useState<string[]>([text]);
 
   // callback on element change
   const overflowChanged = (isOverflowing: boolean, i: number) => {
-    setPagesBool((prevState: any) => {
-      let copy = [...prevState];
-      copy[i] = isOverflowing;
-      return copy;
-    });
+    if (type === "text") {
+      setPagesBool((prevState: any) => {
+        let copy = [...prevState];
+        copy[i] = isOverflowing;
+        return copy;
+      });
+    }
   };
 
   const calc = () => {
     // Split text into pages using heights
-    function chunkString(str: string, len: number) {
-      const size = Math.ceil(str.length / len);
-      const r = Array(size);
-      let offset = 0;
-      for (let i = 0; i < size; i++) {
-        r[i] = str.substr(offset, len);
-        offset += len;
+    if (type === "text") {
+      function chunkString(str: string, len: number) {
+        const size = Math.ceil(str.length / len);
+        const r = Array(size);
+        let offset = 0;
+        for (let i = 0; i < size; i++) {
+          r[i] = str.substr(offset, len);
+          offset += len;
+        }
+        return r;
       }
-      return r;
-    }
 
-    const winH = window.innerHeight;
-    const allH = document
-      .getElementById("all-text")
-      ?.getBoundingClientRect().height;
+      const winH = window.innerHeight;
+      const allH = document
+        .getElementById("all-text")
+        ?.getBoundingClientRect().height;
 
-    if (winH && allH) {
-      const numScreens = Math.floor(allH / (winH - winH * 0.2));
-      const charsPerScreen = parseInt(
-        (textChunks[0].length / numScreens).toFixed(0)
-      );
-      const chunks = chunkString(textChunks[0], charsPerScreen);
+      if (winH && allH) {
+        const numScreens = Math.floor(allH / (winH - winH * 0.2));
+        const charsPerScreen = parseInt(
+          (textChunks[0].length / numScreens).toFixed(0)
+        );
+        const chunks = chunkString(textChunks[0], charsPerScreen);
 
-      if (chunks) {
-        setTextChunks(chunks);
+        if (chunks) {
+          setTextChunks(chunks);
+        }
       }
     }
 
@@ -1116,8 +1123,10 @@ const ContentSlider = ({
   }, []);
 
   useEffect(() => {
-    if (textChunks.length) {
-      proc();
+    if (type === "text") {
+      if (textChunks.length) {
+        proc();
+      }
     }
   }, [textChunks]);
 
@@ -1350,7 +1359,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
     const handleIntersect = (entries: any, observer: any) => {
       entries.forEach((entry: any, idx: number) => {
         if (entry.isIntersecting) {
-          if (numbersPressed) {
+          if (numbersPressed || groupsPressed) {
             const id = entry.target.id;
             const sel_idx = parseInt(
               id.replace(type === "page" ? "num" : "group", "").toString()
