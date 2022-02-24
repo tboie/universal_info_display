@@ -1384,12 +1384,8 @@ const NavSlider = (props: ViewSection & NavSlider) => {
       .querySelector(sel_container)
       ?.addEventListener("touchstart", () => {
         itemsPressed = false;
-
-        if (type === "page") {
-          numbersPressed = true;
-        } else if (type === "group") {
-          groupsPressed = true;
-        }
+        numbersPressed = type === "page";
+        groupsPressed = type === "group";
       });
   }, []);
 
