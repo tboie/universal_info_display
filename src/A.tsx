@@ -942,7 +942,7 @@ const U = (
 // globals
 let itemsPressed = false;
 let numbersPressed = false;
-let groupsPreseed = false;
+let groupsPressed = false;
 let scrollSpeed = 0; // pixels per MS
 let scrollDirection: "stopped" | "left" | "right" = "stopped";
 
@@ -1316,6 +1316,7 @@ const Page = ({
       onTouchStart={(e) => {
         itemsPressed = true;
         numbersPressed = false;
+        groupsPressed = false;
       }}
     >
       {text}
@@ -1383,7 +1384,12 @@ const NavSlider = (props: ViewSection & NavSlider) => {
       .querySelector(sel_container)
       ?.addEventListener("touchstart", () => {
         itemsPressed = false;
-        numbersPressed = true;
+
+        if (type === "page") {
+          numbersPressed = true;
+        } else if (type === "group") {
+          groupsPressed = true;
+        }
       });
   }, []);
 
