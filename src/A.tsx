@@ -942,6 +942,7 @@ const U = (
 // globals
 let itemsPressed = false;
 let numbersPressed = false;
+let groupsPreseed = false;
 let scrollSpeed = 0; // pixels per MS
 let scrollDirection: "stopped" | "left" | "right" = "stopped";
 
@@ -968,7 +969,7 @@ const UniversalInfoDisplay = () => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
-  const [groups, setGroups] = useState([""]);
+  const [groups, setGroups] = useState(["one", "two", "three"]);
 
   const props = {
     pagesBool: pagesBool,
@@ -983,6 +984,7 @@ const UniversalInfoDisplay = () => {
     <div className="universal_info_display">
       <ContentSlider {...props} />
       <NavSlider {...props} type={"page"} />
+      <NavSlider {...props} groups={groups} type={"group"} />
     </div>
   );
 };
@@ -1321,14 +1323,27 @@ const Page = ({
   );
 };
 
-const NavSlider = ({
-  type,
-  pagesBool,
-  setPagesBool,
-  selectedPageIdx,
-  setSelectedPageIdx,
-  selectedGroupIdx,
-}: ViewSection & NavSlider) => {
+const NavSlider = (props: ViewSection & NavSlider) => {
+  const {
+    type,
+    pagesBool,
+    setPagesBool,
+    selectedPageIdx,
+    setSelectedPageIdx,
+    selectedGroupIdx,
+    setSelectedGroupIdx,
+    groups,
+  } = { ...props };
+
+  const sel_labels =
+    type === "page"
+      ? "#universal_info_display_nav_page_slider .slider_label"
+      : "#universal_info_display_nav_group_slider .slider_label";
+  const sel_container =
+    type === "page"
+      ? "#universal_info_display_nav_page_slider"
+      : "#universal_info_display_nav_group_slider";
+
   // Select page when centered
   useEffect(() => {
     const handleIntersect = (entries: any, observer: any) => {
@@ -1336,23 +1351,28 @@ const NavSlider = ({
         if (entry.isIntersecting) {
           if (numbersPressed) {
             const id = entry.target.id;
-            const selected = parseInt(id.substr(3, id.length));
-            setSelectedPageIdx(selected);
+            const sel_idx = parseInt(
+              id.replace(type === "page" ? "num" : "group", "").toString()
+            );
+
+            if (type === "page") {
+              setSelectedPageIdx(sel_idx);
+            } else if (type === "group") {
+              setSelectedGroupIdx(sel_idx);
+            }
           }
         }
       });
     };
 
     const options = {
-      root: document.querySelector(
-        "#universal_info_display_nav_slider"
-      ) as HTMLElement,
+      root: document.querySelector(sel_container) as HTMLElement,
       threshold: 0,
       rootMargin: "-50%",
     };
 
     const obs = new IntersectionObserver(handleIntersect, options);
-    document.querySelectorAll(".number").forEach((num) => obs.observe(num));
+    document.querySelectorAll(sel_labels).forEach((num) => obs.observe(num));
 
     return () => obs.disconnect();
   }, [pagesBool]);
@@ -1360,7 +1380,7 @@ const NavSlider = ({
   // Toggle pressed flag on touch start
   useEffect(() => {
     document
-      .querySelector("#universal_info_display_nav_slider")
+      .querySelector(sel_container)
       ?.addEventListener("touchstart", () => {
         itemsPressed = false;
         numbersPressed = true;
@@ -1369,11 +1389,9 @@ const NavSlider = ({
 
   // Center selected page change
   useEffect(() => {
-    if (!numbersPressed) {
-      const eleNum = document.querySelectorAll(".number")[selectedPageIdx];
-      const container = document.querySelector(
-        "#universal_info_display_nav_slider"
-      ) as HTMLDivElement;
+    if (type === "page" && !numbersPressed) {
+      const eleNum = document.querySelectorAll(sel_labels)[selectedPageIdx];
+      const container = document.querySelector(sel_container) as HTMLDivElement;
 
       container.style.overflowX = "hidden";
       eleNum?.scrollIntoView({
@@ -1387,26 +1405,56 @@ const NavSlider = ({
 
   return (
     <div
-      id="universal_info_display_nav_slider"
+      id={`universal_info_display_nav_${
+        type === "group" ? "group" : "page"
+      }_slider`}
       className="universal_info_display_nav_slider"
     >
-      {pagesBool.map((page, num) => {
-        return (
-          <span
-            key={num}
-            id={`num${num}`}
-            className={`number ${num === pagesBool.length - 1 ? "last" : ""} ${
-              num === selectedPageIdx ? "selected" : ""
-            }`}
-          >
-            {num}
-          </span>
-        );
-      })}
+      {type === "page" &&
+        pagesBool.map((page, idx) => {
+          return (
+            <SliderLabel
+              {...props}
+              selected={idx === selectedPageIdx}
+              idx={idx}
+              title={idx.toString()}
+            />
+          );
+        })}
+
+      {type === "group" &&
+        groups?.map((group, idx) => {
+          return (
+            <SliderLabel
+              {...props}
+              selected={idx === selectedGroupIdx}
+              idx={idx}
+              title={group}
+            />
+          );
+        })}
     </div>
   );
 };
 
+const SliderLabel = (
+  props: ViewSection &
+    NavSlider & { selected: boolean; title: string; idx: number }
+) => {
+  const { selected, title, idx, type } = { ...props };
+  return (
+    <span
+      key={idx}
+      id={`${type === "page" ? "num" : "group"}${idx}`}
+      className={`slider_label ${selected ? "selected" : ""}`}
+    >
+      {title}
+    </span>
+  );
+};
+
+{
+  /*
 const GridItems = ({ page }: { page: number }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
 
@@ -1423,5 +1471,7 @@ const GridItems = ({ page }: { page: number }) => {
     </div>
   );
 };
+*/
+}
 
 export default U;

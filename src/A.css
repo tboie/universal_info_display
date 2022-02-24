@@ -209,7 +209,7 @@
 
 .universal_info_display_nav_slider {
   background-color: pink;
-  height: 20%;
+  height: 10%;
   width: 100%;
   overflow-x: scroll;
   display: flex;
@@ -217,21 +217,21 @@
   flex-wrap: nowrap;
 }
 
-.universal_info_display .number {
+.universal_info_display .slider_label {
   font-size: 2rem;
   padding: 1rem;
   display: block;
 }
 
-.universal_info_display .number:first-of-type {
+.universal_info_display .slider_label:first-of-type {
   padding-left: calc(50% - 1rem);
 }
 
-.universal_info_display .number.last {
+.universal_info_display .slider_label:last-of-type {
   padding-right: calc(50% - 1rem);
 }
 
-.universal_info_display .number.selected {
+.universal_info_display .slider_label.selected {
   color: green;
   text-decoration: underline;
   border: 0;
