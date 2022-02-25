@@ -212,6 +212,7 @@
   height: 10%;
   width: 100%;
   overflow-x: scroll;
+  overflow-y: hidden;
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
