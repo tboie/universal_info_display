@@ -1412,6 +1412,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
             if (type === "page") {
               setSelectedPageIdx(sel_idx);
             } else if (type === "group") {
+              setSelectedPageIdx(0);
               setSelectedGroupIdx(sel_idx);
             }
           }
