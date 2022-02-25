@@ -1025,7 +1025,7 @@ const UniversalInfoDisplay = (props: {
           setPagesBool(chunkArr(data, 9).map((item: any) => true));
         });
     }
-  }, [selectedGroupIdx]);
+  }, [selectedGroupIdx, groups.length]);
 
   return (
     <div className="universal_info_display">
