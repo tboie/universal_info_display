@@ -842,7 +842,7 @@ const U = (
         PRESS_UNIT(p.i, ev.currentTarget, ev);
       }}
     >
-      <UniversalInfoDisplay type="text" data={data_text} />
+      <UniversalInfoDisplay type="item" data={[]} />
       {/*!p.edit && <img className="img-test" src="/logo512.png" alt="" />*/}
       {p.edit && (
         <div className="edit">
@@ -966,6 +966,23 @@ type NavSlider = {
   type: "group" | "page";
 };
 
+// utils
+const chunkArr = (arr: any[], size: number) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
+const chunkString = (str: string, len: number) => {
+  const size = Math.ceil(str.length / len);
+  const r = Array(size);
+  let offset = 0;
+  for (let i = 0; i < size; i++) {
+    r[i] = str.substr(offset, len);
+    offset += len;
+  }
+  return r;
+};
+
 const UniversalInfoDisplay = (props: {
   type: "text" | "item";
   data: string | [];
@@ -975,7 +992,7 @@ const UniversalInfoDisplay = (props: {
   const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
   // items or text
   const [data, setData] = useState<string | []>(props.data);
-  const [groups, setGroups] = useState(["one", "two", "three"]);
+  const [groups, setGroups] = useState([]);
 
   const p = {
     pagesBool: pagesBool,
@@ -985,6 +1002,30 @@ const UniversalInfoDisplay = (props: {
     selectedGroupIdx: selectedGroupIdx,
     setSelectedGroupIdx: setSelectedGroupIdx,
   };
+
+  // get all groups
+  useEffect(() => {
+    if (props.type === "item") {
+      fetch("/data/groups.json")
+        .then((response) => response.json())
+        .then((data) => {
+          setGroups(data);
+        });
+    }
+  }, []);
+
+  // get individual group data and set # number of pages
+  useEffect(() => {
+    if (groups.length) {
+      fetch(`/data/${groups[selectedGroupIdx]}.json`)
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data);
+          // val doesn't matter for now
+          setPagesBool(chunkArr(data, 9).map((item: any) => true));
+        });
+    }
+  }, [selectedGroupIdx]);
 
   return (
     <div className="universal_info_display">
@@ -1022,17 +1063,6 @@ const ContentSlider = ({
   const calc = () => {
     // Split text into pages using heights
     if (type === "text") {
-      function chunkString(str: string, len: number) {
-        const size = Math.ceil(str.length / len);
-        const r = Array(size);
-        let offset = 0;
-        for (let i = 0; i < size; i++) {
-          r[i] = str.substr(offset, len);
-          offset += len;
-        }
-        return r;
-      }
-
       const winH = window.innerHeight;
       const allH = document
         .getElementById("all-text")
@@ -1158,7 +1188,6 @@ const ContentSlider = ({
               >
                 {txt}
               </DetectableOverflow>
-              {/*<GridItems page={sq}/> */}
             </div>
           ))
       }
@@ -1175,28 +1204,30 @@ const ContentSlider = ({
               setSelectedPageIdx={setSelectedPageIdx}
             />
           ))}
+
+      {type === "item" &&
+        chunkArr(data as any[], 9).map((items, i) => (
+          <Page
+            key={i}
+            num={i}
+            items={items}
+            selectedPageIdx={selectedPageIdx}
+            setSelectedPageIdx={setSelectedPageIdx}
+          />
+        ))}
     </div>
   );
 };
 
-/*
-const Group = ({
-  pages,
-  setPagesBool,
-  selectedPageIdx,
-  setSelectedPageIdx,
-}: ViewSection) => {
-  return <div></div>;
-};
-*/
-
 const Page = ({
   text,
+  items,
   num,
   selectedPageIdx,
   setSelectedPageIdx,
 }: {
-  text: string;
+  text?: string;
+  items?: any[];
   num: number;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
@@ -1341,6 +1372,7 @@ const Page = ({
       }}
     >
       {text}
+      {items?.length && <GridItems page={num} items={items} />}
     </div>
   );
 };
@@ -1397,7 +1429,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
     document.querySelectorAll(sel_labels).forEach((num) => obs.observe(num));
 
     return () => obs.disconnect();
-  }, [pagesBool]);
+  }, [pagesBool, groups]);
 
   // Toggle pressed flag on touch start
   useEffect(() => {
@@ -1478,25 +1510,19 @@ const SliderLabel = (
   );
 };
 
-{
-  /*
-const GridItems = ({ page }: { page: number }) => {
-  const [selectedPageIdx, setSelectedPageIdx] = useState(0);
-
+const GridItems = ({ page, items }: { page: number; items: any[] }) => {
   return (
     <div className="item-grid">
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((num) => {
+      {items.map((num, idx) => {
         return (
-          <div className={`item`}>
-            <img src="/loop1.gif"></img>
-            <span>{`${page}${num}`}</span>
+          <div className={`item`} key={idx}>
+            <img src="/loop1.gif" loading="lazy"></img>
+            <span>{`${page}${idx}`}</span>
           </div>
         );
       })}
     </div>
   );
 };
-*/
-}
 
 export default U;
