@@ -947,6 +947,15 @@ let groupsPressed = false;
 let scrollSpeed = 0; // pixels per MS
 let scrollDirection: "stopped" | "left" | "right" = "stopped";
 
+type UniversalInfoDisplayItem = {
+  id: number;
+  name: string;
+  desc: string;
+  p1?: { [key: string]: string | number };
+  p2?: { [key: string]: string | number };
+  p3?: { [key: string]: string | number };
+};
+
 type ViewSection = {
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
@@ -985,13 +994,15 @@ const chunkString = (str: string, len: number) => {
 
 const UniversalInfoDisplay = (props: {
   type: "text" | "item";
-  data: string | [];
+  data: string | UniversalInfoDisplayItem[];
 }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
   // items or text
-  const [data, setData] = useState<string | []>(props.data);
+  const [data, setData] = useState<string | UniversalInfoDisplayItem[]>(
+    props.data
+  );
   const [groups, setGroups] = useState([]);
 
   const p = {
@@ -1019,10 +1030,10 @@ const UniversalInfoDisplay = (props: {
     if (groups.length) {
       fetch(`/data/${groups[selectedGroupIdx]}.json`)
         .then((response) => response.json())
-        .then((data) => {
+        .then((data: UniversalInfoDisplayItem[]) => {
           setData(data);
           // val doesn't matter for now
-          setPagesBool(chunkArr(data, 9).map((item: any) => true));
+          setPagesBool(chunkArr(data, 9).map((item) => true));
         });
     }
   }, [selectedGroupIdx, groups.length]);
@@ -1044,8 +1055,12 @@ const ContentSlider = ({
   selectedPageIdx,
   setSelectedPageIdx,
   selectedGroupIdx,
-}: ViewSection & { type: "text" | "item"; data: string | [] }) => {
+}: ViewSection & {
+  type: "text" | "item";
+  data: string | UniversalInfoDisplayItem[];
+}) => {
   const [textChunks, setTextChunks] = useState<string[]>(
+    //this might be a problem when text type gets implemented
     type === "text" ? ([data] as string[]) : []
   );
 
@@ -1206,7 +1221,7 @@ const ContentSlider = ({
           ))}
 
       {type === "item" &&
-        chunkArr(data as any[], 9).map((items, i) => (
+        chunkArr(data as UniversalInfoDisplayItem[], 9).map((items, i) => (
           <Page
             key={i}
             num={i}
@@ -1227,7 +1242,7 @@ const Page = ({
   setSelectedPageIdx,
 }: {
   text?: string;
-  items?: any[];
+  items?: UniversalInfoDisplayItem[];
   num: number;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
@@ -1511,7 +1526,13 @@ const SliderLabel = (
   );
 };
 
-const GridItems = ({ page, items }: { page: number; items: any[] }) => {
+const GridItems = ({
+  page,
+  items,
+}: {
+  page: number;
+  items: UniversalInfoDisplayItem[];
+}) => {
   return (
     <div className="item-grid">
       {items.map((num, idx) => {
