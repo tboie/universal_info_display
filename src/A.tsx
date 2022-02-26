@@ -947,14 +947,8 @@ let groupsPressed = false;
 let scrollSpeed = 0; // pixels per MS
 let scrollDirection: "stopped" | "left" | "right" = "stopped";
 
-type UniversalInfoDisplayItem = {
-  id: number;
-  name: string;
-  desc: string;
-  p1?: { [key: string]: string | number };
-  p2?: { [key: string]: string | number };
-  p3?: { [key: string]: string | number };
-};
+// serious
+type UniversalInfoDisplayItem = any;
 
 type ViewSection = {
   selectedPageIdx: number;
@@ -970,7 +964,6 @@ type ViewSection = {
   setGroups?: string[];
 };
 
-// TODO: implement grouping
 type NavSlider = {
   type: "group" | "page";
 };
@@ -1020,7 +1013,7 @@ const UniversalInfoDisplay = (props: {
       fetch("/data/groups.json")
         .then((response) => response.json())
         .then((data) => {
-          setGroups(data);
+          setGroups(data.map((group: any) => group.name));
         });
     }
   }, []);
@@ -1535,10 +1528,10 @@ const GridItems = ({
 }) => {
   return (
     <div className="item-grid">
-      {items.map((num, idx) => {
+      {items.map((item, idx) => {
         return (
           <div className={`item`} key={idx}>
-            <img src="/loop1.gif" loading="lazy"></img>
+            <img src={`${item.img}`} loading="lazy"></img>
             <span>{`${page}${idx}`}</span>
           </div>
         );

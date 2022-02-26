@@ -1,131 +1,122 @@
 [
-    {
-        "id": 0
-    },
-    {
-        "id": 1
-    },
-    {
-        "id": 2
-    },
-    {
-        "id": 3
-    },
-    {
-        "id": 4
-    },
-    {
-        "id": 5
-    },
-    {
-        "id": 6
-    },
-    {
-        "id": 7
-    },
-    {
-        "id": 8
-    },
-    {
-        "id": 9
-    },
-    {
-        "id": 10
-    },
-    {
-        "id": 11
-    },
-    {
-        "id": 12
-    },
-    {
-        "id": 13
-    },
-    {
-        "id": 14
-    },
-    {
-        "id": 15
-    },
-    {
-        "id": 16
-    },
-    {
-        "id": 17
-    },
-    {
-        "id": 18
-    },
-    {
-        "id": 19
-    },
-    {
-        "id": 20
-    },
-    {
-        "id": 10
-    },
-    {
-        "id": 11
-    },
-    {
-        "id": 12
-    },
-    {
-        "id": 13
-    },
-    {
-        "id": 14
-    },
-    {
-        "id": 15
-    },
-    {
-        "id": 16
-    },
-    {
-        "id": 17
-    },
-    {
-        "id": 18
-    },
-    {
-        "id": 19
-    },
-    {
-        "id": 20
-    },
-    {
-        "id": 10
-    },
-    {
-        "id": 11
-    },
-    {
-        "id": 12
-    },
-    {
-        "id": 13
-    },
-    {
-        "id": 14
-    },
-    {
-        "id": 15
-    },
-    {
-        "id": 16
-    },
-    {
-        "id": 17
-    },
-    {
-        "id": 18
-    },
-    {
-        "id": 19
-    },
-    {
-        "id": 20
-    }
+  {
+    "name": "item1",
+    "img": "/loop1.gif",
+    "price": 10.00,
+    "qty": "3.5g"
+  },
+  {
+    "name": "item2",
+    "img": "/loop1.gif",
+    "price": 20.00,
+    "qty": "3.5g"
+  },
+  {
+    "name": "item3",
+    "img": "/loop1.gif",
+    "price": 30.00,
+    "qty": "3.5g"
+  },
+  {
+    "name": "item4",
+    "img": "/loop1.gif",
+    "price": 40.00,
+    "qty": "3.5g"
+  },
+  {
+    "name": "item5",
+    "img": "/loop1.gif",
+    "price": 50.00,
+    "qty": "3.5g"
+  },
+  {
+    "name": "item6",
+    "img": "/loop1.gif",
+    "price": 60.00,
+    "qty": "7g"
+  },
+  {
+    "name": "item7",
+    "img": "/loop1.gif",
+    "price": 70.00,
+    "qty": "7g"
+  },
+  {
+    "name": "item8",
+    "img": "/loop1.gif",
+    "price": 80.00,
+    "qty": "7g"
+  },
+  {
+    "name": "item9",
+    "img": "/loop1.gif",
+    "price": 90.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item10",
+    "img": "/loop1.gif",
+    "price": 100.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item11",
+    "img": "/loop1.gif",
+    "price": 110.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item12",
+    "img": "/loop1.gif",
+    "price": 120.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item13",
+    "img": "/loop1.gif",
+    "price": 130.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item14",
+    "img": "/loop1.gif",
+    "price": 140.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item15",
+    "img": "/loop1.gif",
+    "price": 150.00,
+    "qty": "14g"
+  },
+  {
+    "name": "item16",
+    "img": "/loop1.gif",
+    "price": 160.00,
+    "qty": "28g"
+  },
+  {
+    "name": "item17",
+    "img": "/loop1.gif",
+    "price": 170.00,
+    "qty": "28g"
+  },
+  {
+    "name": "item18",
+    "img": "/loop1.gif",
+    "price": 180.00,
+    "qty": "28g"
+  },
+  {
+    "name": "item19",
+    "price": 190.00,
+    "img": "/loop1.gif",
+    "qty": "28g"
+  },
+  {
+    "name": "item20",
+    "img": "/loop1.gif",
+    "price": 200.00,
+    "qty": "28g"
+  }
 ]

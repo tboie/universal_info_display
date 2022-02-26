@@ -1,1 +1,17 @@
-["one", "two", "three"]
+[
+       {
+                "name": "one",
+                "price": "range",
+                "qty": "choice"
+       },
+       {
+                "name": "two",
+                "price": "range",
+                "qty": "choice"
+       },
+       {
+                "name": "three",
+                "price": "range",
+                "qty": "choice"
+       }   
+]
