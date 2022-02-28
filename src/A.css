@@ -176,7 +176,7 @@
 
 .universal_info_display .content_slider {
   position: relative;
-  height: 74%;
+  height: 70%;
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
@@ -223,7 +223,7 @@
 
 .universal_info_display_nav_slider {
   background-color: green;
-  height: 8%;
+  height: 10%;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -253,7 +253,7 @@
 }
 
 .universal_info_display_filter_control {
-  height: 8%;
+  height: 10%;
   width: 100%;
   background-color: green;
   border: 4px solid darkgreen;
@@ -268,7 +268,9 @@
 .universal_info_display_filter_button {
   border: 1px solid lightblue;
   flex: 1 1 0;
-  padding: 0.5rem 0 0 0.5rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .universal_info_display .slider_label {

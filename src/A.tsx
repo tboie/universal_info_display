@@ -1107,14 +1107,6 @@ const UniversalInfoDisplay = (props: {
       />
       <ContentSlider {...p} items={items} />
       <NavSlider {...p} type={"page"} />
-      <FilterButtonBar
-        filter1={filter1}
-        filter2={filter2}
-        setFilter1={setFilter1}
-        setFilter2={setFilter2}
-        selectedFilterIdx={selectedFilterIdx}
-        setSelectedFilterIdx={setSelectedFilterIdx}
-      />
       {selectedFilterIdx === 0 ? (
         <NavSlider {...p} type={"group"} />
       ) : (
@@ -1128,6 +1120,14 @@ const UniversalInfoDisplay = (props: {
           }
         })
       )}
+      <FilterButtonBar
+        filter1={filter1}
+        filter2={filter2}
+        setFilter1={setFilter1}
+        setFilter2={setFilter2}
+        selectedFilterIdx={selectedFilterIdx}
+        setSelectedFilterIdx={setSelectedFilterIdx}
+      />
     </div>
   );
 };
@@ -1694,7 +1694,7 @@ const FilterButton = ({
     <div
       className="universal_info_display_filter_button"
       style={{
-        border: selected ? "4px solid darkgreen" : "0",
+        border: selected ? "4px solid darkgreen" : "",
         backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {
@@ -1707,9 +1707,11 @@ const FilterButton = ({
         }
       }}
     >
-      {text}
-      {sort === "asc" && String.fromCharCode(8593)}
-      {sort === "desc" && String.fromCharCode(8595)}
+      <span>
+        {text}
+        {sort === "asc" && String.fromCharCode(8593)}
+        {sort === "desc" && String.fromCharCode(8595)}
+      </span>
     </div>
   );
 };
