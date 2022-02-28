@@ -223,6 +223,7 @@
   width: 100%;
   background-color: purple;
   display: flex;
+  font-size: 2rem;
 }
 
 .universal_info_display_filter_control {

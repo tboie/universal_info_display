@@ -976,6 +976,7 @@ type GroupFilter = {
   type: FilterType;
   props: string[] | [0, 0];
   val: string[] | number;
+  sort: "asc" | "desc" | undefined;
 };
 
 // utils
@@ -1039,6 +1040,7 @@ const UniversalInfoDisplay = (props: {
                   type: value as FilterType,
                   props: value === "choice" ? [""] : [0, 0],
                   val: value === "choice" ? [""] : 0,
+                  sort: undefined,
                 });
               } else if (idx === 2) {
                 setFilter2({
@@ -1046,6 +1048,7 @@ const UniversalInfoDisplay = (props: {
                   type: value as FilterType,
                   props: value === "choice" ? [""] : [0, 0],
                   val: value === "choice" ? [""] : 0,
+                  sort: undefined,
                 });
               }
             }
@@ -1077,6 +1080,7 @@ const UniversalInfoDisplay = (props: {
                     type: value as FilterType,
                     props: value === "choice" ? [""] : [0, 0],
                     val: value === "choice" ? [] : 0,
+                    sort: undefined,
                   });
                 } else if (idx === 2) {
                   setFilter2({
@@ -1084,6 +1088,7 @@ const UniversalInfoDisplay = (props: {
                     type: value as FilterType,
                     props: value === "choice" ? [""] : [0, 0],
                     val: value === "choice" ? [] : 0,
+                    sort: undefined,
                   });
                 }
               }
@@ -1116,6 +1121,8 @@ const UniversalInfoDisplay = (props: {
       <FilterButtonBar
         filter1={filter1}
         filter2={filter2}
+        setFilter1={setFilter1}
+        setFilter2={setFilter2}
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={setSelectedFilterIdx}
       />
@@ -1604,17 +1611,31 @@ const NavSliderLabel = (
 const FilterButtonBar = ({
   filter1,
   filter2,
+  setFilter1,
+  setFilter2,
   selectedFilterIdx,
   setSelectedFilterIdx,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
+  setFilter1: (val: any) => any;
+  setFilter2: (val: any) => any;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (val: number) => any;
 }) => {
   const isOn = (f: GroupFilter) => {
     return ((Array.isArray(f.val) && f.val.length) || f.val > 0) as boolean;
   };
+
+  const setFilter = (idx: number, sort: "asc" | "desc" | undefined) => {
+    setSelectedFilterIdx(!sort ? 0 : idx);
+    if (idx === 1) {
+      setFilter1({ ...filter1, sort: sort });
+    } else if (idx === 2) {
+      setFilter2({ ...filter2, sort: sort });
+    }
+  };
+
   return (
     <div id="universal_info_display_filter_bar">
       {[filter1, filter2].map(
@@ -1625,7 +1646,8 @@ const FilterButtonBar = ({
               text={f.name}
               on={isOn(f)}
               selected={selectedFilterIdx === idx + 1}
-              click={(num) => setSelectedFilterIdx(num)}
+              sort={f.sort}
+              click={(idx, sort) => setFilter(idx, sort)}
             />
           )
       )}
@@ -1638,13 +1660,15 @@ const FilterButton = ({
   text,
   on,
   selected,
+  sort,
   click,
 }: {
   idx: number;
   text: string;
   on: boolean;
   selected: boolean;
-  click: (val: number) => any;
+  sort: "asc" | "desc" | undefined;
+  click: (idx: number, sort: "asc" | "desc" | undefined) => any;
 }) => {
   return (
     <div
@@ -1653,9 +1677,18 @@ const FilterButton = ({
         border: selected ? "4px solid orange" : "0",
         backgroundColor: on ? "white" : "purple",
       }}
-      onClick={() => click(selected ? 0 : idx)}
+      onClick={() => {
+        if (!selected) {
+          click(idx, "asc");
+        } else if (sort === "asc") {
+          click(idx, "desc");
+        } else if (sort === "desc") {
+          click(idx, undefined);
+        }
+      }}
     >
       {text}
+      {sort ? " - " + sort : ""}
     </div>
   );
 };
@@ -1665,7 +1698,9 @@ const FilterControlChoice = () => {
     <div
       id="universal_info_display_filter_control_choice"
       className="universal_info_display_filter_control"
-    ></div>
+    >
+      Filter Control Choice
+    </div>
   );
 };
 
@@ -1674,7 +1709,9 @@ const FilterControlRange = () => {
     <div
       id="universal_info_display_filter_control_range"
       className="universal_info_display_filter_control"
-    ></div>
+    >
+      Filter Control Range
+    </div>
   );
 };
 
