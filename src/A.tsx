@@ -1694,8 +1694,8 @@ const FilterButton = ({
     <div
       className="universal_info_display_filter_button"
       style={{
-        border: selected ? "4px solid orange" : "0",
-        backgroundColor: on ? "white" : "purple",
+        border: selected ? "4px solid darkgreen" : "0",
+        backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {
         if (!selected) {

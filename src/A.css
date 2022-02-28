@@ -163,7 +163,7 @@
 #universal_info_display_title_bar {
   width: 100%;
   height: 5%;
-  background-color: darkgray;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -176,7 +176,7 @@
 
 .universal_info_display .content_slider {
   position: relative;
-  height: 70%;
+  height: 74%;
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
@@ -222,8 +222,8 @@
 }
 
 .universal_info_display_nav_slider {
-  background-color: pink;
-  height: 10%;
+  background-color: green;
+  height: 8%;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -232,19 +232,31 @@
   flex-wrap: nowrap;
 }
 
+#universal_info_display_nav_page_slider {
+  background-color: white;
+}
+
+#universal_info_display_nav_page_slider .slider_label {
+  color: gray;
+}
+
+#universal_info_display_nav_page_slider .slider_label.selected {
+  color: black;
+}
+
 #universal_info_display_filter_bar {
   height: 5%;
   width: 100%;
   background-color: purple;
   display: flex;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .universal_info_display_filter_control {
-  height: 10%;
+  height: 8%;
   width: 100%;
   background-color: green;
-  border: 4px solid orange;
+  border: 4px solid darkgreen;
 }
 
 #universal_info_display_filter_control_range input {
@@ -256,12 +268,14 @@
 .universal_info_display_filter_button {
   border: 1px solid lightblue;
   flex: 1 1 0;
+  padding: 0.5rem 0 0 0.5rem;
 }
 
 .universal_info_display .slider_label {
   font-size: 2rem;
   padding: 1rem;
   display: block;
+  color: lightgreen;
 }
 
 .universal_info_display .slider_label:first-of-type {
@@ -273,7 +287,7 @@
 }
 
 .universal_info_display .slider_label.selected {
-  color: green;
+  color: white;
   text-decoration: underline;
   border: 0;
 }
@@ -282,16 +296,18 @@
   z-index: 4;
   width: 100%;
   height: 100%;
-  background-color: blue;
+  background-color: lightblue;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 2px;
   grid-row-gap: 2px;
+  border-right: 1px solid lightgreen;
+  border-left: 1px solid lightgreen;
 }
 
 .universal_info_display .item-grid .item {
   position: relative;
-  background-color: gray;
+  background-color: slategray;
 }
 
 .universal_info_display .item-grid .item span {
