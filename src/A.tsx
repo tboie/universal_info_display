@@ -993,6 +993,16 @@ const UniversalInfoDisplay = (props: {
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([]);
+  /*
+  {
+    propName: string
+    type: "choice" | "range"
+    val: number | string | [] | undefined
+    on: boolean;
+  }
+  */
+  const [filter1, setFilter1] = useState({});
+  const [filter2, setFilter2] = useState({});
 
   // items or text
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
@@ -1017,9 +1027,34 @@ const UniversalInfoDisplay = (props: {
         .then((data) => {
           setGroupFilters(data);
           setSelectedGroup(data[0].group);
+          Object.entries(data[0]).forEach(([key, value], idx) => {
+            if (key !== "group") {
+              if (idx === 1) {
+                setFilter1({
+                  propName: key,
+                  type: value,
+                  val: value === "choice" ? [""] : 0,
+                  on: false,
+                });
+              }
+              if (idx === 2) {
+                setFilter2({
+                  propName: key,
+                  type: value,
+                  val: value === "choice" ? [""] : 0,
+                  on: false,
+                });
+              }
+            }
+          });
         });
     }
   }, []);
+
+  useEffect(() => {
+    console.log(filter1);
+    console.log(filter2);
+  }, [filter1, filter2]);
 
   // get individual group data and set # number of pages
   useEffect(() => {
