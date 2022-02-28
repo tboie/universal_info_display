@@ -1642,6 +1642,7 @@ const FilterButtonBar = ({
         (f, idx) =>
           f && (
             <FilterButton
+              key={idx}
               idx={idx + 1}
               text={f.name}
               on={isOn(f)}
