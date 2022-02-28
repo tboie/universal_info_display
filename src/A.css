@@ -232,6 +232,12 @@
   background-color: green;
 }
 
+#universal_info_display_filter_control_range input {
+  height: 100%;
+  width: 100%;
+  margin: 0 1rem;
+}
+
 .universal_info_display_filter_button {
   border: 1px solid lightblue;
   flex: 1 1 0;

@@ -1711,7 +1711,7 @@ const FilterControlRange = () => {
       id="universal_info_display_filter_control_range"
       className="universal_info_display_filter_control"
     >
-      Filter Control Range
+      <input type="range" min="1" max="100" value="100" />
     </div>
   );
 };
