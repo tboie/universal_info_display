@@ -957,11 +957,11 @@ type ViewSection = {
   pagesBool: boolean[];
   setPagesBool: (val: any) => any;
 
-  selectedGroupIdx: number;
-  setSelectedGroupIdx: (val: number) => any;
+  selectedGroup: string;
+  setSelectedGroup: (val: string) => any;
 
-  groups?: string[];
-  setGroups?: string[];
+  groupFilters: any[];
+  setGroupFilters: (val: any) => any;
 };
 
 type NavSlider = {
@@ -991,20 +991,23 @@ const UniversalInfoDisplay = (props: {
 }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
-  const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [groupFilters, setGroupFilters] = useState([]);
+
   // items or text
   const [data, setData] = useState<string | UniversalInfoDisplayItem[]>(
     props.data
   );
-  const [groups, setGroups] = useState([]);
 
   const p = {
     pagesBool: pagesBool,
     setPagesBool: setPagesBool,
     selectedPageIdx: selectedPageIdx,
     setSelectedPageIdx: setSelectedPageIdx,
-    selectedGroupIdx: selectedGroupIdx,
-    setSelectedGroupIdx: setSelectedGroupIdx,
+    selectedGroup: selectedGroup,
+    setSelectedGroup: setSelectedGroup,
+    groupFilters: groupFilters,
+    setGroupFilters: setGroupFilters,
   };
 
   // get all groups
@@ -1013,15 +1016,16 @@ const UniversalInfoDisplay = (props: {
       fetch("/data/groups.json")
         .then((response) => response.json())
         .then((data) => {
-          setGroups(data.map((group: any) => group.name));
+          setGroupFilters(data);
+          setSelectedGroup(data[0].group);
         });
     }
   }, []);
 
   // get individual group data and set # number of pages
   useEffect(() => {
-    if (groups.length) {
-      fetch(`/data/${groups[selectedGroupIdx]}.json`)
+    if (groupFilters.length) {
+      fetch(`/data/${selectedGroup}.json`)
         .then((response) => response.json())
         .then((data: UniversalInfoDisplayItem[]) => {
           setData(data);
@@ -1029,13 +1033,13 @@ const UniversalInfoDisplay = (props: {
           setPagesBool(chunkArr(data, 9).map((item) => true));
         });
     }
-  }, [selectedGroupIdx, groups.length]);
+  }, [selectedGroup, groupFilters.length]);
 
   return (
     <div className="universal_info_display">
       <ContentSlider {...p} type={props.type} data={data} />
       <NavSlider {...p} type={"page"} />
-      <NavSlider {...p} groups={groups} type={"group"} />
+      <NavSlider {...p} type={"group"} />
     </div>
   );
 };
@@ -1047,7 +1051,10 @@ const ContentSlider = ({
   setPagesBool,
   selectedPageIdx,
   setSelectedPageIdx,
-  selectedGroupIdx,
+  selectedGroup,
+  setSelectedGroup,
+  groupFilters,
+  setGroupFilters,
 }: ViewSection & {
   type: "text" | "item";
   data: string | UniversalInfoDisplayItem[];
@@ -1392,9 +1399,9 @@ const NavSlider = (props: ViewSection & NavSlider) => {
     setPagesBool,
     selectedPageIdx,
     setSelectedPageIdx,
-    selectedGroupIdx,
-    setSelectedGroupIdx,
-    groups,
+    selectedGroup,
+    setSelectedGroup,
+    groupFilters,
   } = { ...props };
 
   const sel_labels =
@@ -1412,16 +1419,11 @@ const NavSlider = (props: ViewSection & NavSlider) => {
       entries.forEach((entry: any, idx: number) => {
         if (entry.isIntersecting) {
           if (numbersPressed || groupsPressed) {
-            const id = entry.target.id;
-            const sel_idx = parseInt(
-              id.replace(type === "page" ? "num" : "group", "").toString()
-            );
-
             if (type === "page") {
-              setSelectedPageIdx(sel_idx);
+              setSelectedPageIdx(parseInt(entry.target.id.replace("num", "")));
             } else if (type === "group") {
               setSelectedPageIdx(0);
-              setSelectedGroupIdx(sel_idx);
+              setSelectedGroup(entry.target.innerText);
             }
           }
         }
@@ -1438,7 +1440,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
     document.querySelectorAll(sel_labels).forEach((num) => obs.observe(num));
 
     return () => obs.disconnect();
-  }, [pagesBool, groups]);
+  }, [pagesBool, groupFilters]);
 
   // Toggle pressed flag on touch start
   useEffect(() => {
@@ -1488,14 +1490,14 @@ const NavSlider = (props: ViewSection & NavSlider) => {
         })}
 
       {type === "group" &&
-        groups?.map((group, idx) => {
+        groupFilters?.map((g, idx) => {
           return (
             <SliderLabel
               key={idx}
               {...props}
-              selected={idx === selectedGroupIdx}
+              selected={g.group === selectedGroup}
               idx={idx}
-              title={group}
+              title={g.group}
             />
           );
         })}

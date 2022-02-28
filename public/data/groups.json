@@ -1,16 +1,16 @@
 [
        {
-                "name": "one",
+                "group": "one",
                 "price": "range",
                 "qty": "choice"
        },
        {
-                "name": "two",
+                "group": "two",
                 "price": "range",
                 "qty": "choice"
        },
        {
-                "name": "three",
+                "group": "three",
                 "price": "range",
                 "qty": "choice"
        }   
