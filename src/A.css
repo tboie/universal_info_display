@@ -225,7 +225,7 @@
   display: flex;
 }
 
-#universal_info_display_filter_control {
+.universal_info_display_filter_control {
   height: 10%;
   width: 100%;
   background-color: green;

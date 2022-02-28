@@ -976,7 +976,6 @@ type GroupFilter = {
   type: FilterType;
   props: string[] | [0, 0];
   val: string[] | number;
-  selected: boolean;
 };
 
 // utils
@@ -1006,6 +1005,7 @@ const UniversalInfoDisplay = (props: {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([]);
 
+  const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<GroupFilter>();
   const [filter2, setFilter2] = useState<GroupFilter>();
 
@@ -1039,7 +1039,6 @@ const UniversalInfoDisplay = (props: {
                   type: value as FilterType,
                   props: value === "choice" ? [""] : [0, 0],
                   val: value === "choice" ? [""] : 0,
-                  selected: false,
                 });
               } else if (idx === 2) {
                 setFilter2({
@@ -1047,7 +1046,6 @@ const UniversalInfoDisplay = (props: {
                   type: value as FilterType,
                   props: value === "choice" ? [""] : [0, 0],
                   val: value === "choice" ? [""] : 0,
-                  selected: false,
                 });
               }
             }
@@ -1079,7 +1077,6 @@ const UniversalInfoDisplay = (props: {
                     type: value as FilterType,
                     props: value === "choice" ? [""] : [0, 0],
                     val: value === "choice" ? [] : 0,
-                    selected: false,
                   });
                 } else if (idx === 2) {
                   setFilter2({
@@ -1087,7 +1084,6 @@ const UniversalInfoDisplay = (props: {
                     type: value as FilterType,
                     props: value === "choice" ? [""] : [0, 0],
                     val: value === "choice" ? [] : 0,
-                    selected: false,
                   });
                 }
               }
@@ -1103,24 +1099,25 @@ const UniversalInfoDisplay = (props: {
 
       <NavSlider {...p} type={"page"} />
 
-      {[filter1, filter2].filter((f) => f && f.selected).length === 0 && (
+      {selectedFilterIdx === 0 ? (
         <NavSlider {...p} type={"group"} />
+      ) : (
+        [filter1, filter2].map((f, idx) => {
+          if (f && selectedFilterIdx === idx + 1) {
+            if (f.type === "range") {
+              return <FilterControlRange />;
+            } else if (f.type === "choice") {
+              return <FilterControlChoice />;
+            }
+          }
+        })
       )}
 
-      {[filter1, filter2].map((f) => {
-        if (f)
-          if (f.type === "range") {
-            return <FilterControlRange />;
-          } else if (f.type === "choice") {
-            return <FilterControlChoice />;
-          }
-      })}
-
-      <FilterBar
+      <FilterButtonBar
         filter1={filter1}
         filter2={filter2}
-        setFilter1={setFilter1}
-        setFilter2={setFilter2}
+        selectedFilterIdx={selectedFilterIdx}
+        setSelectedFilterIdx={setSelectedFilterIdx}
       />
     </div>
   );
@@ -1604,62 +1601,36 @@ const NavSliderLabel = (
   );
 };
 
-const FilterBar = ({
+const FilterButtonBar = ({
   filter1,
   filter2,
-  setFilter1,
-  setFilter2,
+  selectedFilterIdx,
+  setSelectedFilterIdx,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
-  setFilter1: (val: any) => any;
-  setFilter2: (val: any) => any;
+  selectedFilterIdx: number;
+  setSelectedFilterIdx: (val: number) => any;
 }) => {
-  const [selectedIdx, setSelectedIdx] = useState(() => getSelectedIdx());
-
-  function getSelectedIdx() {
-    let selectedIdx = 0;
-    [filter1, filter2].forEach((f, idx) => {
-      if (f && f.selected) {
-        selectedIdx = idx;
-      }
-    });
-    return selectedIdx;
-  }
-
   const isOn = (f: GroupFilter) => {
     return ((Array.isArray(f.val) && f.val.length) || f.val > 0) as boolean;
   };
   return (
     <div id="universal_info_display_filter_bar">
-      {filter1 && (
-        <FilterButton
-          idx={1}
-          text={filter1.name}
-          on={isOn(filter1)}
-          selected={selectedIdx === 1}
-          setSelectedIdx={(num) => setSelectedIdx(num)}
-        />
-      )}
-      {filter2 && (
-        <FilterButton
-          idx={2}
-          text={filter2.name}
-          on={isOn(filter2)}
-          selected={selectedIdx === 2}
-          setSelectedIdx={(num) => setSelectedIdx(num)}
-        />
+      {[filter1, filter2].map(
+        (f, idx) =>
+          f && (
+            <FilterButton
+              idx={idx + 1}
+              text={f.name}
+              on={isOn(f)}
+              selected={selectedFilterIdx === idx + 1}
+              click={(num) => setSelectedFilterIdx(num)}
+            />
+          )
       )}
     </div>
   );
-};
-
-const FilterControlChoice = () => {
-  return <div id="universal_info_display_filter_control_choice"></div>;
-};
-
-const FilterControlRange = () => {
-  return <div id="universal_info_display_filter_control_range"></div>;
 };
 
 const FilterButton = ({
@@ -1667,13 +1638,13 @@ const FilterButton = ({
   text,
   on,
   selected,
-  setSelectedIdx,
+  click,
 }: {
   idx: number;
   text: string;
   on: boolean;
   selected: boolean;
-  setSelectedIdx: (val: number) => any;
+  click: (val: number) => any;
 }) => {
   return (
     <div
@@ -1682,10 +1653,28 @@ const FilterButton = ({
         border: selected ? "4px solid orange" : "0",
         backgroundColor: on ? "white" : "purple",
       }}
-      onClick={() => setSelectedIdx(idx)}
+      onClick={() => click(selected ? 0 : idx)}
     >
       {text}
     </div>
+  );
+};
+
+const FilterControlChoice = () => {
+  return (
+    <div
+      id="universal_info_display_filter_control_choice"
+      className="universal_info_display_filter_control"
+    ></div>
+  );
+};
+
+const FilterControlRange = () => {
+  return (
+    <div
+      id="universal_info_display_filter_control_range"
+      className="universal_info_display_filter_control"
+    ></div>
   );
 };
 
