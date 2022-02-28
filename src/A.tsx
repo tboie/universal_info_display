@@ -1748,7 +1748,7 @@ const GridItems = ({
       {items.map((item, idx) => {
         return (
           <div className={`item`} key={idx}>
-            <img src={`${item.img}`} loading="lazy"></img>
+            <img src={`${item.img}`} loading="lazy" alt=""></img>
             <span>{`${page}${idx}`}</span>
           </div>
         );
