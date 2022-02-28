@@ -1100,7 +1100,11 @@ const UniversalInfoDisplay = (props: {
 
   return (
     <div className="universal_info_display">
-      <TitleBar selectedGroup={selectedGroup} />
+      <TitleBar
+        selectedGroup={selectedGroup}
+        selectedPageIdx={selectedPageIdx}
+        totalPages={pagesBool.length - 1}
+      />
       <ContentSlider {...p} items={items} />
       <NavSlider {...p} type={"page"} />
       <FilterButtonBar
@@ -1128,10 +1132,19 @@ const UniversalInfoDisplay = (props: {
   );
 };
 
-const TitleBar = ({ selectedGroup }: { selectedGroup: string }) => {
+const TitleBar = ({
+  selectedGroup,
+  selectedPageIdx,
+  totalPages,
+}: {
+  selectedGroup: string;
+  selectedPageIdx: number;
+  totalPages: number;
+}) => {
   return (
     <div id="universal_info_display_title_bar">
-      {selectedGroup || "Loading"}
+      <span>{selectedGroup || "Loading"}</span>
+      <span>{selectedPageIdx + "/" + totalPages}</span>
     </div>
   );
 };

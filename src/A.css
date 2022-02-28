@@ -165,9 +165,13 @@
   height: 5%;
   background-color: darkgray;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 2rem;
+}
+
+#universal_info_display_title_bar span {
+  padding: 0 1rem;
 }
 
 .universal_info_display .content_slider {
