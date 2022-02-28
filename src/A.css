@@ -160,9 +160,19 @@
   position: relative;
 }
 
+#universal_info_display_title_bar {
+  width: 100%;
+  height: 5%;
+  background-color: darkgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
 .universal_info_display .content_slider {
   position: relative;
-  height: 75%;
+  height: 70%;
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
@@ -236,7 +246,7 @@
 #universal_info_display_filter_control_range input {
   height: 100%;
   width: 100%;
-  margin: 0 1rem;
+  margin: 0;
 }
 
 .universal_info_display_filter_button {

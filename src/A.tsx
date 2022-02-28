@@ -1100,6 +1100,7 @@ const UniversalInfoDisplay = (props: {
 
   return (
     <div className="universal_info_display">
+      <TitleBar selectedGroup={selectedGroup} />
       <ContentSlider {...p} items={items} />
       <NavSlider {...p} type={"page"} />
       <FilterButtonBar
@@ -1123,6 +1124,14 @@ const UniversalInfoDisplay = (props: {
           }
         })
       )}
+    </div>
+  );
+};
+
+const TitleBar = ({ selectedGroup }: { selectedGroup: string }) => {
+  return (
+    <div id="universal_info_display_title_bar">
+      {selectedGroup || "Loading"}
     </div>
   );
 };
