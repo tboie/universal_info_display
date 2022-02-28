@@ -1708,7 +1708,8 @@ const FilterButton = ({
       }}
     >
       {text}
-      {sort ? " - " + sort : ""}
+      {sort === "asc" && String.fromCharCode(8593)}
+      {sort === "desc" && String.fromCharCode(8595)}
     </div>
   );
 };
