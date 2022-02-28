@@ -1101,6 +1101,7 @@ const UniversalInfoDisplay = (props: {
   return (
     <div className="universal_info_display">
       <ContentSlider {...p} items={items} />
+      <NavSlider {...p} type={"page"} />
       <FilterButtonBar
         filter1={filter1}
         filter2={filter2}
@@ -1109,7 +1110,6 @@ const UniversalInfoDisplay = (props: {
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={setSelectedFilterIdx}
       />
-      <NavSlider {...p} type={"page"} />
       {selectedFilterIdx === 0 ? (
         <NavSlider {...p} type={"group"} />
       ) : (
