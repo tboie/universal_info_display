@@ -6,8 +6,8 @@
        },
        {
                 "group": "two",
-                "price": "range",
-                "qty": "choice"
+                "color": "choice",
+                "size": "choice"
        },
        {
                 "group": "three",

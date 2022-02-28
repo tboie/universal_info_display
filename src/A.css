@@ -162,7 +162,7 @@
 
 .universal_info_display .content_slider {
   position: relative;
-  height: 80%;
+  height: 75%;
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
@@ -216,6 +216,24 @@
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+}
+
+#universal_info_display_filter_bar {
+  height: 5%;
+  width: 100%;
+  background-color: purple;
+  display: flex;
+}
+
+#universal_info_display_filter_control {
+  height: 10%;
+  width: 100%;
+  background-color: green;
+}
+
+.universal_info_display_filter_button {
+  border: 1px solid lightblue;
+  flex: 1 1 0;
 }
 
 .universal_info_display .slider_label {

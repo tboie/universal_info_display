@@ -968,6 +968,16 @@ type NavSlider = {
   type: "group" | "page";
 };
 
+// filters
+type FilterType = "choice" | "range";
+
+type GroupFilter = {
+  name: string;
+  type: FilterType;
+  props: string[] | [0, 0];
+  val: string[] | number;
+};
+
 // utils
 const chunkArr = (arr: any[], size: number) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -985,6 +995,7 @@ const chunkString = (str: string, len: number) => {
   return r;
 };
 
+// main
 const UniversalInfoDisplay = (props: {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
@@ -993,18 +1004,11 @@ const UniversalInfoDisplay = (props: {
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([]);
-  /*
-  {
-    propName: string
-    type: "choice" | "range"
-    val: number | string | [] | undefined
-    on: boolean;
-  }
-  */
-  const [filter1, setFilter1] = useState({});
-  const [filter2, setFilter2] = useState({});
 
-  // items or text
+  const [filterControl, setFilterControl] = useState<FilterType>();
+  const [filter1, setFilter1] = useState<GroupFilter>();
+  const [filter2, setFilter2] = useState<GroupFilter>();
+
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
 
   const p = {
@@ -1024,25 +1028,24 @@ const UniversalInfoDisplay = (props: {
     if (props.contentType === "item") {
       fetch("/data/groups.json")
         .then((response) => response.json())
-        .then((data) => {
-          setGroupFilters(data);
-          setSelectedGroup(data[0].group);
-          Object.entries(data[0]).forEach(([key, value], idx) => {
+        .then((groupData) => {
+          setGroupFilters(groupData);
+          setSelectedGroup(groupData[0].group);
+          Object.entries(groupData[0]).forEach(([key, value], idx) => {
             if (key !== "group") {
               if (idx === 1) {
                 setFilter1({
-                  propName: key,
-                  type: value,
+                  name: key,
+                  type: value as FilterType,
+                  props: value === "choice" ? [""] : [0, 0],
                   val: value === "choice" ? [""] : 0,
-                  on: false,
                 });
-              }
-              if (idx === 2) {
+              } else if (idx === 2) {
                 setFilter2({
-                  propName: key,
-                  type: value,
+                  name: key,
+                  type: value as FilterType,
+                  props: value === "choice" ? [""] : [0, 0],
                   val: value === "choice" ? [""] : 0,
-                  on: false,
                 });
               }
             }
@@ -1051,20 +1054,41 @@ const UniversalInfoDisplay = (props: {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(filter1);
-    console.log(filter2);
-  }, [filter1, filter2]);
-
   // get individual group data and set # number of pages
   useEffect(() => {
     if (groupFilters.length) {
       fetch(`/data/${selectedGroup}.json`)
         .then((response) => response.json())
-        .then((data: UniversalInfoDisplayItem[]) => {
-          setItems(data);
+        .then((items: UniversalInfoDisplayItem[]) => {
+          setItems(items);
           // val doesn't matter for now
-          setPagesBool(chunkArr(data, 9).map((item) => true));
+          setPagesBool(chunkArr(items, 9).map((item) => true));
+
+          const groupFilter = groupFilters.find(
+            (g: any) => g.group === selectedGroup
+          );
+
+          if (groupFilter) {
+            Object.entries(groupFilter).forEach(([key, value], idx) => {
+              if (key !== "group") {
+                if (idx === 1) {
+                  setFilter1({
+                    name: key,
+                    type: value as FilterType,
+                    props: value === "choice" ? [""] : [0, 0],
+                    val: value === "choice" ? [""] : 0,
+                  });
+                } else if (idx === 2) {
+                  setFilter2({
+                    name: key,
+                    type: value as FilterType,
+                    props: value === "choice" ? [""] : [0, 0],
+                    val: value === "choice" ? [""] : 0,
+                  });
+                }
+              }
+            });
+          }
         });
     }
   }, [selectedGroup, groupFilters.length]);
@@ -1072,8 +1096,14 @@ const UniversalInfoDisplay = (props: {
   return (
     <div className="universal_info_display">
       <ContentSlider {...p} items={items} />
+
       <NavSlider {...p} type={"page"} />
-      <NavSlider {...p} type={"group"} />
+      {!filterControl && <NavSlider {...p} type={"group"} />}
+
+      {filterControl === "range" && <FilterControlRange />}
+      {filterControl === "choice" && <FilterControlChoice />}
+
+      <FilterBar filter1={filter1} filter2={filter2} />
     </div>
   );
 };
@@ -1514,7 +1544,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
       {type === "page" &&
         pagesBool.map((page, idx) => {
           return (
-            <SliderLabel
+            <NavSliderLabel
               key={idx}
               {...props}
               selected={idx === selectedPageIdx}
@@ -1527,7 +1557,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
       {type === "group" &&
         groupFilters?.map((g, idx) => {
           return (
-            <SliderLabel
+            <NavSliderLabel
               key={idx}
               {...props}
               selected={g.group === selectedGroup}
@@ -1540,7 +1570,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
   );
 };
 
-const SliderLabel = (
+const NavSliderLabel = (
   props: ViewSection &
     NavSlider & { selected: boolean; title: string; idx: number }
 ) => {
@@ -1554,6 +1584,33 @@ const SliderLabel = (
       {title}
     </span>
   );
+};
+
+const FilterBar = ({
+  filter1,
+  filter2,
+}: {
+  filter1?: GroupFilter;
+  filter2?: GroupFilter;
+}) => {
+  return (
+    <div id="universal_info_display_filter_bar">
+      {filter1 && <FilterButton name={filter1.name} />}
+      {filter2 && <FilterButton name={filter2.name} />}
+    </div>
+  );
+};
+
+const FilterControlChoice = () => {
+  return <div id="universal_info_display_filter_control_choice"></div>;
+};
+
+const FilterControlRange = () => {
+  return <div id="universal_info_display_filter_control_range"></div>;
+};
+
+const FilterButton = ({ name }: { name: string }) => {
+  return <div className="universal_info_display_filter_button">{name}</div>;
 };
 
 const GridItems = ({

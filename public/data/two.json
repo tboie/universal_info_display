@@ -2,61 +2,61 @@
   {
     "name": "item1",
     "img": "/loop1.gif",
-    "price": 10.00,
-    "qty": "3.5g"
+    "color": ["red"],
+    "size": ["sm"]
   },
   {
     "name": "item2",
     "img": "/loop1.gif",
-    "price": 20.00,
-    "qty": "3.5g"
+    "color": ["green"],
+    "size": ["md"]
   },
   {
     "name": "item3",
     "img": "/loop1.gif",
-    "price": 30.00,
-    "qty": "3.5g"
+    "color": ["blue"],
+    "size": ["lg"]
   },
   {
     "name": "item4",
     "img": "/loop1.gif",
-    "price": 40.00,
-    "qty": "3.5g"
+    "color": ["red"],
+    "size": ["md"]
   },
   {
     "name": "item5",
     "img": "/loop1.gif",
-    "price": 50.00,
-    "qty": "3.5g"
+    "color": ["green"],
+    "size": ["lg"]
   },
   {
     "name": "item6",
     "img": "/loop1.gif",
-    "price": 60.00,
-    "qty": "7g"
+    "color": ["blue"],
+    "size": ["sm"]
   },
   {
     "name": "item7",
     "img": "/loop1.gif",
-    "price": 70.00,
-    "qty": "7g"
+    "color": ["red"],
+    "size": ["lg"]
   },
   {
     "name": "item8",
     "img": "/loop1.gif",
-    "price": 80.00,
-    "qty": "7g"
+    "color": ["blue"],
+    "size": ["lg"]
   },
   {
     "name": "item9",
     "img": "/loop1.gif",
-    "price": 90.00,
-    "qty": "14g"
+    "color": ["blue"],
+    "size": ["sm"]
   },
   {
     "name": "item10",
     "img": "/loop1.gif",
-    "price": 100.00,
-    "qty": "14g"
+    "color": ["red"],
+    "size": ["lg"]
   }
 ]
