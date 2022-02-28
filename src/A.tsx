@@ -1110,9 +1110,9 @@ const UniversalInfoDisplay = (props: {
         [filter1, filter2].map((f, idx) => {
           if (f && selectedFilterIdx === idx + 1) {
             if (f.type === "range") {
-              return <FilterControlRange />;
+              return <FilterControlRange key={idx} />;
             } else if (f.type === "choice") {
-              return <FilterControlChoice />;
+              return <FilterControlChoice key={idx} />;
             }
           }
         })
