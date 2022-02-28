@@ -842,7 +842,7 @@ const U = (
         PRESS_UNIT(p.i, ev.currentTarget, ev);
       }}
     >
-      <UniversalInfoDisplay type="item" data={[]} />
+      <UniversalInfoDisplay contentType="item" items={[]} />
       {/*!p.edit && <img className="img-test" src="/logo512.png" alt="" />*/}
       {p.edit && (
         <div className="edit">
@@ -986,8 +986,8 @@ const chunkString = (str: string, len: number) => {
 };
 
 const UniversalInfoDisplay = (props: {
-  type: "text" | "item";
-  data: string | UniversalInfoDisplayItem[];
+  contentType: "text" | "item";
+  items: UniversalInfoDisplayItem[];
 }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
@@ -995,11 +995,10 @@ const UniversalInfoDisplay = (props: {
   const [groupFilters, setGroupFilters] = useState([]);
 
   // items or text
-  const [data, setData] = useState<string | UniversalInfoDisplayItem[]>(
-    props.data
-  );
+  const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
 
   const p = {
+    contentType: props.contentType,
     pagesBool: pagesBool,
     setPagesBool: setPagesBool,
     selectedPageIdx: selectedPageIdx,
@@ -1012,7 +1011,7 @@ const UniversalInfoDisplay = (props: {
 
   // get all groups
   useEffect(() => {
-    if (props.type === "item") {
+    if (props.contentType === "item") {
       fetch("/data/groups.json")
         .then((response) => response.json())
         .then((data) => {
@@ -1028,7 +1027,7 @@ const UniversalInfoDisplay = (props: {
       fetch(`/data/${selectedGroup}.json`)
         .then((response) => response.json())
         .then((data: UniversalInfoDisplayItem[]) => {
-          setData(data);
+          setItems(data);
           // val doesn't matter for now
           setPagesBool(chunkArr(data, 9).map((item) => true));
         });
@@ -1037,7 +1036,7 @@ const UniversalInfoDisplay = (props: {
 
   return (
     <div className="universal_info_display">
-      <ContentSlider {...p} type={props.type} data={data} />
+      <ContentSlider {...p} items={items} />
       <NavSlider {...p} type={"page"} />
       <NavSlider {...p} type={"group"} />
     </div>
@@ -1045,8 +1044,8 @@ const UniversalInfoDisplay = (props: {
 };
 
 const ContentSlider = ({
-  type,
-  data,
+  contentType,
+  items,
   pagesBool,
   setPagesBool,
   selectedPageIdx,
@@ -1056,17 +1055,17 @@ const ContentSlider = ({
   groupFilters,
   setGroupFilters,
 }: ViewSection & {
-  type: "text" | "item";
-  data: string | UniversalInfoDisplayItem[];
+  contentType: "text" | "item";
+  items: UniversalInfoDisplayItem[];
 }) => {
-  const [textChunks, setTextChunks] = useState<string[]>(
+  const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
-    type === "text" ? ([data] as string[]) : []
+    contentType === "text" ? items : []
   );
 
   // callback on element change
   const overflowChanged = (isOverflowing: boolean, i: number) => {
-    if (type === "text") {
+    if (contentType === "text") {
       setPagesBool((prevState: any) => {
         let copy = [...prevState];
         copy[i] = isOverflowing;
@@ -1077,7 +1076,7 @@ const ContentSlider = ({
 
   const calc = () => {
     // Split text into pages using heights
-    if (type === "text") {
+    if (contentType === "text") {
       const winH = window.innerHeight;
       const allH = document
         .getElementById("all-text")
@@ -1175,7 +1174,7 @@ const ContentSlider = ({
   }, []);
 
   useEffect(() => {
-    if (type === "text") {
+    if (contentType === "text") {
       if (textChunks.length) {
         proc();
       }
@@ -1184,11 +1183,12 @@ const ContentSlider = ({
 
   return (
     <div id="universal_info_display_content_slider" className="content_slider">
-      {type === "text" && <div id="all-text">{data}</div>}
+      {/* fix this when text implemented */}
+      {contentType === "text" && <div id="all-text">{items}</div>}
 
       {
         /* initial page loader */
-        type === "text" &&
+        contentType === "text" &&
           textChunks.map((txt, idx) => (
             <div key={idx} className={`page_loader`}>
               <DetectableOverflow
@@ -1207,7 +1207,7 @@ const ContentSlider = ({
           ))
       }
 
-      {type === "text" &&
+      {contentType === "text" &&
         pagesBool
           .filter((p) => p === false)
           .map((p, i) => (
@@ -1220,8 +1220,8 @@ const ContentSlider = ({
             />
           ))}
 
-      {type === "item" &&
-        chunkArr(data as UniversalInfoDisplayItem[], 9).map((items, i) => (
+      {contentType === "item" &&
+        chunkArr(items, 9).map((items, i) => (
           <Page
             key={i}
             num={i}
