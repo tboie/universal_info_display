@@ -230,6 +230,7 @@
   height: 10%;
   width: 100%;
   background-color: green;
+  border: 4px solid orange;
 }
 
 #universal_info_display_filter_control_range input {
