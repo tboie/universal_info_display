@@ -1126,9 +1126,13 @@ const UniversalInfoDisplay = (props: {
         totalPages={pagesBool.length - 1}
       />
       <ContentSlider {...p} items={items} />
-      <NavSlider {...p} type={"page"} />
+      <NavSlider {...p} type={"page"} selectedFilterIdx={selectedFilterIdx} />
       {selectedFilterIdx === 0 ? (
-        <NavSlider {...p} type={"group"} />
+        <NavSlider
+          {...p}
+          type={"group"}
+          selectedFilterIdx={selectedFilterIdx}
+        />
       ) : (
         [filter1, filter2].map((f, idx) => {
           if (f && selectedFilterIdx === idx + 1) {
@@ -1526,7 +1530,9 @@ const Page = ({
   );
 };
 
-const NavSlider = (props: ViewSection & NavSlider) => {
+const NavSlider = (
+  props: ViewSection & NavSlider & { selectedFilterIdx: number }
+) => {
   const {
     type,
     pagesBool,
@@ -1536,6 +1542,7 @@ const NavSlider = (props: ViewSection & NavSlider) => {
     selectedGroup,
     setSelectedGroup,
     groupFilters,
+    selectedFilterIdx,
   } = { ...props };
 
   const sel_labels =
@@ -1602,6 +1609,29 @@ const NavSlider = (props: ViewSection & NavSlider) => {
       }, 10);
     }
   }, [selectedPageIdx]);
+
+  // Center selected group on filter change
+  // quick fix: re-think this?
+  useEffect(() => {
+    if (type === "group" && !groupsPressed && selectedFilterIdx === 0) {
+      document.querySelectorAll(sel_labels).forEach((ele) => {
+        if ((ele as HTMLElement).innerText === selectedGroup) {
+          const container = document.querySelector(
+            sel_container
+          ) as HTMLDivElement;
+
+          container.style.overflowX = "hidden";
+          (ele as HTMLElement)?.scrollIntoView({
+            inline: "center",
+            behavior: "smooth",
+          });
+          setTimeout(() => {
+            container.style.overflowX = "scroll";
+          }, 10);
+        }
+      });
+    }
+  }, [selectedFilterIdx]);
 
   return (
     <div
