@@ -1141,7 +1141,9 @@ const UniversalInfoDisplay = (props: {
                 />
               );
             } else if (f.type === "choice") {
-              return <FilterControlChoice key={idx} />;
+              return (
+                <FilterControlChoice key={idx} choices={f.props as string[]} />
+              );
             }
           }
         })
@@ -1742,13 +1744,13 @@ const FilterButton = ({
   );
 };
 
-const FilterControlChoice = () => {
+const FilterControlChoice = ({ choices }: { choices: string[] }) => {
   return (
     <div
       id="universal_info_display_filter_control_choice"
       className="universal_info_display_filter_control"
     >
-      Filter Control Choice
+      {choices.join(", ")}
     </div>
   );
 };
