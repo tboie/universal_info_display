@@ -1726,6 +1726,10 @@ const FilterButton = ({
         backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {
+        itemsPressed = false;
+        numbersPressed = false;
+        groupsPressed = false;
+
         if (!selected) {
           click(idx, "asc");
         } else if (sort === "asc") {
