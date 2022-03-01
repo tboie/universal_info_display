@@ -1024,6 +1024,15 @@ const UniversalInfoDisplay = (props: {
     setGroupFilters: setGroupFilters,
   };
 
+  const getFilterChoices = (key: string, items: UniversalInfoDisplayItem[]) => [
+    ...new Set(
+      Array.prototype.concat.apply(
+        [],
+        items.map((item) => item[key])
+      )
+    ),
+  ];
+
   // get all groups
   useEffect(() => {
     if (props.contentType === "item") {
@@ -1078,7 +1087,10 @@ const UniversalInfoDisplay = (props: {
                   setFilter1({
                     name: key,
                     type: value as FilterType,
-                    props: value === "choice" ? [""] : [0, 0],
+                    props:
+                      value === "choice"
+                        ? getFilterChoices(key, items)
+                        : [0, 0],
                     val: value === "choice" ? [] : 0,
                     sort: undefined,
                   });
@@ -1086,7 +1098,10 @@ const UniversalInfoDisplay = (props: {
                   setFilter2({
                     name: key,
                     type: value as FilterType,
-                    props: value === "choice" ? [""] : [0, 0],
+                    props:
+                      value === "choice"
+                        ? getFilterChoices(key, items)
+                        : [0, 0],
                     val: value === "choice" ? [] : 0,
                     sort: undefined,
                   });
