@@ -104,19 +104,19 @@
   {
     "name": "item18",
     "img": "/loop1.gif",
-    "price": 180.00,
+    "price": 220.00,
     "qty": ["28g"]
   },
   {
     "name": "item19",
-    "price": 190.00,
+    "price": 260.00,
     "img": "/loop1.gif",
     "qty": ["28g"]
   },
   {
     "name": "item20",
     "img": "/loop1.gif",
-    "price": 200.00,
+    "price": 280.00,
     "qty": ["28g"]
   }
 ]

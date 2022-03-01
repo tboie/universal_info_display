@@ -1033,6 +1033,11 @@ const UniversalInfoDisplay = (props: {
     ),
   ];
 
+  const getFilterRange = (key: string, items: UniversalInfoDisplayItem[]) => {
+    const vals = items.map((item) => item[key]);
+    return [Math.min(...vals), Math.max(...vals)];
+  };
+
   // get all groups
   useEffect(() => {
     if (props.contentType === "item") {
@@ -1090,7 +1095,7 @@ const UniversalInfoDisplay = (props: {
                     props:
                       value === "choice"
                         ? getFilterChoices(key, items)
-                        : [0, 0],
+                        : getFilterRange(key, items),
                     val: value === "choice" ? [] : 0,
                     sort: undefined,
                   });
@@ -1101,7 +1106,7 @@ const UniversalInfoDisplay = (props: {
                     props:
                       value === "choice"
                         ? getFilterChoices(key, items)
-                        : [0, 0],
+                        : getFilterRange(key, items),
                     val: value === "choice" ? [] : 0,
                     sort: undefined,
                   });
