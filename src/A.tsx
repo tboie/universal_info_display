@@ -1133,7 +1133,13 @@ const UniversalInfoDisplay = (props: {
         [filter1, filter2].map((f, idx) => {
           if (f && selectedFilterIdx === idx + 1) {
             if (f.type === "range") {
-              return <FilterControlRange key={idx} />;
+              return (
+                <FilterControlRange
+                  key={idx}
+                  min={f.props[0] as number}
+                  max={f.props[1] as number}
+                />
+              );
             } else if (f.type === "choice") {
               return <FilterControlChoice key={idx} />;
             }
@@ -1747,13 +1753,14 @@ const FilterControlChoice = () => {
   );
 };
 
-const FilterControlRange = () => {
+const FilterControlRange = ({ min, max }: { min: number; max: number }) => {
   return (
     <div
       id="universal_info_display_filter_control_range"
       className="universal_info_display_filter_control"
     >
-      <input type="range" min="1" max="100" value="100" />
+      {min}-{max}
+      <input type="range" min={min} max={max} value={max} />
     </div>
   );
 };
