@@ -1146,7 +1146,15 @@ const UniversalInfoDisplay = (props: {
               );
             } else if (f.type === "choice") {
               return (
-                <FilterControlChoice key={idx} choices={f.props as string[]} />
+                <FilterControlChoice
+                  key={idx}
+                  choices={f.props as string[]}
+                  filter1={filter1}
+                  filter2={filter2}
+                  selectedFilterIdx={selectedFilterIdx}
+                  setFilter1={setFilter1}
+                  setFilter2={setFilter2}
+                />
               );
             }
           }
@@ -1645,7 +1653,7 @@ const NavSlider = (
           return (
             <NavSliderLabel
               key={idx}
-              {...props}
+              type={type}
               selected={idx === selectedPageIdx}
               idx={idx}
               title={idx.toString()}
@@ -1657,8 +1665,8 @@ const NavSlider = (
         groupFilters?.map((g, idx) => {
           return (
             <NavSliderLabel
+              type={type}
               key={idx}
-              {...props}
               selected={g.group === selectedGroup}
               idx={idx}
               title={g.group}
@@ -1669,16 +1677,25 @@ const NavSlider = (
   );
 };
 
-const NavSliderLabel = (
-  props: ViewSection &
-    NavSlider & { selected: boolean; title: string; idx: number }
-) => {
-  const { selected, title, idx, type } = { ...props };
+const NavSliderLabel = ({
+  selected,
+  title,
+  idx,
+  type,
+  click,
+}: {
+  type: "page" | "group";
+  selected: boolean;
+  title: string;
+  idx: number;
+  click?: (idx: number, title: string, selected: boolean) => any;
+}) => {
   return (
     <span
       key={idx}
       id={`${type === "page" ? "num" : "group"}${idx}`}
       className={`slider_label ${selected ? "selected" : ""}`}
+      onClick={() => click && click(idx, title, selected)}
     >
       {title}
     </span>
@@ -1752,7 +1769,7 @@ const FilterButton = ({
     <div
       className="universal_info_display_filter_button"
       style={{
-        border: selected ? "4px solid darkgreen" : "",
+        border: selected ? "0.5rem solid white" : "",
         backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {
@@ -1778,13 +1795,59 @@ const FilterButton = ({
   );
 };
 
-const FilterControlChoice = ({ choices }: { choices: string[] }) => {
+const FilterControlChoice = ({
+  choices,
+  filter1,
+  filter2,
+  selectedFilterIdx,
+  setFilter1,
+  setFilter2,
+}: {
+  choices: string[];
+  filter1?: GroupFilter;
+  filter2?: GroupFilter;
+  selectedFilterIdx: number;
+  setFilter1: (val: any) => any;
+  setFilter2: (val: any) => any;
+}) => {
+  const click = (idx: number, title: string) => {
+    if (selectedFilterIdx === 1) {
+      setFilter1({
+        ...filter1,
+        val: (filter1?.val as string[]).includes(title)
+          ? (filter1?.val as string[]).filter((val) => val !== title)
+          : (filter1?.val as string[]).concat([title]),
+      });
+    } else if (selectedFilterIdx === 2) {
+      setFilter2({
+        ...filter2,
+        val: (filter2?.val as string[]).includes(title)
+          ? (filter2?.val as string[]).filter((val) => val !== title)
+          : (filter2?.val as string[]).concat([title]),
+      });
+    }
+  };
   return (
     <div
       id="universal_info_display_filter_control_choice"
       className="universal_info_display_filter_control"
     >
-      {choices.join(", ")}
+      {choices.map((c, idx) => {
+        return (
+          <NavSliderLabel
+            key={idx}
+            type={"group"}
+            selected={
+              selectedFilterIdx === 1
+                ? (filter1?.val as string[]).includes(c)
+                : (filter2?.val as string[]).includes(c)
+            }
+            idx={idx}
+            title={c}
+            click={click}
+          />
+        );
+      })}
     </div>
   );
 };

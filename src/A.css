@@ -163,11 +163,12 @@
 #universal_info_display_title_bar {
   width: 100%;
   height: 5%;
-  background-color: white;
+  background-color: #006400;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 2rem;
+  color: lightgreen;
 }
 
 #universal_info_display_title_bar span {
@@ -221,8 +222,8 @@
   font-size: 2rem;
 }
 
-.universal_info_display_nav_slider {
-  position: relative;
+.universal_info_display_nav_slider,
+#universal_info_display_filter_control_choice {
   background-color: green;
   height: 10%;
   width: 100%;
@@ -234,21 +235,31 @@
 }
 
 #universal_info_display_nav_page_slider {
-  background-color: white;
+  background-color: darkgreen;
 }
 
-#universal_info_display_nav_page_slider .slider_label {
-  color: gray;
+#universal_info_display_nav_page_slider .slider_label,
+#universal_info_display_nav_group_slider .slider_label {
+  color: greenyellow;
 }
 
-#universal_info_display_nav_page_slider .slider_label.selected {
-  color: black;
+#universal_info_display_nav_page_slider .slider_label.selected,
+#universal_info_display_nav_group_slider .slider_label.selected {
+  color: white;
+}
+
+#universal_info_display_filter_control_choice .slider_label {
+  color: greenyellow;
+}
+
+#universal_info_display_filter_control_choice .slider_label.selected {
+  font-size: 2rem;
+  color: white;
 }
 
 #universal_info_display_filter_bar {
   height: 5%;
   width: 100%;
-  background-color: purple;
   display: flex;
   font-size: 1.5rem;
 }
@@ -257,7 +268,6 @@
   height: 10%;
   width: 100%;
   background-color: green;
-  border: 4px solid darkgreen;
 }
 
 #universal_info_display_filter_control_range input {
@@ -267,7 +277,6 @@
 }
 
 .universal_info_display_filter_button {
-  border: 1px solid lightblue;
   flex: 1 1 0;
   justify-content: center;
   align-items: center;
