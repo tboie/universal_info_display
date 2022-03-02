@@ -1125,7 +1125,7 @@ const UniversalInfoDisplay = (props: {
         selectedPageIdx={selectedPageIdx}
         totalPages={pagesBool.length - 1}
       />
-      <ContentSlider {...p} items={items} />
+      <ContentSlider {...p} items={items} filter1={filter1} filter2={filter2} />
       <NavSlider {...p} type={"page"} selectedFilterIdx={selectedFilterIdx} />
       {selectedFilterIdx === 0 ? (
         <NavSlider
@@ -1201,9 +1201,13 @@ const ContentSlider = ({
   setSelectedGroup,
   groupFilters,
   setGroupFilters,
+  filter1,
+  filter2,
 }: ViewSection & {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
+  filter1?: GroupFilter;
+  filter2?: GroupFilter;
 }) => {
   const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
@@ -1327,6 +1331,43 @@ const ContentSlider = ({
       }
     }
   }, [textChunks]);
+
+  const sortItems = () => {
+    let choiceItems: any = [];
+
+    if (filter1) {
+      if (filter1.type === "choice") {
+        (filter1.val as string[]).forEach((choice) => {
+          choiceItems.push(
+            ...items.filter((item) => item[filter1.name].includes(choice))
+          );
+          if (filter1.sort === "asc") {
+            // sort?
+          }
+        });
+      }
+    }
+    if (filter2) {
+      if (filter2.type === "choice") {
+        (filter2.val as string[]).forEach((choice) => {
+          choiceItems.push(
+            ...items.filter((item) => item[filter2.name].includes(choice))
+          );
+          if (filter2.sort === "asc") {
+            // sort?
+          }
+        });
+      }
+    }
+
+    return choiceItems;
+  };
+  if (
+    (filter1 && (filter1?.val as string[]).length) ||
+    (filter2 && (filter2?.val as string[]).length)
+  ) {
+    items = sortItems();
+  }
 
   return (
     <div id="universal_info_display_content_slider" className="content_slider">
@@ -1830,6 +1871,23 @@ const FilterControlChoice = ({
       });
     }
   };
+
+  if (filter1 && filter1.type === "choice") {
+    if (filter1.sort === "asc") {
+      choices.sort((a, b) => a.localeCompare(b));
+    } else if (filter1.sort === "desc") {
+      choices.sort((a, b) => b.localeCompare(a));
+    }
+  }
+
+  if (filter2 && filter2.type === "choice") {
+    if (filter2.sort === "asc") {
+      choices.sort((a, b) => a.localeCompare(b));
+    } else if (filter2.sort === "desc") {
+      choices.sort((a, b) => b.localeCompare(a));
+    }
+  }
+
   return (
     <div
       id="universal_info_display_filter_control_choice"

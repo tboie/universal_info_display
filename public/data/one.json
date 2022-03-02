@@ -3,7 +3,7 @@
     "name": "item1",
     "img": "/loop1.gif",
     "price": 10.00,
-    "qty": ["3.5g"]
+    "qty": ["7g"]
   },
   {
     "name": "item2",
