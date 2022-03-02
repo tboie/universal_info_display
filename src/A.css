@@ -250,6 +250,12 @@
 
 #universal_info_display_filter_control_choice .slider_label {
   color: greenyellow;
+  border-right: 2px solid darkgreen;
+}
+
+#universal_info_display_filter_control_choice .slider_label:last-of-type {
+  color: greenyellow;
+  border-right: 0;
 }
 
 #universal_info_display_filter_control_choice .slider_label.selected {
@@ -270,10 +276,62 @@
   background-color: green;
 }
 
+#universal_info_display_filter_control_range {
+  position: relative;
+}
+
+#universal_info_display_filter_control_range.asc {
+  position: relative;
+  background: linear-gradient(
+    to bottom right,
+    green 0%,
+    green 50%,
+    whitesmoke 50%,
+    whitesmoke 100%
+  );
+}
+
+#universal_info_display_filter_control_range.desc {
+  position: relative;
+  background: linear-gradient(
+    to bottom left,
+    green 0%,
+    green 50%,
+    whitesmoke 50%,
+    whitesmoke 100%
+  );
+}
+
 #universal_info_display_filter_control_range input {
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  z-index: 1;
+  width: 90%;
   margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 5%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5rem;
+  cursor: pointer;
+  background-color: greenyellow;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000;
+  border: 1px solid #000000;
+  height: 30px;
+  width: 15px;
+  border-radius: 5px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
 }
 
 .universal_info_display_filter_button {

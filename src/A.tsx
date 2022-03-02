@@ -1142,6 +1142,7 @@ const UniversalInfoDisplay = (props: {
                   key={idx}
                   min={f.props[0] as number}
                   max={f.props[1] as number}
+                  sort={f.sort}
                 />
               );
             } else if (f.type === "choice") {
@@ -1811,19 +1812,21 @@ const FilterControlChoice = ({
   setFilter2: (val: any) => any;
 }) => {
   const click = (idx: number, title: string) => {
+    const f1Vals = filter1?.val as string[];
+    const f2Vals = filter2?.val as string[];
     if (selectedFilterIdx === 1) {
       setFilter1({
         ...filter1,
-        val: (filter1?.val as string[]).includes(title)
-          ? (filter1?.val as string[]).filter((val) => val !== title)
-          : (filter1?.val as string[]).concat([title]),
+        val: f1Vals.includes(title)
+          ? f1Vals.filter((val) => val !== title)
+          : f1Vals.concat([title]),
       });
     } else if (selectedFilterIdx === 2) {
       setFilter2({
         ...filter2,
-        val: (filter2?.val as string[]).includes(title)
-          ? (filter2?.val as string[]).filter((val) => val !== title)
-          : (filter2?.val as string[]).concat([title]),
+        val: f2Vals.includes(title)
+          ? f2Vals.filter((val) => val !== title)
+          : f2Vals.concat([title]),
       });
     }
   };
@@ -1852,14 +1855,31 @@ const FilterControlChoice = ({
   );
 };
 
-const FilterControlRange = ({ min, max }: { min: number; max: number }) => {
+const FilterControlRange = ({
+  min,
+  max,
+  sort,
+}: {
+  min: number;
+  max: number;
+  sort?: "asc" | "desc";
+}) => {
+  const [val, setVal] = useState(min);
+  console.log(sort);
   return (
     <div
       id="universal_info_display_filter_control_range"
-      className="universal_info_display_filter_control"
+      className={`universal_info_display_filter_control ${
+        sort === "asc" ? "asc" : ""
+      }${sort === "desc" ? "desc" : ""}`}
     >
-      {min}-{max}
-      <input type="range" min={min} max={max} value={max} />
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={val}
+        onChange={(e) => setVal(e.currentTarget.valueAsNumber)}
+      />
     </div>
   );
 };
