@@ -1,0 +1,122 @@
+[
+  {
+    "name": "item1",
+    "img": "/blueshirt.jpeg",
+    "price": 10.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item2",
+    "img": "/blueshirt.jpeg",
+    "price": 20.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item3",
+    "img": "/blueshirt.jpeg",
+    "price": 30.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item4",
+    "img": "/blueshirt.jpeg",
+    "price": 40.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item5",
+    "img": "/blueshirt.jpeg",
+    "price": 50.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item6",
+    "img": "/blueshirt.jpeg",
+    "price": 60.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item7",
+    "img": "/blueshirt.jpeg",
+    "price": 70.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item8",
+    "img": "/blueshirt.jpeg",
+    "price": 80.00,
+    "color": ["blue"]
+  },
+  {
+    "name": "item9",
+    "img": "/whiteshirt.jpeg",
+    "price": 90.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item10",
+    "img": "/whiteshirt.jpeg",
+    "price": 100.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item11",
+    "img": "/whiteshirt.jpeg",
+    "price": 110.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item12",
+    "img": "/whiteshirt.jpeg",
+    "price": 120.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item13",
+    "img": "/whiteshirt.jpeg",
+    "price": 130.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item14",
+    "img": "/whiteshirt.jpeg",
+    "price": 140.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item15",
+    "img": "/whiteshirt.jpeg",
+    "price": 150.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item16",
+    "img": "/whiteshirt.jpeg",
+    "price": 160.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item17",
+    "img": "/whiteshirt.jpeg",
+    "price": 170.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item18",
+    "img": "/whiteshirt.jpeg",
+    "price": 220.00,
+    "color": ["white"]
+  },
+  {
+    "name": "item19",
+    "price": 260.00,
+    "img": "/whiteshirt.jpeg",
+    "color": ["white"]
+  },
+  {
+    "name": "item20",
+    "img": "/whiteshirt.jpeg",
+    "price": 280.00,
+    "color": ["white"]
+  }
+]

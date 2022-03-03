@@ -1339,7 +1339,7 @@ const ContentSlider = ({
       if (filter1.type === "choice") {
         (filter1.val as string[]).forEach((choice) => {
           choiceItems.push(
-            ...items.filter((item) => item[filter1.name].includes(choice))
+            ...items.filter((item) => item[filter1.name]?.includes(choice))
           );
           if (filter1.sort === "asc") {
             // sort?
@@ -1351,7 +1351,7 @@ const ContentSlider = ({
       if (filter2.type === "choice") {
         (filter2.val as string[]).forEach((choice) => {
           choiceItems.push(
-            ...items.filter((item) => item[filter2.name].includes(choice))
+            ...items.filter((item) => item[filter2.name]?.includes(choice))
           );
           if (filter2.sort === "asc") {
             // sort?
