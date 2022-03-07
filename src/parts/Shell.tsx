@@ -7,9 +7,8 @@ import { useState, useEffect } from "react";
 import ContentSlider from "./ContentSlider";
 import FilterButtonBar from "./FilterButtonBar";
 import FilterRange from "./FilterRange";
-import FilterSliderChoice from "./FilterSliderChoice";
-import NavSlider from "./NavSlider";
 import TitleBar from "./TitleBar";
+import Slider, { T_SLIDER_TYPE } from "./Slider";
 
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPING!
 // [TEXT CALCS]
@@ -25,6 +24,8 @@ declare global {
   var itemsPressed: boolean;
   var numbersPressed: boolean;
   var groupsPressed: boolean;
+  var numbersScrolling: boolean;
+  var groupsScrolling: boolean;
   var scrollSpeed: number;
   var scrollDirection: "left" | "right" | "stopped";
 }
@@ -32,6 +33,8 @@ declare global {
 globalThis.itemsPressed = false;
 globalThis.numbersPressed = false;
 globalThis.groupsPressed = false;
+globalThis.numbersScrolling = false;
+globalThis.groupsScrolling = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
@@ -71,7 +74,7 @@ export type ViewSection = {
 };
 
 export type Slider = {
-  type: "group" | "page";
+  type: "group" | "page" | "choice";
 };
 
 // filters
@@ -93,7 +96,7 @@ const UniversalInfoDisplay = (props: {
   const [selectedPageIdx, setSelectedPageIdx] = useState(0);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [groupFilters, setGroupFilters] = useState([]);
+  const [groupFilters, setGroupFilters] = useState([{ group: "Loading" }]);
 
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<GroupFilter>();
@@ -209,6 +212,10 @@ const UniversalInfoDisplay = (props: {
     }
   }, [selectedGroup, groupFilters.length]);
 
+  const labelClick = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
+    console.log("label clicked: " + title + " type: " + type);
+  };
+
   return (
     <div className="universal_info_display">
       <TitleBar
@@ -217,12 +224,19 @@ const UniversalInfoDisplay = (props: {
         totalPages={pagesBool.length - 1}
       />
       <ContentSlider {...p} items={items} filter1={filter1} filter2={filter2} />
-      <NavSlider {...p} type={"page"} selectedFilterIdx={selectedFilterIdx} />
+      {/*<NavSlider {...p} type={"page"} selectedFilterIdx={selectedFilterIdx} /> */}
+      <Slider
+        type="page"
+        titles={pagesBool.map((p, idx) => idx.toString())}
+        selected={[selectedPageIdx.toString()]}
+        select={labelClick}
+      />
       {selectedFilterIdx === 0 ? (
-        <NavSlider
-          {...p}
-          type={"group"}
-          selectedFilterIdx={selectedFilterIdx}
+        <Slider
+          type="group"
+          titles={groupFilters.map((g) => g.group)}
+          selected={[selectedGroup]}
+          select={labelClick}
         />
       ) : (
         [filter1, filter2].map((f, idx) => {
@@ -238,14 +252,12 @@ const UniversalInfoDisplay = (props: {
               );
             } else if (f.type === "choice") {
               return (
-                <FilterSliderChoice
+                <Slider
                   key={idx}
-                  choices={f.props as string[]}
-                  filter1={filter1}
-                  filter2={filter2}
-                  selectedFilterIdx={selectedFilterIdx}
-                  setFilter1={setFilter1}
-                  setFilter2={setFilter2}
+                  type={"choice"}
+                  titles={f.props as string[]}
+                  selected={Array.isArray(f.val) ? f.val : [f.val.toString()]}
+                  select={labelClick}
                 />
               );
             }

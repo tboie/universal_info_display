@@ -1,12 +1,6 @@
 import "./A.css";
 import D, { T, T_SIDE } from "./D";
-import { useEffect, useState } from "react";
-import TitleBar from "./parts/TitleBar";
-import ContentSlider from "./parts/ContentSlider";
-import NavSlider from "./parts/NavSlider";
-import FilterButtonBar from "./parts/FilterButtonBar";
-import FilterSliderChoice from "./parts/FilterSliderChoice";
-import FilterRange from "./parts/FilterRange";
+import { useEffect } from "react";
 import UniversalInfoDisplay from "./parts/Shell";
 
 let data_text =

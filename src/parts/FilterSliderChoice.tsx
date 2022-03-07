@@ -1,3 +1,4 @@
+/*
 import SliderLabel from "./SliderLabel";
 import { GroupFilter } from "./Shell";
 
@@ -78,3 +79,5 @@ const FilterSliderChoice = ({
 };
 
 export default FilterSliderChoice;
+*/
+export {};
