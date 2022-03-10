@@ -291,7 +291,7 @@
   position: relative;
   background: linear-gradient(
     to bottom left,
-    green 0%,
+    green 5%,
     green 50%,
     lightgray 50%,
     lightgray 100%
@@ -383,10 +383,12 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider_label {
+  position: relative;
   font-size: 2rem;
   padding: 1rem;
   display: block;
   color: lightgreen;
+  margin-bottom: 0.5rem;
 }
 
 .slider_label:first-of-type {
@@ -402,4 +404,15 @@ input[type="range"]::-webkit-slider-thumb {
   text-decoration: underline;
   border: 0;
   font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+::-webkit-scrollbar {
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: darkgreen;
+}
+::-webkit-scrollbar-thumb {
+  background: lightgray;
 }
