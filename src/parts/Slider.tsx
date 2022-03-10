@@ -11,6 +11,7 @@ type T_SLIDER = {
 };
 
 type T_SLIDER_LABEL = {
+  idx: number;
   type: T_SLIDER_TYPE;
   title: string;
   on: boolean;
@@ -30,7 +31,8 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const ele = entry.target as HTMLElement;
-              select(type, ele.innerText, ele.classList.contains("selected"));
+              const title = titles[parseInt(ele.id.replace(type, ""))];
+              select(type, title, ele.classList.contains("selected"));
             }
           });
         };
@@ -53,6 +55,7 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
     <div className={`slider ${type}`}>
       {titles.map((t, idx) => (
         <Label
+          idx={idx}
           key={idx}
           type={type}
           title={t}
@@ -64,9 +67,10 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
   );
 };
 
-const Label = ({ type, title, on, click }: T_SLIDER_LABEL) => {
+const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
   return (
     <span
+      id={`${type + idx}`}
       className={`slider_label ${on ? "selected" : ""}`}
       onClick={() => click(type, title, on)}
     >
