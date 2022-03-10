@@ -225,7 +225,6 @@ const UniversalInfoDisplay = (props: {
         totalPages={pagesBool.length - 1}
       />
       <ContentSlider {...p} items={items} filter1={filter1} filter2={filter2} />
-      {/*<NavSlider {...p} type={"page"} selectedFilterIdx={selectedFilterIdx} /> */}
       <Slider
         type="page"
         titles={pagesBool.map((p, idx) => idx.toString())}

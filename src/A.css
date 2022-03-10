@@ -373,6 +373,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider {
   background-color: green;
+  border-bottom: 2px solid darkgreen;
   height: 10%;
   width: 100%;
   overflow-x: scroll;
@@ -384,13 +385,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider_label {
   position: relative;
-  font-size: 2rem;
+  font-size: 2.25rem;
   padding: 1rem;
   display: block;
   color: lightgreen;
-  margin-bottom: 0.5rem;
+  padding-bottom: 1.75rem;
+  border: 0;
 }
-
 .slider_label:first-of-type {
   padding-left: 50%;
 }
@@ -402,17 +403,6 @@ input[type="range"]::-webkit-slider-thumb {
 .slider_label.selected {
   color: white;
   text-decoration: underline;
-  border: 0;
   font-size: 2.5rem;
-  margin-bottom: 0.75rem;
-}
-
-::-webkit-scrollbar {
-  height: 4px;
-}
-::-webkit-scrollbar-track {
-  background: darkgreen;
-}
-::-webkit-scrollbar-thumb {
-  background: lightgray;
+  padding-bottom: 2rem;
 }
