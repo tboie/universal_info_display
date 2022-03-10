@@ -21,20 +21,16 @@ import Slider, { T_SLIDER_TYPE } from "./Slider";
 
 // globals
 declare global {
-  var itemsPressed: boolean;
-  var numbersPressed: boolean;
-  var groupsPressed: boolean;
-  var numbersScrolling: boolean;
-  var groupsScrolling: boolean;
+  var contentSliderPressed: boolean;
+  var pageSliderPressed: boolean;
+  var groupSliderPressed: boolean;
   var scrollSpeed: number;
   var scrollDirection: "left" | "right" | "stopped";
 }
 
-globalThis.itemsPressed = false;
-globalThis.numbersPressed = false;
-globalThis.groupsPressed = false;
-globalThis.numbersScrolling = false;
-globalThis.groupsScrolling = false;
+globalThis.contentSliderPressed = false;
+globalThis.pageSliderPressed = false;
+globalThis.groupSliderPressed = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
@@ -212,8 +208,13 @@ const UniversalInfoDisplay = (props: {
     }
   }, [selectedGroup, groupFilters.length]);
 
-  const labelClick = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
-    console.log("label clicked: " + title + " type: " + type);
+  const sliderSelect = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
+    if (type === "page") {
+      setSelectedPageIdx(parseInt(title));
+    } else if (type === "group") {
+      setSelectedPageIdx(0);
+      setSelectedGroup(title);
+    }
   };
 
   return (
@@ -229,14 +230,14 @@ const UniversalInfoDisplay = (props: {
         type="page"
         titles={pagesBool.map((p, idx) => idx.toString())}
         selected={[selectedPageIdx.toString()]}
-        select={labelClick}
+        select={sliderSelect}
       />
       {selectedFilterIdx === 0 ? (
         <Slider
           type="group"
           titles={groupFilters.map((g) => g.group)}
           selected={[selectedGroup]}
-          select={labelClick}
+          select={sliderSelect}
         />
       ) : (
         [filter1, filter2].map((f, idx) => {
@@ -257,7 +258,7 @@ const UniversalInfoDisplay = (props: {
                   type={"choice"}
                   titles={f.props as string[]}
                   selected={Array.isArray(f.val) ? f.val : [f.val.toString()]}
-                  select={labelClick}
+                  select={sliderSelect}
                 />
               );
             }

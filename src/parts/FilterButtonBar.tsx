@@ -71,9 +71,7 @@ const FilterButton = ({
         backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {
-        globalThis.itemsPressed = false;
-        globalThis.numbersPressed = false;
-        globalThis.groupsPressed = false;
+        globalThis.pageSliderPressed = false;
 
         if (!selected) {
           click(idx, "asc");

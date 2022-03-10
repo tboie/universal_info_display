@@ -197,7 +197,7 @@
   align-items: center;*/
 }
 
-.universal_info_display .content_slider .page {
+.universal_info_display .content_slider .content_page {
   background-color: white;
   color: black;
   height: 100%;
@@ -390,11 +390,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider_label:first-of-type {
-  margin-left: calc(50%);
+  padding-left: 50%;
 }
 
 .slider_label:last-of-type {
-  margin-right: calc(50%);
+  padding-right: 50%;
 }
 
 .slider_label.selected {

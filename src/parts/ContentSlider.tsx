@@ -254,7 +254,7 @@ const Page = ({
     const handleSnapLeft = (entries: any, observer: any) => {
       entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
-          if (itemsPressed) {
+          if (globalThis.contentSliderPressed) {
             if (scrollDirection === "left") {
               if (scrollSpeed < 0.4) {
                 const container = document.querySelector(
@@ -280,7 +280,7 @@ const Page = ({
     const handleSnapRight = (entries: any, observer: any) => {
       entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
-          if (itemsPressed) {
+          if (globalThis.contentSliderPressed) {
             if (scrollDirection === "right") {
               if (scrollSpeed * -1 < 0.4) {
                 const container = document.querySelector(
@@ -306,9 +306,9 @@ const Page = ({
     const handlePageChange = (entries: any, observer: any) => {
       entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
-          if (itemsPressed) {
+          if (globalThis.contentSliderPressed) {
             const id = entry.target.id;
-            const selected = parseInt(id.substr(4, id.length));
+            const selected = parseInt(id.replace("content_page", ""));
             setSelectedPageIdx(selected);
           }
         }
@@ -345,7 +345,7 @@ const Page = ({
       optSnapRight
     );
 
-    const ele = document.querySelectorAll(".page")[num];
+    const ele = document.querySelectorAll(".content_page")[num];
 
     obsPageChange.observe(ele);
     obsSnapLeft.observe(ele);
@@ -360,17 +360,18 @@ const Page = ({
 
   // Center page when changed
   useEffect(() => {
-    if (!itemsPressed) {
+    if (!globalThis.contentSliderPressed) {
       const container = document.querySelector(
         "#universal_info_display_content_slider"
       ) as HTMLElement;
-      const elePage = document.querySelectorAll(".page")[selectedPageIdx];
 
       container.style.overflowX = "hidden";
       setTimeout(() => {
-        elePage?.scrollIntoView({
-          inline: "center",
-        });
+        document
+          .querySelectorAll(".content_page")
+          [selectedPageIdx]?.scrollIntoView({
+            inline: "center",
+          });
       }, 10);
       setTimeout(() => {
         container.style.overflowX = "scroll";
@@ -380,12 +381,12 @@ const Page = ({
 
   return (
     <div
-      id={`page${num}`}
-      className="page"
+      id={`content_page${num}`}
+      className="content_page"
       onTouchStart={(e) => {
-        itemsPressed = true;
-        numbersPressed = false;
-        groupsPressed = false;
+        globalThis.contentSliderPressed = true;
+        globalThis.pageSliderPressed = false;
+        globalThis.groupSliderPressed = false;
       }}
     >
       {text}
