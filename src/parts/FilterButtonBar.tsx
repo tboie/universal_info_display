@@ -81,7 +81,7 @@ const FilterButton = ({
     <div
       className="universal_info_display_filter_button"
       style={{
-        border: selected ? "0.5rem solid white" : "",
+        border: selected ? "4px solid black" : "",
         backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {

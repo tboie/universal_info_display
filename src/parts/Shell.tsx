@@ -210,24 +210,33 @@ const UniversalInfoDisplay = (props: {
   }, [selectedGroup, groupFilters.length]);
 
   const sortItems = () => {
-    let choiceItems: any[] = [];
+    let filteredItems: any[] = [];
 
-    if (filter1?.type === "choice") {
-      (filter1.val as string[]).forEach((choice) => {
-        choiceItems.push(
-          ...items.filter((item) => item[filter1.name]?.includes(choice))
-        );
+    [filter1, filter2]
+      .filter((f) => f?.type === "choice")
+      .forEach((f) => {
+        if (f) {
+          (f.val as string[]).forEach((choice) => {
+            filteredItems.push(
+              ...items.filter((item) => item[f.name]?.includes(choice))
+            );
+          });
+        }
       });
-    }
-    if (filter2?.type === "choice") {
-      (filter2.val as string[]).forEach((choice) => {
-        choiceItems.push(
-          ...items.filter((item) => item[filter2.name]?.includes(choice))
-        );
-      });
+
+    if (!filteredItems.length) {
+      filteredItems = [...items];
     }
 
-    return choiceItems;
+    [filter1, filter2].forEach((f) => {
+      if (f?.sort) {
+        filteredItems.sort((a, b) =>
+          f.sort === "asc" ? a[f.name] - b[f.name] : b[f.name] - a[f.name]
+        );
+      }
+    });
+
+    return filteredItems;
   };
 
   const sliderSelect = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
@@ -264,8 +273,10 @@ const UniversalInfoDisplay = (props: {
       <ContentSlider
         {...p}
         items={
-          (filter1 && (filter1.val as string[]).length) ||
-          (filter2 && (filter2.val as string[]).length)
+          (filter1?.val as string[])?.length ||
+          (filter2?.val as string[])?.length ||
+          filter1?.sort ||
+          filter2?.sort
             ? sortItems()
             : items
         }
