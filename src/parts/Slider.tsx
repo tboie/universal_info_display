@@ -81,7 +81,7 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""}`}
       onClick={() => {
-        if (type === "group") {
+        if (type === "group" || type === "choice") {
           click(type, title, on);
         }
       }}
@@ -89,10 +89,16 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
         globalThis.contentSliderPressed = false;
         if (type === "page") {
           globalThis.groupSliderPressed = false;
+          globalThis.choiceSliderPressed = false;
           globalThis.pageSliderPressed = true;
         } else if (type === "group") {
           globalThis.pageSliderPressed = false;
+          globalThis.choiceSliderPressed = false;
           globalThis.groupSliderPressed = true;
+        } else if (type === "choice") {
+          globalThis.pageSliderPressed = false;
+          globalThis.groupSliderPressed = false;
+          globalThis.choiceSliderPressed = true;
         }
       }}
     >

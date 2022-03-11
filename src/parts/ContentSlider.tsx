@@ -7,6 +7,8 @@ import {
   UniversalInfoDisplayItem,
   GroupFilter,
 } from "./Shell";
+import Slider from "./Slider";
+import TitleBar from "./TitleBar";
 
 const ContentSlider = ({
   contentType,
@@ -15,13 +17,12 @@ const ContentSlider = ({
   setPagesBool,
   selectedPageIdx,
   setSelectedPageIdx,
-  filter1,
-  filter2,
+  selectedGroup,
+  sliderSelect,
 }: ViewSection & {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
-  filter1?: GroupFilter;
-  filter2?: GroupFilter;
+  sliderSelect: any;
 }) => {
   const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
@@ -146,93 +147,72 @@ const ContentSlider = ({
     }
   }, [textChunks]);
 
-  const sortItems = () => {
-    let choiceItems: any = [];
-
-    if (filter1) {
-      if (filter1.type === "choice") {
-        (filter1.val as string[]).forEach((choice) => {
-          choiceItems.push(
-            ...items.filter((item) => item[filter1.name]?.includes(choice))
-          );
-          if (filter1.sort === "asc") {
-            // sort?
-          }
-        });
-      }
-    }
-    if (filter2) {
-      if (filter2.type === "choice") {
-        (filter2.val as string[]).forEach((choice) => {
-          choiceItems.push(
-            ...items.filter((item) => item[filter2.name]?.includes(choice))
-          );
-          if (filter2.sort === "asc") {
-            // sort?
-          }
-        });
-      }
-    }
-
-    return choiceItems;
-  };
-  if (
-    (filter1 && (filter1?.val as string[]).length) ||
-    (filter2 && (filter2?.val as string[]).length)
-  ) {
-    items = sortItems();
-  }
-
   return (
-    <div id="universal_info_display_content_slider" className="content_slider">
-      {/* fix this when text implemented */}
-      {contentType === "text" && <div id="all-text">{items}</div>}
+    <>
+      <TitleBar
+        selectedGroup={selectedGroup}
+        selectedPageIdx={selectedPageIdx}
+        totalPages={chunkArr(items, 9).length - 1}
+      />
+      <div
+        id="universal_info_display_content_slider"
+        className="content_slider"
+      >
+        {/* fix this when text implemented */}
+        {contentType === "text" && <div id="all-text">{items}</div>}
 
-      {
-        /* initial page loader */
-        contentType === "text" &&
-          textChunks.map((txt, idx) => (
-            <div key={idx} className={`page_loader`}>
-              <DetectableOverflow
-                onChange={(overflowing) => overflowChanged(overflowing, idx)}
-                style={{
-                  whiteSpace: "normal",
-                  wordBreak: "break-word",
-                  overflow: "scroll",
-                  height: "100%",
-                  width: "100%",
-                }}
-              >
-                {txt}
-              </DetectableOverflow>
-            </div>
-          ))
-      }
+        {
+          /* initial page loader */
+          contentType === "text" &&
+            textChunks.map((txt, idx) => (
+              <div key={idx} className={`page_loader`}>
+                <DetectableOverflow
+                  onChange={(overflowing) => overflowChanged(overflowing, idx)}
+                  style={{
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    overflow: "scroll",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  {txt}
+                </DetectableOverflow>
+              </div>
+            ))
+        }
 
-      {contentType === "text" &&
-        pagesBool
-          .filter((p) => p === false)
-          .map((p, i) => (
+        {contentType === "text" &&
+          pagesBool
+            .filter((p) => p === false)
+            .map((p, i) => (
+              <Page
+                key={i}
+                num={i}
+                text={textChunks[i]}
+                selectedPageIdx={selectedPageIdx}
+                setSelectedPageIdx={setSelectedPageIdx}
+              />
+            ))}
+
+        {contentType === "item" &&
+          chunkArr(items, 9).map((items, idx) => (
             <Page
-              key={i}
-              num={i}
-              text={textChunks[i]}
+              key={idx}
+              num={idx}
+              items={items}
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
             />
           ))}
-
-      {contentType === "item" &&
-        chunkArr(items, 9).map((items, i) => (
-          <Page
-            key={i}
-            num={i}
-            items={items}
-            selectedPageIdx={selectedPageIdx}
-            setSelectedPageIdx={setSelectedPageIdx}
-          />
-        ))}
-    </div>
+      </div>
+      <Slider
+        type="page"
+        titles={chunkArr(items, 9).map((item, idx) => idx.toString())}
+        selected={[selectedPageIdx.toString()]}
+        select={sliderSelect}
+      />
+    </>
   );
 };
 

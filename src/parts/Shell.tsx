@@ -10,7 +10,7 @@ import FilterRange from "./FilterRange";
 import TitleBar from "./TitleBar";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
 
-// !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPING!
+// !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
 // [TEXT CALCS]
 // 1st: display all text into 1 div and split text into pages using element height and viewport height
 // Two: Mount pages from above and detect overflow on them
@@ -24,6 +24,7 @@ declare global {
   var contentSliderPressed: boolean;
   var pageSliderPressed: boolean;
   var groupSliderPressed: boolean;
+  var choiceSliderPressed: boolean;
   var scrollSpeed: number;
   var scrollDirection: "left" | "right" | "stopped";
 }
@@ -31,6 +32,7 @@ declare global {
 globalThis.contentSliderPressed = false;
 globalThis.pageSliderPressed = false;
 globalThis.groupSliderPressed = false;
+globalThis.choiceSliderPressed = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
@@ -208,28 +210,77 @@ const UniversalInfoDisplay = (props: {
     }
   }, [selectedGroup, groupFilters.length]);
 
+  const sortItems = () => {
+    let choiceItems: any = [];
+
+    if (filter1) {
+      if (filter1.type === "choice") {
+        (filter1.val as string[]).forEach((choice) => {
+          choiceItems.push(
+            ...items.filter((item) => item[filter1.name]?.includes(choice))
+          );
+          if (filter1.sort === "asc") {
+            // sort?
+          }
+        });
+      }
+    }
+    if (filter2) {
+      if (filter2.type === "choice") {
+        (filter2.val as string[]).forEach((choice) => {
+          choiceItems.push(
+            ...items.filter((item) => item[filter2.name]?.includes(choice))
+          );
+          if (filter2.sort === "asc") {
+            // sort?
+          }
+        });
+      }
+    }
+
+    return choiceItems;
+  };
+
   const sliderSelect = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
       setSelectedPageIdx(0);
       setSelectedGroup(title);
+    } else if (type === "choice") {
+      if (selectedFilterIdx === 1 && filter1) {
+        const f1Vals = filter1?.val as string[];
+        setSelectedPageIdx(0);
+        setFilter1({
+          ...filter1,
+          val: f1Vals.includes(title)
+            ? f1Vals.filter((val) => val !== title)
+            : f1Vals.concat([title]),
+        });
+      } else if (selectedFilterIdx === 2 && filter2) {
+        const f2Vals = filter2?.val as string[];
+        setSelectedPageIdx(0);
+        setFilter2({
+          ...filter2,
+          val: f2Vals.includes(title)
+            ? f2Vals.filter((val) => val !== title)
+            : f2Vals.concat([title]),
+        });
+      }
     }
   };
 
   return (
     <div className="universal_info_display">
-      <TitleBar
-        selectedGroup={selectedGroup}
-        selectedPageIdx={selectedPageIdx}
-        totalPages={pagesBool.length - 1}
-      />
-      <ContentSlider {...p} items={items} filter1={filter1} filter2={filter2} />
-      <Slider
-        type="page"
-        titles={pagesBool.map((p, idx) => idx.toString())}
-        selected={[selectedPageIdx.toString()]}
-        select={sliderSelect}
+      <ContentSlider
+        {...p}
+        items={
+          (filter1 && (filter1?.val as string[]).length) ||
+          (filter2 && (filter2?.val as string[]).length)
+            ? sortItems()
+            : items
+        }
+        sliderSelect={sliderSelect}
       />
       {selectedFilterIdx === 0 ? (
         <Slider
