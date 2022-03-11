@@ -237,11 +237,11 @@ const UniversalInfoDisplay = (props: {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      setSelectedPageIdx(0);
       if (title !== selectedGroup) {
         setFilter1(undefined);
         setFilter2(undefined);
         setFilter3(undefined);
+        setSelectedPageIdx(0);
         setSelectedGroup(title);
       }
     } else if (type === "choice") {
