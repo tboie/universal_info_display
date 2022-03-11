@@ -3,120 +3,220 @@
     "name": "item1",
     "img": "/blueshirt.jpeg",
     "price": 45.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "md"
+    ]
   },
   {
     "name": "item2",
     "img": "/blueshirt.jpeg",
     "price": 20.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item3",
     "img": "/blueshirt.jpeg",
     "price": 30.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "lg"
+    ]
   },
   {
     "name": "item4",
     "img": "/blueshirt.jpeg",
     "price": 40.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item5",
     "img": "/blueshirt.jpeg",
     "price": 50.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "md"
+    ]
   },
   {
     "name": "item6",
     "img": "/blueshirt.jpeg",
     "price": 10.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "xl"
+    ]
   },
   {
     "name": "item7",
     "img": "/blueshirt.jpeg",
     "price": 70.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "xl"
+    ]
   },
   {
     "name": "item8",
     "img": "/blueshirt.jpeg",
     "price": 80.00,
-    "color": ["blue"]
+    "color": [
+      "blue"
+    ],
+    "size": [
+      "xl"
+    ]
   },
   {
     "name": "item9",
     "img": "/whiteshirt.jpeg",
     "price": 90.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "xl"
+    ]
   },
   {
     "name": "item10",
     "img": "/whiteshirt.jpeg",
     "price": 100.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "xl"
+    ]
   },
   {
     "name": "item11",
     "img": "/whiteshirt.jpeg",
     "price": 110.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item12",
     "img": "/whiteshirt.jpeg",
     "price": 120.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item13",
     "img": "/whiteshirt.jpeg",
     "price": 10.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item14",
     "img": "/whiteshirt.jpeg",
     "price": 140.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item15",
     "img": "/whiteshirt.jpeg",
     "price": 150.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item16",
     "img": "/whiteshirt.jpeg",
     "price": 160.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item17",
     "img": "/whiteshirt.jpeg",
     "price": 170.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item18",
     "img": "/whiteshirt.jpeg",
     "price": 220.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item19",
     "price": 260.00,
     "img": "/whiteshirt.jpeg",
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   },
   {
     "name": "item20",
     "img": "/whiteshirt.jpeg",
     "price": 280.00,
-    "color": ["white"]
+    "color": [
+      "white"
+    ],
+    "size": [
+      "sm"
+    ]
   }
 ]

@@ -3,15 +3,19 @@ import { FilterType, GroupFilter } from "./Shell";
 const FilterButtonBar = ({
   filter1,
   filter2,
+  filter3,
   setFilter1,
   setFilter2,
+  setFilter3,
   selectedFilterIdx,
   setSelectedFilterIdx,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
+  filter3?: GroupFilter;
   setFilter1: (val: any) => any;
   setFilter2: (val: any) => any;
+  setFilter3: (val: any) => any;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (val: number) => any;
 }) => {
@@ -23,7 +27,16 @@ const FilterButtonBar = ({
     if (type === "choice") {
       setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
     } else if (type === "range") {
-      const f = idx === 1 ? filter1 : filter2;
+      let f;
+
+      if (idx === 1) {
+        f = filter1;
+      } else if (idx === 2) {
+        f = filter2;
+      } else if (idx === 3) {
+        f = filter3;
+      }
+
       let sort = f?.sort;
       if (!sort) {
         sort = "asc";
@@ -32,16 +45,21 @@ const FilterButtonBar = ({
       } else {
         sort = undefined;
       }
+
       setSelectedFilterIdx(sort ? idx : 0);
-      idx === 1
-        ? setFilter1({ ...filter1, sort: sort })
-        : setFilter2({ ...filter2, sort: sort });
+      if (idx === 1) {
+        setFilter1({ ...filter1, sort: sort });
+      } else if (idx === 2) {
+        setFilter2({ ...filter2, sort: sort });
+      } else if (idx === 3) {
+        setFilter3({ ...filter3, sort: sort });
+      }
     }
   };
 
   return (
     <div id="universal_info_display_filter_bar">
-      {[filter1, filter2].map(
+      {[filter1, filter2, filter3].map(
         (f, idx) =>
           f && (
             <FilterButton
