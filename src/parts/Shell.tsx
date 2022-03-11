@@ -136,6 +136,7 @@ const UniversalInfoDisplay = (props: {
         .then((groupData) => {
           setGroupFilters(groupData);
           setSelectedGroup(groupData[0].group);
+
           Object.entries(groupData[0])
             .filter(([key]) => key !== "group")
             .forEach(([key, value], idx) => {
@@ -164,7 +165,7 @@ const UniversalInfoDisplay = (props: {
       fetch(`/data/${selectedGroup}.json`)
         .then((response) => response.json())
         .then((items: UniversalInfoDisplayItem[]) => {
-          setItems(items);
+          setItems(items.map((item, idx) => ({ id: idx, ...item })));
 
           // true/false doesn't matter for now
           setPagesBool(
@@ -230,7 +231,12 @@ const UniversalInfoDisplay = (props: {
       }
     });
 
-    return filteredItems;
+    const seen = new Set();
+    return filteredItems.filter((item) => {
+      const duplicate = seen.has(item.id);
+      seen.add(item.id);
+      return !duplicate;
+    });
   };
 
   const sliderSelect = (type: T_SLIDER_TYPE, title: string, on: boolean) => {

@@ -211,9 +211,9 @@
   {
     "name": "item20",
     "img": "/whiteshirt.jpeg",
-    "price": 280.00,
+    "price": 1.00,
     "color": [
-      "white"
+      "teal", "purple"
     ],
     "size": [
       "sm"
