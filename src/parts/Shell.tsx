@@ -211,17 +211,16 @@ const UniversalInfoDisplay = (props: {
       .forEach((f) => {
         if (f) {
           (f.val as string[]).forEach((choice) => {
-            /*
-            if (!filteredItems.length) {
-              filteredItems = [...items];
-            }
-            */
             filteredItems.push(
               ...items.filter((item) => item[f.name]?.includes(choice))
             );
           });
         }
       });
+
+    if (!filteredItems.length) {
+      filteredItems = [...items];
+    }
 
     [filter1, filter2, filter3].forEach((f) => {
       if (f?.sort) {
