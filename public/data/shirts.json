@@ -2,7 +2,7 @@
   {
     "name": "item1",
     "img": "/blueshirt.jpeg",
-    "price": 10.00,
+    "price": 45.00,
     "color": ["blue"]
   },
   {
@@ -32,7 +32,7 @@
   {
     "name": "item6",
     "img": "/blueshirt.jpeg",
-    "price": 60.00,
+    "price": 10.00,
     "color": ["blue"]
   },
   {
@@ -74,7 +74,7 @@
   {
     "name": "item13",
     "img": "/whiteshirt.jpeg",
-    "price": 130.00,
+    "price": 10.00,
     "color": ["white"]
   },
   {

@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import ContentSlider from "./ContentSlider";
 import FilterButtonBar from "./FilterButtonBar";
 import FilterRange from "./FilterRange";
-import TitleBar from "./TitleBar";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
 
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
@@ -211,31 +210,21 @@ const UniversalInfoDisplay = (props: {
   }, [selectedGroup, groupFilters.length]);
 
   const sortItems = () => {
-    let choiceItems: any = [];
+    let choiceItems: any[] = [];
 
-    if (filter1) {
-      if (filter1.type === "choice") {
-        (filter1.val as string[]).forEach((choice) => {
-          choiceItems.push(
-            ...items.filter((item) => item[filter1.name]?.includes(choice))
-          );
-          if (filter1.sort === "asc") {
-            // sort?
-          }
-        });
-      }
+    if (filter1?.type === "choice") {
+      (filter1.val as string[]).forEach((choice) => {
+        choiceItems.push(
+          ...items.filter((item) => item[filter1.name]?.includes(choice))
+        );
+      });
     }
-    if (filter2) {
-      if (filter2.type === "choice") {
-        (filter2.val as string[]).forEach((choice) => {
-          choiceItems.push(
-            ...items.filter((item) => item[filter2.name]?.includes(choice))
-          );
-          if (filter2.sort === "asc") {
-            // sort?
-          }
-        });
-      }
+    if (filter2?.type === "choice") {
+      (filter2.val as string[]).forEach((choice) => {
+        choiceItems.push(
+          ...items.filter((item) => item[filter2.name]?.includes(choice))
+        );
+      });
     }
 
     return choiceItems;
@@ -275,8 +264,8 @@ const UniversalInfoDisplay = (props: {
       <ContentSlider
         {...p}
         items={
-          (filter1 && (filter1?.val as string[]).length) ||
-          (filter2 && (filter2?.val as string[]).length)
+          (filter1 && (filter1.val as string[]).length) ||
+          (filter2 && (filter2.val as string[]).length)
             ? sortItems()
             : items
         }

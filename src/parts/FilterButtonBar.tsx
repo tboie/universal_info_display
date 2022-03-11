@@ -1,4 +1,4 @@
-import { GroupFilter } from "./Shell";
+import { FilterType, GroupFilter } from "./Shell";
 
 const FilterButtonBar = ({
   filter1,
@@ -19,12 +19,23 @@ const FilterButtonBar = ({
     return ((Array.isArray(f.val) && f.val.length) || f.val > 0) as boolean;
   };
 
-  const setFilter = (idx: number, sort: "asc" | "desc" | undefined) => {
-    setSelectedFilterIdx(!sort ? 0 : idx);
-    if (idx === 1) {
-      setFilter1({ ...filter1, sort: sort });
-    } else if (idx === 2) {
-      setFilter2({ ...filter2, sort: sort });
+  const setFilter = (idx: number, type: FilterType) => {
+    if (type === "choice") {
+      setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
+    } else if (type === "range") {
+      const f = idx === 1 ? filter1 : filter2;
+      let sort = f?.sort;
+      if (!sort) {
+        sort = "asc";
+      } else if (sort === "asc") {
+        sort = "desc";
+      } else {
+        sort = undefined;
+      }
+      setSelectedFilterIdx(sort ? idx : 0);
+      idx === 1
+        ? setFilter1({ ...filter1, sort: sort })
+        : setFilter2({ ...filter2, sort: sort });
     }
   };
 
@@ -36,11 +47,12 @@ const FilterButtonBar = ({
             <FilterButton
               key={idx}
               idx={idx + 1}
+              type={f.type}
               text={f.name}
               on={isOn(f)}
               selected={selectedFilterIdx === idx + 1}
               sort={f.sort}
-              click={(idx, sort) => setFilter(idx, sort)}
+              click={(idx, type) => setFilter(idx, type)}
             />
           )
       )}
@@ -50,6 +62,7 @@ const FilterButtonBar = ({
 
 const FilterButton = ({
   idx,
+  type,
   text,
   on,
   selected,
@@ -57,11 +70,12 @@ const FilterButton = ({
   click,
 }: {
   idx: number;
+  type: FilterType;
   text: string;
   on: boolean;
   selected: boolean;
   sort: "asc" | "desc" | undefined;
-  click: (idx: number, sort: "asc" | "desc" | undefined) => any;
+  click: (idx: number, type: FilterType) => any;
 }) => {
   return (
     <div
@@ -72,14 +86,11 @@ const FilterButton = ({
       }}
       onClick={() => {
         globalThis.pageSliderPressed = false;
+        globalThis.groupSliderPressed = false;
+        globalThis.choiceSliderPressed = false;
+        globalThis.contentSliderPressed = false;
 
-        if (!selected) {
-          click(idx, "asc");
-        } else if (sort === "asc") {
-          click(idx, "desc");
-        } else if (sort === "desc") {
-          click(idx, undefined);
-        }
+        click(idx, type);
       }}
     >
       <span>

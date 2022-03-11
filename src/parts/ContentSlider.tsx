@@ -367,6 +367,7 @@ const Page = ({
         globalThis.contentSliderPressed = true;
         globalThis.pageSliderPressed = false;
         globalThis.groupSliderPressed = false;
+        globalThis.choiceSliderPressed = false;
       }}
     >
       {text}
@@ -388,7 +389,7 @@ const GridItems = ({
         return (
           <div className={`item`} key={idx}>
             <img src={`${item.img}`} loading="lazy" alt=""></img>
-            <span>{`${page}${idx}`}</span>
+            <span>{item["price"]}</span>
           </div>
         );
       })}

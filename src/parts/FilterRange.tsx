@@ -10,7 +10,6 @@ const FilterRange = ({
   sort?: "asc" | "desc";
 }) => {
   const [val, setVal] = useState(min);
-  console.log(sort);
   return (
     <div
       id="universal_info_display_filter_control_range"

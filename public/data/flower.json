@@ -2,13 +2,13 @@
   {
     "name": "item1",
     "img": "/loop1.gif",
-    "price": 10.00,
+    "price": 100.00,
     "strain": ["indica"]
   },
   {
     "name": "item2",
     "img": "/loop1.gif",
-    "price": 20.00,
+    "price": 200.00,
     "strain": ["hybrid"]
   },
   {
@@ -20,7 +20,7 @@
   {
     "name": "item4",
     "img": "/loop1.gif",
-    "price": 40.00,
+    "price": 5.00,
     "strain": ["hybrid"]
   },
   {
@@ -38,7 +38,7 @@
   {
     "name": "item7",
     "img": "/loop1.gif",
-    "price": 70.00,
+    "price": 60.00,
     "strain": ["indica"]
   },
   {
