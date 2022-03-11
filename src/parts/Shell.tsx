@@ -137,22 +137,17 @@ const UniversalInfoDisplay = (props: {
           setSelectedGroup(groupData[0].group);
           Object.entries(groupData[0]).forEach(([key, value], idx) => {
             if (key !== "group") {
+              const fObj = {
+                name: key,
+                type: value as FilterType,
+                props: value === "choice" ? [""] : ([0, 0] as [0, 0]),
+                val: value === "choice" ? [""] : 0,
+                sort: undefined,
+              };
               if (idx === 1) {
-                setFilter1({
-                  name: key,
-                  type: value as FilterType,
-                  props: value === "choice" ? [""] : [0, 0],
-                  val: value === "choice" ? [""] : 0,
-                  sort: undefined,
-                });
+                setFilter1(fObj);
               } else if (idx === 2) {
-                setFilter2({
-                  name: key,
-                  type: value as FilterType,
-                  props: value === "choice" ? [""] : [0, 0],
-                  val: value === "choice" ? [""] : 0,
-                  sort: undefined,
-                });
+                setFilter2(fObj);
               }
             }
           });
@@ -167,7 +162,8 @@ const UniversalInfoDisplay = (props: {
         .then((response) => response.json())
         .then((items: UniversalInfoDisplayItem[]) => {
           setItems(items);
-          // val doesn't matter for now
+
+          // true/false doesn't matter for now
           setPagesBool(
             chunkArr(items, 9).map((item: UniversalInfoDisplayItem) => true)
           );
@@ -179,28 +175,20 @@ const UniversalInfoDisplay = (props: {
           if (groupFilter) {
             Object.entries(groupFilter).forEach(([key, value], idx) => {
               if (key !== "group") {
+                const fObj = {
+                  name: key,
+                  type: value as FilterType,
+                  props:
+                    value === "choice"
+                      ? getFilterChoices(key, items)
+                      : getFilterRange(key, items),
+                  val: value === "choice" ? [] : 0,
+                  sort: undefined,
+                };
                 if (idx === 1) {
-                  setFilter1({
-                    name: key,
-                    type: value as FilterType,
-                    props:
-                      value === "choice"
-                        ? getFilterChoices(key, items)
-                        : getFilterRange(key, items),
-                    val: value === "choice" ? [] : 0,
-                    sort: undefined,
-                  });
+                  setFilter1(fObj);
                 } else if (idx === 2) {
-                  setFilter2({
-                    name: key,
-                    type: value as FilterType,
-                    props:
-                      value === "choice"
-                        ? getFilterChoices(key, items)
-                        : getFilterRange(key, items),
-                    val: value === "choice" ? [] : 0,
-                    sort: undefined,
-                  });
+                  setFilter2(fObj);
                 }
               }
             });
