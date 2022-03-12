@@ -4,18 +4,22 @@ const FilterButtonBar = ({
   filter1,
   filter2,
   filter3,
+  filter4,
   setFilter1,
   setFilter2,
   setFilter3,
+  setFilter4,
   selectedFilterIdx,
   setSelectedFilterIdx,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
   filter3?: GroupFilter;
+  filter4?: GroupFilter;
   setFilter1: (val: any) => any;
   setFilter2: (val: any) => any;
   setFilter3: (val: any) => any;
+  setFilter4: (val: any) => any;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (val: number) => any;
 }) => {
@@ -35,6 +39,8 @@ const FilterButtonBar = ({
         f = filter2;
       } else if (idx === 3) {
         f = filter3;
+      } else if (idx === 4) {
+        f = filter4;
       }
 
       let sort = f?.sort;
@@ -53,6 +59,8 @@ const FilterButtonBar = ({
         setFilter2({ ...filter2, sort: sort });
       } else if (idx === 3) {
         setFilter3({ ...filter3, sort: sort });
+      } else if (idx === 4) {
+        setFilter4({ ...filter4, sort: sort });
       }
     }
   };

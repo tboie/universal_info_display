@@ -99,6 +99,7 @@ const UniversalInfoDisplay = (props: {
   const [filter1, setFilter1] = useState<GroupFilter>();
   const [filter2, setFilter2] = useState<GroupFilter>();
   const [filter3, setFilter3] = useState<GroupFilter>();
+  const [filter4, setFilter4] = useState<GroupFilter>();
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
 
@@ -153,6 +154,8 @@ const UniversalInfoDisplay = (props: {
                 setFilter2(fObj);
               } else if (idx === 2) {
                 setFilter3(fObj);
+              } else if (idx === 3) {
+                setFilter4(fObj);
               }
             });
         });
@@ -196,6 +199,8 @@ const UniversalInfoDisplay = (props: {
                   setFilter2(fObj);
                 } else if (idx === 2) {
                   setFilter3(fObj);
+                } else if (idx === 3) {
+                  setFilter4(fObj);
                 }
               });
           }
@@ -207,7 +212,7 @@ const UniversalInfoDisplay = (props: {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     // choice
-    [filter1, filter2, filter3]
+    [filter1, filter2, filter3, filter4]
       .filter((f) => f?.type === "choice")
       .forEach((f) => {
         if (f) {
@@ -230,7 +235,7 @@ const UniversalInfoDisplay = (props: {
       });
 
     // range
-    [filter1, filter2, filter3]
+    [filter1, filter2, filter3, filter4]
       .filter((f) => f?.type === "range" && f.sort)
       .forEach((f) => {
         if (f) {
@@ -243,7 +248,7 @@ const UniversalInfoDisplay = (props: {
       });
 
     // sort
-    [filter1, filter2, filter3].forEach((f) => {
+    [filter1, filter2, filter3, filter4].forEach((f) => {
       if (f?.sort) {
         filteredItems.sort((a, b) =>
           f.sort === "asc" ? a[f.name] - b[f.name] : b[f.name] - a[f.name]
@@ -267,6 +272,7 @@ const UniversalInfoDisplay = (props: {
         setFilter1(undefined);
         setFilter2(undefined);
         setFilter3(undefined);
+        setFilter4(undefined);
         setSelectedPageIdx(0);
         setSelectedGroup(title);
       }
@@ -290,7 +296,6 @@ const UniversalInfoDisplay = (props: {
             : f2Vals.concat([title]),
         });
       } else if (selectedFilterIdx === 3 && filter3) {
-        console.log("setting filter3");
         const f3Vals = filter3?.val as string[];
         setSelectedPageIdx(0);
         setFilter3({
@@ -299,14 +304,28 @@ const UniversalInfoDisplay = (props: {
             ? f3Vals.filter((val) => val !== title)
             : f3Vals.concat([title]),
         });
+      } else if (selectedFilterIdx === 4 && filter4) {
+        const f4Vals = filter4?.val as string[];
+        setSelectedPageIdx(0);
+        setFilter4({
+          ...filter4,
+          val: f4Vals.includes(title)
+            ? f4Vals.filter((val) => val !== title)
+            : f4Vals.concat([title]),
+        });
       }
     }
   };
 
   const rangeSelect = (idx: number, val: number) => {
     if (idx === 1 && filter1) {
-      console.log("range select ");
       setFilter1({ ...filter1, val: val });
+    } else if (idx === 2 && filter2) {
+      setFilter2({ ...filter2, val: val });
+    } else if (idx === 3 && filter3) {
+      setFilter3({ ...filter3, val: val });
+    } else if (idx === 4 && filter4) {
+      setFilter4({ ...filter4, val: val });
     }
   };
 
@@ -318,9 +337,11 @@ const UniversalInfoDisplay = (props: {
           (filter1?.val as string[])?.length ||
           (filter2?.val as string[])?.length ||
           (filter3?.val as string[])?.length ||
+          (filter4?.val as string[])?.length ||
           filter1?.sort ||
           filter2?.sort ||
-          filter3?.sort
+          filter3?.sort ||
+          filter4?.sort
             ? sortItems()
             : items
         }
@@ -334,7 +355,7 @@ const UniversalInfoDisplay = (props: {
           select={sliderSelect}
         />
       ) : (
-        [filter1, filter2, filter3].map((f, idx) => {
+        [filter1, filter2, filter3, filter4].map((f, idx) => {
           if (f && selectedFilterIdx === idx + 1) {
             if (f.type === "range") {
               return (
@@ -358,9 +379,11 @@ const UniversalInfoDisplay = (props: {
         filter1={filter1}
         filter2={filter2}
         filter3={filter3}
+        filter4={filter4}
         setFilter1={setFilter1}
         setFilter2={setFilter2}
         setFilter3={setFilter3}
+        setFilter4={setFilter4}
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={setSelectedFilterIdx}
       />
