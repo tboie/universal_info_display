@@ -406,3 +406,16 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 2.5rem;
   padding-bottom: 2rem;
 }
+
+#filter_range_status {
+  position: fixed;
+  color: white;
+  font-size: 7rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  opacity: 0;
+  transition: opacity ease 0.5s;
+  pointer-events: none;
+}

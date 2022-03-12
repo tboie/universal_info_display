@@ -241,7 +241,7 @@ const UniversalInfoDisplay = (props: {
         if (f) {
           filteredItems = [
             ...filteredItems.filter((item) =>
-              f.sort === "asc" ? item[f.name] <= f.val : item[f.name] >= f.val
+              f.sort === "asc" ? item[f.name] < f.val : item[f.name] > f.val
             ),
           ];
         }
@@ -317,7 +317,19 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
-  const rangeSelect = (idx: number, val: number) => {
+  const rangeSelect = (idx: number, val: number, sort?: "asc" | "desc") => {
+    const eleStatus = document.querySelector(
+      "#filter_range_status"
+    ) as HTMLSpanElement;
+
+    if (eleStatus && sort) {
+      eleStatus.style.opacity = "1";
+      eleStatus.innerHTML = (sort === "asc" ? "<" : ">") + val.toString();
+      setTimeout(() => {
+        eleStatus.style.opacity = "0";
+      }, 3000);
+    }
+
     if (idx === 1 && filter1) {
       setFilter1({ ...filter1, val: val });
     } else if (idx === 2 && filter2) {
@@ -331,6 +343,7 @@ const UniversalInfoDisplay = (props: {
 
   return (
     <div className="universal_info_display">
+      <span id="filter_range_status">TEST</span>
       <ContentSlider
         {...p}
         items={

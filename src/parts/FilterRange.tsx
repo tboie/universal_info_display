@@ -7,7 +7,7 @@ const FilterRange = ({
 }: {
   idx: number;
   f: GroupFilter;
-  set: (idx: number, val: number) => any;
+  set: (idx: number, val: number, sort?: "asc" | "desc") => any;
 }) => {
   return (
     <div
@@ -21,7 +21,7 @@ const FilterRange = ({
         min={f.props[0]}
         max={f.props[1]}
         value={f.val}
-        onChange={(e) => set(idx, e.currentTarget.valueAsNumber)}
+        onChange={(e) => set(idx, e.currentTarget.valueAsNumber, f.sort)}
       />
     </div>
   );
