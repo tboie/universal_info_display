@@ -178,18 +178,18 @@ const UniversalInfoDisplay = (props: {
 
           if (groupFilter) {
             Object.entries(groupFilter)
-              .filter(([key, value], idx) => key !== "group")
+              .filter(([key]) => key !== "group")
               .forEach(([key, value], idx) => {
+                const choices = getFilterChoices(key, items);
+                const range = getFilterRange(key, items);
                 const fObj = {
                   name: key,
                   type: value as FilterType,
-                  props:
-                    value === "choice"
-                      ? getFilterChoices(key, items)
-                      : getFilterRange(key, items),
-                  val: value === "choice" ? [] : 0,
+                  props: value === "choice" ? choices : range,
+                  val: value === "choice" ? [] : range[1],
                   sort: undefined,
                 };
+
                 if (idx === 0) {
                   setFilter1(fObj);
                 } else if (idx === 1) {
@@ -288,6 +288,13 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
+  const rangeSelect = (idx: number, val: number) => {
+    if (idx === 1 && filter1) {
+      console.log("range select ");
+      setFilter1({ ...filter1, val: val });
+    }
+  };
+
   return (
     <div className="universal_info_display">
       <ContentSlider
@@ -316,12 +323,7 @@ const UniversalInfoDisplay = (props: {
           if (f && selectedFilterIdx === idx + 1) {
             if (f.type === "range") {
               return (
-                <FilterRange
-                  key={idx}
-                  min={f.props[0] as number}
-                  max={f.props[1] as number}
-                  sort={f.sort}
-                />
+                <FilterRange key={idx} idx={idx + 1} f={f} set={rangeSelect} />
               );
             } else if (f.type === "choice") {
               return (

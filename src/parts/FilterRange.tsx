@@ -1,28 +1,27 @@
-import { useState } from "react";
+import { GroupFilter } from "./Shell";
 
 const FilterRange = ({
-  min,
-  max,
-  sort,
+  idx,
+  f,
+  set,
 }: {
-  min: number;
-  max: number;
-  sort?: "asc" | "desc";
+  idx: number;
+  f: GroupFilter;
+  set: (idx: number, val: number) => any;
 }) => {
-  const [val, setVal] = useState(min);
   return (
     <div
       id="universal_info_display_filter_control_range"
       className={`universal_info_display_filter_control ${
-        sort === "asc" ? "asc" : ""
-      }${sort === "desc" ? "desc" : ""}`}
+        f.sort === "asc" ? "asc" : ""
+      }${f.sort === "desc" ? "desc" : ""}`}
     >
       <input
         type="range"
-        min={min}
-        max={max}
-        value={val}
-        onChange={(e) => setVal(e.currentTarget.valueAsNumber)}
+        min={f.props[0]}
+        max={f.props[1]}
+        value={f.val}
+        onChange={(e) => set(idx, e.currentTarget.valueAsNumber)}
       />
     </div>
   );
