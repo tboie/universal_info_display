@@ -152,7 +152,7 @@ const UniversalInfoDisplay = (props: {
               } else if (idx === 1) {
                 setFilter2(fObj);
               } else if (idx === 2) {
-                //setFilter3(fObj);
+                setFilter3(fObj);
               }
             });
         });
@@ -195,8 +195,7 @@ const UniversalInfoDisplay = (props: {
                 } else if (idx === 1) {
                   setFilter2(fObj);
                 } else if (idx === 2) {
-                  console.log("setting filter 3");
-                  //setFilter3(fObj);
+                  setFilter3(fObj);
                 }
               });
           }
@@ -205,23 +204,29 @@ const UniversalInfoDisplay = (props: {
   }, [selectedGroup, groupFilters.length]);
 
   const sortItems = () => {
-    let filteredItems: UniversalInfoDisplayItem[] = [];
+    let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     [filter1, filter2, filter3]
       .filter((f) => f?.type === "choice")
       .forEach((f) => {
         if (f) {
-          (f.val as string[]).forEach((choice) => {
-            filteredItems.push(
-              ...items.filter((item) => item[f.name]?.includes(choice))
-            );
-          });
+          const fVals = f.val as string[];
+
+          if (fVals.length) {
+            const choiceItems: UniversalInfoDisplayItem = [];
+
+            fVals.forEach((choice) => {
+              choiceItems.push(
+                ...filteredItems.filter((item) =>
+                  item[f.name]?.includes(choice)
+                )
+              );
+            });
+
+            filteredItems = [...choiceItems];
+          }
         }
       });
-
-    if (!filteredItems.length) {
-      filteredItems = [...items];
-    }
 
     [filter1, filter2, filter3].forEach((f) => {
       if (f?.sort) {

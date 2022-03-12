@@ -7,7 +7,7 @@
               {
                 "group": "shirts",
                 "price": "range",
-                "color": "choice",
-                "size": "choice"
+                "size": "choice",
+                "color": "choice"
        }
 ]
