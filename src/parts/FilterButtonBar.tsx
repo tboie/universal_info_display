@@ -20,7 +20,7 @@ const FilterButtonBar = ({
   setSelectedFilterIdx: (val: number) => any;
 }) => {
   const isOn = (f: GroupFilter) => {
-    return ((Array.isArray(f.val) && f.val.length) || f.val > 0) as boolean;
+    return (Array.isArray(f.val) && f.val.length) || f.sort ? true : false;
   };
 
   const setFilter = (idx: number, type: FilterType) => {

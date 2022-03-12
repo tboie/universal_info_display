@@ -387,7 +387,7 @@ const GridItems = ({
     <div className="item-grid">
       {items.map((item, idx) => {
         return (
-          <div className={`item`} key={idx}>
+          <div className={`item`} key={item.name + idx}>
             <img src={`${item.img}`} loading="lazy" alt=""></img>
             <span>{item["price"]}</span>
           </div>

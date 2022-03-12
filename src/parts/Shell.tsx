@@ -206,6 +206,7 @@ const UniversalInfoDisplay = (props: {
   const sortItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
+    // choice
     [filter1, filter2, filter3]
       .filter((f) => f?.type === "choice")
       .forEach((f) => {
@@ -228,6 +229,20 @@ const UniversalInfoDisplay = (props: {
         }
       });
 
+    // range
+    [filter1, filter2, filter3]
+      .filter((f) => f?.type === "range" && f.sort)
+      .forEach((f) => {
+        if (f) {
+          filteredItems = [
+            ...filteredItems.filter((item) =>
+              f.sort === "asc" ? item[f.name] <= f.val : item[f.name] >= f.val
+            ),
+          ];
+        }
+      });
+
+    // sort
     [filter1, filter2, filter3].forEach((f) => {
       if (f?.sort) {
         filteredItems.sort((a, b) =>
