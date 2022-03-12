@@ -151,7 +151,7 @@ const ContentSlider = ({
       <TitleBar
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
-        totalPages={chunkArr(items, 9).length - 1}
+        totalPages={chunkArr(items, 9).length}
       />
       <div
         id="universal_info_display_content_slider"
@@ -198,7 +198,7 @@ const ContentSlider = ({
           chunkArr(items, 9).map((items, idx) => (
             <Page
               key={idx}
-              num={idx}
+              num={idx + 1}
               items={items}
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
@@ -207,7 +207,7 @@ const ContentSlider = ({
       </div>
       <Slider
         type="page"
-        titles={chunkArr(items, 9).map((item, idx) => idx.toString())}
+        titles={chunkArr(items, 9).map((item, idx) => (idx + 1).toString())}
         selected={[selectedPageIdx.toString()]}
         select={sliderSelect}
       />
@@ -324,7 +324,7 @@ const Page = ({
       optSnapRight
     );
 
-    const ele = document.querySelectorAll(".content_page")[num];
+    const ele = document.querySelectorAll(".content_page")[num - 1];
 
     obsPageChange.observe(ele);
     obsSnapLeft.observe(ele);
@@ -348,7 +348,7 @@ const Page = ({
       setTimeout(() => {
         document
           .querySelectorAll(".content_page")
-          [selectedPageIdx]?.scrollIntoView({
+          [selectedPageIdx - 1]?.scrollIntoView({
             inline: "center",
           });
       }, 10);

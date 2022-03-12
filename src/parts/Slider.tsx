@@ -29,7 +29,8 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
           if (entry.isIntersecting) {
             if (type === "page" && globalThis.pageSliderPressed) {
               const ele = entry.target as HTMLElement;
-              const idx = parseInt(ele.id.replace("slider_label_" + type, ""));
+              const idx =
+                parseInt(ele.id.replace("slider_label_" + type, "")) - 1;
               const title = titles[idx];
               const selected = ele.classList.contains("selected");
               select(type, title, selected);
@@ -63,7 +64,7 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
     <div className={`slider ${type}`}>
       {titles.map((t, idx) => (
         <Label
-          idx={idx}
+          idx={idx + 1}
           key={idx}
           type={type}
           title={t}

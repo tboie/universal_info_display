@@ -90,7 +90,7 @@ const UniversalInfoDisplay = (props: {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
 }) => {
-  const [selectedPageIdx, setSelectedPageIdx] = useState(0);
+  const [selectedPageIdx, setSelectedPageIdx] = useState(1);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([{ group: "Loading" }]);
@@ -273,13 +273,13 @@ const UniversalInfoDisplay = (props: {
         setFilter2(undefined);
         setFilter3(undefined);
         setFilter4(undefined);
-        setSelectedPageIdx(0);
+        setSelectedPageIdx(1);
         setSelectedGroup(title);
       }
     } else if (type === "choice") {
       if (selectedFilterIdx === 1 && filter1) {
         const f1Vals = filter1?.val as string[];
-        setSelectedPageIdx(0);
+        setSelectedPageIdx(1);
         setFilter1({
           ...filter1,
           val: f1Vals.includes(title)
@@ -288,7 +288,7 @@ const UniversalInfoDisplay = (props: {
         });
       } else if (selectedFilterIdx === 2 && filter2) {
         const f2Vals = filter2?.val as string[];
-        setSelectedPageIdx(0);
+        setSelectedPageIdx(1);
         setFilter2({
           ...filter2,
           val: f2Vals.includes(title)
@@ -297,7 +297,7 @@ const UniversalInfoDisplay = (props: {
         });
       } else if (selectedFilterIdx === 3 && filter3) {
         const f3Vals = filter3?.val as string[];
-        setSelectedPageIdx(0);
+        setSelectedPageIdx(1);
         setFilter3({
           ...filter3,
           val: f3Vals.includes(title)
@@ -306,7 +306,7 @@ const UniversalInfoDisplay = (props: {
         });
       } else if (selectedFilterIdx === 4 && filter4) {
         const f4Vals = filter4?.val as string[];
-        setSelectedPageIdx(0);
+        setSelectedPageIdx(1);
         setFilter4({
           ...filter4,
           val: f4Vals.includes(title)
