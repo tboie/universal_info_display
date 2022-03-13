@@ -118,5 +118,130 @@
     "img": "/loop1.gif",
     "price": 280.00,
     "strain": ["sativa"]
+  },  {
+    "name": "item21",
+    "img": "/loop1.gif",
+    "price": 100.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item22",
+    "img": "/loop1.gif",
+    "price": 110.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item23",
+    "img": "/loop1.gif",
+    "price": 120.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item24",
+    "img": "/loop1.gif",
+    "price": 130.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item25",
+    "img": "/loop1.gif",
+    "price": 140.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item26",
+    "img": "/loop1.gif",
+    "price": 150.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item27",
+    "img": "/loop1.gif",
+    "price": 160.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item28",
+    "img": "/loop1.gif",
+    "price": 170.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item29",
+    "img": "/loop1.gif",
+    "price": 220.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item30",
+    "price": 260.00,
+    "img": "/loop1.gif",
+    "strain": ["sativa"]
+  },
+   {
+    "name": "item31",
+    "img": "/loop1.gif",
+    "price": 100.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item32",
+    "img": "/loop1.gif",
+    "price": 110.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item33",
+    "img": "/loop1.gif",
+    "price": 120.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item34",
+    "img": "/loop1.gif",
+    "price": 130.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item35",
+    "img": "/loop1.gif",
+    "price": 140.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item36",
+    "img": "/loop1.gif",
+    "price": 150.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item37",
+    "img": "/loop1.gif",
+    "price": 160.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item38",
+    "img": "/loop1.gif",
+    "price": 170.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item39",
+    "img": "/loop1.gif",
+    "price": 220.00,
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item40",
+    "price": 260.00,
+    "img": "/loop1.gif",
+    "strain": ["sativa"]
+  },
+  {
+    "name": "item41",
+    "img": "/loop1.gif",
+    "price": 280.00,
+    "strain": ["sativa"]
   }
 ]
