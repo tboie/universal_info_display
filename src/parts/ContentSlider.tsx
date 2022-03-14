@@ -18,10 +18,12 @@ const ContentSlider = ({
   setSelectedPageIdx,
   selectedGroup,
   sliderSelect,
+  setSelectedItemIdx,
 }: ViewSection & {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
   sliderSelect: any;
+  setSelectedItemIdx: (val: any) => any;
 }) => {
   const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
@@ -191,6 +193,7 @@ const ContentSlider = ({
                 text={textChunks[i]}
                 selectedPageIdx={selectedPageIdx}
                 setSelectedPageIdx={setSelectedPageIdx}
+                setSelectedItemIdx={setSelectedItemIdx}
               />
             ))}
 
@@ -202,6 +205,7 @@ const ContentSlider = ({
               items={items}
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
+              setSelectedItemIdx={setSelectedItemIdx}
             />
           ))}
       </div>
@@ -221,12 +225,14 @@ const Page = ({
   num,
   selectedPageIdx,
   setSelectedPageIdx,
+  setSelectedItemIdx,
 }: {
   text?: string;
   items?: UniversalInfoDisplayItem[];
   num: number;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
+  setSelectedItemIdx: (val: number) => void;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -370,7 +376,13 @@ const Page = ({
       }}
     >
       {text}
-      {items?.length && <GridItems page={num} items={items} />}
+      {items?.length && (
+        <GridItems
+          page={num}
+          items={items}
+          setSelectedItemIdx={setSelectedItemIdx}
+        />
+      )}
     </div>
   );
 };
@@ -378,15 +390,21 @@ const Page = ({
 const GridItems = ({
   page,
   items,
+  setSelectedItemIdx,
 }: {
   page: number;
   items: UniversalInfoDisplayItem[];
+  setSelectedItemIdx: (val: number) => any;
 }) => {
   return (
     <div className="item-grid">
       {items.map((item, idx) => {
         return (
-          <div className={`item`} key={item.name + idx}>
+          <div
+            className={`item`}
+            key={item.name + idx}
+            onClick={() => setSelectedItemIdx(item.id)}
+          >
             <img src={`${item.img}`} loading="lazy" alt=""></img>
             <span>{item["price"]}</span>
           </div>

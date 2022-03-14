@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import ContentSlider from "./ContentSlider";
 import FilterButtonBar from "./FilterButtonBar";
 import FilterRange from "./FilterRange";
+import Item from "./Item";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
 
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
@@ -102,6 +103,7 @@ const UniversalInfoDisplay = (props: {
   const [filter4, setFilter4] = useState<GroupFilter>();
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
+  const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
 
   const p = {
     contentType: props.contentType,
@@ -343,6 +345,9 @@ const UniversalInfoDisplay = (props: {
 
   return (
     <div className="universal_info_display">
+      {selectedItemIdx > -1 && (
+        <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
+      )}
       <span id="filter_range_status">TEST</span>
       <ContentSlider
         {...p}
@@ -359,6 +364,7 @@ const UniversalInfoDisplay = (props: {
             : items
         }
         sliderSelect={sliderSelect}
+        setSelectedItemIdx={setSelectedItemIdx}
       />
       {selectedFilterIdx === 0 ? (
         <Slider
