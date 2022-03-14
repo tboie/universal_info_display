@@ -10,6 +10,7 @@ const Item = ({
   return (
     <div id="item">
       {item.id}
+      <img src={item.img} />
       <button id="item_close" onClick={() => close(-1)}>
         Close
       </button>
