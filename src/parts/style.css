@@ -1,0 +1,247 @@
+.universal_info_display {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#universal_info_display_title_bar {
+  width: 100%;
+  height: 5%;
+  background-color: #006400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  color: lightgreen;
+}
+
+#universal_info_display_title_bar span {
+  padding: 0 1rem;
+}
+
+.content_slider {
+  position: relative;
+  height: 70%;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+  overflow-y: hidden;
+  z-index: 1;
+}
+
+.page_loader {
+  background-color: white;
+  color: black;
+  height: 100%;
+  width: 100%;
+  display: inline-flex;
+  position: absolute;
+  z-index: -1;
+  /*justify-content: center;
+  align-items: center;*/
+}
+
+.content_slider .content_page {
+  background-color: white;
+  color: black;
+  height: 100%;
+  width: 100%;
+  display: inline-flex;
+  white-space: normal;
+  word-break: break-word;
+  overflow: hidden;
+  /*justify-content: center;
+  align-items: center;*/
+}
+
+#all-text {
+  visibility: hidden;
+  white-space: normal;
+  word-break: break-word;
+  width: 100%;
+  position: absolute;
+}
+
+.universal_info_display_nav_slider {
+  background-color: green;
+  height: 10%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+#universal_info_display_nav_page_slider {
+  background-color: darkgreen;
+}
+
+.slider_label.selected {
+  color: white;
+}
+
+#universal_info_display_filter_bar {
+  height: 5%;
+  width: 100%;
+  display: flex;
+  font-size: 1.5rem;
+}
+
+.universal_info_display_filter_control {
+  height: 10%;
+  width: 100%;
+  background-color: green;
+}
+
+#universal_info_display_filter_control_range {
+  position: relative;
+}
+
+#universal_info_display_filter_control_range.asc {
+  position: relative;
+  background: linear-gradient(
+    to bottom right,
+    green 0%,
+    green 50%,
+    lightgray 50%,
+    lightgray 100%
+  );
+}
+
+#universal_info_display_filter_control_range.desc {
+  position: relative;
+  background: linear-gradient(
+    to bottom left,
+    green 5%,
+    green 50%,
+    lightgray 50%,
+    lightgray 100%
+  );
+}
+
+input {
+  position: absolute;
+  -webkit-appearance: none;
+  z-index: 1;
+  width: 90%;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 5%;
+  background-color: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5rem;
+  cursor: pointer;
+  background-color: greenyellow;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 2rem;
+  width: 2rem;
+  margin-top: -12px;
+  border-radius: 1rem;
+  border: 4px solid black;
+  background-color: white;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.filter_button {
+  flex: 1 1 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid gray;
+}
+
+.item-grid {
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+  border-right: 1px solid lightgreen;
+  border-left: 1px solid lightgreen;
+}
+
+.item-grid .item {
+  position: relative;
+  background-color: slategray;
+}
+
+.item-grid .item span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: lightblue;
+  z-index: 5;
+}
+
+.item-grid img {
+  width: 100%;
+}
+
+.slider {
+  background-color: green;
+  border-bottom: 2px solid darkgreen;
+  height: 10%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.slider_label {
+  position: relative;
+  font-size: 2.25rem;
+  padding: 1rem;
+  display: block;
+  color: lightgreen;
+  padding-bottom: 1.75rem;
+  border: 0;
+}
+.slider_label:first-of-type {
+  padding-left: 50%;
+}
+
+.slider_label:last-of-type {
+  padding-right: 50%;
+}
+
+.slider_label.selected {
+  color: white;
+  text-decoration: underline;
+  font-size: 2.5rem;
+  padding-bottom: 2rem;
+}
+
+#filter_range_status {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  position: fixed;
+  color: white;
+  font-size: 7rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  opacity: 0;
+  transition: opacity ease 0.5s;
+  pointer-events: none;
+}

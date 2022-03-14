@@ -105,7 +105,7 @@ const FilterButton = ({
 }) => {
   return (
     <div
-      className="universal_info_display_filter_button"
+      className="filter_button"
       style={{
         border: selected ? "4px solid black" : "",
         backgroundColor: on ? "white" : "lightgreen",
