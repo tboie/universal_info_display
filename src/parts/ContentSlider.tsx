@@ -406,7 +406,7 @@ const GridItems = ({
             onClick={() => setSelectedItemIdx(item.id)}
           >
             <img src={`${item.img}`} loading="lazy" alt=""></img>
-            <span>{item["price"]}</span>
+            <span>{"$" + item["price"]}</span>
           </div>
         );
       })}

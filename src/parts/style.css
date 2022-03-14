@@ -185,6 +185,7 @@ input[type="range"]::-webkit-slider-thumb {
 .item-grid .item span {
   position: absolute;
   font-size: 1.5rem;
+  font-weight: bold;
   padding: 0.5rem;
   bottom: 0;
   left: 0;
@@ -264,4 +265,6 @@ input[type="range"]::-webkit-slider-thumb {
   left: 0;
   height: 20vh;
   width: 100%;
+  font-size: 4rem;
+  color: green;
 }

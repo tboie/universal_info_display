@@ -12,7 +12,7 @@ const Item = ({
       {item.id}
       <img src={item.img} />
       <button id="item_close" onClick={() => close(-1)}>
-        Close
+        X
       </button>
     </div>
   );
