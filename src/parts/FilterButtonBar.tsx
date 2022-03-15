@@ -27,7 +27,7 @@ const FilterButtonBar = ({
     return (Array.isArray(f.val) && f.val.length) || f.sort ? true : false;
   };
 
-  const setFilter = (idx: number, type: FilterType) => {
+  const setFilter = (idx: number, type: FilterType, selected: boolean) => {
     if (type === "choice") {
       setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
     } else if (type === "range") {
@@ -46,9 +46,9 @@ const FilterButtonBar = ({
       let sort = f?.sort;
       if (!sort) {
         sort = "asc";
-      } else if (sort === "asc") {
+      } else if (sort === "asc" && selected) {
         sort = "desc";
-      } else {
+      } else if (sort === "desc" && selected) {
         sort = undefined;
       }
 
@@ -78,7 +78,7 @@ const FilterButtonBar = ({
               on={isOn(f)}
               selected={selectedFilterIdx === idx + 1}
               sort={f.sort}
-              click={(idx, type) => setFilter(idx, type)}
+              click={(idx, type, selected) => setFilter(idx, type, selected)}
             />
           )
       )}
@@ -101,7 +101,7 @@ const FilterButton = ({
   on: boolean;
   selected: boolean;
   sort: "asc" | "desc" | undefined;
-  click: (idx: number, type: FilterType) => any;
+  click: (idx: number, type: FilterType, selected: boolean) => any;
 }) => {
   return (
     <div
@@ -116,7 +116,7 @@ const FilterButton = ({
         globalThis.choiceSliderPressed = false;
         globalThis.contentSliderPressed = false;
 
-        click(idx, type);
+        click(idx, type, selected);
       }}
     >
       <span>
