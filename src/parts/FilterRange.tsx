@@ -28,7 +28,7 @@ const FilterRange = ({
         type="range"
         min={f.props[0]}
         max={f.props[1]}
-        value={f.val}
+        value={typeof f.val === "undefined" ? f.props[0] : f.val}
         onChange={(e) => set(idx, e.currentTarget.valueAsNumber, f.sort)}
       />
     </div>

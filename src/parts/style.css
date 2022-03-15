@@ -172,7 +172,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .filter_button.selected {
-  border: 4px solid darkgray;
+  border: 4px solid orange;
 }
 
 .filter_button.on {
