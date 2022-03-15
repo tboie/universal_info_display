@@ -109,9 +109,10 @@ const FilterButton = ({
 }) => {
   return (
     <div
-      className="filter_button"
+      className={`filter_button ${selected ? "selected" : ""} ${
+        on ? "on" : ""
+      }`}
       style={{
-        border: selected ? "4px solid black" : "",
         backgroundColor: on ? "white" : "lightgreen",
       }}
       onClick={() => {
