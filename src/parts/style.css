@@ -260,7 +260,8 @@ input[type="range"]::-webkit-slider-thumb {
   );
 }
 
-.slider.page .slider_label.selected {
+.slider.page .slider_label.selected,
+.slider.group .slider_label.selected {
   text-decoration: underline;
 }
 
