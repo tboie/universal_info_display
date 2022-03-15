@@ -44,23 +44,27 @@ const FilterButtonBar = ({
       }
 
       let sort = f?.sort;
+      let val;
       if (!sort) {
         sort = "asc";
+        val = f?.props[1];
       } else if (sort === "asc" && selected) {
         sort = "desc";
+        val = f?.props[0];
       } else if (sort === "desc" && selected) {
         sort = undefined;
+        val = undefined;
       }
 
       setSelectedFilterIdx(sort ? idx : 0);
       if (idx === 1) {
-        setFilter1({ ...filter1, sort: sort });
+        setFilter1({ ...filter1, sort: sort, val: val });
       } else if (idx === 2) {
-        setFilter2({ ...filter2, sort: sort });
+        setFilter2({ ...filter2, sort: sort, val: val });
       } else if (idx === 3) {
-        setFilter3({ ...filter3, sort: sort });
+        setFilter3({ ...filter3, sort: sort, val: val });
       } else if (idx === 4) {
-        setFilter4({ ...filter4, sort: sort });
+        setFilter4({ ...filter4, sort: sort, val: val });
       }
     }
   };
