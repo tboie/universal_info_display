@@ -94,11 +94,12 @@
 }
 
 #universal_info_display_filter_control_range {
+  margin: 0 5%;
+  width: 90%;
   position: relative;
 }
 
 #universal_info_display_filter_control_range.asc {
-  position: relative;
   background: linear-gradient(
     to bottom right,
     green 0%,
@@ -109,10 +110,9 @@
 }
 
 #universal_info_display_filter_control_range.desc {
-  position: relative;
   background: linear-gradient(
     to bottom left,
-    green 5%,
+    green 0%,
     green 50%,
     lightgray 50%,
     lightgray 100%
@@ -123,11 +123,11 @@ input {
   position: absolute;
   -webkit-appearance: none;
   z-index: 1;
-  width: 90%;
+  width: 100%;
   margin: 0;
   top: 0;
   bottom: 0;
-  left: 5%;
+  left: 0;
   background-color: transparent;
 }
 
@@ -230,7 +230,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #filter_range_status {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   border-radius: 0.5rem;
   padding: 1rem;
   position: fixed;
@@ -242,6 +242,7 @@ input[type="range"]::-webkit-slider-thumb {
   opacity: 0;
   transition: opacity ease 0.5s;
   pointer-events: none;
+  z-index: 1;
 }
 
 #item {
