@@ -9,13 +9,21 @@ const FilterRange = ({
   f: GroupFilter;
   set: (idx: number, val: number, sort?: "asc" | "desc") => any;
 }) => {
+  const setActiveWidth = () => {
+    const val = f.val as number;
+    const min = f.props[0] as number;
+    const max = f.props[1] as number;
+    const res = ((val - min) * 100) / (max - min) + "%";
+    return res;
+  };
+
   return (
     <div
-      id="universal_info_display_filter_control_range"
-      className={`universal_info_display_filter_control ${
-        f.sort === "asc" ? "asc" : ""
-      }${f.sort === "desc" ? "desc" : ""}`}
+      className={`range_control ${f.sort === "asc" ? "asc" : ""}${
+        f.sort === "desc" ? "desc" : ""
+      }`}
     >
+      <div className="active" style={{ width: setActiveWidth() }} />
       <input
         type="range"
         min={f.props[0]}

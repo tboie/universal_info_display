@@ -94,13 +94,22 @@
   background-color: green;
 }
 
-#universal_info_display_filter_control_range {
+.range_control {
   margin: 0 5%;
   width: 90%;
   position: relative;
+  height: 10%;
 }
 
-#universal_info_display_filter_control_range.asc {
+.range_control .active {
+  position: absolute;
+  height: 100%;
+  background-color: white;
+  opacity: 0.3;
+  left: 0;
+}
+
+.range_control.asc {
   background: linear-gradient(
     to bottom right,
     rgba(0, 170, 0, 0.281) 0%,
@@ -109,8 +118,7 @@
     lightgray 100%
   );
 }
-
-#universal_info_display_filter_control_range.desc {
+.range_control.desc {
   background: linear-gradient(
     to bottom left,
     rgba(0, 170, 0, 0.281) 0%,
