@@ -407,7 +407,10 @@ const GridItems = ({
           >
             <img src={`${item.img}`} loading="lazy" alt=""></img>
             <span className="prop1">{"$" + item["price"]}</span>
-            <span className="prop2">{item["potency"]}%</span>
+            <span className="prop2">
+              {item["potency"] ? item["potency"] + "%" : ""}
+            </span>
+            <span className="prop2">{item["size"]}</span>
           </div>
         );
       })}
