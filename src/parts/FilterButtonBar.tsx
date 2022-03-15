@@ -67,7 +67,7 @@ const FilterButtonBar = ({
 
   return (
     <div id="universal_info_display_filter_bar">
-      {[filter1, filter2, filter3].map(
+      {[filter1, filter2, filter3, filter4].map(
         (f, idx) =>
           f && (
             <FilterButton
