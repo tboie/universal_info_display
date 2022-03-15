@@ -11,6 +11,7 @@ const FilterButtonBar = ({
   setFilter4,
   selectedFilterIdx,
   setSelectedFilterIdx,
+  setSelectedPageIdx,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
@@ -22,6 +23,7 @@ const FilterButtonBar = ({
   setFilter4: (val: any) => any;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (val: number) => any;
+  setSelectedPageIdx: (val: number) => any;
 }) => {
   const isOn = (f: GroupFilter) => {
     return (Array.isArray(f.val) && f.val.length) || f.sort ? true : false;
@@ -57,6 +59,7 @@ const FilterButtonBar = ({
       }
 
       setSelectedFilterIdx(sort ? idx : 0);
+      setSelectedPageIdx(1);
       if (idx === 1) {
         setFilter1({ ...filter1, sort: sort, val: val });
       } else if (idx === 2) {

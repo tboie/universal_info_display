@@ -405,6 +405,7 @@ const UniversalInfoDisplay = (props: {
         setFilter4={setFilter4}
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={setSelectedFilterIdx}
+        setSelectedPageIdx={setSelectedPageIdx}
       />
     </div>
   );
