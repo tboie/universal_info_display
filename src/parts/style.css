@@ -195,7 +195,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider {
-  background-color: green;
+  background: green;
   border-bottom: 2px solid darkgreen;
   height: 10%;
   width: 100%;
@@ -225,9 +225,24 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider_label.selected {
   color: white;
-  text-decoration: underline;
   font-size: 2.5rem;
   padding-bottom: 2rem;
+}
+
+.slider.page {
+  background: linear-gradient(
+    to left,
+    green 0%,
+    green 49%,
+    darkgreen 49%,
+    darkgreen 51%,
+    green 51%,
+    green 100%
+  );
+}
+
+.slider.page .slider_label.selected {
+  text-decoration: underline;
 }
 
 #filter_range_status {
