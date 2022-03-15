@@ -16,6 +16,7 @@
 }
 
 #universal_info_display_title_bar span {
+  color: lightgray;
   padding: 0 1rem;
 }
 
