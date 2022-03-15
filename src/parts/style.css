@@ -109,6 +109,11 @@
   left: 0;
 }
 
+.range_control.desc .active {
+  right: 0;
+  left: auto;
+}
+
 .range_control.asc {
   background: linear-gradient(
     to bottom right,

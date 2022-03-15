@@ -13,8 +13,11 @@ const FilterRange = ({
     const val = f.val as number;
     const min = f.props[0] as number;
     const max = f.props[1] as number;
-    const res = ((val - min) * 100) / (max - min) + "%";
-    return res;
+    let res = ((val - min) * 100) / (max - min);
+    if (f.sort === "desc") {
+      res = 100 - res;
+    }
+    return res + "%";
   };
 
   return (
