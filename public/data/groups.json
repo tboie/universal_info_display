@@ -2,6 +2,7 @@
        {
                 "group": "flower",
                 "price": "range",
+                "potency": "range",
                 "strain": "choice"
        },
               {

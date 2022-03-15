@@ -169,10 +169,10 @@ input[type="range"]::-webkit-slider-thumb {
   display: grid;
   background-color: black;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 8px;
-  grid-row-gap: 8px;
-  border-right: 6px solid black;
-  border-left: 6px solid black;
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+  border-right: 3px solid black;
+  border-left: 3px solid black;
 }
 
 .item-grid .item {
@@ -184,10 +184,17 @@ input[type="range"]::-webkit-slider-thumb {
   position: absolute;
   font-size: 1.5rem;
   font-weight: bold;
-  padding: 0.5rem;
-  bottom: 0;
+  padding: 0.25rem;
+}
+
+.item-grid .item .prop1 {
   left: 0;
-  right: 0;
+  bottom: 0;
+}
+
+.item-grid .item .prop2 {
+  left: 0;
+  bottom: 1.5rem;
 }
 
 .item-grid img {
