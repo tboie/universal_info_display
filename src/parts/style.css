@@ -266,11 +266,16 @@ input[type="range"]::-webkit-slider-thumb {
     to left,
     green 0%,
     green 49%,
-    darkgreen 49%,
-    darkgreen 51%,
+    orange 49%,
+    orange 51%,
     green 51%,
     green 100%
   );
+}
+
+.slider.page .slider_label {
+  padding-bottom: 0;
+  padding-top: 1.75rem;
 }
 
 .slider.page .slider_label.selected,
