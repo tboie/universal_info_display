@@ -1,4 +1,5 @@
 import { GroupFilter } from "./Shell";
+import { throttle } from "throttle-debounce-ts";
 
 const FilterRange = ({
   idx,
@@ -32,7 +33,12 @@ const FilterRange = ({
         min={f.props[0]}
         max={f.props[1]}
         value={typeof f.val === "undefined" ? f.props[0] : f.val}
-        onChange={(e) => set(idx, e.currentTarget.valueAsNumber, f.sort)}
+        onChange={(e) =>
+          throttle(
+            { delay: 15, leading: true, trailing: true },
+            set(idx, e.currentTarget.valueAsNumber, f.sort)
+          )
+        }
       />
     </div>
   );
