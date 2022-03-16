@@ -329,7 +329,7 @@ const UniversalInfoDisplay = (props: {
       eleStatus.innerHTML = (sort === "asc" ? "<" : ">") + val.toString();
       setTimeout(() => {
         eleStatus.style.opacity = "0";
-      }, 3000);
+      }, 1000);
     }
 
     if (idx === 1 && filter1) {
