@@ -3,7 +3,7 @@
 // [Coded using purpose-oriented-programming]
 // ***
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import FilterButtonBar from "./FilterButtonBar";
 import FilterRange from "./FilterRange";
@@ -212,6 +212,7 @@ const UniversalInfoDisplay = (props: {
   }, [selectedGroup, groupFilters.length]);
 
   const sortItems = () => {
+    console.log("sort items");
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     // choice
@@ -344,17 +345,29 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
-  const filteredItems =
-    (filter1?.val as string[])?.length ||
-    (filter2?.val as string[])?.length ||
-    (filter3?.val as string[])?.length ||
-    (filter4?.val as string[])?.length ||
-    filter1?.sort ||
-    filter2?.sort ||
-    filter3?.sort ||
-    filter4?.sort
-      ? sortItems()
-      : items;
+  const filteredItems = useMemo(
+    () =>
+      (filter1?.val as string[])?.length ||
+      (filter2?.val as string[])?.length ||
+      (filter3?.val as string[])?.length ||
+      (filter4?.val as string[])?.length ||
+      filter1?.sort ||
+      filter2?.sort ||
+      filter3?.sort ||
+      filter4?.sort
+        ? sortItems()
+        : items,
+    [
+      filter1?.val,
+      filter2?.val,
+      filter3?.val,
+      filter4?.val,
+      filter1?.sort,
+      filter2?.sort,
+      filter3?.sort,
+      filter4?.sort,
+    ]
+  );
 
   return (
     <div className="universal_info_display">
