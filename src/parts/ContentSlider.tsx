@@ -6,7 +6,6 @@ import {
   ViewSection,
   UniversalInfoDisplayItem,
 } from "./Shell";
-import Slider from "./Slider";
 import Grid from "./Grid";
 import TitleBar from "./TitleBar";
 
@@ -151,11 +150,6 @@ const ContentSlider = ({
 
   return (
     <>
-      <TitleBar
-        selectedGroup={selectedGroup}
-        selectedPageIdx={selectedPageIdx}
-        totalPages={chunkArr(items, 9).length}
-      />
       <div
         id="universal_info_display_content_slider"
         className="content_slider"
@@ -210,12 +204,6 @@ const ContentSlider = ({
             />
           ))}
       </div>
-      <Slider
-        type="page"
-        titles={chunkArr(items, 9).map((item, idx) => (idx + 1).toString())}
-        selected={[selectedPageIdx.toString()]}
-        select={sliderSelect}
-      />
     </>
   );
 };

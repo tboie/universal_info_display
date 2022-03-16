@@ -104,8 +104,8 @@
 .range_control .active {
   position: absolute;
   height: 100%;
-  background-color: white;
-  opacity: 0.3;
+  background-color: orange;
+  opacity: 0.5;
   left: 0;
 }
 
@@ -276,6 +276,10 @@ input[type="range"]::-webkit-slider-thumb {
 .slider.page .slider_label.selected,
 .slider.group .slider_label.selected {
   text-decoration: underline;
+}
+
+.slider.choice .slider_label.selected {
+  color: orange;
 }
 
 #filter_range_status {

@@ -9,6 +9,7 @@ import FilterButtonBar from "./FilterButtonBar";
 import FilterRange from "./FilterRange";
 import Item from "./Item";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
+import TitleBar from "./TitleBar";
 
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
 // [TEXT CALCS]
@@ -343,28 +344,47 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
+  const filteredItems =
+    (filter1?.val as string[])?.length ||
+    (filter2?.val as string[])?.length ||
+    (filter3?.val as string[])?.length ||
+    (filter4?.val as string[])?.length ||
+    filter1?.sort ||
+    filter2?.sort ||
+    filter3?.sort ||
+    filter4?.sort
+      ? sortItems()
+      : items;
+
   return (
     <div className="universal_info_display">
+      <TitleBar
+        selectedGroup={selectedGroup}
+        selectedPageIdx={selectedPageIdx}
+        totalPages={chunkArr(filteredItems, 9).length}
+      />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
-      <span id="filter_range_status">TEST</span>
       <ContentSlider
         {...p}
-        items={
-          (filter1?.val as string[])?.length ||
-          (filter2?.val as string[])?.length ||
-          (filter3?.val as string[])?.length ||
-          (filter4?.val as string[])?.length ||
-          filter1?.sort ||
-          filter2?.sort ||
-          filter3?.sort ||
-          filter4?.sort
-            ? sortItems()
-            : items
-        }
+        items={filteredItems}
         sliderSelect={sliderSelect}
         setSelectedItemIdx={setSelectedItemIdx}
+      />
+      <span id="filter_range_status" />
+      <FilterButtonBar
+        filter1={filter1}
+        filter2={filter2}
+        filter3={filter3}
+        filter4={filter4}
+        setFilter1={setFilter1}
+        setFilter2={setFilter2}
+        setFilter3={setFilter3}
+        setFilter4={setFilter4}
+        selectedFilterIdx={selectedFilterIdx}
+        setSelectedFilterIdx={setSelectedFilterIdx}
+        setSelectedPageIdx={setSelectedPageIdx}
       />
       {selectedFilterIdx === 0 ? (
         <Slider
@@ -394,18 +414,13 @@ const UniversalInfoDisplay = (props: {
           }
         })
       )}
-      <FilterButtonBar
-        filter1={filter1}
-        filter2={filter2}
-        filter3={filter3}
-        filter4={filter4}
-        setFilter1={setFilter1}
-        setFilter2={setFilter2}
-        setFilter3={setFilter3}
-        setFilter4={setFilter4}
-        selectedFilterIdx={selectedFilterIdx}
-        setSelectedFilterIdx={setSelectedFilterIdx}
-        setSelectedPageIdx={setSelectedPageIdx}
+      <Slider
+        type="page"
+        titles={chunkArr(filteredItems, 9).map((item, idx) =>
+          (idx + 1).toString()
+        )}
+        selected={[selectedPageIdx.toString()]}
+        select={sliderSelect}
       />
     </div>
   );
