@@ -244,7 +244,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 1rem;
   display: block;
   color: lightgreen;
-  padding-bottom: 1.75rem;
+  padding-bottom: 1rem;
   border: 0;
 }
 .slider_label:first-of-type {
@@ -258,7 +258,7 @@ input[type="range"]::-webkit-slider-thumb {
 .slider_label.selected {
   color: white;
   font-size: 2.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
 }
 
 .slider.page {
@@ -271,11 +271,6 @@ input[type="range"]::-webkit-slider-thumb {
     green 51%,
     green 100%
   );
-}
-
-.slider.page .slider_label {
-  padding-bottom: 0;
-  padding-top: 1.75rem;
 }
 
 .slider.page .slider_label.selected,

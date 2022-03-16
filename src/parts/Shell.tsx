@@ -375,6 +375,10 @@ const UniversalInfoDisplay = (props: {
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
         totalPages={chunkArr(filteredItems, 9).length}
+        f1Vals={filter1?.type === "choice" ? (filter1.val as string[]) : []}
+        f2Vals={filter2?.type === "choice" ? (filter2.val as string[]) : []}
+        f3Vals={filter3?.type === "choice" ? (filter3.val as string[]) : []}
+        f4Vals={filter4?.type === "choice" ? (filter4.val as string[]) : []}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
