@@ -81,7 +81,11 @@ const FilterButtonBar = ({
               key={idx}
               idx={idx + 1}
               type={f.type}
-              text={f.name}
+              text={
+                f?.val && f.type === "range"
+                  ? (f.sort === "asc" ? "<" : ">") + f.val + f.name
+                  : f.name
+              }
               on={isOn(f)}
               selected={selectedFilterIdx === idx + 1}
               sort={f.sort}
@@ -127,11 +131,7 @@ const FilterButton = ({
         click(idx, type, selected);
       }}
     >
-      <span>
-        {text}
-        {sort === "asc" && String.fromCharCode(8593)}
-        {sort === "desc" && String.fromCharCode(8595)}
-      </span>
+      <span>{text}</span>
     </div>
   );
 };
