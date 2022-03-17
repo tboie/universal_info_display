@@ -212,7 +212,6 @@ const UniversalInfoDisplay = (props: {
   }, [selectedGroup, groupFilters.length]);
 
   const sortItems = () => {
-    console.log("sort items");
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     // choice
