@@ -1,8 +1,8 @@
 [
        {
                 "group": "flower",
-                "price": "range",
-                "potency": "range",
+                "$": "range",
+                "%": "range",
                 "strain": "choice"
        },
               {
