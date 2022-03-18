@@ -348,7 +348,10 @@ const UniversalInfoDisplay = (props: {
     if (eleStatus && sort) {
       eleStatus.style.opacity = "1";
       eleStatus.innerHTML =
-        (sort === "asc" ? "<" : ">") + val.toString() + unit;
+        (sort === "asc" ? "<" : ">") +
+        (unit === "$" ? "$" : "") +
+        val.toString() +
+        (unit !== "$" ? unit : "");
       setTimeout(() => {
         eleStatus.style.opacity = "0";
       }, 1000);

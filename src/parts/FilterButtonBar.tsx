@@ -91,7 +91,10 @@ const FilterButtonBar = ({
               type={f.type}
               text={
                 f?.val && f.sort && f.type === "range"
-                  ? (f.sort === "asc" ? "<" : ">") + f.val + f.name
+                  ? (f.sort === "asc" ? "<" : ">") +
+                    (f.name === "$" ? "$" : "") +
+                    f.val +
+                    (f.name !== "$" ? f.name : "")
                   : f.name
               }
               on={isOn(f)}
