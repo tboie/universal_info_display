@@ -7,7 +7,6 @@ import {
   UniversalInfoDisplayItem,
 } from "./Shell";
 import Grid from "./Grid";
-import TitleBar from "./TitleBar";
 
 const ContentSlider = ({
   contentType,
@@ -19,11 +18,13 @@ const ContentSlider = ({
   selectedGroup,
   sliderSelect,
   setSelectedItemIdx,
+  clearFilters,
 }: ViewSection & {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
   sliderSelect: any;
   setSelectedItemIdx: (val: any) => any;
+  clearFilters: () => void;
 }) => {
   const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
@@ -192,7 +193,7 @@ const ContentSlider = ({
               />
             ))}
 
-        {contentType === "item" &&
+        {contentType === "item" && items?.length ? (
           chunkArr(items, 9).map((items, idx) => (
             <Page
               key={idx}
@@ -202,7 +203,19 @@ const ContentSlider = ({
               setSelectedPageIdx={setSelectedPageIdx}
               setSelectedItemIdx={setSelectedItemIdx}
             />
-          ))}
+          ))
+        ) : (
+          <Page
+            text={"0 items"}
+            key={0}
+            num={1}
+            items={[]}
+            selectedPageIdx={selectedPageIdx}
+            setSelectedPageIdx={setSelectedPageIdx}
+            setSelectedItemIdx={setSelectedItemIdx}
+            clearFilters={clearFilters}
+          />
+        )}
       </div>
     </>
   );
@@ -215,6 +228,7 @@ const Page = ({
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
+  clearFilters,
 }: {
   text?: string;
   items?: UniversalInfoDisplayItem[];
@@ -222,6 +236,7 @@ const Page = ({
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
   setSelectedItemIdx: (val: number) => void;
+  clearFilters?: () => void;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -364,13 +379,17 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
-      {text}
-      {items?.length && (
+      {text === "0 items" ? <span className="no-items">{text}</span> : text}
+      {items && items.length ? (
         <Grid
           page={num}
           items={items}
           setSelectedItemIdx={setSelectedItemIdx}
         />
+      ) : (
+        <button className="clear_filters" onClick={clearFilters}>
+          CLEAR FILTERS
+        </button>
       )}
     </div>
   );

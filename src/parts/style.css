@@ -42,7 +42,7 @@
 }
 
 .content_slider .content_page {
-  background-color: white;
+  background-color: chartreuse;
   color: black;
   height: 100%;
   width: 100%;
@@ -52,6 +52,11 @@
   overflow: hidden;
   /*justify-content: center;
   align-items: center;*/
+}
+
+.content_page .no-items {
+  font-size: 4rem;
+  padding: 1rem;
 }
 
 #all-text {
@@ -317,12 +322,13 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 4rem;
 }
 
-#item_close {
+#item_close,
+.clear_filters {
   position: absolute;
   bottom: 0;
   left: 0;
   height: 20vh;
   width: 100%;
-  font-size: 4rem;
+  font-size: 3rem;
   color: red;
 }

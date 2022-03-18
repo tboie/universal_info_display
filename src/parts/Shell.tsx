@@ -398,6 +398,10 @@ const UniversalInfoDisplay = (props: {
     ]
   );
 
+  const clearFilters = () => {
+    console.log("clear filters");
+  };
+
   return (
     <div className="universal_info_display">
       <TitleBar
@@ -418,6 +422,7 @@ const UniversalInfoDisplay = (props: {
         items={filteredItems}
         sliderSelect={sliderSelect}
         setSelectedItemIdx={setSelectedItemIdx}
+        clearFilters={clearFilters}
       />
       <span id="filter_range_status" />
       <FilterButtonBar
