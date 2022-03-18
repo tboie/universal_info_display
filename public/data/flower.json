@@ -4,27 +4,31 @@
     "img": "/loop1.gif",
     "$": 20.00,
     "strain": ["indica"],
-    "%": 15
+    "%": 15,
+    "g": ["3.5g"]
   },
   {
     "name": "item2",
     "img": "/loop1.gif",
     "$": 200.00,
     "strain": ["hybrid"],
-    "%": 20
+    "%": 20,
+    "g": ["7g"]
   },
   {
     "name": "item3",
     "img": "/loop1.gif",
     "$": 100.00,
     "strain": ["hybrid"],
-    "%": 25
+    "%": 25,
+    "g": ["14g"]
   },
   {
     "name": "item4",
     "img": "/loop1.gif",
     "$": 50.00,
     "strain": ["hybrid"],
-    "%": 30
+    "%": 30,
+    "g": ["28g"]
   }
 ]

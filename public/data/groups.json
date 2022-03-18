@@ -3,7 +3,8 @@
                 "group": "flower",
                 "$": "range",
                 "%": "range",
-                "strain": "choice"
+                "type": "choice",
+                "g": "choice"
        },
               {
                 "group": "shirts",
