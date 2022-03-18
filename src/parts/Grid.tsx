@@ -19,8 +19,11 @@ const GridItems = ({
             onClick={() => setSelectedItemIdx(item.id)}
           >
             <img src={`${item.img}`} loading="lazy" alt=""></img>
-            <span className="prop1">{"$" + item["$"]}</span>
-            <span className="prop2">{item["%"] ? item["%"] + "%" : ""}</span>
+            <span className="price">{"$" + item["$"]}</span>
+            <span className="percent">{item["%"] ? item["%"] + "%" : ""}</span>
+            <span className="choice">
+              {item["g"] ? item["g"].join(",") : ""}
+            </span>
             <span className="ppu">
               {item["ppu"] ? "$" + item["ppu"] + "/g" : ""}
             </span>

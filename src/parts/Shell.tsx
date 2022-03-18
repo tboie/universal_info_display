@@ -237,7 +237,7 @@ const UniversalInfoDisplay = (props: {
               );
             });
 
-            filteredItems = [...choiceItems];
+            filteredItems = [...choiceItems].sort((a, b) => a.ppu - b.ppu);
           }
         }
       });
