@@ -4,7 +4,8 @@
                 "$": "range",
                 "%": "range",
                 "type": "choice",
-                "g": "choice"
+                "g": "choice",
+                "mi": "range"
        },
               {
                 "group": "shirts",

@@ -48,7 +48,7 @@ const FilterButtonBar = ({
       } else if (idx === 4) {
         f = filter4;
       } else if (idx === 5) {
-        f = filter4;
+        f = filter5;
       }
 
       let sort = f?.sort;

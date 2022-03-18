@@ -3,32 +3,36 @@
     "name": "item1",
     "img": "/loop1.gif",
     "$": 20.00,
-    "strain": ["indica"],
+    "type": ["indica"],
     "%": 15,
-    "g": ["3.5g"]
+    "g": ["3.5g"],
+    "mi": 10
   },
   {
     "name": "item2",
     "img": "/loop1.gif",
     "$": 200.00,
-    "strain": ["hybrid"],
+    "type": ["hybrid"],
     "%": 20,
-    "g": ["7g"]
+    "g": ["7g"],
+    "mi": 20
   },
   {
     "name": "item3",
     "img": "/loop1.gif",
     "$": 100.00,
-    "strain": ["hybrid"],
+    "type": ["hybrid"],
     "%": 25,
-    "g": ["14g"]
+    "g": ["14g"],
+    "mi": 30
   },
   {
     "name": "item4",
     "img": "/loop1.gif",
     "$": 50.00,
-    "strain": ["hybrid"],
+    "type": ["hybrid"],
     "%": 30,
-    "g": ["28g"]
+    "g": ["28g"],
+    "mi": 40
   }
 ]
