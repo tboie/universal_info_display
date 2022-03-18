@@ -383,7 +383,7 @@ const UniversalInfoDisplay = (props: {
       filter4?.sort ||
       filter5?.sort
         ? sortItems()
-        : items,
+        : items.sort((a, b) => a.ppu - b.ppu),
     [
       filter1?.val,
       filter2?.val,
