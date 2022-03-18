@@ -102,6 +102,7 @@ const UniversalInfoDisplay = (props: {
   const [filter2, setFilter2] = useState<GroupFilter>();
   const [filter3, setFilter3] = useState<GroupFilter>();
   const [filter4, setFilter4] = useState<GroupFilter>();
+  const [filter5, setFilter5] = useState<GroupFilter>();
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
@@ -159,6 +160,8 @@ const UniversalInfoDisplay = (props: {
                 setFilter3(fObj);
               } else if (idx === 3) {
                 setFilter4(fObj);
+              } else if (idx === 4) {
+                setFilter5(fObj);
               }
             });
         });
@@ -204,6 +207,8 @@ const UniversalInfoDisplay = (props: {
                   setFilter3(fObj);
                 } else if (idx === 3) {
                   setFilter4(fObj);
+                } else if (idx === 4) {
+                  setFilter5(fObj);
                 }
               });
           }
@@ -215,7 +220,7 @@ const UniversalInfoDisplay = (props: {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     // choice
-    [filter1, filter2, filter3, filter4]
+    [filter1, filter2, filter3, filter4, filter5]
       .filter((f) => f?.type === "choice")
       .forEach((f) => {
         if (f) {
@@ -238,7 +243,7 @@ const UniversalInfoDisplay = (props: {
       });
 
     // range
-    [filter1, filter2, filter3, filter4]
+    [filter1, filter2, filter3, filter4, filter5]
       .filter((f) => f?.type === "range" && f.sort)
       .forEach((f) => {
         if (f) {
@@ -251,7 +256,7 @@ const UniversalInfoDisplay = (props: {
       });
 
     // sort
-    [filter1, filter2, filter3, filter4].forEach((f) => {
+    [filter1, filter2, filter3, filter4, filter5].forEach((f) => {
       if (f?.sort) {
         filteredItems.sort((a, b) =>
           f.sort === "asc" ? a[f.name] - b[f.name] : b[f.name] - a[f.name]
@@ -276,6 +281,7 @@ const UniversalInfoDisplay = (props: {
         setFilter2(undefined);
         setFilter3(undefined);
         setFilter4(undefined);
+        setFilter5(undefined);
         setSelectedPageIdx(1);
         setSelectedGroup(title);
       }
@@ -316,6 +322,15 @@ const UniversalInfoDisplay = (props: {
             ? f4Vals.filter((val) => val !== title)
             : f4Vals.concat([title]),
         });
+      } else if (selectedFilterIdx === 5 && filter5) {
+        const f5Vals = filter5?.val as string[];
+        setSelectedPageIdx(1);
+        setFilter5({
+          ...filter5,
+          val: f5Vals.includes(title)
+            ? f5Vals.filter((val) => val !== title)
+            : f5Vals.concat([title]),
+        });
       }
     }
   };
@@ -341,6 +356,8 @@ const UniversalInfoDisplay = (props: {
       setFilter3({ ...filter3, val: val });
     } else if (idx === 4 && filter4) {
       setFilter4({ ...filter4, val: val });
+    } else if (idx === 5 && filter5) {
+      setFilter5({ ...filter5, val: val });
     }
   };
 
@@ -350,10 +367,12 @@ const UniversalInfoDisplay = (props: {
       (filter2?.val as string[])?.length ||
       (filter3?.val as string[])?.length ||
       (filter4?.val as string[])?.length ||
+      (filter5?.val as string[])?.length ||
       filter1?.sort ||
       filter2?.sort ||
       filter3?.sort ||
-      filter4?.sort
+      filter4?.sort ||
+      filter5?.sort
         ? sortItems()
         : items,
     [
@@ -361,10 +380,12 @@ const UniversalInfoDisplay = (props: {
       filter2?.val,
       filter3?.val,
       filter4?.val,
+      filter5?.val,
       filter1?.sort,
       filter2?.sort,
       filter3?.sort,
       filter4?.sort,
+      filter5?.sort,
     ]
   );
 
@@ -378,6 +399,7 @@ const UniversalInfoDisplay = (props: {
         f2Vals={filter2?.type === "choice" ? (filter2.val as string[]) : []}
         f3Vals={filter3?.type === "choice" ? (filter3.val as string[]) : []}
         f4Vals={filter4?.type === "choice" ? (filter4.val as string[]) : []}
+        f5Vals={filter5?.type === "choice" ? (filter5.val as string[]) : []}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
@@ -394,10 +416,12 @@ const UniversalInfoDisplay = (props: {
         filter2={filter2}
         filter3={filter3}
         filter4={filter4}
+        filter5={filter5}
         setFilter1={setFilter1}
         setFilter2={setFilter2}
         setFilter3={setFilter3}
         setFilter4={setFilter4}
+        setFilter5={setFilter5}
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={setSelectedFilterIdx}
         setSelectedPageIdx={setSelectedPageIdx}
@@ -410,7 +434,7 @@ const UniversalInfoDisplay = (props: {
           select={sliderSelect}
         />
       ) : (
-        [filter1, filter2, filter3, filter4].map((f, idx) => {
+        [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
           if (f && selectedFilterIdx === idx + 1) {
             if (f.type === "range") {
               return (

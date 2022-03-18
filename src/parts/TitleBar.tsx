@@ -6,6 +6,7 @@ const TitleBar = ({
   f2Vals,
   f3Vals,
   f4Vals,
+  f5Vals,
 }: {
   selectedGroup: string;
   selectedPageIdx: number;
@@ -14,6 +15,7 @@ const TitleBar = ({
   f2Vals: string[];
   f3Vals: string[];
   f4Vals: string[];
+  f5Vals: string[];
 }) => {
   return (
     <div id="universal_info_display_title_bar">

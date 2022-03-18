@@ -5,10 +5,12 @@ const FilterButtonBar = ({
   filter2,
   filter3,
   filter4,
+  filter5,
   setFilter1,
   setFilter2,
   setFilter3,
   setFilter4,
+  setFilter5,
   selectedFilterIdx,
   setSelectedFilterIdx,
   setSelectedPageIdx,
@@ -17,10 +19,12 @@ const FilterButtonBar = ({
   filter2?: GroupFilter;
   filter3?: GroupFilter;
   filter4?: GroupFilter;
+  filter5?: GroupFilter;
   setFilter1: (val: any) => any;
   setFilter2: (val: any) => any;
   setFilter3: (val: any) => any;
   setFilter4: (val: any) => any;
+  setFilter5: (val: any) => any;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (val: number) => any;
   setSelectedPageIdx: (val: number) => any;
@@ -42,6 +46,8 @@ const FilterButtonBar = ({
       } else if (idx === 3) {
         f = filter3;
       } else if (idx === 4) {
+        f = filter4;
+      } else if (idx === 5) {
         f = filter4;
       }
 
@@ -68,13 +74,15 @@ const FilterButtonBar = ({
         setFilter3({ ...filter3, sort: sort, val: val });
       } else if (idx === 4) {
         setFilter4({ ...filter4, sort: sort, val: val });
+      } else if (idx === 5) {
+        setFilter5({ ...filter5, sort: sort, val: val });
       }
     }
   };
 
   return (
     <div id="universal_info_display_filter_bar">
-      {[filter1, filter2, filter3, filter4].map(
+      {[filter1, filter2, filter3, filter4, filter5].map(
         (f, idx) =>
           f && (
             <FilterButton
