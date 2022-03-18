@@ -260,6 +260,11 @@ input[type="range"]::-webkit-slider-thumb {
   background-color: darkgreen;
 }
 
+.slider.group,
+.slider.choice {
+  justify-content: center;
+}
+
 .slider_label {
   position: relative;
   font-size: 2.25rem;
@@ -269,11 +274,12 @@ input[type="range"]::-webkit-slider-thumb {
   padding-bottom: 1rem;
   border: 0;
 }
-.slider_label:first-of-type {
+
+.slider.page .slider_label:first-of-type {
   padding-left: 50%;
 }
 
-.slider_label:last-of-type {
+.slider.page .slider_label:last-of-type {
   padding-right: 50%;
 }
 
