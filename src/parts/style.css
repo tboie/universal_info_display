@@ -114,25 +114,6 @@
   left: auto;
 }
 
-.range_control.asc {
-  background: linear-gradient(
-    to bottom right,
-    rgba(0, 170, 0, 0.281) 0%,
-    rgba(0, 170, 0, 0.281) 50%,
-    lightgray 50%,
-    lightgray 100%
-  );
-}
-.range_control.desc {
-  background: linear-gradient(
-    to bottom left,
-    rgba(0, 170, 0, 0.281) 0%,
-    rgba(0, 170, 0, 0.281) 50%,
-    lightgray 50%,
-    lightgray 100%
-  );
-}
-
 input {
   position: absolute;
   -webkit-appearance: none;
