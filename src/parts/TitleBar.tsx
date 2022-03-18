@@ -20,8 +20,9 @@ const TitleBar = ({
   return (
     <div id="universal_info_display_title_bar">
       <span>
-        {f1Vals.concat(f2Vals.concat(f3Vals.concat(f4Vals))).join(", ") ||
-          selectedGroup}
+        {f1Vals
+          .concat(f2Vals.concat(f3Vals.concat(f4Vals).concat(f5Vals)))
+          .join(", ") || selectedGroup}
       </span>
       <span>{selectedPageIdx + "/" + totalPages}</span>
     </div>

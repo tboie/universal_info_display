@@ -335,14 +335,20 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
-  const rangeSelect = (idx: number, val: number, sort?: "asc" | "desc") => {
+  const rangeSelect = (
+    idx: number,
+    unit: string,
+    val: number,
+    sort?: "asc" | "desc"
+  ) => {
     const eleStatus = document.querySelector(
       "#filter_range_status"
     ) as HTMLSpanElement;
 
     if (eleStatus && sort) {
       eleStatus.style.opacity = "1";
-      eleStatus.innerHTML = (sort === "asc" ? "<" : ">") + val.toString();
+      eleStatus.innerHTML =
+        (sort === "asc" ? "<" : ">") + val.toString() + unit;
       setTimeout(() => {
         eleStatus.style.opacity = "0";
       }, 1000);

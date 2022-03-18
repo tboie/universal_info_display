@@ -8,7 +8,7 @@ const FilterRange = ({
 }: {
   idx: number;
   f: GroupFilter;
-  set: (idx: number, val: number, sort?: "asc" | "desc") => any;
+  set: (idx: number, unit: string, val: number, sort?: "asc" | "desc") => any;
 }) => {
   const setActiveWidth = () => {
     const val = f.val as number;
@@ -36,7 +36,7 @@ const FilterRange = ({
         onChange={(e) =>
           throttle(
             { delay: 15, leading: true, trailing: true },
-            set(idx, e.currentTarget.valueAsNumber, f.sort)
+            set(idx, f.name, e.currentTarget.valueAsNumber, f.sort)
           )
         }
       />
