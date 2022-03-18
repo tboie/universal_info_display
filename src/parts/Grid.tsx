@@ -21,7 +21,9 @@ const GridItems = ({
             <img src={`${item.img}`} loading="lazy" alt=""></img>
             <span className="prop1">{"$" + item["$"]}</span>
             <span className="prop2">{item["%"] ? item["%"] + "%" : ""}</span>
-            <span className="prop2">{item["size"]}</span>
+            <span className="ppu">
+              {item["ppu"] ? "$" + item["ppu"] + "/g" : ""}
+            </span>
           </div>
         );
       })}

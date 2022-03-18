@@ -211,9 +211,14 @@ input[type="range"]::-webkit-slider-thumb {
 
 .item-grid .item span {
   position: absolute;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   padding: 0.25rem;
+}
+
+.item-grid .ppu {
+  right: 0;
+  bottom: 0;
 }
 
 .item-grid .item .prop1 {
