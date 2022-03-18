@@ -175,6 +175,7 @@ input[type="range"]::-webkit-slider-thumb {
   overflow: hidden;
   box-sizing: border-box;
   border: 1px solid black;
+  background-color: lightgreen;
 }
 
 .filter_button.selected {
@@ -182,7 +183,27 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .filter_button.on {
-  background-color: lightgray;
+  background-color: white;
+}
+
+.filter_button.asc {
+  background: linear-gradient(
+    to bottom right,
+    lightgreen 0%,
+    lightgreen 50%,
+    white 50%,
+    white 100%
+  );
+}
+
+.filter_button.desc {
+  background: linear-gradient(
+    to bottom left,
+    lightgreen 0%,
+    lightgreen 50%,
+    white 50%,
+    white 100%
+  );
 }
 
 .item-grid {

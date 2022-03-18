@@ -82,7 +82,7 @@ const FilterButtonBar = ({
               idx={idx + 1}
               type={f.type}
               text={
-                f?.val && f.type === "range"
+                f?.val && f.sort && f.type === "range"
                   ? (f.sort === "asc" ? "<" : ">") + f.val + f.name
                   : f.name
               }
@@ -118,10 +118,7 @@ const FilterButton = ({
     <div
       className={`filter_button ${selected ? "selected" : ""} ${
         on ? "on" : ""
-      }`}
-      style={{
-        backgroundColor: on ? "white" : "lightgreen",
-      }}
+      } ${sort === "asc" ? "asc" : ""} ${sort === "desc" ? "desc" : ""}`}
       onClick={() => {
         globalThis.pageSliderPressed = false;
         globalThis.groupSliderPressed = false;
