@@ -399,7 +399,42 @@ const UniversalInfoDisplay = (props: {
   );
 
   const clearFilters = () => {
-    console.log("clear filters");
+    setSelectedFilterIdx(0);
+    if (filter1) {
+      setFilter1({
+        ...filter1,
+        val: filter1.type === "choice" ? [] : filter1.val,
+        sort: undefined,
+      });
+    }
+    if (filter2) {
+      setFilter2({
+        ...filter2,
+        val: filter2.type === "choice" ? [] : filter2.val,
+        sort: undefined,
+      });
+    }
+    if (filter3) {
+      setFilter3({
+        ...filter3,
+        val: filter3.type === "choice" ? [] : filter3.val,
+        sort: undefined,
+      });
+    }
+    if (filter4) {
+      setFilter4({
+        ...filter4,
+        val: filter4.type === "choice" ? [] : filter4.val,
+        sort: undefined,
+      });
+    }
+    if (filter5) {
+      setFilter5({
+        ...filter5,
+        val: filter5.type === "choice" ? [] : filter5.val,
+        sort: undefined,
+      });
+    }
   };
 
   return (
