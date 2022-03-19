@@ -96,8 +96,8 @@
 
 .range_control {
   background-color: darkgreen;
-  margin: 0 5%;
-  width: 90%;
+  margin: 0 10%;
+  width: 80%;
   position: relative;
   height: 8%;
 }
@@ -303,10 +303,12 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider #btn_first {
   left: 0;
+  width: 10%;
 }
 
 .slider #btn_last {
   right: 0;
+  width: 10%;
 }
 
 .slider.page .slider_label.selected,
