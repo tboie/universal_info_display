@@ -69,14 +69,6 @@ const Slider = ({
 
   return (
     <div className={`slider ${type}`}>
-      {type === "page" && (
-        <button
-          id="btn_first"
-          onClick={() => setSelectedPageIdx && setSelectedPageIdx(1)}
-        >
-          {"<<"}
-        </button>
-      )}
       {titles.map((t, idx) => (
         <Label
           idx={idx + 1}
@@ -87,6 +79,14 @@ const Slider = ({
           click={select}
         />
       ))}
+      {type === "page" && (
+        <button
+          id="btn_first"
+          onClick={() => setSelectedPageIdx && setSelectedPageIdx(1)}
+        >
+          {"<<"}
+        </button>
+      )}
       {type === "page" && (
         <button
           id="btn_last"
