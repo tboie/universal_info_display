@@ -246,6 +246,7 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+  position: relative;
 }
 
 .slider.group {
@@ -291,6 +292,21 @@ input[type="range"]::-webkit-slider-thumb {
     green 51%,
     green 100%
   );
+}
+
+.slider button {
+  position: fixed;
+  background-color: lightgreen;
+  font-size: 1.25rem;
+  height: 8%;
+}
+
+.slider #btn_first {
+  left: 0;
+}
+
+.slider #btn_last {
+  right: 0;
 }
 
 .slider.page .slider_label.selected,

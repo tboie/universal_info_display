@@ -7,6 +7,7 @@ type T_SLIDER = {
   titles: string[];
   selected: string[];
   select: (type: T_SLIDER_TYPE, title: string, on: boolean) => void;
+  setSelectedPageIdx?: (val: number) => any;
 };
 
 type T_SLIDER_LABEL = {
@@ -17,7 +18,13 @@ type T_SLIDER_LABEL = {
   click: (type: T_SLIDER_TYPE, title: string, on: boolean) => void;
 };
 
-const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
+const Slider = ({
+  type,
+  titles,
+  selected,
+  select,
+  setSelectedPageIdx,
+}: T_SLIDER) => {
   useEffect(() => {
     let observer: IntersectionObserver;
     const container = document.querySelector(`.slider.${type}`);
@@ -62,6 +69,14 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
 
   return (
     <div className={`slider ${type}`}>
+      {type === "page" && (
+        <button
+          id="btn_first"
+          onClick={() => setSelectedPageIdx && setSelectedPageIdx(1)}
+        >
+          {"<<"}
+        </button>
+      )}
       {titles.map((t, idx) => (
         <Label
           idx={idx + 1}
@@ -72,6 +87,16 @@ const Slider = ({ type, titles, selected, select }: T_SLIDER) => {
           click={select}
         />
       ))}
+      {type === "page" && (
+        <button
+          id="btn_last"
+          onClick={() =>
+            setSelectedPageIdx && setSelectedPageIdx(titles.length)
+          }
+        >
+          {">>"}
+        </button>
+      )}
     </div>
   );
 };

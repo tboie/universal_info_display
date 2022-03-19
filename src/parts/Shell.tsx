@@ -170,7 +170,7 @@ const UniversalInfoDisplay = (props: {
 
   // get individual group data and set # number of pages
   useEffect(() => {
-    if (groupFilters.length) {
+    if (groupFilters.length && selectedGroup) {
       fetch(`/data/${selectedGroup}.json`)
         .then((response) => response.json())
         .then((items: UniversalInfoDisplayItem[]) => {
@@ -475,6 +475,7 @@ const UniversalInfoDisplay = (props: {
         )}
         selected={[selectedPageIdx.toString()]}
         select={sliderSelect}
+        setSelectedPageIdx={setSelectedPageIdx}
       />
     </div>
   );
