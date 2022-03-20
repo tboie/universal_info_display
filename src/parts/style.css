@@ -300,7 +300,6 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 1.25rem;
   height: 8%;
   color: black;
-  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
