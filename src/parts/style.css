@@ -299,16 +299,24 @@ input[type="range"]::-webkit-slider-thumb {
   background-color: lightgreen;
   font-size: 1.25rem;
   height: 8%;
+  color: black;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
 }
 
 .slider #btn_first {
   left: 0;
   width: 10%;
+  text-align: left;
 }
 
 .slider #btn_last {
   right: 0;
   width: 10%;
+  text-align: right;
 }
 
 .slider.page .slider_label.selected,
