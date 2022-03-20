@@ -27,6 +27,12 @@ const FilterRange = ({
         f.sort === "desc" ? "desc" : ""
       }`}
     >
+      <span className="range_label min">
+        {(f.name === "$" ? "$" : "") +
+          f.props[0] +
+          (f.name !== "$" ? f.name : "")}
+      </span>
+
       <div className="active" style={{ width: setActiveWidth() }} />
       <input
         type="range"
@@ -40,6 +46,11 @@ const FilterRange = ({
           )
         }
       />
+      <span className="range_label max">
+        {(f.name === "$" ? "$" : "") +
+          f.props[1] +
+          (f.name !== "$" ? f.name : "")}
+      </span>
     </div>
   );
 };

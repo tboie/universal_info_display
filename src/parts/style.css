@@ -96,8 +96,8 @@
 
 .range_control {
   background-color: darkgreen;
-  margin: 0 10%;
-  width: 80%;
+  margin: 0 12%;
+  width: 76%;
   position: relative;
   height: 8%;
 }
@@ -113,6 +113,26 @@
 .range_control.desc .active {
   right: 0;
   left: auto;
+}
+
+.range_label {
+  color: white;
+  position: absolute;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+}
+
+.range_label.min {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.range_label.max {
+  right: 0;
+  transform: translateX(100%);
 }
 
 input {
@@ -308,13 +328,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider #btn_first {
   left: 0;
-  width: 10%;
+  width: 12%;
   text-align: left;
 }
 
 .slider #btn_last {
   right: 0;
-  width: 10%;
+  width: 12%;
   text-align: right;
 }
 
