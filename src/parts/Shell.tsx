@@ -104,8 +104,11 @@ const UniversalInfoDisplay = (props: {
   const [filter4, setFilter4] = useState<GroupFilter>();
   const [filter5, setFilter5] = useState<GroupFilter>();
 
-  const [items, setItems] = useState<UniversalInfoDisplayItem[]>(props.items);
+  const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
+
+  const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
 
   const p = {
     contentType: props.contentType,
@@ -133,40 +136,38 @@ const UniversalInfoDisplay = (props: {
     return [Math.min(...vals) - 1, Math.max(...vals) + 1];
   };
 
-  // get all groups
-  useEffect(() => {
-    if (props.contentType === "item") {
-      fetch("/data/groups.json")
-        .then((response) => response.json())
-        .then((groupData) => {
-          setGroupFilters(groupData);
-          setSelectedGroup(groupData[0].group);
+  const getData = () => {
+    getLocation();
+    fetch("/data/groups.json")
+      .then((response) => response.json())
+      .then((groupData) => {
+        setGroupFilters(groupData);
+        setSelectedGroup(groupData[0].group);
 
-          Object.entries(groupData[0])
-            .filter(([key]) => key !== "group")
-            .forEach(([key, value], idx) => {
-              const fObj = {
-                name: key,
-                type: value as FilterType,
-                props: value === "choice" ? [""] : ([0, 0] as [0, 0]),
-                val: value === "choice" ? [""] : 0,
-                sort: undefined,
-              };
-              if (idx === 0) {
-                setFilter1(fObj);
-              } else if (idx === 1) {
-                setFilter2(fObj);
-              } else if (idx === 2) {
-                setFilter3(fObj);
-              } else if (idx === 3) {
-                setFilter4(fObj);
-              } else if (idx === 4) {
-                setFilter5(fObj);
-              }
-            });
-        });
-    }
-  }, []);
+        Object.entries(groupData[0])
+          .filter(([key]) => key !== "group")
+          .forEach(([key, value], idx) => {
+            const fObj = {
+              name: key,
+              type: value as FilterType,
+              props: value === "choice" ? [""] : ([0, 0] as [0, 0]),
+              val: value === "choice" ? [""] : 0,
+              sort: undefined,
+            };
+            if (idx === 0) {
+              setFilter1(fObj);
+            } else if (idx === 1) {
+              setFilter2(fObj);
+            } else if (idx === 2) {
+              setFilter3(fObj);
+            } else if (idx === 3) {
+              setFilter4(fObj);
+            } else if (idx === 4) {
+              setFilter5(fObj);
+            }
+          });
+      });
+  };
 
   // get individual group data and set # number of pages
   useEffect(() => {
@@ -437,6 +438,15 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
+  const getLocation = () => {
+    setLat(0);
+    setLong(0);
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    });
+  };
+
   return (
     <div className="universal_info_display">
       <TitleBar
@@ -458,6 +468,21 @@ const UniversalInfoDisplay = (props: {
         sliderSelect={sliderSelect}
         setSelectedItemIdx={setSelectedItemIdx}
         clearFilters={clearFilters}
+        getData={getData}
+        filtersOn={
+          (filter1?.val as string[])?.length ||
+          (filter2?.val as string[])?.length ||
+          (filter3?.val as string[])?.length ||
+          (filter4?.val as string[])?.length ||
+          (filter5?.val as string[])?.length ||
+          filter1?.sort ||
+          filter2?.sort ||
+          filter3?.sort ||
+          filter4?.sort ||
+          filter5?.sort
+            ? true
+            : false
+        }
       />
       <span id="filter_range_status" />
       <FilterButtonBar

@@ -5,6 +5,7 @@ import {
   chunkString,
   ViewSection,
   UniversalInfoDisplayItem,
+  GroupFilter,
 } from "./Shell";
 import Grid from "./Grid";
 
@@ -19,12 +20,16 @@ const ContentSlider = ({
   sliderSelect,
   setSelectedItemIdx,
   clearFilters,
+  filtersOn,
+  getData,
 }: ViewSection & {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
   sliderSelect: any;
   setSelectedItemIdx: (val: any) => any;
   clearFilters: () => void;
+  filtersOn: boolean;
+  getData: () => any;
 }) => {
   const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
@@ -190,6 +195,8 @@ const ContentSlider = ({
                 selectedPageIdx={selectedPageIdx}
                 setSelectedPageIdx={setSelectedPageIdx}
                 setSelectedItemIdx={setSelectedItemIdx}
+                filtersOn={filtersOn}
+                getData={getData}
               />
             ))}
 
@@ -202,6 +209,8 @@ const ContentSlider = ({
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
               setSelectedItemIdx={setSelectedItemIdx}
+              filtersOn={filtersOn}
+              getData={getData}
             />
           ))
         ) : (
@@ -214,6 +223,8 @@ const ContentSlider = ({
             setSelectedPageIdx={setSelectedPageIdx}
             setSelectedItemIdx={setSelectedItemIdx}
             clearFilters={clearFilters}
+            filtersOn={filtersOn}
+            getData={getData}
           />
         )}
       </div>
@@ -229,6 +240,8 @@ const Page = ({
   setSelectedPageIdx,
   setSelectedItemIdx,
   clearFilters,
+  filtersOn,
+  getData,
 }: {
   text?: string;
   items?: UniversalInfoDisplayItem[];
@@ -237,6 +250,8 @@ const Page = ({
   setSelectedPageIdx: (val: number) => void;
   setSelectedItemIdx: (val: number) => void;
   clearFilters?: () => void;
+  filtersOn: boolean;
+  getData: () => any;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -368,6 +383,8 @@ const Page = ({
     }
   }, [selectedPageIdx]);
 
+  console.log("filterson " + filtersOn);
+
   return (
     <div
       id={`content_page${num}`}
@@ -379,16 +396,24 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
-      {text === "0 items" ? <span className="no-items">{text}</span> : text}
+      {text === "0 items" && filtersOn ? (
+        <span className="no-items">{text}</span>
+      ) : (
+        ""
+      )}
       {items && items.length ? (
         <Grid
           page={num}
           items={items}
           setSelectedItemIdx={setSelectedItemIdx}
         />
-      ) : (
+      ) : filtersOn ? (
         <button className="clear_filters" onClick={clearFilters}>
           CLEAR FILTERS
+        </button>
+      ) : (
+        <button className="get_data" onClick={getData}>
+          GET DATA
         </button>
       )}
     </div>

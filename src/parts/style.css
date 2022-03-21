@@ -374,7 +374,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #item_close,
-.clear_filters {
+.clear_filters,
+.get_data {
   position: absolute;
   bottom: 0;
   left: 0;
