@@ -95,7 +95,7 @@ const UniversalInfoDisplay = (props: {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [groupFilters, setGroupFilters] = useState([{ group: "Loading" }]);
+  const [groupFilters, setGroupFilters] = useState([{ group: "HELLO" }]);
 
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<GroupFilter>();
