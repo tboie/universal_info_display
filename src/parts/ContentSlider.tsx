@@ -395,10 +395,13 @@ const Page = ({
       }}
     >
       {text === "0 items" && filtersOn ? (
-        <span className="no-items">{text}</span>
-      ) : (
-        ""
-      )}
+        <>
+          <img className="page_bg" src="/bg.gif" />
+          <span className="no-items">{text}</span>
+        </>
+      ) : items?.length === 0 ? (
+        <img className="page_bg" src="/bg.gif" />
+      ) : null}
       {items && items.length ? (
         <Grid
           page={num}

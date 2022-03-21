@@ -30,6 +30,12 @@
   overflow-y: hidden;
 }
 
+.page_bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
 .page_loader {
   background-color: white;
   color: black;
@@ -383,4 +389,5 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%;
   font-size: 3rem;
   color: red;
+  opacity: 0.75;
 }
