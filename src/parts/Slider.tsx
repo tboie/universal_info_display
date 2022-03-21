@@ -79,24 +79,24 @@ const Slider = ({
           click={select}
         />
       ))}
-      {type === "page" && (
-        <button
-          id="btn_first"
-          onClick={() => setSelectedPageIdx && setSelectedPageIdx(1)}
-        >
-          {"<<"}
-        </button>
-      )}
-      {type === "page" && (
-        <button
-          id="btn_last"
-          onClick={() =>
-            setSelectedPageIdx && setSelectedPageIdx(titles.length)
-          }
-        >
-          {">>"}
-        </button>
-      )}
+      {type === "page" && titles.length ? (
+        <>
+          <button
+            id="btn_first"
+            onClick={() => setSelectedPageIdx && setSelectedPageIdx(1)}
+          >
+            {"<<"}
+          </button>
+          <button
+            id="btn_last"
+            onClick={() =>
+              setSelectedPageIdx && setSelectedPageIdx(titles.length)
+            }
+          >
+            {">>"}
+          </button>
+        </>
+      ) : null}
     </div>
   );
 };
