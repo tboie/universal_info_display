@@ -302,7 +302,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding-bottom: 1.5rem;
 }
 
-.slider.page {
+.slider.page.tick {
   background: linear-gradient(
     to left,
     green 0%,

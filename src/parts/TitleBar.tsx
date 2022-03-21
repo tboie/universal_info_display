@@ -24,7 +24,7 @@ const TitleBar = ({
           .concat(f2Vals.concat(f3Vals.concat(f4Vals).concat(f5Vals)))
           .join(", ") || selectedGroup}
       </span>
-      <span>{selectedPageIdx + "/" + totalPages}</span>
+      <span>{totalPages > 0 ? selectedPageIdx + "/" + totalPages : ""}</span>
     </div>
   );
 };

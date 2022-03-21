@@ -68,7 +68,11 @@ const Slider = ({
   }, [selected]);
 
   return (
-    <div className={`slider ${type}`}>
+    <div
+      className={`slider ${type} ${
+        type === "page" && titles.length > 0 ? "tick" : ""
+      }`}
+    >
       {titles.map((t, idx) => (
         <Label
           idx={idx + 1}
