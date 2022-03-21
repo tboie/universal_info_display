@@ -389,5 +389,12 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%;
   font-size: 3rem;
   color: red;
-  opacity: 0.75;
+  opacity: 1;
+  animation: blinker 5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.5;
+  }
 }

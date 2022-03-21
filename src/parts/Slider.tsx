@@ -68,22 +68,29 @@ const Slider = ({
   }, [selected]);
 
   return (
-    <div
-      className={`slider ${type} ${
-        type === "page" && titles.length > 0 ? "tick" : ""
-      }`}
-    >
-      {titles.map((t, idx) => (
+    <div className={`slider ${type} ${type === "page" ? "tick" : ""}`}>
+      {titles.length ? (
+        titles.map((t, idx) => (
+          <Label
+            idx={idx + 1}
+            key={idx}
+            type={type}
+            title={t}
+            on={selected.includes(t)}
+            click={select}
+          />
+        ))
+      ) : (
         <Label
-          idx={idx + 1}
-          key={idx}
-          type={type}
-          title={t}
-          on={selected.includes(t)}
+          idx={0}
+          key={"0"}
+          type={"page"}
+          title={"0"}
+          on={true}
           click={select}
         />
-      ))}
-      {type === "page" && titles.length ? (
+      )}
+      {type === "page" ? (
         <>
           <button
             id="btn_first"
