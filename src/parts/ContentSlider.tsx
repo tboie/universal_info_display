@@ -383,8 +383,6 @@ const Page = ({
     }
   }, [selectedPageIdx]);
 
-  console.log("filterson " + filtersOn);
-
   return (
     <div
       id={`content_page${num}`}
