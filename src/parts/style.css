@@ -101,7 +101,7 @@
 }
 
 .range_control {
-  margin: 0 12%;
+  margin: 0% 12%;
   width: 76%;
   position: relative;
   height: 8%;
@@ -150,16 +150,26 @@
   font-size: 1.25rem;
 }
 
+.range_control .range_label.min {
+  padding-top: 1.75rem;
+}
+
+.range_control .range_label.max {
+  padding-bottom: 1.75rem;
+}
+
 .range_control.asc .range_label.min,
 .range_control.desc .range_label.max {
   left: 0;
   transform: translateX(-100%);
+  padding-right: 1px;
 }
 
 .range_control.asc .range_label.max,
 .range_control.desc .range_label.min {
   right: 0;
   transform: translateX(100%);
+  padding-left: 1px;
 }
 
 input {
