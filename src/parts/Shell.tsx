@@ -196,7 +196,7 @@ const UniversalInfoDisplay = (props: {
                   name: key,
                   type: value as FilterType,
                   props: value === "choice" ? choices : range,
-                  val: value === "choice" ? [] : range[1],
+                  val: value === "choice" ? [] : range[0],
                   sort: undefined,
                 };
 
@@ -250,7 +250,7 @@ const UniversalInfoDisplay = (props: {
         if (f) {
           filteredItems = [
             ...filteredItems.filter((item) =>
-              f.sort === "asc" ? item[f.name] < f.val : item[f.name] > f.val
+              f.sort === "asc" ? item[f.name] > f.val : item[f.name] < f.val
             ),
           ];
         }
@@ -349,7 +349,7 @@ const UniversalInfoDisplay = (props: {
     if (eleStatus && sort) {
       eleStatus.style.opacity = "1";
       eleStatus.innerHTML =
-        (sort === "asc" ? "<" : ">") +
+        (sort === "asc" ? ">" : "<") +
         (unit === "$" ? "$" : "") +
         val.toString() +
         (unit !== "$" ? unit : "");

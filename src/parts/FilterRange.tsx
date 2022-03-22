@@ -15,7 +15,7 @@ const FilterRange = ({
     const min = f.props[0] as number;
     const max = f.props[1] as number;
     let res = ((val - min) * 100) / (max - min);
-    if (f.sort === "desc") {
+    if (f.sort === "asc") {
       res = 100 - res;
     }
     return res + "%";
@@ -38,7 +38,7 @@ const FilterRange = ({
         type="range"
         min={f.props[0]}
         max={f.props[1]}
-        value={typeof f.val === "undefined" ? f.props[0] : f.val}
+        value={f.val}
         onChange={(e) =>
           throttle(
             { delay: 15, leading: true, trailing: true },

@@ -55,13 +55,13 @@ const FilterButtonBar = ({
       let val;
       if (!sort) {
         sort = selected ? "desc" : "asc";
-        val = selected ? f?.props[1] : f?.val;
+        val = selected ? f?.props[0] : f?.val;
       } else if (sort === "asc") {
         sort = selected ? "desc" : "asc";
-        val = selected ? f?.props[0] : f?.val;
+        val = selected ? f?.props[1] : f?.val;
       } else if (sort === "desc") {
         sort = selected ? undefined : "desc";
-        val = selected ? f?.props[1] : f?.val;
+        val = selected ? f?.props[0] : f?.val;
       }
 
       setSelectedFilterIdx(sort ? idx : 0);
@@ -91,7 +91,7 @@ const FilterButtonBar = ({
               type={f.type}
               text={
                 f?.val && f.sort && f.type === "range"
-                  ? (f.sort === "asc" ? "<" : ">") +
+                  ? (f.sort === "asc" ? ">" : "<") +
                     (f.name === "$" ? "$" : "") +
                     f.val +
                     (f.name !== "$" ? f.name : "")

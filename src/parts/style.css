@@ -116,7 +116,8 @@
   left: 0;
 }
 
-.range_control.desc .active {
+.range_control.desc .active,
+.range_control.asc .active {
   right: 0;
   left: auto;
 }
@@ -153,6 +154,10 @@ input {
   bottom: 0;
   left: 0;
   background-color: transparent;
+}
+
+.range_control.desc input {
+  direction: rtl;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
