@@ -277,7 +277,9 @@ const UniversalInfoDisplay = (props: {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      if (title !== selectedGroup) {
+      if (title.toLowerCase() === "hello") {
+        getData();
+      } else if (title !== selectedGroup) {
         setFilter1(undefined);
         setFilter2(undefined);
         setFilter3(undefined);
