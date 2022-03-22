@@ -117,10 +117,8 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
     <span
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""}`}
-      onClick={() => {
-        if (type === "group" || type === "choice" || "page") {
-          click(type, title, on);
-        }
+      onClick={(e) => {
+        click(type, title, on);
       }}
       onTouchStart={() => {
         globalThis.contentSliderPressed = false;
