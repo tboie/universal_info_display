@@ -118,7 +118,7 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""}`}
       onClick={() => {
-        if (type === "group" || type === "choice") {
+        if (type === "group" || type === "choice" || "page") {
           click(type, title, on);
         }
       }}
