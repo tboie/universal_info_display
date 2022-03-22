@@ -131,12 +131,14 @@
   font-size: 1.25rem;
 }
 
-.range_label.min {
+.range_control.asc .range_label.min,
+.range_control.desc .range_label.max {
   left: 0;
   transform: translateX(-100%);
 }
 
-.range_label.max {
+.range_control.asc .range_label.max,
+.range_control.desc .range_label.min {
   right: 0;
   transform: translateX(100%);
 }
