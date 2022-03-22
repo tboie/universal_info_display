@@ -101,7 +101,6 @@
 }
 
 .range_control {
-  background-color: darkgreen;
   margin: 0 12%;
   width: 76%;
   position: relative;
@@ -116,6 +115,25 @@
   left: 0;
 }
 
+.range_control.asc {
+  background: linear-gradient(
+    to bottom right,
+    transparent 0%,
+    transparent 50%,
+    white 50%,
+    white 100%
+  );
+}
+
+.range_control.desc {
+  background: linear-gradient(
+    to bottom left,
+    transparent 0%,
+    transparent 50%,
+    white 50%,
+    white 100%
+  );
+}
 .range_control.desc .active,
 .range_control.asc .active {
   right: 0;
