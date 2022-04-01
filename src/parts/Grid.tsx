@@ -15,10 +15,22 @@ const GridItems = ({
         return (
           <div
             className={`item`}
-            key={item.name + idx}
+            key={item.b + item.n + idx}
             onClick={() => setSelectedItemIdx(item.id)}
           >
-            <img src={`${item.img}`} loading="lazy" alt=""></img>
+            <img
+              src={`${
+                item.w === "D"
+                  ? "https://images.dutchie.com/" +
+                    item["p"] +
+                    "?auto=format&fit=fill&fill=solid&fillColor=%" +
+                    "23fff" +
+                    "&__typename=ImgixSettings&ixlib=react-9.0.2&h=100&w=100"
+                  : item["p"]
+              }`}
+              loading="lazy"
+              alt=""
+            ></img>
             <span className="price">{"$" + item["$"]}</span>
             <span className="percent">{item["%"] ? item["%"] + "%" : ""}</span>
             <span className="choice">

@@ -10,6 +10,7 @@ import FilterRange from "./FilterRange";
 import Item from "./Item";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
 import TitleBar from "./TitleBar";
+import { getDistance } from "geolib";
 
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
 // [TEXT CALCS]
@@ -36,6 +37,18 @@ globalThis.groupSliderPressed = false;
 globalThis.choiceSliderPressed = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
+
+let all_items: any = [];
+let timeouts: any = [];
+let controllers: any = [];
+
+const chunk = (arr: any, chunkSize: any) => {
+  if (chunkSize <= 0) throw "Invalid chunk size";
+  var R = [];
+  for (var i = 0, len = arr.length; i < len; i += chunkSize)
+    R.push(arr.slice(i, i + chunkSize));
+  return R;
+};
 
 // utils
 export function chunkArr(arr: any[], size: number) {
@@ -108,7 +121,8 @@ const UniversalInfoDisplay = (props: {
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
 
   const [lat, setLat] = useState(0);
-  const [long, setLong] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [key, setKey] = useState([]);
 
   const p = {
     contentType: props.contentType,
@@ -170,6 +184,7 @@ const UniversalInfoDisplay = (props: {
   };
 
   // get individual group data and set # number of pages
+  /*
   useEffect(() => {
     if (groupFilters.length && selectedGroup) {
       fetch(`/data/${selectedGroup}.json`)
@@ -216,6 +231,7 @@ const UniversalInfoDisplay = (props: {
         });
     }
   }, [selectedGroup, groupFilters.length]);
+  */
 
   const sortItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
@@ -440,12 +456,138 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
+  useEffect(() => {
+    fetch("/data/dutchie_addr.json")
+      .then((r) => r.json())
+      .then((json_dutchie) => {
+        fetch("/data/iheartjane_addr.json")
+          .then((r) => r.json())
+          .then((json_iheartjane) => {
+            const master = json_dutchie.concat(json_iheartjane);
+            console.log(master);
+            setKey(master);
+          });
+      });
+  }, []);
+
+  useEffect(() => {
+    if (lat && lng && key.length) {
+      // clear timeouts and fetches
+      controllers.forEach((c: any) => c.abort());
+      controllers = [];
+      timeouts.forEach((t: any) => clearTimeout(t));
+      timeouts = [];
+
+      // initial wait to let above fetches abort
+      setTimeout(() => {
+        // Items in distance
+        let loc_distance = key.filter((k: any) => {
+          if (k["lat"] && k["lng"]) {
+            let dist = getDistance(
+              { latitude: lat, longitude: lng },
+              {
+                latitude: k["lat"],
+                longitude: k["lng"],
+              }
+            );
+            dist = dist / 1609.34;
+            return dist < 20;
+          }
+        });
+
+        console.log("locations in distance ");
+        console.log(loc_distance);
+
+        // IDs
+        let items_id: any = [];
+        loc_distance.forEach((loc: any) => {
+          loc["d"].forEach((id: any) => {
+            items_id.push(id);
+          });
+        });
+
+        console.log("total items: ");
+        console.log(items_id);
+        const chunks = chunk(items_id, 10);
+
+        // Fetch item json by by ID
+        all_items = [];
+        chunks.forEach((chunk, i) => {
+          const t = setTimeout(() => {
+            chunk.forEach((id: any, idx: number) => {
+              controllers.push(new AbortController());
+              fetch("/data/yield/" + id + ".json")
+                .then((r) => r.json())
+                .then((d: any) => {
+                  d.c.forEach((c: any) => {
+                    all_items.push({
+                      ...d,
+                      g: [c.g + "g"],
+                      $: c.$.toFixed(0),
+                      ppu: (c.$ / c.g).toFixed(1),
+                    });
+                  });
+
+                  setItems(
+                    all_items.map((item: any, idx: number) => ({
+                      id: idx,
+                      ...item,
+                    }))
+                  );
+
+                  // true/false doesn't matter for now
+                  setPagesBool(
+                    chunkArr(items, 9).map(
+                      (item: UniversalInfoDisplayItem) => true
+                    )
+                  );
+
+                  const groupFilter = groupFilters.find(
+                    (g: any) => g.group === selectedGroup
+                  );
+
+                  if (groupFilter) {
+                    Object.entries(groupFilter)
+                      .filter(([key]) => key !== "group")
+                      .forEach(([key, value], idx) => {
+                        const choices = getFilterChoices(key, items);
+                        const range = getFilterRange(key, items);
+                        const fObj = {
+                          name: key,
+                          type: value as FilterType,
+                          props: value === "choice" ? choices : range,
+                          val: value === "choice" ? [] : range[0],
+                          sort: undefined,
+                        };
+
+                        if (idx === 0) {
+                          setFilter1(fObj);
+                        } else if (idx === 1) {
+                          setFilter2(fObj);
+                        } else if (idx === 2) {
+                          setFilter3(fObj);
+                        } else if (idx === 3) {
+                          setFilter4(fObj);
+                        } else if (idx === 4) {
+                          setFilter5(fObj);
+                        }
+                      });
+                  }
+                }, controllers[idx].signal);
+            });
+          }, 50 * i);
+          timeouts.push(t);
+        });
+      }, 250);
+    }
+  }, [lat, lng]);
+
   const getLocation = () => {
     setLat(0);
-    setLong(0);
+    setLng(0);
     navigator.geolocation.getCurrentPosition(function (position) {
       setLat(position.coords.latitude);
-      setLong(position.coords.longitude);
+      setLng(position.coords.longitude);
     });
   };
 

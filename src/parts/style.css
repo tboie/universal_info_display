@@ -294,6 +294,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .item-grid img {
+  margin-top: 1rem;
+  max-width: 100%;
+  min-width: 100%;
   width: 100%;
 }
 

@@ -3,12 +3,12 @@
                 "group": "flower",
                 "$": "range",
                 "%": "range",
-                "type": "choice",
+                "t": "choice",
                 "g": "choice",
                 "mi": "range"
        },
               {
-                "group": "shirts",
+                "group": "gas",
                 "price": "range",
                 "size": "choice",
                 "color": "choice"
