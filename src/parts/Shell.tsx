@@ -550,8 +550,8 @@ const UniversalInfoDisplay = (props: {
                     Object.entries(groupFilter)
                       .filter(([key]) => key !== "group")
                       .forEach(([key, value], idx) => {
-                        const choices = getFilterChoices(key, items);
-                        const range = getFilterRange(key, items);
+                        const choices = getFilterChoices(key, all_items);
+                        const range = getFilterRange(key, all_items);
                         const fObj = {
                           name: key,
                           type: value as FilterType,
