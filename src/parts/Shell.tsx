@@ -67,6 +67,13 @@ export function chunkString(str: string, len: number) {
 // serious
 export type UniversalInfoDisplayItem = any;
 
+export type Store = {
+  a: string;
+  l: [number, number];
+  dist: number;
+  numItems: number;
+};
+
 export type ViewSection = {
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
@@ -113,6 +120,7 @@ const UniversalInfoDisplay = (props: {
   const [filter4, setFilter4] = useState<GroupFilter>();
   const [filter5, setFilter5] = useState<GroupFilter>();
 
+  const [stores, setStores] = useState<Store[]>([]);
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
 
@@ -501,7 +509,7 @@ const UniversalInfoDisplay = (props: {
       // all fetches complete
       // get up to 100 (9 per page) pages worth of nearest store items
       Promise.all(reqs).then((resp) => {
-        let stores = resp
+        let stores_all = resp
           .filter((resp) => resp)
           .map((store_items: any) => {
             return {
@@ -514,20 +522,20 @@ const UniversalInfoDisplay = (props: {
           .sort((a, b) => a.dist - b.dist);
 
         // set total items property
-        stores.forEach((store, idx) => {
+        stores_all.forEach((store, idx) => {
           let store_total = 0;
           store.items.forEach((item: any) => {
             store_total += item.c.length;
           });
-          stores[idx]["total"] = store_total;
+          stores_all[idx]["total"] = store_total;
         });
 
         // check total count and add items to all array
-        let total = 0;
+        let numItems = 0;
         const all_items: any = [];
-        stores = stores.filter((store) => {
-          if (total + store.total <= 900) {
-            total += store.total;
+        stores_all = stores_all.filter((store) => {
+          if (numItems + store.total <= 900) {
+            numItems += store.total;
 
             store.items.forEach((item: any) => {
               item.c.forEach((cut: any) => {
@@ -544,6 +552,16 @@ const UniversalInfoDisplay = (props: {
           }
         });
 
+        // set stores state
+        const stores_final = stores_all.map((store: any) => ({
+          a: store.items[0].a,
+          l: loc_distance.filter((l) => l?.a === store.items[0]?.a)[0]?.l,
+          dist: store.dist,
+          numItems: store.total,
+        }));
+        setStores(stores_final);
+
+        // Set all items state
         setItems(
           all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
         );
