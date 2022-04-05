@@ -513,8 +513,6 @@ const UniversalInfoDisplay = (props: {
           }
         });
 
-        console.log();
-
         setItems(
           all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
         );
