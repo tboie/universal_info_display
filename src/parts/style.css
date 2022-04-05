@@ -258,8 +258,8 @@ input[type="range"]::-webkit-slider-thumb {
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 2px;
   grid-row-gap: 2px;
-  border-right: 3px solid black;
-  border-left: 3px solid black;
+  border-right: 2px solid black;
+  border-left: 2px solid black;
 }
 
 .item-grid .item {
