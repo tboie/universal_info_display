@@ -38,10 +38,6 @@ globalThis.choiceSliderPressed = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
-let all_items: any = [];
-let timeouts: any = [];
-let controllers: any = [];
-
 const chunk = (arr: any, chunkSize: any) => {
   if (chunkSize <= 0) throw "Invalid chunk size";
   var R = [];
@@ -457,128 +453,106 @@ const UniversalInfoDisplay = (props: {
   };
 
   useEffect(() => {
-    fetch("/data/dutchie_addr.json")
+    fetch("/data/key_dutchie.json")
       .then((r) => r.json())
       .then((json_dutchie) => {
-        fetch("/data/iheartjane_addr.json")
+        fetch("/data/key_iheartjane.json")
           .then((r) => r.json())
           .then((json_iheartjane) => {
             const master = json_dutchie.concat(json_iheartjane);
-            console.log(master);
             setKey(master);
           });
       });
   }, []);
 
   useEffect(() => {
-    if (lat && lng && key.length) {
-      // clear timeouts and fetches
-      controllers.forEach((c: any) => c.abort());
-      controllers = [];
-      timeouts.forEach((t: any) => clearTimeout(t));
-      timeouts = [];
+    const fetchData = async (uri: string) => {
+      return fetch(uri)
+        .then((resp) => resp.json())
+        .catch((e) => console.log("fetch error: " + uri));
+    };
 
-      // initial wait to let above fetches abort
-      setTimeout(() => {
-        // Items in distance
-        let loc_distance = key.filter((k: any) => {
-          if (k["lat"] && k["lng"]) {
-            let dist = getDistance(
-              { latitude: lat, longitude: lng },
-              {
-                latitude: k["lat"],
-                longitude: k["lng"],
-              }
-            );
-            dist = dist / 1609.34;
-            return dist < 20;
+    if (lat && lng && key.length) {
+      // stores in distance
+      const loc_distance = key.filter((k: any) => {
+        if (k["l"][0] && k["l"][1]) {
+          let dist = getDistance(
+            { latitude: lat, longitude: lng },
+            {
+              latitude: k["l"][0],
+              longitude: k["l"][1],
+            }
+          );
+          dist = dist / 1609.34;
+          return dist < 50;
+        }
+      });
+
+      // all fetches
+      const reqs: any = [];
+      loc_distance.forEach((loc) => {
+        const uri = "/data/locs/" + encodeURIComponent(loc["a"]) + ".json";
+        reqs.push(fetchData(uri));
+      });
+
+      // all fetches complete
+      Promise.all(reqs).then((resp) => {
+        const all_store_items = resp.flat();
+        const all_items: any = [];
+
+        all_store_items.forEach((item: any) => {
+          if (item) {
+            item.c.forEach((c: any) => {
+              all_items.push({
+                ...item,
+                g: [c.g + "g"],
+                $: c.$.toFixed(0),
+                ppu: (c.$ / c.g).toFixed(1),
+              });
+            });
           }
         });
 
-        console.log("locations in distance ");
-        console.log(loc_distance);
+        setItems(
+          all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
+        );
 
-        // IDs
-        let items_id: any = [];
-        loc_distance.forEach((loc: any) => {
-          loc["d"].forEach((id: any) => {
-            items_id.push(id);
-          });
-        });
+        setPagesBool(
+          chunkArr(all_items, 9).map((item: UniversalInfoDisplayItem) => true)
+        );
 
-        console.log("total items: ");
-        console.log(items_id);
-        const chunks = chunk(items_id, 10);
+        const groupFilter = groupFilters.find(
+          (g: any) => g.group === selectedGroup
+        );
 
-        // Fetch item json by by ID
-        all_items = [];
-        chunks.forEach((chunk, i) => {
-          const t = setTimeout(() => {
-            chunk.forEach((id: any, idx: number) => {
-              controllers.push(new AbortController());
-              fetch("/data/yield/" + id + ".json")
-                .then((r) => r.json())
-                .then((d: any) => {
-                  d.c.forEach((c: any) => {
-                    all_items.push({
-                      ...d,
-                      g: [c.g + "g"],
-                      $: c.$.toFixed(0),
-                      ppu: (c.$ / c.g).toFixed(1),
-                    });
-                  });
+        if (groupFilter) {
+          Object.entries(groupFilter)
+            .filter(([key]) => key !== "group")
+            .forEach(([key, value], idx) => {
+              const choices = getFilterChoices(key, all_items);
+              const range = getFilterRange(key, all_items);
+              const fObj = {
+                name: key,
+                type: value as FilterType,
+                props: value === "choice" ? choices : range,
+                val: value === "choice" ? [] : range[0],
+                sort: undefined,
+              };
 
-                  setItems(
-                    all_items.map((item: any, idx: number) => ({
-                      id: idx,
-                      ...item,
-                    }))
-                  );
-
-                  // true/false doesn't matter for now
-                  setPagesBool(
-                    chunkArr(items, 9).map(
-                      (item: UniversalInfoDisplayItem) => true
-                    )
-                  );
-
-                  const groupFilter = groupFilters.find(
-                    (g: any) => g.group === selectedGroup
-                  );
-
-                  if (groupFilter) {
-                    Object.entries(groupFilter)
-                      .filter(([key]) => key !== "group")
-                      .forEach(([key, value], idx) => {
-                        const choices = getFilterChoices(key, all_items);
-                        const range = getFilterRange(key, all_items);
-                        const fObj = {
-                          name: key,
-                          type: value as FilterType,
-                          props: value === "choice" ? choices : range,
-                          val: value === "choice" ? [] : range[0],
-                          sort: undefined,
-                        };
-
-                        if (idx === 0) {
-                          setFilter1(fObj);
-                        } else if (idx === 1) {
-                          setFilter2(fObj);
-                        } else if (idx === 2) {
-                          setFilter3(fObj);
-                        } else if (idx === 3) {
-                          setFilter4(fObj);
-                        } else if (idx === 4) {
-                          setFilter5(fObj);
-                        }
-                      });
-                  }
-                }, controllers[idx].signal);
+              if (idx === 0) {
+                setFilter1(fObj);
+              } else if (idx === 1) {
+                setFilter2(fObj);
+              } else if (idx === 2) {
+                setFilter3(fObj);
+              } else if (idx === 3) {
+                setFilter4(fObj);
+              } else if (idx === 4) {
+                setFilter5(fObj);
+              }
             });
-          }, 50 * i);
-          timeouts.push(t);
-        });
-      }, 250);
+        }
+      });
     }
   }, [lat, lng]);
 
