@@ -473,20 +473,23 @@ const UniversalInfoDisplay = (props: {
     };
 
     if (lat && lng && key.length) {
-      // stores in distance
-      const loc_distance = key.filter((k: any) => {
-        if (k["l"][0] && k["l"][1]) {
-          let dist = getDistance(
-            { latitude: lat, longitude: lng },
-            {
-              latitude: k["l"][0],
-              longitude: k["l"][1],
-            }
-          );
-          dist = dist / 1609.34;
-          return dist < 50;
-        }
-      });
+      // stores within 100mi
+      const loc_distance = key
+        .map((k: any) => {
+          if (k["l"][0] && k["l"][1]) {
+            let dist = getDistance(
+              { latitude: lat, longitude: lng },
+              {
+                latitude: k["l"][0],
+                longitude: k["l"][1],
+              }
+            );
+            dist = dist / 1609.34;
+            return { ...k, dist: dist };
+          }
+        })
+        .sort((a, b) => a.dist - b.dist)
+        .filter((i) => i.dist < 100);
 
       // all fetches
       const reqs: any = [];
@@ -496,20 +499,48 @@ const UniversalInfoDisplay = (props: {
       });
 
       // all fetches complete
+      // get up to 100 (9 per page) pages worth of nearest store items
       Promise.all(reqs).then((resp) => {
-        const all_store_items = resp.flat();
-        const all_items: any = [];
+        let stores = resp
+          .filter((resp) => resp)
+          .map((store_items: any) => {
+            return {
+              items: store_items,
+              total: 0,
+              dist: loc_distance.filter((l) => l?.a === store_items[0]?.a)[0]
+                ?.dist,
+            };
+          })
+          .sort((a, b) => a.dist - b.dist);
 
-        all_store_items.forEach((item: any) => {
-          if (item) {
-            item.c.forEach((c: any) => {
-              all_items.push({
-                ...item,
-                g: [c.g + "g"],
-                $: c.$.toFixed(0),
-                ppu: (c.$ / c.g).toFixed(1),
+        // set total items property
+        stores.forEach((store, idx) => {
+          let store_total = 0;
+          store.items.forEach((item: any) => {
+            store_total += item.c.length;
+          });
+          stores[idx]["total"] = store_total;
+        });
+
+        // check total count and add items to all array
+        let total = 0;
+        const all_items: any = [];
+        stores = stores.filter((store) => {
+          if (total + store.total <= 900) {
+            total += store.total;
+
+            store.items.forEach((item: any) => {
+              item.c.forEach((cut: any) => {
+                all_items.push({
+                  ...item,
+                  g: [cut.g + "g"],
+                  $: cut.$.toFixed(0),
+                  ppu: (cut.$ / cut.g).toFixed(1),
+                });
               });
             });
+
+            return true;
           }
         });
 
