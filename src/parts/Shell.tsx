@@ -513,6 +513,8 @@ const UniversalInfoDisplay = (props: {
           }
         });
 
+        console.log();
+
         setItems(
           all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
         );
@@ -529,7 +531,14 @@ const UniversalInfoDisplay = (props: {
           Object.entries(groupFilter)
             .filter(([key]) => key !== "group")
             .forEach(([key, value], idx) => {
-              const choices = getFilterChoices(key, all_items);
+              let choices = getFilterChoices(key, all_items);
+              if (key === "g") {
+                choices = choices
+                  .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
+                  .sort((a, b) => a - b)
+                  .map((choice) => choice + key);
+              }
+
               const range = getFilterRange(key, all_items);
               const fObj = {
                 name: key,
