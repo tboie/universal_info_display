@@ -26,8 +26,9 @@
   height: 74%;
   width: 100%;
   overflow-x: scroll;
-  white-space: nowrap;
   overflow-y: hidden;
+  display: flex;
+  align-items: flex-start;
 }
 
 .page_bg {
@@ -53,12 +54,11 @@
   color: black;
   height: 100%;
   width: 100%;
-  display: inline-flex;
-  white-space: normal;
-  word-break: break-word;
+  min-width: 100%;
+  min-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   overflow: hidden;
-  /*justify-content: center;
-  align-items: center;*/
 }
 
 .content_page .no-items {
