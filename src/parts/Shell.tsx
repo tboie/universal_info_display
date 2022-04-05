@@ -557,9 +557,19 @@ const UniversalInfoDisplay = (props: {
   }, [lat, lng]);
 
   const getLocation = () => {
+    /*
     setLat(0);
     setLng(0);
-    navigator.geolocation.getCurrentPosition(function (position) {
+    setTimeout(() => {
+      console.log("setting location");
+      setLat(42.9361484);
+      setLng(-70.86699);
+    }, 1000);
+    */
+
+    setLat(0);
+    setLng(0);
+    navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
