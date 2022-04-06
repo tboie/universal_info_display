@@ -277,7 +277,9 @@ input[type="range"]::-webkit-slider-thumb {
 
 .item-grid .item .title {
   top: 0;
-  left: 0;
+  width: 100%;
+  display: table;
+  text-align: center;
 }
 
 .item-grid .item .ppu {
@@ -296,13 +298,18 @@ input[type="range"]::-webkit-slider-thumb {
   bottom: 0;
 }
 
+.item-grid .item .type {
+  bottom: 1.5rem;
+  right: 0;
+}
+
 .item-grid .item .choice {
   left: 0;
   bottom: 1.5rem;
-  display: none;
 }
 
 .item-grid img {
+  position: absolute;
   max-width: 100%;
   min-width: 100%;
   width: 100%;
