@@ -478,7 +478,8 @@ const UniversalInfoDisplay = (props: {
           .filter((resp) => resp)
           .map((store_items: any) => {
             return {
-              items: store_items,
+              // REC only for now
+              items: store_items.filter((item: any) => item.m === "R"),
               total: 0,
               dist: loc_distance.filter((l) => l?.a === store_items[0]?.a)[0]
                 ?.dist,
@@ -498,8 +499,10 @@ const UniversalInfoDisplay = (props: {
         // check total count and add items to all array
         let numItems = 0;
         const all_items: any = [];
+        stores_all = stores_all.filter((store) => store.items.length > 0);
+
         stores_all = stores_all.filter((store) => {
-          if (numItems + store.total <= 900) {
+          if (numItems + store.total <= 600) {
             numItems += store.total;
 
             store.items.forEach((item: any) => {
@@ -532,7 +535,7 @@ const UniversalInfoDisplay = (props: {
         );
 
         setPagesBool(
-          chunkArr(all_items, 9).map((item: UniversalInfoDisplayItem) => true)
+          chunkArr(all_items, 6).map((item: UniversalInfoDisplayItem) => true)
         );
 
         const groupFilter = groupFilters.find(
@@ -605,7 +608,7 @@ const UniversalInfoDisplay = (props: {
       <TitleBar
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
-        totalPages={chunkArr(filteredItems, 9).length}
+        totalPages={chunkArr(filteredItems, 6).length}
         f1Vals={filter1?.type === "choice" ? (filter1.val as string[]) : []}
         f2Vals={filter2?.type === "choice" ? (filter2.val as string[]) : []}
         f3Vals={filter3?.type === "choice" ? (filter3.val as string[]) : []}
@@ -683,7 +686,7 @@ const UniversalInfoDisplay = (props: {
       )}
       <Slider
         type="page"
-        titles={chunkArr(filteredItems, 9).map((item, idx) =>
+        titles={chunkArr(filteredItems, 6).map((item, idx) =>
           (idx + 1).toString()
         )}
         selected={[selectedPageIdx.toString()]}

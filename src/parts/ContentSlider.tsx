@@ -201,7 +201,7 @@ const ContentSlider = ({
             ))}
 
         {contentType === "item" && items?.length ? (
-          chunkArr(items, 9).map((items, idx) => (
+          chunkArr(items, 6).map((items, idx) => (
             <Page
               key={idx}
               num={idx + 1}

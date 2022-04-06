@@ -254,7 +254,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 100%;
   display: grid;
   background-color: black;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 2px;
   grid-row-gap: 2px;
@@ -264,7 +264,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .item-grid .item {
   position: relative;
-  background: chartreuse;
+  background: white;
 }
 
 .item-grid .item span {
@@ -295,7 +295,6 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .item-grid img {
-  margin-top: 1rem;
   max-width: 100%;
   min-width: 100%;
   width: 100%;
