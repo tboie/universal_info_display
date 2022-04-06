@@ -25,7 +25,7 @@ const GridItems = ({
                     item["p"] +
                     "?auto=format&fit=fill&fill=solid&fillColor=%" +
                     "23fff" +
-                    "&__typename=ImgixSettings&ixlib=react-9.0.2&h=100&w=100"
+                    "&__typename=ImgixSettings&ixlib=react-9.0.2&h=200&w=200"
                   : item["p"]
               }`}
               loading="lazy"
