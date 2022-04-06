@@ -31,6 +31,18 @@ const GridItems = ({
               loading="lazy"
               alt=""
             ></img>
+            <span className="title">
+              {item.n.indexOf("|") > -1
+                ? item.n
+                    .substring(0, item.n.indexOf("|"))
+                    .replace("3.5g", "")
+                    .replace("7g", "")
+                    .replace("14g", "")
+                : item.n
+                    .replace("3.5g", "")
+                    .replace("7g", "")
+                    .replace("14g", "")}
+            </span>
             <span className="price">{"$" + item["$"]}</span>
             <span className="percent">{item["%"] ? item["%"] + "%" : ""}</span>
             <span className="choice">

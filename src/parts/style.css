@@ -272,11 +272,18 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 1.25rem;
   font-weight: bold;
   padding: 0.25rem;
+  color: #171717;
 }
 
-.item-grid .ppu {
+.item-grid .item .title {
+  top: 0;
+  left: 0;
+}
+
+.item-grid .item .ppu {
   right: 0;
   bottom: 0;
+  display: none;
 }
 
 .item-grid .item .price {
@@ -286,12 +293,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 .item-grid .item .percent {
   right: 0;
-  bottom: 1.5rem;
+  bottom: 0;
 }
 
 .item-grid .item .choice {
   left: 0;
   bottom: 1.5rem;
+  display: none;
 }
 
 .item-grid img {
