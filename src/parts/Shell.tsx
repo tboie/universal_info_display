@@ -12,6 +12,21 @@ import Slider, { T_SLIDER_TYPE } from "./Slider";
 import TitleBar from "./TitleBar";
 import { getDistance } from "geolib";
 
+import {
+  interaction,
+  layer,
+  custom,
+  control, //name spaces
+  Interactions,
+  Overlays,
+  Controls, //group
+  Map,
+  Layers,
+  Overlay,
+  Util, //objects
+  // @ts-ignore
+} from "react-openlayers";
+
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
 // [TEXT CALCS]
 // 1st: display all text into 1 div and split text into pages using element height and viewport height
@@ -186,56 +201,6 @@ const UniversalInfoDisplay = (props: {
           });
       });
   };
-
-  // get individual group data and set # number of pages
-  /*
-  useEffect(() => {
-    if (groupFilters.length && selectedGroup) {
-      fetch(`/data/${selectedGroup}.json`)
-        .then((response) => response.json())
-        .then((items: UniversalInfoDisplayItem[]) => {
-          setItems(items.map((item, idx) => ({ id: idx, ...item })));
-
-          // true/false doesn't matter for now
-          setPagesBool(
-            chunkArr(items, 9).map((item: UniversalInfoDisplayItem) => true)
-          );
-
-          const groupFilter = groupFilters.find(
-            (g: any) => g.group === selectedGroup
-          );
-
-          if (groupFilter) {
-            Object.entries(groupFilter)
-              .filter(([key]) => key !== "group")
-              .forEach(([key, value], idx) => {
-                const choices = getFilterChoices(key, items);
-                const range = getFilterRange(key, items);
-                const fObj = {
-                  name: key,
-                  type: value as FilterType,
-                  props: value === "choice" ? choices : range,
-                  val: value === "choice" ? [] : range[0],
-                  sort: undefined,
-                };
-
-                if (idx === 0) {
-                  setFilter1(fObj);
-                } else if (idx === 1) {
-                  setFilter2(fObj);
-                } else if (idx === 2) {
-                  setFilter3(fObj);
-                } else if (idx === 3) {
-                  setFilter4(fObj);
-                } else if (idx === 4) {
-                  setFilter5(fObj);
-                }
-              });
-          }
-        });
-    }
-  }, [selectedGroup, groupFilters.length]);
-  */
 
   const sortItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
@@ -586,7 +551,11 @@ const UniversalInfoDisplay = (props: {
                   .map((choice) => choice + key);
               }
 
-              const range = getFilterRange(key, all_items);
+              let range = getFilterRange(key, all_items);
+              if (key === "mi") {
+                range = [1, 99];
+              }
+
               const fObj = {
                 name: key,
                 type: value as FilterType,
