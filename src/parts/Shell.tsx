@@ -220,6 +220,22 @@ const UniversalInfoDisplay = (props: {
         }
       });
 
+    // sort by ppu if all filters off
+    if (
+      !(filter1?.val as string[])?.length &&
+      !(filter2?.val as string[])?.length &&
+      !(filter3?.val as string[])?.length &&
+      !(filter4?.val as string[])?.length &&
+      !(filter5?.val as string[])?.length &&
+      !filter1?.sort &&
+      !filter2?.sort &&
+      !filter3?.sort &&
+      !filter4?.sort &&
+      !filter5?.sort
+    ) {
+      filteredItems.sort((a, b) => a.ppu - b.ppu);
+    }
+
     // range
     [filter1, filter2, filter3, filter4, filter5]
       .filter((f) => f?.type === "range" && f.sort)
@@ -232,15 +248,6 @@ const UniversalInfoDisplay = (props: {
           ];
         }
       });
-
-    // sort
-    [filter1, filter2, filter3, filter4, filter5].forEach((f) => {
-      if (f?.sort) {
-        filteredItems.sort((a, b) =>
-          f.sort === "asc" ? a[f.name] - b[f.name] : b[f.name] - a[f.name]
-        );
-      }
-    });
 
     return filteredItems;
   };
@@ -346,19 +353,7 @@ const UniversalInfoDisplay = (props: {
   };
 
   const filteredItems = useMemo(
-    () =>
-      (filter1?.val as string[])?.length ||
-      (filter2?.val as string[])?.length ||
-      (filter3?.val as string[])?.length ||
-      (filter4?.val as string[])?.length ||
-      (filter5?.val as string[])?.length ||
-      filter1?.sort ||
-      filter2?.sort ||
-      filter3?.sort ||
-      filter4?.sort ||
-      filter5?.sort
-        ? sortItems()
-        : items.sort((a, b) => a.ppu - b.ppu),
+    () => sortItems(),
     [
       filter1?.val,
       filter2?.val,
