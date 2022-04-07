@@ -68,7 +68,25 @@ const Slider = ({
   }, [selected]);
 
   return (
-    <div className={`slider ${type} ${type === "page" ? "tick" : ""}`}>
+    <div
+      className={`slider ${type} ${type === "page" ? "tick" : ""}`}
+      onTouchStart={() => {
+        globalThis.contentSliderPressed = false;
+        if (type === "page") {
+          globalThis.groupSliderPressed = false;
+          globalThis.choiceSliderPressed = false;
+          globalThis.pageSliderPressed = true;
+        } else if (type === "group") {
+          globalThis.pageSliderPressed = false;
+          globalThis.choiceSliderPressed = false;
+          globalThis.groupSliderPressed = true;
+        } else if (type === "choice") {
+          globalThis.pageSliderPressed = false;
+          globalThis.groupSliderPressed = false;
+          globalThis.choiceSliderPressed = true;
+        }
+      }}
+    >
       {titles.length ? (
         titles.map((t, idx) => (
           <Label
@@ -119,22 +137,6 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
       className={`slider_label ${on ? "selected" : ""}`}
       onClick={(e) => {
         click(type, title, on);
-      }}
-      onTouchStart={() => {
-        globalThis.contentSliderPressed = false;
-        if (type === "page") {
-          globalThis.groupSliderPressed = false;
-          globalThis.choiceSliderPressed = false;
-          globalThis.pageSliderPressed = true;
-        } else if (type === "group") {
-          globalThis.pageSliderPressed = false;
-          globalThis.choiceSliderPressed = false;
-          globalThis.groupSliderPressed = true;
-        } else if (type === "choice") {
-          globalThis.pageSliderPressed = false;
-          globalThis.groupSliderPressed = false;
-          globalThis.choiceSliderPressed = true;
-        }
       }}
     >
       {title}
