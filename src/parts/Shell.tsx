@@ -242,12 +242,7 @@ const UniversalInfoDisplay = (props: {
       }
     });
 
-    const seen = new Set();
-    return filteredItems.filter((item) => {
-      const duplicate = seen.has(item.id);
-      seen.add(item.id);
-      return !duplicate;
-    });
+    return filteredItems;
   };
 
   const sliderSelect = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
