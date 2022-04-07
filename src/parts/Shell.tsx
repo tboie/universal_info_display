@@ -220,6 +220,19 @@ const UniversalInfoDisplay = (props: {
         }
       });
 
+    // range
+    [filter1, filter2, filter3, filter4, filter5]
+      .filter((f) => f?.type === "range" && f.sort)
+      .forEach((f) => {
+        if (f) {
+          filteredItems = [
+            ...filteredItems.filter((item) =>
+              f.sort === "asc" ? item[f.name] > f.val : item[f.name] < f.val
+            ),
+          ];
+        }
+      });
+
     // sort by ppu if all filters off
     if (
       !(filter1?.val as string[])?.length &&
@@ -235,19 +248,6 @@ const UniversalInfoDisplay = (props: {
     ) {
       filteredItems.sort((a, b) => a.ppu - b.ppu);
     }
-
-    // range
-    [filter1, filter2, filter3, filter4, filter5]
-      .filter((f) => f?.type === "range" && f.sort)
-      .forEach((f) => {
-        if (f) {
-          filteredItems = [
-            ...filteredItems.filter((item) =>
-              f.sort === "asc" ? item[f.name] > f.val : item[f.name] < f.val
-            ),
-          ];
-        }
-      });
 
     return filteredItems;
   };
