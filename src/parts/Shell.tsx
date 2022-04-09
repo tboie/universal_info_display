@@ -12,21 +12,6 @@ import Slider, { T_SLIDER_TYPE } from "./Slider";
 import TitleBar from "./TitleBar";
 import { getDistance } from "geolib";
 
-import {
-  interaction,
-  layer,
-  custom,
-  control, //name spaces
-  Interactions,
-  Overlays,
-  Controls, //group
-  Map,
-  Layers,
-  Overlay,
-  Util, //objects
-  // @ts-ignore
-} from "react-openlayers";
-
 // !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
 // [TEXT CALCS]
 // 1st: display all text into 1 div and split text into pages using element height and viewport height
@@ -602,12 +587,7 @@ const UniversalInfoDisplay = (props: {
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
       {map ? (
-        <Map view={{ center: [0, 0], zoom: 2 }}>
-          <Layers>
-            <layer.Tile />
-          </Layers>
-          <Controls attribution={false}></Controls>
-        </Map>
+        <div>map</div>
       ) : (
         <ContentSlider
           {...p}
