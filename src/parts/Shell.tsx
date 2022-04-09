@@ -130,6 +130,7 @@ const UniversalInfoDisplay = (props: {
   const [stores, setStores] = useState<Store[]>([]);
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
+  const [map, toggleMap] = useState(false);
 
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
@@ -600,28 +601,37 @@ const UniversalInfoDisplay = (props: {
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
-      <ContentSlider
-        {...p}
-        items={filteredItems}
-        sliderSelect={sliderSelect}
-        setSelectedItemIdx={setSelectedItemIdx}
-        clearFilters={clearFilters}
-        getData={getData}
-        filtersOn={
-          (filter1?.val as string[])?.length ||
-          (filter2?.val as string[])?.length ||
-          (filter3?.val as string[])?.length ||
-          (filter4?.val as string[])?.length ||
-          (filter5?.val as string[])?.length ||
-          filter1?.sort ||
-          filter2?.sort ||
-          filter3?.sort ||
-          filter4?.sort ||
-          filter5?.sort
-            ? true
-            : false
-        }
-      />
+      {map ? (
+        <Map view={{ center: [0, 0], zoom: 2 }}>
+          <Layers>
+            <layer.Tile />
+          </Layers>
+          <Controls attribution={false}></Controls>
+        </Map>
+      ) : (
+        <ContentSlider
+          {...p}
+          items={filteredItems}
+          sliderSelect={sliderSelect}
+          setSelectedItemIdx={setSelectedItemIdx}
+          clearFilters={clearFilters}
+          getData={getData}
+          filtersOn={
+            (filter1?.val as string[])?.length ||
+            (filter2?.val as string[])?.length ||
+            (filter3?.val as string[])?.length ||
+            (filter4?.val as string[])?.length ||
+            (filter5?.val as string[])?.length ||
+            filter1?.sort ||
+            filter2?.sort ||
+            filter3?.sort ||
+            filter4?.sort ||
+            filter5?.sort
+              ? true
+              : false
+          }
+        />
+      )}
       <span id="filter_range_status" />
       <FilterButtonBar
         filter1={filter1}
@@ -637,6 +647,8 @@ const UniversalInfoDisplay = (props: {
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={setSelectedFilterIdx}
         setSelectedPageIdx={setSelectedPageIdx}
+        map={map}
+        toggleMap={() => toggleMap(!map)}
       />
       {selectedFilterIdx === 0 ? (
         <Slider

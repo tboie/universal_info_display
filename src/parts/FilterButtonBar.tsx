@@ -14,6 +14,8 @@ const FilterButtonBar = ({
   selectedFilterIdx,
   setSelectedFilterIdx,
   setSelectedPageIdx,
+  map,
+  toggleMap,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
@@ -28,12 +30,25 @@ const FilterButtonBar = ({
   selectedFilterIdx: number;
   setSelectedFilterIdx: (val: number) => any;
   setSelectedPageIdx: (val: number) => any;
+  map: boolean;
+  toggleMap: () => any;
 }) => {
   const isOn = (f: GroupFilter) => {
     return (Array.isArray(f.val) && f.val.length) || f.sort ? true : false;
   };
 
-  const setFilter = (idx: number, type: FilterType, selected: boolean) => {
+  const setFilter = (
+    idx: number,
+    type: FilterType,
+    selected: boolean,
+    name: string
+  ) => {
+    console.log("setfilter");
+    if (name.indexOf("mi") === name.length - 2) {
+      console.log("toggleing map");
+      toggleMap();
+    }
+
     if (type === "choice") {
       setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
     } else if (type === "range") {
@@ -100,7 +115,9 @@ const FilterButtonBar = ({
               on={isOn(f)}
               selected={selectedFilterIdx === idx + 1}
               sort={f.sort}
-              click={(idx, type, selected) => setFilter(idx, type, selected)}
+              click={(idx, type, selected, name) =>
+                setFilter(idx, type, selected, name)
+              }
             />
           )
       )}
@@ -123,7 +140,12 @@ const FilterButton = ({
   on: boolean;
   selected: boolean;
   sort: "asc" | "desc" | undefined;
-  click: (idx: number, type: FilterType, selected: boolean) => any;
+  click: (
+    idx: number,
+    type: FilterType,
+    selected: boolean,
+    name: string
+  ) => any;
 }) => {
   return (
     <div
@@ -136,7 +158,7 @@ const FilterButton = ({
         globalThis.choiceSliderPressed = false;
         globalThis.contentSliderPressed = false;
 
-        click(idx, type, selected);
+        click(idx, type, selected, text);
       }}
     >
       <span>{text}</span>
