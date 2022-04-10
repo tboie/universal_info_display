@@ -431,7 +431,7 @@ const UniversalInfoDisplay = (props: {
           }
         })
         .sort((a, b) => a.dist - b.dist)
-        .filter((i) => i.dist < 100);
+        .filter((i) => i.dist < 50);
 
       // all fetches
       const reqs: any = [];
@@ -559,11 +559,10 @@ const UniversalInfoDisplay = (props: {
     setLng(0);
     setTimeout(() => {
       console.log("setting location");
-      setLat(42.9361484);
-      setLng(-70.86699);
+      setLat(42.364506);
+      setLng(-71.038887);
     }, 1000);
     */
-
     setLat(0);
     setLng(0);
     navigator.geolocation.getCurrentPosition((position) => {
