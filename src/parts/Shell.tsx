@@ -6,6 +6,7 @@
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import FilterButtonBar from "./FilterButtonBar";
+import MapWrapper from "./Map";
 import FilterRange from "./FilterRange";
 import Item from "./Item";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
@@ -587,7 +588,7 @@ const UniversalInfoDisplay = (props: {
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
       {map ? (
-        <div>map</div>
+        <MapWrapper lng={lng} lat={lat} stores={stores} />
       ) : (
         <ContentSlider
           {...p}

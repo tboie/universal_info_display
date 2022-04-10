@@ -31,9 +31,14 @@
   align-items: flex-start;
 }
 
-.openlayers-map {
+.map {
   height: 74%;
   width: 100%;
+}
+
+.map-loc {
+  font-size: 1.5rem;
+  transform: translateX(-50%);
 }
 
 .page_bg {
