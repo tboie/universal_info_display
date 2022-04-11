@@ -618,6 +618,7 @@ const UniversalInfoDisplay = (props: {
           miles={miles}
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
+          setSelectedFilterIdx={setSelectedFilterIdx}
           map={map}
           toggleMap={() => toggleMap(!map)}
         />

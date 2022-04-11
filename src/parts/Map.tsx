@@ -15,6 +15,7 @@ export default function Overlays({
   miles,
   selectedStore,
   setSelectedStore,
+  setSelectedFilterIdx,
   map,
   toggleMap,
 }: {
@@ -25,6 +26,7 @@ export default function Overlays({
   miles: number;
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
+  setSelectedFilterIdx: (val: number) => any;
   map: boolean;
   toggleMap: () => any;
 }): JSX.Element {
@@ -81,6 +83,7 @@ export default function Overlays({
                   setTimeout(() => {
                     setSelectedStore(selectedStore ? undefined : store);
                     if (!selectedStore) {
+                      setSelectedFilterIdx(0);
                       toggleMap();
                     }
                   }, 1000);

@@ -40,7 +40,7 @@ const FilterButtonBar = ({
   const isOn = (f: GroupFilter) => {
     return (Array.isArray(f.val) && f.val.length) || f.sort
       ? true
-      : false || (f.name === "mi" && map);
+      : false || f.name === "mi";
   };
 
   const setFilter = (
@@ -116,17 +116,19 @@ const FilterButtonBar = ({
               idx={idx + 1}
               type={f.type}
               text={
-                (f?.val && f.sort && f.type === "range") || f.name === "mi"
+                (f?.val && f.sort && f.type === "range") ||
+                (f.name === "mi" && !selectedStore)
                   ? (f.sort === "asc" ? ">" : "<") +
                     (f.name === "$" ? "$" : "") +
                     f.val +
                     (f.name !== "$" ? f.name : "")
+                  : selectedStore && f.name === "mi"
+                  ? "store"
                   : f.name
               }
               on={isOn(f)}
               selected={
-                selectedFilterIdx === idx + 1 ||
-                (f.name === "mi" && selectedFilterIdx === idx + 1)
+                selectedFilterIdx === idx + 1 || (f.name === "mi" && map)
               }
               sort={f.sort}
               name={f.name}
