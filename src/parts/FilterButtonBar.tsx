@@ -34,7 +34,9 @@ const FilterButtonBar = ({
   toggleMap: () => any;
 }) => {
   const isOn = (f: GroupFilter) => {
-    return (Array.isArray(f.val) && f.val.length) || f.sort ? true : false;
+    return (Array.isArray(f.val) && f.val.length) || f.sort
+      ? true
+      : false || (f.name === "mi" && map);
   };
 
   const setFilter = (
@@ -43,13 +45,17 @@ const FilterButtonBar = ({
     selected: boolean,
     name: string
   ) => {
-    console.log("setfilter");
-    if (name.indexOf("mi") === name.length - 2) {
-      console.log("toggleing map");
-      toggleMap();
-    }
-
-    if (type === "choice") {
+    if (name === "mi") {
+      if (selectedFilterIdx !== idx && !map) {
+        toggleMap();
+        setSelectedFilterIdx(idx);
+      } else if (selectedFilterIdx === idx) {
+        toggleMap();
+        setSelectedFilterIdx(0);
+      } else if (selectedFilterIdx !== idx && map) {
+        setSelectedFilterIdx(idx);
+      }
+    } else if (type === "choice") {
       setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
     } else if (type === "range") {
       let f;
@@ -105,7 +111,7 @@ const FilterButtonBar = ({
               idx={idx + 1}
               type={f.type}
               text={
-                f?.val && f.sort && f.type === "range"
+                (f?.val && f.sort && f.type === "range") || f.name === "mi"
                   ? (f.sort === "asc" ? ">" : "<") +
                     (f.name === "$" ? "$" : "") +
                     f.val +
@@ -113,8 +119,12 @@ const FilterButtonBar = ({
                   : f.name
               }
               on={isOn(f)}
-              selected={selectedFilterIdx === idx + 1}
+              selected={
+                selectedFilterIdx === idx + 1 ||
+                (f.name === "mi" && selectedFilterIdx === idx + 1)
+              }
               sort={f.sort}
+              name={f.name}
               click={(idx, type, selected, name) =>
                 setFilter(idx, type, selected, name)
               }
@@ -132,6 +142,7 @@ const FilterButton = ({
   on,
   selected,
   sort,
+  name,
   click,
 }: {
   idx: number;
@@ -140,6 +151,7 @@ const FilterButton = ({
   on: boolean;
   selected: boolean;
   sort: "asc" | "desc" | undefined;
+  name: string;
   click: (
     idx: number,
     type: FilterType,
@@ -149,16 +161,18 @@ const FilterButton = ({
 }) => {
   return (
     <div
-      className={`filter_button ${selected ? "selected" : ""} ${
-        on ? "on" : ""
-      } ${sort === "asc" ? "asc" : ""} ${sort === "desc" ? "desc" : ""}`}
+      className={`filter_button ${name === "mi" ? "mi" : ""} ${
+        selected ? "selected" : ""
+      } ${on ? "on" : ""} ${sort === "asc" ? "asc" : ""} ${
+        sort === "desc" ? "desc" : ""
+      }`}
       onClick={() => {
         globalThis.pageSliderPressed = false;
         globalThis.groupSliderPressed = false;
         globalThis.choiceSliderPressed = false;
         globalThis.contentSliderPressed = false;
 
-        click(idx, type, selected, text);
+        click(idx, type, selected, name);
       }}
     >
       <span>{text}</span>

@@ -116,7 +116,9 @@ const UniversalInfoDisplay = (props: {
   const [stores, setStores] = useState<Store[]>([]);
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
+
   const [map, toggleMap] = useState(false);
+  const [miles, setMiles] = useState(50);
 
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
@@ -163,7 +165,7 @@ const UniversalInfoDisplay = (props: {
               name: key,
               type: value as FilterType,
               props: value === "choice" ? [""] : ([0, 0] as [0, 0]),
-              val: value === "choice" ? [""] : 0,
+              val: value === "choice" ? [""] : key === "mi" ? miles : 0,
               sort: undefined,
             };
             if (idx === 0) {
@@ -337,6 +339,10 @@ const UniversalInfoDisplay = (props: {
     } else if (idx === 5 && filter5) {
       setFilter5({ ...filter5, val: val });
     }
+
+    if (unit === "mi") {
+      setMiles(val);
+    }
   };
 
   const filteredItems = useMemo(
@@ -431,7 +437,7 @@ const UniversalInfoDisplay = (props: {
           }
         })
         .sort((a, b) => a.dist - b.dist)
-        .filter((i) => i.dist < 50);
+        .filter((i) => i.dist < miles);
 
       // all fetches
       const reqs: any = [];
@@ -532,7 +538,7 @@ const UniversalInfoDisplay = (props: {
                 name: key,
                 type: value as FilterType,
                 props: value === "choice" ? choices : range,
-                val: value === "choice" ? [] : range[0],
+                val: value === "choice" ? [] : key === "mi" ? miles : range[0],
                 sort: undefined,
               };
 
@@ -587,7 +593,7 @@ const UniversalInfoDisplay = (props: {
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
       {map ? (
-        <MapWrapper lng={lng} lat={lat} stores={stores} />
+        <MapWrapper lng={lng} lat={lat} stores={stores} miles={miles} />
       ) : (
         <ContentSlider
           {...p}
@@ -630,7 +636,7 @@ const UniversalInfoDisplay = (props: {
         map={map}
         toggleMap={() => toggleMap(!map)}
       />
-      {selectedFilterIdx === 0 ? (
+      {selectedFilterIdx === 0 && !map ? (
         <Slider
           type="group"
           titles={groupFilters.map((g) => g.group)}
@@ -639,7 +645,13 @@ const UniversalInfoDisplay = (props: {
         />
       ) : (
         [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
-          if (f && selectedFilterIdx === idx + 1) {
+          if (
+            f &&
+            (selectedFilterIdx === idx + 1 ||
+              (f.name === "mi" &&
+                map &&
+                (selectedFilterIdx === idx + 1 || selectedFilterIdx === 0)))
+          ) {
             if (f.type === "range") {
               return (
                 <FilterRange key={idx} idx={idx + 1} f={f} set={rangeSelect} />
@@ -658,15 +670,25 @@ const UniversalInfoDisplay = (props: {
           }
         })
       )}
-      <Slider
-        type="page"
-        titles={chunkArr(filteredItems, 6).map((item, idx) =>
-          (idx + 1).toString()
-        )}
-        selected={[selectedPageIdx.toString()]}
-        select={sliderSelect}
-        setSelectedPageIdx={setSelectedPageIdx}
-      />
+
+      {map ? (
+        <Slider
+          type="group"
+          titles={groupFilters.map((g) => g.group)}
+          selected={[selectedGroup]}
+          select={sliderSelect}
+        />
+      ) : (
+        <Slider
+          type="page"
+          titles={chunkArr(filteredItems, 6).map((item, idx) =>
+            (idx + 1).toString()
+          )}
+          selected={[selectedPageIdx.toString()]}
+          select={sliderSelect}
+          setSelectedPageIdx={setSelectedPageIdx}
+        />
+      )}
     </div>
   );
 };

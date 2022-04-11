@@ -19,16 +19,20 @@ export default function Overlays({
   lng,
   lat,
   stores,
+  miles,
 }: {
   lng: number;
   lat: number;
   stores: Store[];
+  miles: number;
 }): JSX.Element {
   return (
     <RMap className="map" initial={{ center: fromLonLat([lng, lat]), zoom: 8 }}>
       <ROSM />
       <RLayerVector zIndex={10}>
-        <RFeature geometry={new Circle(fromLonLat([lng, lat]), 80467.2)}>
+        <RFeature
+          geometry={new Circle(fromLonLat([lng, lat]), miles * 1609.34)}
+        >
           <RStyle.RStyle>
             <RStyle.RStroke color="yellow" width={4} />
             <RStyle.RFill color="transparent" />
