@@ -608,6 +608,8 @@ const UniversalInfoDisplay = (props: {
           miles={miles}
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
+          map={map}
+          toggleMap={() => toggleMap(!map)}
         />
       ) : (
         <ContentSlider

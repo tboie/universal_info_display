@@ -3,15 +3,7 @@ import { Coordinate } from "ol/coordinate";
 import { Point, Circle } from "ol/geom";
 import "ol/ol.css";
 
-import {
-  RMap,
-  ROSM,
-  RLayerVector,
-  RFeature,
-  ROverlay,
-  RStyle,
-  RPopup,
-} from "rlayers";
+import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
 import { Store, UniversalInfoDisplayItem } from "./Shell";
 import locationIcon from "./marker.svg";
 
@@ -23,6 +15,8 @@ export default function Overlays({
   miles,
   selectedStore,
   setSelectedStore,
+  map,
+  toggleMap,
 }: {
   lng: number;
   lat: number;
@@ -31,9 +25,19 @@ export default function Overlays({
   miles: number;
   selectedStore?: Store;
   setSelectedStore: (store: Store) => any;
+  map: boolean;
+  toggleMap: () => any;
 }): JSX.Element {
   return (
-    <RMap className="map" initial={{ center: fromLonLat([lng, lat]), zoom: 8 }}>
+    <RMap
+      className="map"
+      initial={{
+        center: selectedStore
+          ? fromLonLat([selectedStore.l[1], selectedStore.l[0]])
+          : fromLonLat([lng, lat]),
+        zoom: selectedStore ? 12 : 8,
+      }}
+    >
       <ROSM />
       <RLayerVector zIndex={10}>
         <RFeature
@@ -73,7 +77,11 @@ export default function Overlays({
                     duration: 250,
                     maxZoom: 12,
                   });
-                  setSelectedStore(store);
+
+                  setTimeout(() => {
+                    setSelectedStore(store);
+                    toggleMap();
+                  }, 500);
                 }}
               >
                 <RStyle.RStyle>
