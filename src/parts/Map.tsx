@@ -83,7 +83,7 @@ export default function Overlays({
                     if (!selectedStore) {
                       toggleMap();
                     }
-                  }, 500);
+                  }, 1000);
                 }}
               >
                 <RStyle.RStyle>

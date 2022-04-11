@@ -1,3 +1,5 @@
+import { Store } from "./Shell";
+
 const TitleBar = ({
   selectedGroup,
   selectedPageIdx,
@@ -7,6 +9,7 @@ const TitleBar = ({
   f3Vals,
   f4Vals,
   f5Vals,
+  selectedStore,
 }: {
   selectedGroup: string;
   selectedPageIdx: number;
@@ -16,13 +19,17 @@ const TitleBar = ({
   f3Vals: string[];
   f4Vals: string[];
   f5Vals: string[];
+  selectedStore?: Store;
 }) => {
   return (
     <div id="universal_info_display_title_bar">
       <span>
         {f1Vals
           .concat(f2Vals.concat(f3Vals.concat(f4Vals).concat(f5Vals)))
-          .join(", ") || selectedGroup}
+          .join(", ") ||
+          (selectedStore
+            ? selectedStore?.n.replace("-", " ")
+            : "All " + selectedGroup)}
       </span>
       <span>{totalPages > 0 ? selectedPageIdx + "/" + totalPages : ""}</span>
     </div>

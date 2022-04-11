@@ -604,6 +604,7 @@ const UniversalInfoDisplay = (props: {
         f3Vals={filter3?.type === "choice" ? (filter3.val as string[]) : []}
         f4Vals={filter4?.type === "choice" ? (filter4.val as string[]) : []}
         f5Vals={filter5?.type === "choice" ? (filter5.val as string[]) : []}
+        selectedStore={selectedStore}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
