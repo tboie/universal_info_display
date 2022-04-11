@@ -171,6 +171,13 @@
   padding-bottom: 1.75rem;
 }
 
+.range_control.mi .range_label.min,
+.range_control.mi .range_label.max {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.range_control.mi .range_label.min,
 .range_control.asc .range_label.min,
 .range_control.desc .range_label.max {
   left: 0;
@@ -178,6 +185,7 @@
   padding-right: 1px;
 }
 
+.range_control.mi .range_label.max,
 .range_control.asc .range_label.max,
 .range_control.desc .range_label.min {
   right: 0;

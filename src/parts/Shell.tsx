@@ -531,7 +531,7 @@ const UniversalInfoDisplay = (props: {
 
               let range = getFilterRange(key, all_items);
               if (key === "mi") {
-                range = [1, 99];
+                range = [1, 50];
               }
 
               const fObj = {

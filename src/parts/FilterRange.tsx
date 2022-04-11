@@ -23,9 +23,9 @@ const FilterRange = ({
 
   return (
     <div
-      className={`range_control ${f.sort === "asc" ? "asc" : ""}${
-        f.sort === "desc" ? "desc" : ""
-      }`}
+      className={`range_control ${f.name === "mi" ? "mi" : ""} ${
+        f.sort === "asc" ? "asc" : ""
+      }${f.sort === "desc" ? "desc" : ""}`}
     >
       <span className="range_label min">
         {(f.name === "$" ? "$" : "") +
