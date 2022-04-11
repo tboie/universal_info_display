@@ -24,7 +24,7 @@ export default function Overlays({
   stores: Store[];
   miles: number;
   selectedStore?: Store;
-  setSelectedStore: (store: Store) => any;
+  setSelectedStore: (store?: Store) => any;
   map: boolean;
   toggleMap: () => any;
 }): JSX.Element {
@@ -75,12 +75,14 @@ export default function Overlays({
                   // @ts-ignore
                   e.map.getView().fit(e.target?.getGeometry().getExtent(), {
                     duration: 250,
-                    maxZoom: 12,
+                    maxZoom: selectedStore ? 8 : 12,
                   });
 
                   setTimeout(() => {
-                    setSelectedStore(store);
-                    toggleMap();
+                    setSelectedStore(selectedStore ? undefined : store);
+                    if (!selectedStore) {
+                      toggleMap();
+                    }
                   }, 500);
                 }}
               >
