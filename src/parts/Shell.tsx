@@ -603,7 +603,8 @@ const UniversalInfoDisplay = (props: {
         <MapWrapper
           lng={lng}
           lat={lat}
-          stores={stores.filter((store) => store.dist < miles)}
+          items={filteredItems}
+          stores={stores}
           miles={miles}
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}

@@ -12,12 +12,13 @@ import {
   RStyle,
   RPopup,
 } from "rlayers";
-import { Store } from "./Shell";
+import { Store, UniversalInfoDisplayItem } from "./Shell";
 import locationIcon from "./marker.svg";
 
 export default function Overlays({
   lng,
   lat,
+  items,
   stores,
   miles,
   selectedAddress,
@@ -25,6 +26,7 @@ export default function Overlays({
 }: {
   lng: number;
   lat: number;
+  items: UniversalInfoDisplayItem[];
   stores: Store[];
   miles: number;
   selectedAddress: string;
@@ -77,7 +79,9 @@ export default function Overlays({
                   <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
                 </RStyle.RStyle>
 
-                <ROverlay className="map-loc">{store.numItems}</ROverlay>
+                <ROverlay className="map-loc">
+                  {items.filter((item) => item.s === store.n).length}
+                </ROverlay>
               </RFeature>
             </>
           );
