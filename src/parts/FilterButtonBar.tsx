@@ -1,4 +1,4 @@
-import { FilterType, GroupFilter } from "./Shell";
+import { FilterType, GroupFilter, Store } from "./Shell";
 
 const FilterButtonBar = ({
   filter1,
@@ -16,6 +16,8 @@ const FilterButtonBar = ({
   setSelectedPageIdx,
   map,
   toggleMap,
+  selectedStore,
+  setSelectedStore,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
@@ -32,6 +34,8 @@ const FilterButtonBar = ({
   setSelectedPageIdx: (val: number) => any;
   map: boolean;
   toggleMap: () => any;
+  selectedStore?: Store;
+  setSelectedStore: (store?: Store) => any;
 }) => {
   const isOn = (f: GroupFilter) => {
     return (Array.isArray(f.val) && f.val.length) || f.sort
@@ -52,6 +56,7 @@ const FilterButtonBar = ({
       } else if (selectedFilterIdx === idx) {
         toggleMap();
         setSelectedFilterIdx(0);
+        setSelectedStore(undefined);
       } else if (selectedFilterIdx !== idx && map) {
         setSelectedFilterIdx(idx);
       }

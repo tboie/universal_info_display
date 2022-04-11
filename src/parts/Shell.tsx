@@ -662,6 +662,8 @@ const UniversalInfoDisplay = (props: {
         setSelectedPageIdx={setSelectedPageIdx}
         map={map}
         toggleMap={() => toggleMap(!map)}
+        selectedStore={selectedStore}
+        setSelectedStore={setSelectedStore}
       />
       {(selectedFilterIdx === 0 && !map) || (!map && selectedStore) ? (
         <Slider
