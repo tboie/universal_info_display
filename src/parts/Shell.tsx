@@ -115,7 +115,7 @@ const UniversalInfoDisplay = (props: {
   const [filter5, setFilter5] = useState<GroupFilter>();
 
   const [stores, setStores] = useState<Store[]>([]);
-  const [selectedAddress, setSelectedAddress] = useState("");
+  const [selectedStore, setSelectedStore] = useState<Store | undefined>();
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
 
@@ -606,8 +606,8 @@ const UniversalInfoDisplay = (props: {
           items={filteredItems}
           stores={stores.filter((store) => store.dist < miles)}
           miles={miles}
-          selectedAddress={selectedAddress}
-          setSelectedAddress={setSelectedAddress}
+          selectedStore={selectedStore}
+          setSelectedStore={setSelectedStore}
         />
       ) : (
         <ContentSlider

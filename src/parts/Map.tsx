@@ -21,16 +21,16 @@ export default function Overlays({
   items,
   stores,
   miles,
-  selectedAddress,
-  setSelectedAddress,
+  selectedStore,
+  setSelectedStore,
 }: {
   lng: number;
   lat: number;
   items: UniversalInfoDisplayItem[];
   stores: Store[];
   miles: number;
-  selectedAddress: string;
-  setSelectedAddress: (val: string) => any;
+  selectedStore?: Store;
+  setSelectedStore: (store: Store) => any;
 }): JSX.Element {
   return (
     <RMap className="map" initial={{ center: fromLonLat([lng, lat]), zoom: 8 }}>
@@ -67,13 +67,14 @@ export default function Overlays({
             <>
               <RFeature
                 geometry={new Point(fromLonLat([store.l[1], store.l[0]]))}
-                onClick={(e) =>
+                onClick={(e) => {
                   // @ts-ignore
                   e.map.getView().fit(e.target?.getGeometry().getExtent(), {
                     duration: 250,
                     maxZoom: 12,
-                  })
-                }
+                  });
+                  setSelectedStore(store);
+                }}
               >
                 <RStyle.RStyle>
                   <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
