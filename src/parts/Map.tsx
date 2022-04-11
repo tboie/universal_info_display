@@ -57,7 +57,6 @@ export default function Overlays({
         </RFeature>
 
         {stores.map((store) => {
-          console.log(store);
           return (
             <>
               <RStyle.RStyle>
