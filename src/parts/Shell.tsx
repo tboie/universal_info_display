@@ -188,6 +188,14 @@ const UniversalInfoDisplay = (props: {
   const sortItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
+    // store
+    if (selectedStore) {
+      filteredItems = filteredItems.filter(
+        (item) => item.s === selectedStore.n
+      );
+    }
+
+    // distance
     filteredItems = filteredItems.filter((item) => item.dist < miles);
 
     // choice
@@ -362,6 +370,7 @@ const UniversalInfoDisplay = (props: {
       filter3?.sort,
       filter4?.sort,
       filter5?.sort,
+      selectedStore,
       miles,
     ]
   );
