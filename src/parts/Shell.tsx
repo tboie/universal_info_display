@@ -663,7 +663,7 @@ const UniversalInfoDisplay = (props: {
         map={map}
         toggleMap={() => toggleMap(!map)}
       />
-      {selectedFilterIdx === 0 && !map ? (
+      {(selectedFilterIdx === 0 && !map) || (!map && selectedStore) ? (
         <Slider
           type="group"
           titles={groupFilters.map((g) => g.group)}
@@ -676,7 +676,7 @@ const UniversalInfoDisplay = (props: {
             f &&
             (selectedFilterIdx === idx + 1 ||
               (f.name === "mi" &&
-                map &&
+                (map || selectedStore) &&
                 (selectedFilterIdx === idx + 1 || selectedFilterIdx === 0)))
           ) {
             if (f.type === "range") {
@@ -698,7 +698,7 @@ const UniversalInfoDisplay = (props: {
         })
       )}
 
-      {map ? (
+      {map && !selectedStore ? (
         <Slider
           type="group"
           titles={groupFilters.map((g) => g.group)}
