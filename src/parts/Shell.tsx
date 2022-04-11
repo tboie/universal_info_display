@@ -604,7 +604,7 @@ const UniversalInfoDisplay = (props: {
           lng={lng}
           lat={lat}
           items={filteredItems}
-          stores={stores}
+          stores={stores.filter((store) => store.dist < miles)}
           miles={miles}
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
