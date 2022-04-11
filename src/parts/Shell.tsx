@@ -61,8 +61,9 @@ export function chunkString(str: string, len: number) {
 export type UniversalInfoDisplayItem = any;
 
 export type Store = {
-  a: string;
-  l: [number, number];
+  a: string; // address
+  n: string; // name
+  l: [number, number]; // location
   dist: number;
   numItems: number;
 };
@@ -114,6 +115,7 @@ const UniversalInfoDisplay = (props: {
   const [filter5, setFilter5] = useState<GroupFilter>();
 
   const [stores, setStores] = useState<Store[]>([]);
+  const [selectedAddress, setSelectedAddress] = useState("");
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
 
@@ -185,6 +187,8 @@ const UniversalInfoDisplay = (props: {
 
   const sortItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
+
+    filteredItems = filteredItems.filter((item) => item.dist < miles);
 
     // choice
     [filter1, filter2, filter3, filter4, filter5]
@@ -358,6 +362,7 @@ const UniversalInfoDisplay = (props: {
       filter3?.sort,
       filter4?.sort,
       filter5?.sort,
+      miles,
     ]
   );
 
@@ -447,7 +452,6 @@ const UniversalInfoDisplay = (props: {
       });
 
       // all fetches complete
-      // get up to 100 (9 per page) pages worth of nearest store items
       Promise.all(reqs).then((resp) => {
         let stores_all = resp
           .filter((resp) => resp)
@@ -477,7 +481,8 @@ const UniversalInfoDisplay = (props: {
         stores_all = stores_all.filter((store) => store.items.length > 0);
 
         stores_all = stores_all.filter((store) => {
-          if (numItems + store.total <= 600) {
+          // no limit for now (use 600 for 100 pages)
+          if (numItems + store.total <= 1200) {
             numItems += store.total;
 
             store.items.forEach((item: any) => {
@@ -487,6 +492,7 @@ const UniversalInfoDisplay = (props: {
                   g: [cut.g + "g"],
                   $: cut.$.toFixed(0),
                   ppu: (cut.$ / cut.g).toFixed(1),
+                  dist: store.dist,
                 });
               });
             });
@@ -498,6 +504,7 @@ const UniversalInfoDisplay = (props: {
         // set stores state
         const stores_final = stores_all.map((store: any) => ({
           a: store.items[0].a,
+          n: store.items[0].s,
           l: loc_distance.filter((l) => l?.a === store.items[0]?.a)[0]?.l,
           dist: store.dist,
           numItems: store.total,
@@ -593,7 +600,14 @@ const UniversalInfoDisplay = (props: {
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
       {map ? (
-        <MapWrapper lng={lng} lat={lat} stores={stores} miles={miles} />
+        <MapWrapper
+          lng={lng}
+          lat={lat}
+          stores={stores.filter((store) => store.dist < miles)}
+          miles={miles}
+          selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
+        />
       ) : (
         <ContentSlider
           {...p}
