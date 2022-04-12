@@ -149,7 +149,7 @@ const UniversalInfoDisplay = (props: {
 
   const getFilterRange = (key: string, items: UniversalInfoDisplayItem[]) => {
     const vals = items.map((item) => item[key]);
-    return [Math.min(...vals) - 1, Math.max(...vals) + 1];
+    return [Math.floor(Math.min(...vals)), Math.ceil(Math.max(...vals))];
   };
 
   const getData = () => {

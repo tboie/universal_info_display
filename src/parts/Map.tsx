@@ -35,7 +35,7 @@ export default function Overlays({
     center: selectedStore
       ? fromLonLat([selectedStore.l[1], selectedStore.l[0]])
       : fromLonLat([lng, lat]),
-    zoom: selectedStore ? 12 : 8,
+    zoom: selectedStore ? 13 : 8,
   });
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function Overlays({
         center: selectedStore
           ? fromLonLat([selectedStore.l[1], selectedStore.l[0]])
           : fromLonLat([lng, lat]),
-        zoom: selectedStore ? 12 : 8,
+        zoom: selectedStore ? 13 : 8,
       }}
       view={[view, setView]}
     >
@@ -102,7 +102,7 @@ export default function Overlays({
             // @ts-ignore
             e.map.getView().fit(e.target?.getGeometry().getExtent(), {
               duration: 250,
-              maxZoom: 12,
+              maxZoom: 13,
             })
           }
         >
@@ -120,7 +120,7 @@ export default function Overlays({
                   // @ts-ignore
                   e.map.getView().fit(e.target?.getGeometry().getExtent(), {
                     duration: 250,
-                    maxZoom: store === selectedStore ? 8 : 12,
+                    maxZoom: store === selectedStore ? 8 : 13,
                   });
 
                   setTimeout(() => {
