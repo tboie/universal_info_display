@@ -54,9 +54,12 @@ const FilterButtonBar = ({
         toggleMap();
         setSelectedFilterIdx(idx);
       } else if (selectedFilterIdx === idx) {
-        toggleMap();
-        setSelectedFilterIdx(0);
-        setSelectedStore(undefined);
+        if (selectedStore) {
+          setSelectedStore(undefined);
+        } else {
+          toggleMap();
+          setSelectedFilterIdx(0);
+        }
       } else if (selectedFilterIdx !== idx && map) {
         setSelectedFilterIdx(idx);
       }
