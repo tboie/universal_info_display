@@ -46,6 +46,10 @@
   text-align: center;
 }
 
+.map-loc.selected {
+  font-weight: 700;
+}
+
 .page_bg {
   position: absolute;
   height: 100%;

@@ -38,6 +38,12 @@ export default function Overlays({
     zoom: selectedStore ? 12 : 8,
   });
 
+  useEffect(() => {
+    if (!selectedStore) {
+      setView({ center: fromLonLat([lng, lat]), zoom: 8 });
+    }
+  }, [selectedStore]);
+
   const getLabelText = (store: Store) => {
     let text = "";
     if (view.zoom > 10) {
@@ -51,6 +57,9 @@ export default function Overlays({
             items.filter((item) => item.s === store.n).length +
             ")";
         }
+      } else {
+        text =
+          text + " (" + items.filter((item) => item.s === store.n).length + ")";
       }
     } else {
       text = items.filter((item) => item.s === store.n).length.toString();
@@ -127,7 +136,13 @@ export default function Overlays({
                   <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
                 </RStyle.RStyle>
 
-                <ROverlay className="map-loc">{getLabelText(store)}</ROverlay>
+                <ROverlay
+                  className={`map-loc${
+                    selectedStore === store ? " selected" : ""
+                  }`}
+                >
+                  {getLabelText(store)}
+                </ROverlay>
               </RFeature>
             </>
           );
