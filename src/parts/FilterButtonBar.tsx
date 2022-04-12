@@ -128,7 +128,8 @@ const FilterButtonBar = ({
               }
               on={isOn(f)}
               selected={
-                selectedFilterIdx === idx + 1 || (f.name === "mi" && map)
+                selectedFilterIdx === idx + 1 ||
+                (f.name === "mi" && (map || selectedStore ? true : false))
               }
               sort={f.sort}
               name={f.name}
