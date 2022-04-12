@@ -40,9 +40,10 @@
 .map-loc {
   padding: 0.5rem;
   border-radius: 0.25rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.5);
   font-size: 1.5rem;
-  transform: translateX(-50%);
+  text-transform: capitalize;
+  text-align: center;
 }
 
 .page_bg {

@@ -6,6 +6,7 @@ import "ol/ol.css";
 import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
 import { Store, UniversalInfoDisplayItem } from "./Shell";
 import locationIcon from "./marker.svg";
+import { useEffect, useState } from "react";
 
 export default function Overlays({
   lng,
@@ -30,6 +31,15 @@ export default function Overlays({
   map: boolean;
   toggleMap: () => any;
 }): JSX.Element {
+  const [view, setView] = useState({
+    center: selectedStore
+      ? fromLonLat([selectedStore.l[1], selectedStore.l[0]])
+      : fromLonLat([lng, lat]),
+    zoom: selectedStore ? 12 : 8,
+  });
+
+  console.log(view.zoom);
+
   return (
     <RMap
       className="map"
@@ -39,6 +49,7 @@ export default function Overlays({
           : fromLonLat([lng, lat]),
         zoom: selectedStore ? 12 : 8,
       }}
+      view={[view, setView]}
     >
       <ROSM />
       <RLayerVector zIndex={10}>
@@ -98,7 +109,12 @@ export default function Overlays({
                 </RStyle.RStyle>
 
                 <ROverlay className="map-loc">
-                  {items.filter((item) => item.s === store.n).length}
+                  {view.zoom > 10
+                    ? store.n.replaceAll("-", " ") +
+                      " (" +
+                      items.filter((item) => item.s === store.n).length +
+                      ")"
+                    : items.filter((item) => item.s === store.n).length}
                 </ROverlay>
               </RFeature>
             </>
