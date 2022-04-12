@@ -46,7 +46,7 @@ export default function Overlays({
 
   const getLabelText = (store: Store) => {
     let text = "";
-    if (view.zoom > 10) {
+    if (view.zoom > 12) {
       text = store.n.replaceAll("-", " ");
 
       if (selectedStore) {
