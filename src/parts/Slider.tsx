@@ -130,7 +130,18 @@ const Slider = ({
   );
 };
 
+export const choiceStrMap: any = {
+  H: "Hybrid",
+  S: "Sativa",
+  I: "Indica",
+  C: "C",
+  N: "None",
+};
+
 const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
+  const getChoiceText = (title: string) => {
+    return choiceStrMap[title] || title;
+  };
   return (
     <span
       id={`slider_label_${type + idx}`}
@@ -139,7 +150,7 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
         click(type, title, on);
       }}
     >
-      {title}
+      {type === "choice" ? getChoiceText(title) : title}
     </span>
   );
 };
