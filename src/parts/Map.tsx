@@ -62,7 +62,9 @@ export default function Overlays({
           text + " (" + items.filter((item) => item.s === store.n).length + ")";
       }
     } else {
-      text = items.filter((item) => item.s === store.n).length.toString();
+      if (!selectedStore || selectedStore === store) {
+        text = items.filter((item) => item.s === store.n).length.toString();
+      }
     }
 
     return text;
@@ -104,7 +106,9 @@ export default function Overlays({
             })
           }
         >
-          <ROverlay className="map-loc">{"YOU"}</ROverlay>
+          <ROverlay className={`map-loc ${!selectedStore ? "selected" : ""}`}>
+            {"YOU"}
+          </ROverlay>
         </RFeature>
 
         {stores.map((store) => {
