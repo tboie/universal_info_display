@@ -124,15 +124,15 @@ export default function Overlays({
                   });
 
                   setTimeout(() => {
-                    setSelectedStore(
-                      selectedStore === store ? undefined : store
-                    );
-
                     // show store items
                     if (!selectedStore || selectedStore !== store) {
                       setSelectedFilterIdx(0);
                       toggleMap();
                     }
+
+                    setSelectedStore(
+                      selectedStore === store ? undefined : store
+                    );
                   }, 1000);
                 }}
               >
