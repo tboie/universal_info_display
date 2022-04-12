@@ -666,7 +666,7 @@ const UniversalInfoDisplay = (props: {
         selectedStore={selectedStore}
         setSelectedStore={setSelectedStore}
       />
-      {!map && !selectedStore && selectedFilterIdx === 0 ? (
+      {!map && selectedFilterIdx === 0 ? (
         <Slider
           type="group"
           titles={groupFilters.map((g) => g.group)}
