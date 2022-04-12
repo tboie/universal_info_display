@@ -38,7 +38,26 @@ export default function Overlays({
     zoom: selectedStore ? 12 : 8,
   });
 
-  console.log(view.zoom);
+  const getLabelText = (store: Store) => {
+    let text = "";
+    if (view.zoom > 10) {
+      text = store.n.replaceAll("-", " ");
+
+      if (selectedStore) {
+        if (selectedStore === store) {
+          text =
+            text +
+            " (" +
+            items.filter((item) => item.s === store.n).length +
+            ")";
+        }
+      }
+    } else {
+      text = items.filter((item) => item.s === store.n).length.toString();
+    }
+
+    return text;
+  };
 
   return (
     <RMap
@@ -108,14 +127,7 @@ export default function Overlays({
                   <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
                 </RStyle.RStyle>
 
-                <ROverlay className="map-loc">
-                  {view.zoom > 10
-                    ? store.n.replaceAll("-", " ") +
-                      " (" +
-                      items.filter((item) => item.s === store.n).length +
-                      ")"
-                    : items.filter((item) => item.s === store.n).length}
-                </ROverlay>
+                <ROverlay className="map-loc">{getLabelText(store)}</ROverlay>
               </RFeature>
             </>
           );
