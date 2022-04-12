@@ -77,12 +77,16 @@ export default function Overlays({
                   // @ts-ignore
                   e.map.getView().fit(e.target?.getGeometry().getExtent(), {
                     duration: 250,
-                    maxZoom: selectedStore ? 8 : 12,
+                    maxZoom: store === selectedStore ? 8 : 12,
                   });
 
                   setTimeout(() => {
-                    setSelectedStore(selectedStore ? undefined : store);
-                    if (!selectedStore) {
+                    setSelectedStore(
+                      selectedStore === store ? undefined : store
+                    );
+
+                    // show store items
+                    if (!selectedStore || selectedStore !== store) {
                       setSelectedFilterIdx(0);
                       toggleMap();
                     }
