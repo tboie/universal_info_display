@@ -22,7 +22,7 @@ const TitleBar = ({
   selectedStore?: Store;
 }) => {
   return (
-    <div id="universal_info_display_title_bar">
+    <div className="titlebar">
       <span>
         {f1Vals
           .concat(f2Vals.concat(f3Vals.concat(f4Vals).concat(f5Vals)))
