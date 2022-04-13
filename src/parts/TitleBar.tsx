@@ -23,7 +23,7 @@ const TitleBar = ({
 }) => {
   return (
     <div className="titlebar">
-      <span>
+      <span className="text">
         {f1Vals
           .concat(f2Vals.concat(f3Vals.concat(f4Vals).concat(f5Vals)))
           .join(", ") ||
@@ -31,7 +31,9 @@ const TitleBar = ({
             ? selectedStore?.n.replaceAll("-", " ")
             : "All " + selectedGroup)}
       </span>
-      <span>{totalPages > 0 ? selectedPageIdx + "/" + totalPages : ""}</span>
+      <span className="num_pages">
+        {totalPages > 0 ? selectedPageIdx + "/" + totalPages : ""}
+      </span>
     </div>
   );
 };
