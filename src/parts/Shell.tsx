@@ -529,6 +529,11 @@ const UniversalInfoDisplay = (props: {
           chunkArr(all_items, 6).map((item: UniversalInfoDisplayItem) => true)
         );
 
+        const maxMiles = Math.ceil(all_items[all_items.length - 1].dist);
+        setMiles(maxMiles);
+
+        console.log(all_items);
+
         const groupFilter = groupFilters.find(
           (g: any) => g.group === selectedGroup
         );
@@ -547,14 +552,15 @@ const UniversalInfoDisplay = (props: {
 
               let range = getFilterRange(key, all_items);
               if (key === "mi") {
-                range = [1, 50];
+                range = [1, maxMiles];
               }
 
               const fObj = {
                 name: key,
                 type: value as FilterType,
                 props: value === "choice" ? choices : range,
-                val: value === "choice" ? [] : key === "mi" ? miles : range[0],
+                val:
+                  value === "choice" ? [] : key === "mi" ? maxMiles : range[0],
                 sort: undefined,
               };
 
@@ -576,6 +582,7 @@ const UniversalInfoDisplay = (props: {
   }, [lat, lng]);
 
   const getLocation = () => {
+    /*
     setLat(0);
     setLng(0);
     setTimeout(() => {
@@ -583,14 +590,13 @@ const UniversalInfoDisplay = (props: {
       setLat(42.364506);
       setLng(-71.038887);
     }, 1000);
-    /*
+    */
     setLat(0);
     setLng(0);
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
-    */
   };
 
   return (

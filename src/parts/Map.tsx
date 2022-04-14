@@ -84,7 +84,8 @@ export default function Overlays({
       <ROSM />
       <RLayerVector zIndex={10}>
         <RFeature
-          geometry={new Circle(fromLonLat([lng, lat]), miles * 1609.34)}
+          // add extra distance to circle to compensate precision
+          geometry={new Circle(fromLonLat([lng, lat]), miles * 1.4 * 1609.344)}
         >
           <RStyle.RStyle>
             <RStyle.RStroke color="yellow" width={4} />
