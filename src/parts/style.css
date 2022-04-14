@@ -7,7 +7,7 @@
 
 .titlebar {
   width: 100%;
-  height: 5%;
+  height: 3.5rem;
   background-color: #006400;
   position: relative;
   font-size: 1.5rem;
@@ -35,7 +35,7 @@
 
 .content_slider {
   position: relative;
-  height: 74%;
+  height: calc(100vh - 14rem);
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -44,7 +44,7 @@
 }
 
 .map {
-  height: 74%;
+  height: calc(100vh - 14rem);
   width: 100%;
 }
 
@@ -123,8 +123,8 @@
   color: white;
 }
 
-#universal_info_display_filter_bar {
-  height: 5%;
+.filterbar {
+  height: 2.5rem;
   width: 100%;
   display: flex;
   font-size: 1.5rem;
@@ -134,7 +134,7 @@
   margin: 0% 12%;
   width: 76%;
   position: relative;
-  height: 8%;
+  height: 4rem;
 }
 
 .range_control .active {
@@ -356,7 +356,7 @@ input[type="range"]::-webkit-slider-thumb {
 .slider {
   background-color: rgba(0, 170, 0, 0.281);
   border-bottom: 2px solid darkgreen;
-  height: 8%;
+  height: 4rem;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;

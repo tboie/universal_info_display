@@ -110,7 +110,7 @@ const FilterButtonBar = ({
   };
 
   return (
-    <div id="universal_info_display_filter_bar">
+    <div className="filterbar">
       {[filter1, filter2, filter3, filter4, filter5].map(
         (f, idx) =>
           f && (
