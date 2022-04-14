@@ -12,25 +12,31 @@
   position: relative;
   font-size: 1.5rem;
   color: lightgreen;
-  text-transform: capitalize;
 }
 
 .titlebar span {
   position: absolute;
   color: white;
-  padding: 0 0.5rem;
+  padding: 0.2rem;
+  text-transform: capitalize;
 }
 
-.titlebar .text {
+.titlebar .title {
   width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  padding-right: 3rem;
+  text-align: center;
 }
 
-.titlebar .num_pages {
+.titlebar .filters {
+  bottom: 0;
+  color: orange;
+}
+
+.titlebar .numpages {
   right: 0;
+  bottom: 0;
 }
 
 .content_slider {
@@ -372,7 +378,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider_label {
   position: relative;
-  font-size: 2.25rem;
+  font-size: 2rem;
   padding: 1rem;
   display: block;
   color: lightgreen;
@@ -391,8 +397,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider_label.selected {
   color: white;
-  font-size: 2.5rem;
-  padding-bottom: 1.5rem;
+  font-size: 2.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .slider.page.tick {
