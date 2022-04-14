@@ -435,7 +435,7 @@ const UniversalInfoDisplay = (props: {
     };
 
     if (lat && lng && key.length) {
-      // stores within 100mi
+      // stores within miles
       const loc_distance = key
         .map((k: any) => {
           if (k["l"][0] && k["l"][1]) {
@@ -456,7 +456,9 @@ const UniversalInfoDisplay = (props: {
       // all fetches
       const reqs: any = [];
       loc_distance.forEach((loc) => {
-        const uri = "/data/locs/" + encodeURIComponent(loc["a"]) + ".json";
+        const uri = `/data/${selectedGroup}/${encodeURIComponent(
+          loc["a"]
+        )}.json`;
         reqs.push(fetchData(uri));
       });
 
@@ -534,8 +536,7 @@ const UniversalInfoDisplay = (props: {
         const minMiles = Math.floor(all_items[0].dist) + 1;
         setMiles(maxMiles);
 
-        console.log(all_items);
-
+        // set filters
         const groupFilter = groupFilters.find(
           (g: any) => g.group === selectedGroup
         );
