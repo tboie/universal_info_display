@@ -529,7 +529,9 @@ const UniversalInfoDisplay = (props: {
           chunkArr(all_items, 6).map((item: UniversalInfoDisplayItem) => true)
         );
 
+        // set max min miles
         const maxMiles = Math.ceil(all_items[all_items.length - 1].dist);
+        const minMiles = Math.floor(all_items[0].dist) + 1;
         setMiles(maxMiles);
 
         console.log(all_items);
@@ -552,7 +554,7 @@ const UniversalInfoDisplay = (props: {
 
               let range = getFilterRange(key, all_items);
               if (key === "mi") {
-                range = [1, maxMiles];
+                range = [minMiles, maxMiles];
               }
 
               const fObj = {
