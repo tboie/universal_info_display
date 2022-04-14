@@ -447,7 +447,7 @@ const UniversalInfoDisplay = (props: {
               }
             );
             dist = dist / 1609.34;
-            return { ...k, dist: dist };
+            return { ...k, dist: dist.toFixed(3) };
           }
         })
         .sort((a, b) => a.dist - b.dist)
