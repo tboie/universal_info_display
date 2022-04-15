@@ -309,6 +309,9 @@ input[type="range"]::-webkit-slider-thumb {
 .item-grid .item {
   position: relative;
   background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .item-grid .item span {
@@ -354,9 +357,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .item-grid img {
   position: absolute;
-  max-width: 100%;
-  min-width: 100%;
-  width: 100%;
+  max-width: 85%;
+  max-height: 85%;
 }
 
 .slider {
