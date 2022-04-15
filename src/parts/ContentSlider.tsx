@@ -22,6 +22,7 @@ const ContentSlider = ({
   clearFilters,
   filtersOn,
   getData,
+  fetching,
 }: ViewSection & {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
@@ -30,6 +31,7 @@ const ContentSlider = ({
   clearFilters: () => void;
   filtersOn: boolean;
   getData: () => any;
+  fetching: boolean;
 }) => {
   const [textChunks, setTextChunks] = useState(
     //this might be a problem when text type gets implemented
@@ -197,6 +199,7 @@ const ContentSlider = ({
                 setSelectedItemIdx={setSelectedItemIdx}
                 filtersOn={filtersOn}
                 getData={getData}
+                fetching={fetching}
               />
             ))}
 
@@ -211,6 +214,7 @@ const ContentSlider = ({
               setSelectedItemIdx={setSelectedItemIdx}
               filtersOn={filtersOn}
               getData={getData}
+              fetching={fetching}
             />
           ))
         ) : (
@@ -225,6 +229,7 @@ const ContentSlider = ({
             clearFilters={clearFilters}
             filtersOn={filtersOn}
             getData={getData}
+            fetching={fetching}
           />
         )}
       </div>
@@ -242,6 +247,7 @@ const Page = ({
   clearFilters,
   filtersOn,
   getData,
+  fetching,
 }: {
   text?: string;
   items?: UniversalInfoDisplayItem[];
@@ -252,6 +258,7 @@ const Page = ({
   clearFilters?: () => void;
   filtersOn: boolean;
   getData: () => any;
+  fetching: boolean;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -402,6 +409,7 @@ const Page = ({
       ) : items?.length === 0 ? (
         <img className="page_bg" src="/bg.gif" />
       ) : null}
+
       {items && items.length ? (
         <Grid
           page={num}
@@ -409,12 +417,16 @@ const Page = ({
           setSelectedItemIdx={setSelectedItemIdx}
         />
       ) : filtersOn ? (
-        <button className="clear_filters" onClick={clearFilters}>
-          CLEAR FILTERS
+        <button
+          className="clear_filters"
+          onClick={clearFilters}
+          disabled={fetching}
+        >
+          {fetching ? "FETCHING LOCATIONS" : "CLEAR FILTERS"}
         </button>
       ) : (
         <button className="get_data" onClick={getData}>
-          GET DATA
+          {"GET DATA"}
         </button>
       )}
     </div>

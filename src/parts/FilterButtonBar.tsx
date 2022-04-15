@@ -18,6 +18,7 @@ const FilterButtonBar = ({
   toggleMap,
   selectedStore,
   setSelectedStore,
+  fetching,
 }: {
   filter1?: GroupFilter;
   filter2?: GroupFilter;
@@ -36,6 +37,7 @@ const FilterButtonBar = ({
   toggleMap: () => any;
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
+  fetching: boolean;
 }) => {
   const isOn = (f: GroupFilter) => {
     return (Array.isArray(f.val) && f.val.length) || f.sort
@@ -113,7 +115,8 @@ const FilterButtonBar = ({
     <div className="filterbar">
       {[filter1, filter2, filter3, filter4, filter5].map(
         (f, idx) =>
-          f && (
+          f &&
+          !fetching && (
             <FilterButton
               key={idx}
               idx={idx + 1}

@@ -105,7 +105,7 @@ const UniversalInfoDisplay = (props: {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
   const [pagesBool, setPagesBool] = useState([true]);
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [groupFilters, setGroupFilters] = useState([{ group: "HELLO" }]);
+  const [groupFilters, setGroupFilters] = useState([{ group: "" }]);
 
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<GroupFilter>();
@@ -125,6 +125,8 @@ const UniversalInfoDisplay = (props: {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
   const [key, setKey] = useState([]);
+
+  const [fetching, setFetching] = useState(false);
 
   const p = {
     contentType: props.contentType,
@@ -257,9 +259,7 @@ const UniversalInfoDisplay = (props: {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      if (title.toLowerCase() === "hello") {
-        getData();
-      } else if (title !== selectedGroup) {
+      if (title !== selectedGroup) {
         setFilter1(undefined);
         setFilter2(undefined);
         setFilter3(undefined);
@@ -415,6 +415,7 @@ const UniversalInfoDisplay = (props: {
   };
 
   useEffect(() => {
+    setFetching(true);
     fetch("/data/key_dutchie.json")
       .then((r) => r.json())
       .then((json_dutchie) => {
@@ -425,7 +426,7 @@ const UniversalInfoDisplay = (props: {
             setKey(master);
           });
       });
-  }, []);
+  }, [selectedGroup]);
 
   useEffect(() => {
     const fetchData = async (uri: string) => {
@@ -435,6 +436,8 @@ const UniversalInfoDisplay = (props: {
     };
 
     if (lat && lng && key.length) {
+      setFetching(true);
+
       // stores within miles
       const loc_distance = key
         .map((k: any) => {
@@ -580,9 +583,11 @@ const UniversalInfoDisplay = (props: {
               }
             });
         }
+
+        setFetching(false);
       });
     }
-  }, [lat, lng]);
+  }, [lat, lng, key]);
 
   const getLocation = () => {
     /*
@@ -615,6 +620,7 @@ const UniversalInfoDisplay = (props: {
         f5Vals={filter5?.type === "choice" ? (filter5.val as string[]) : []}
         selectedStore={selectedStore}
         miles={miles}
+        fetching={fetching}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
@@ -640,6 +646,7 @@ const UniversalInfoDisplay = (props: {
           setSelectedItemIdx={setSelectedItemIdx}
           clearFilters={clearFilters}
           getData={getData}
+          fetching={fetching}
           filtersOn={
             (filter1?.val as string[])?.length ||
             (filter2?.val as string[])?.length ||
@@ -675,6 +682,7 @@ const UniversalInfoDisplay = (props: {
         toggleMap={() => toggleMap(!map)}
         selectedStore={selectedStore}
         setSelectedStore={setSelectedStore}
+        fetching={fetching}
       />
       {!map && selectedFilterIdx === 0 ? (
         <Slider
@@ -682,6 +690,7 @@ const UniversalInfoDisplay = (props: {
           titles={groupFilters.map((g) => g.group)}
           selected={[selectedGroup]}
           select={sliderSelect}
+          fetching={fetching}
         />
       ) : (
         [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
@@ -704,6 +713,7 @@ const UniversalInfoDisplay = (props: {
                   titles={f.props as string[]}
                   selected={Array.isArray(f.val) ? f.val : [f.val.toString()]}
                   select={sliderSelect}
+                  fetching={fetching}
                 />
               );
             }
@@ -717,6 +727,7 @@ const UniversalInfoDisplay = (props: {
           titles={groupFilters.map((g) => g.group)}
           selected={[selectedGroup]}
           select={sliderSelect}
+          fetching={fetching}
         />
       ) : (
         <Slider
@@ -727,6 +738,7 @@ const UniversalInfoDisplay = (props: {
           selected={[selectedPageIdx.toString()]}
           select={sliderSelect}
           setSelectedPageIdx={setSelectedPageIdx}
+          fetching={fetching}
         />
       )}
     </div>

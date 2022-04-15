@@ -1,3 +1,4 @@
+import { title } from "process";
 import { useEffect } from "react";
 
 export type T_SLIDER_TYPE = "choice" | "group" | "page";
@@ -8,6 +9,7 @@ type T_SLIDER = {
   selected: string[];
   select: (type: T_SLIDER_TYPE, title: string, on: boolean) => void;
   setSelectedPageIdx?: (val: number) => any;
+  fetching: boolean;
 };
 
 type T_SLIDER_LABEL = {
@@ -24,6 +26,7 @@ const Slider = ({
   selected,
   select,
   setSelectedPageIdx,
+  fetching,
 }: T_SLIDER) => {
   useEffect(() => {
     let observer: IntersectionObserver;
@@ -69,7 +72,9 @@ const Slider = ({
 
   return (
     <div
-      className={`slider ${type} ${type === "page" ? "tick" : ""}`}
+      className={`slider ${type} ${
+        type === "page" && titles.length ? "tick" : ""
+      }`}
       onTouchStart={() => {
         globalThis.contentSliderPressed = false;
         if (type === "page") {
@@ -87,28 +92,20 @@ const Slider = ({
         }
       }}
     >
-      {titles.length ? (
-        titles.map((t, idx) => (
-          <Label
-            idx={idx + 1}
-            key={idx}
-            type={type}
-            title={t}
-            on={selected.includes(t)}
-            click={select}
-          />
-        ))
-      ) : (
-        <Label
-          idx={0}
-          key={"0"}
-          type={"page"}
-          title={"0"}
-          on={true}
-          click={select}
-        />
-      )}
-      {type === "page" ? (
+      {!fetching && titles.length
+        ? titles.map((t, idx) => (
+            <Label
+              idx={idx + 1}
+              key={idx}
+              type={type}
+              title={t}
+              on={selected.includes(t)}
+              click={select}
+            />
+          ))
+        : null}
+
+      {!fetching && titles.length && type === "page" ? (
         <>
           <button
             id="btn_first"
