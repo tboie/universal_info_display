@@ -590,7 +590,6 @@ const UniversalInfoDisplay = (props: {
   }, [lat, lng, key]);
 
   const getLocation = () => {
-    /*
     setLat(0);
     setLng(0);
     setTimeout(() => {
@@ -598,13 +597,15 @@ const UniversalInfoDisplay = (props: {
       setLat(42.364506);
       setLng(-71.038887);
     }, 1000);
-    */
+
+    /*
     setLat(0);
     setLng(0);
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
+    */
   };
 
   return (
