@@ -496,7 +496,7 @@ const UniversalInfoDisplay = (props: {
 
         stores_all = stores_all.filter((store) => {
           // no limit for now (use 600 for 100 pages)
-          if (numItems + store.total <= 1200) {
+          if (numItems + store.total <= 1000) {
             numItems += store.total;
 
             store.items.forEach((item: any) => {
@@ -590,6 +590,7 @@ const UniversalInfoDisplay = (props: {
   }, [lat, lng, key]);
 
   const getLocation = () => {
+    /*
     setLat(0);
     setLng(0);
     setTimeout(() => {
@@ -597,15 +598,14 @@ const UniversalInfoDisplay = (props: {
       setLat(42.364506);
       setLng(-71.038887);
     }, 1000);
+    */
 
-    /*
     setLat(0);
     setLng(0);
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
-    */
   };
 
   return (
