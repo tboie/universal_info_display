@@ -342,56 +342,45 @@ input[type="range"]::-webkit-slider-thumb {
 .item-grid .item {
   position: relative;
   background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .item-grid .item span {
-  position: absolute;
   font-size: 1.1rem;
-  font-weight: bold;
   padding: 0.1rem;
   color: #171717;
 }
 
 .item-grid .item .title {
-  top: 0;
+  font-weight: bold;
   width: 100%;
-  display: table;
-  text-align: center;
+  display: block;
+}
+
+.item-grid .item .container {
+  display: flex;
+  flex-direction: row;
+}
+
+.item-grid .item .container-text {
+  padding-top: 0.2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .item-grid .item .ppu {
-  right: 0;
-  bottom: 0;
   display: none;
 }
 
-.item-grid .item .price {
-  left: 0;
-  bottom: 0;
-}
-
-.item-grid .item .percent {
-  right: 0;
-  bottom: 0;
-}
-
-.item-grid .item .type {
-  bottom: 1.5rem;
-  right: 0;
-}
-
-.item-grid .item .choice {
-  left: 0;
-  bottom: 1.5rem;
+.item-grid .container-img {
+  position: relative;
+  width: 100%;
 }
 
 .item-grid img {
   position: absolute;
-  max-width: 85%;
-  max-height: 85%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .slider {
