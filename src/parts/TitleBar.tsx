@@ -1,14 +1,15 @@
-import { Store } from "./Shell";
+import { isBuffer } from "util";
+import { GroupFilter, Store } from "./Shell";
 
 const TitleBar = ({
   selectedGroup,
   selectedPageIdx,
   totalPages,
-  f1Vals,
-  f2Vals,
-  f3Vals,
-  f4Vals,
-  f5Vals,
+  filter1,
+  filter2,
+  filter3,
+  filter4,
+  filter5,
   selectedStore,
   miles,
   fetching,
@@ -16,11 +17,11 @@ const TitleBar = ({
   selectedGroup: string;
   selectedPageIdx: number;
   totalPages: number;
-  f1Vals: string[];
-  f2Vals: string[];
-  f3Vals: string[];
-  f4Vals: string[];
-  f5Vals: string[];
+  filter1?: GroupFilter;
+  filter2?: GroupFilter;
+  filter3?: GroupFilter;
+  filter4?: GroupFilter;
+  filter5?: GroupFilter;
   selectedStore?: Store;
   miles: number;
   fetching: boolean;
@@ -29,25 +30,49 @@ const TitleBar = ({
     <div className="titlebar">
       {selectedGroup && (
         <span className="title">
-          {selectedStore
-            ? selectedStore?.n.replaceAll("-", " ")
-            : `${
-                fetching
-                  ? "Fetching " + selectedGroup
-                  : selectedGroup + " < " + miles + "mi"
-              }`}
+          {selectedStore ? (
+            selectedStore?.n.replaceAll("-", " ")
+          ) : fetching ? (
+            "Fetching " + selectedGroup
+          ) : (
+            <>
+              <span className="group">{selectedGroup}</span>
+              {" < "}
+              <span className="miles">{miles + "mi"}</span>
+            </>
+          )}
         </span>
       )}
       {!fetching && selectedGroup && (
         <>
           <span className="filters">
-            {f1Vals
-              .concat(f2Vals.concat(f3Vals.concat(f4Vals).concat(f5Vals)))
-              .join(", ")}
+            {[filter1, filter2, filter3, filter4, filter5].map((f) => {
+              if (f && f.type === "choice") {
+                let choiceStr = f?.name || "";
+                return (
+                  <>
+                    <span className="choice-group">{choiceStr}</span>
+                    {": "}
+                    <span className="choice-values">
+                      {(f.val as string[])
+                        .join(", ")
+                        .replace("I", "Indica")
+                        .replace("S", "Sativa")
+                        .replace("H", "Hybrid") || "All"}
+                    </span>
+                  </>
+                );
+              }
+            })}
           </span>
-          <span className="numpages">
-            {totalPages > 0 ? selectedPageIdx + "/" + totalPages : ""}
-          </span>
+          {totalPages > 0 && (
+            <span className="numpages">
+              <>
+                <span className="numpages-current">{selectedPageIdx}</span>
+                <span className="numpages-total">{"/" + totalPages}</span>
+              </>
+            </span>
+          )}
         </>
       )}
     </div>

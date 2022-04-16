@@ -614,11 +614,11 @@ const UniversalInfoDisplay = (props: {
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
         totalPages={chunkArr(filteredItems, 6).length}
-        f1Vals={filter1?.type === "choice" ? (filter1.val as string[]) : []}
-        f2Vals={filter2?.type === "choice" ? (filter2.val as string[]) : []}
-        f3Vals={filter3?.type === "choice" ? (filter3.val as string[]) : []}
-        f4Vals={filter4?.type === "choice" ? (filter4.val as string[]) : []}
-        f5Vals={filter5?.type === "choice" ? (filter5.val as string[]) : []}
+        filter1={filter1}
+        filter2={filter2}
+        filter3={filter3}
+        filter4={filter4}
+        filter5={filter5}
         selectedStore={selectedStore}
         miles={miles}
         fetching={fetching}

@@ -15,10 +15,12 @@
 }
 
 .titlebar span {
-  position: absolute;
-  color: white;
+  color: lightgreen;
   padding: 0.1rem;
-  text-transform: capitalize;
+}
+
+.titlebar .group {
+  color: white;
 }
 
 .titlebar .title {
@@ -27,16 +29,43 @@
   overflow: hidden;
   white-space: nowrap;
   text-align: center;
+  text-transform: capitalize;
+  position: absolute;
+}
+
+.titlebar .miles {
+  color: orange;
 }
 
 .titlebar .filters {
   bottom: 0;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 4rem;
+}
+
+.titlebar .filters .choice-group {
+  bottom: 0;
+  color: white;
+}
+
+.titlebar .filters .choice-values {
+  bottom: 0;
   color: orange;
+  margin-right: 1rem;
 }
 
 .titlebar .numpages {
-  right: 0;
+  position: absolute;
   bottom: 0;
+  right: 0;
+}
+
+.titlebar .numpages-current {
+  color: orange;
 }
 
 .content_slider {
