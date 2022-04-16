@@ -68,6 +68,10 @@
   color: orange;
 }
 
+.titlebar .numpages-total {
+  color: white;
+}
+
 .content_slider {
   position: relative;
   height: calc(100% - 14rem);

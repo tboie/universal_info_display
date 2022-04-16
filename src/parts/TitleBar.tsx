@@ -69,7 +69,8 @@ const TitleBar = ({
             <span className="numpages">
               <>
                 <span className="numpages-current">{selectedPageIdx}</span>
-                <span className="numpages-total">{"/" + totalPages}</span>
+                {"/"}
+                <span className="numpages-total">{totalPages}</span>
               </>
             </span>
           )}
