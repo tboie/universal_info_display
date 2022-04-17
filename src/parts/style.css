@@ -175,7 +175,7 @@
   margin: 0% 12%;
   width: 76%;
   position: relative;
-  height: 4rem;
+  height: 3.5rem;
 }
 
 .range_control .active {
@@ -218,7 +218,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .range_control .range_label.min {
