@@ -6,18 +6,5 @@
                 "t": "choice",
                 "g": "choice",
                 "mi": "range"
-       },
-              {
-                "group": "glass",
-                "$": "range",
-                "size": "choice",
-                "color": "choice"
-       },
-              {
-                "$": "range",
-                "%": "range",
-                "t": "choice",
-                "g": "choice",
-                "mi": "range"
        }
 ]
