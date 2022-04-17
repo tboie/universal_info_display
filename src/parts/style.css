@@ -346,8 +346,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .item-grid .item span {
-  font-size: 1.2rem;
-  padding: 0.1rem;
+  font-size: 1rem;
   color: #171717;
 }
 
