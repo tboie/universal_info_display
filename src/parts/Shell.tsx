@@ -223,18 +223,88 @@ const UniversalInfoDisplay = (props: {
         }
       });
 
-    // range
-    [filter1, filter2, filter3, filter4, filter5]
-      .filter((f) => f?.type === "range" && f.sort)
-      .forEach((f) => {
-        if (f) {
-          filteredItems = [
-            ...filteredItems.filter((item) =>
-              f.sort === "asc" ? item[f.name] > f.val : item[f.name] < f.val
-            ),
-          ];
-        }
-      });
+    // ranges
+    let rF = [filter1, filter2, filter3, filter4, filter5].filter(
+      (f) => f?.type === "range" && f.sort
+    ) as GroupFilter[];
+
+    rF.forEach((f) => {
+      if (f) {
+        filteredItems = [
+          ...filteredItems.filter((item) =>
+            f.sort === "asc" ? item[f.name] > f.val : item[f.name] < f.val
+          ),
+        ];
+      }
+    });
+
+    // multi column range sort
+    // more dependable than any algs tried
+    if (rF.length === 1) {
+      filteredItems.sort((a, b) =>
+        rF[0].sort === "asc"
+          ? a[rF[0].name] - b[rF[0].name]
+          : b[rF[0].name] - a[rF[0].name]
+      );
+    } else if (rF.length === 2) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name])
+      );
+    } else if (rF.length === 3) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name]) ||
+          (rF[2].sort === "asc"
+            ? a[rF[2].name] - b[rF[2].name]
+            : b[rF[2].name] - a[rF[2].name])
+      );
+    } else if (rF.length === 4) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name]) ||
+          (rF[2].sort === "asc"
+            ? a[rF[2].name] - b[rF[2].name]
+            : b[rF[2].name] - a[rF[2].name]) ||
+          (rF[3].sort === "asc"
+            ? a[rF[3].name] - b[rF[3].name]
+            : b[rF[3].name] - a[rF[3].name])
+      );
+    } else if (rF.length === 5) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name]) ||
+          (rF[2].sort === "asc"
+            ? a[rF[2].name] - b[rF[2].name]
+            : b[rF[2].name] - a[rF[2].name]) ||
+          (rF[3].sort === "asc"
+            ? a[rF[3].name] - b[rF[3].name]
+            : b[rF[3].name] - a[rF[3].name]) ||
+          (rF[4].sort === "asc"
+            ? a[rF[4].name] - b[rF[4].name]
+            : b[rF[4].name] - a[rF[4].name])
+      );
+    }
 
     // sort by ppu if all filters off
     if (
