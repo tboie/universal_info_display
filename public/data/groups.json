@@ -1,10 +1,20 @@
 [
        {
-                "group": "flower",
-                "$": "range",
-                "%": "range",
-                "t": "choice",
-                "g": "choice",
-                "mi": "range"
+              "group": "flower",
+              "$": {
+                     "type": "range"
+              },
+              "%": {
+                     "type": "range"
+              },
+              "t": {
+                     "type": "choice"
+              },
+              "g": {
+                     "type": "choice"
+              },
+              "mi": {
+                     "type": "range"
+              }
        }
 ]

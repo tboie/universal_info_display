@@ -1,0 +1,15 @@
+[
+    {
+        "m": {
+            "alias": "Menu",
+            "R": "REC",
+            "M": "MED"
+        },
+        "t": {
+            "alias": "Type",
+            "S": "Sativa",
+            "H": "Hybrid",
+            "I": "Indica"
+        }
+    }
+]

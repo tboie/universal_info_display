@@ -417,16 +417,12 @@ const Page = ({
           setSelectedItemIdx={setSelectedItemIdx}
         />
       ) : filtersOn ? (
-        <button
-          className="clear_filters"
-          onClick={clearFilters}
-          disabled={fetching}
-        >
-          {fetching ? "FETCHING LOCATIONS" : "CLEAR FILTERS"}
+        <button className="clear_filters" onClick={clearFilters}>
+          {"CLEAR FILTERS"}
         </button>
       ) : (
-        <button className="get_data" onClick={getData}>
-          {"GET DATA"}
+        <button className="get_data" onClick={getData} disabled={fetching}>
+          {fetching ? "FETCHING" : "GET DATA"}
         </button>
       )}
     </div>
