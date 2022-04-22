@@ -416,23 +416,20 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
-  const filteredItems = useMemo(
-    () => sortItems(),
-    [
-      filter1?.val,
-      filter2?.val,
-      filter3?.val,
-      filter4?.val,
-      filter5?.val,
-      filter1?.sort,
-      filter2?.sort,
-      filter3?.sort,
-      filter4?.sort,
-      filter5?.sort,
-      selectedStore,
-      miles,
-    ]
-  );
+  const filteredItems = useMemo(sortItems, [
+    filter1?.val,
+    filter2?.val,
+    filter3?.val,
+    filter4?.val,
+    filter5?.val,
+    filter1?.sort,
+    filter2?.sort,
+    filter3?.sort,
+    filter4?.sort,
+    filter5?.sort,
+    selectedStore,
+    miles,
+  ]);
 
   const clearFilters = () => {
     setSelectedFilterIdx(0);
