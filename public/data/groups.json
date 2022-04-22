@@ -8,6 +8,7 @@
                      "type": "range"
               },
               "t": {
+                     "alias": "type",
                      "type": "choice"
               },
               "g": {

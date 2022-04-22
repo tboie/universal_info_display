@@ -91,6 +91,7 @@ export type FilterType = "choice" | "range";
 
 export type GroupFilter = {
   name: string;
+  alias?: string;
   type: FilterType;
   props: string[] | [0, 0];
   val: string[] | number;
@@ -605,6 +606,7 @@ const UniversalInfoDisplay = (props: {
 
               const fObj = {
                 name: key,
+                alias: obj.alias,
                 type: obj.type as FilterType,
                 props: obj.type === "choice" ? choices : range,
                 val:

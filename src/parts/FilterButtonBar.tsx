@@ -130,7 +130,7 @@ const FilterButtonBar = ({
                     (f.name !== "$" ? f.name : "")
                   : selectedStore && f.name === "mi"
                   ? "store"
-                  : f.name
+                  : f.alias || f.name
               }
               on={isOn(f)}
               selected={
