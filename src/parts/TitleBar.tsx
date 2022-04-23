@@ -1,5 +1,4 @@
-import { isBuffer } from "util";
-import { GroupFilter, Store } from "./Shell";
+import { Filter, Store } from "./Shell";
 
 const TitleBar = ({
   selectedGroup,
@@ -17,11 +16,11 @@ const TitleBar = ({
   selectedGroup: string;
   selectedPageIdx: number;
   totalPages: number;
-  filter1?: GroupFilter;
-  filter2?: GroupFilter;
-  filter3?: GroupFilter;
-  filter4?: GroupFilter;
-  filter5?: GroupFilter;
+  filter1?: Filter;
+  filter2?: Filter;
+  filter3?: Filter;
+  filter4?: Filter;
+  filter5?: Filter;
   selectedStore?: Store;
   miles: number;
   fetching: boolean;

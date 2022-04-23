@@ -1,4 +1,3 @@
-import { title } from "process";
 import { useEffect } from "react";
 
 export type T_SLIDER_TYPE = "choice" | "group" | "page";

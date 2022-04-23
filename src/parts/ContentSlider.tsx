@@ -5,7 +5,6 @@ import {
   chunkString,
   ViewSection,
   UniversalInfoDisplayItem,
-  GroupFilter,
 } from "./Shell";
 import Grid from "./Grid";
 

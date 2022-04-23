@@ -89,7 +89,7 @@ export type Slider = {
 // filters
 export type FilterType = "choice" | "range";
 
-export type GroupFilter = {
+export type Filter = {
   name: string;
   alias?: string;
   type: FilterType;
@@ -109,11 +109,11 @@ const UniversalInfoDisplay = (props: {
   const [groupFilters, setGroupFilters] = useState([]);
 
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
-  const [filter1, setFilter1] = useState<GroupFilter>();
-  const [filter2, setFilter2] = useState<GroupFilter>();
-  const [filter3, setFilter3] = useState<GroupFilter>();
-  const [filter4, setFilter4] = useState<GroupFilter>();
-  const [filter5, setFilter5] = useState<GroupFilter>();
+  const [filter1, setFilter1] = useState<Filter>();
+  const [filter2, setFilter2] = useState<Filter>();
+  const [filter3, setFilter3] = useState<Filter>();
+  const [filter4, setFilter4] = useState<Filter>();
+  const [filter5, setFilter5] = useState<Filter>();
 
   const [stores, setStores] = useState<Store[]>([]);
   const [selectedStore, setSelectedStore] = useState<Store | undefined>();
@@ -215,7 +215,7 @@ const UniversalInfoDisplay = (props: {
     // ranges
     let rF = [filter1, filter2, filter3, filter4, filter5].filter(
       (f) => f?.type === "range" && f.sort
-    ) as GroupFilter[];
+    ) as Filter[];
 
     rF.forEach((f) => {
       if (f) {
@@ -580,12 +580,10 @@ const UniversalInfoDisplay = (props: {
         setMiles(maxMiles);
 
         // set filters
-        const groupFilter = groupFilters.find(
-          (g: any) => g.group === selectedGroup
-        );
+        const Filter = groupFilters.find((g: any) => g.group === selectedGroup);
 
-        if (groupFilter) {
-          Object.entries(groupFilter)
+        if (Filter) {
+          Object.entries(Filter)
             .filter(([key]) => key !== "group")
             .forEach(([key, obj]: any, idx) => {
               let choices = getFilterChoices(key, all_items);

@@ -1,4 +1,4 @@
-import { GroupFilter } from "./Shell";
+import { Filter } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
 const FilterRange = ({
@@ -7,7 +7,7 @@ const FilterRange = ({
   set,
 }: {
   idx: number;
-  f: GroupFilter;
+  f: Filter;
   set: (idx: number, unit: string, val: number, sort?: "asc" | "desc") => any;
 }) => {
   const setActiveWidth = () => {

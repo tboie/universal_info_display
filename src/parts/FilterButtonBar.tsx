@@ -1,4 +1,4 @@
-import { FilterType, GroupFilter, Store } from "./Shell";
+import { FilterType, Filter, Store } from "./Shell";
 
 const FilterButtonBar = ({
   filter1,
@@ -20,11 +20,11 @@ const FilterButtonBar = ({
   setSelectedStore,
   fetching,
 }: {
-  filter1?: GroupFilter;
-  filter2?: GroupFilter;
-  filter3?: GroupFilter;
-  filter4?: GroupFilter;
-  filter5?: GroupFilter;
+  filter1?: Filter;
+  filter2?: Filter;
+  filter3?: Filter;
+  filter4?: Filter;
+  filter5?: Filter;
   setFilter1: (val: any) => any;
   setFilter2: (val: any) => any;
   setFilter3: (val: any) => any;
@@ -39,7 +39,7 @@ const FilterButtonBar = ({
   setSelectedStore: (store?: Store) => any;
   fetching: boolean;
 }) => {
-  const isOn = (f: GroupFilter) => {
+  const isOn = (f: Filter) => {
     return (Array.isArray(f.val) && f.val.length) || f.sort
       ? true
       : false || f.name === "mi";
