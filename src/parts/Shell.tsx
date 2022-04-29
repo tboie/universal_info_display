@@ -68,20 +68,6 @@ export type Store = {
   numItems: number;
 };
 
-export type ViewSection = {
-  selectedPageIdx: number;
-  setSelectedPageIdx: (val: number) => any;
-
-  pagesBool: boolean[];
-  setPagesBool: (val: any) => any;
-
-  selectedGroup: string;
-  setSelectedGroup: (val: string) => any;
-
-  groupFilters: any[];
-  setGroupFilters: (val: any) => any;
-};
-
 export type Slider = {
   type: "group" | "page" | "choice";
 };
@@ -134,18 +120,6 @@ const UniversalInfoDisplay = (props: {
   const [key, setKey] = useState([]);
 
   const [fetching, setFetching] = useState(false);
-
-  const p = {
-    contentType: props.contentType,
-    pagesBool: pagesBool,
-    setPagesBool: setPagesBool,
-    selectedPageIdx: selectedPageIdx,
-    setSelectedPageIdx: setSelectedPageIdx,
-    selectedGroup: selectedGroup,
-    setSelectedGroup: setSelectedGroup,
-    groupFilters: groupFilters,
-    setGroupFilters: setGroupFilters,
-  };
 
   const getFilterChoiceValues = (
     key: string,
@@ -688,9 +662,12 @@ const UniversalInfoDisplay = (props: {
         />
       ) : (
         <ContentSlider
-          {...p}
+          contentType={props.contentType}
           items={filteredItems}
-          sliderSelect={sliderSelect}
+          pagesBool={pagesBool}
+          setPagesBool={setPagesBool}
+          setSelectedPageIdx={setSelectedPageIdx}
+          selectedPageIdx={selectedPageIdx}
           setSelectedItemIdx={setSelectedItemIdx}
           clearFilters={clearFilters}
           getData={getData}

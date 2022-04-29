@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import DetectableOverflow from "react-detectable-overflow";
-import {
-  chunkArr,
-  chunkString,
-  ViewSection,
-  UniversalInfoDisplayItem,
-} from "./Shell";
+import { chunkArr, chunkString, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 
 const ContentSlider = ({
@@ -20,10 +15,13 @@ const ContentSlider = ({
   filtersOn,
   getData,
   fetching,
-}: ViewSection & {
+}: {
   contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
-  sliderSelect: any;
+  pagesBool: boolean[];
+  setPagesBool: (val: any) => any;
+  selectedPageIdx: number;
+  setSelectedPageIdx: (val: number) => any;
   setSelectedItemIdx: (val: any) => any;
   clearFilters: () => void;
   filtersOn: boolean;
