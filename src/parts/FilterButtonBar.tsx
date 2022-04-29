@@ -1,4 +1,4 @@
-import { FilterType, Filter, Store } from "./Shell";
+import { FilterType, Filter, Store, Choice } from "./Shell";
 
 const FilterButtonBar = ({
   filter1,
@@ -40,9 +40,11 @@ const FilterButtonBar = ({
   fetching: boolean;
 }) => {
   const isOn = (f: Filter) => {
-    return (Array.isArray(f.val) && f.val.length) || f.sort
-      ? true
-      : false || f.name === "mi";
+    if (f.type === "choice") {
+      return (f.val as Choice[]).some((c) => c.values.length);
+    } else {
+      return f.sort || f.name === "mi" ? true : false;
+    }
   };
 
   const setFilter = (

@@ -15,8 +15,6 @@ const ContentSlider = ({
   setPagesBool,
   selectedPageIdx,
   setSelectedPageIdx,
-  selectedGroup,
-  sliderSelect,
   setSelectedItemIdx,
   clearFilters,
   filtersOn,

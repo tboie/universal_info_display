@@ -89,12 +89,17 @@ export type Slider = {
 // filters
 export type FilterType = "choice" | "range";
 
+export type Choice = {
+  field?: string;
+  values: string[];
+};
+
 export type Filter = {
   name: string;
   alias?: string;
   type: FilterType;
-  props: string[] | [0, 0];
-  val: string[] | number;
+  props: Choice[] | [number, number];
+  val: Choice[] | number;
   sort: "asc" | "desc" | undefined;
 };
 
@@ -105,6 +110,7 @@ const UniversalInfoDisplay = (props: {
 }) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
   const [pagesBool, setPagesBool] = useState([true]);
+
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([]);
 
@@ -141,18 +147,25 @@ const UniversalInfoDisplay = (props: {
     setGroupFilters: setGroupFilters,
   };
 
-  const getFilterChoices = (key: string, items: UniversalInfoDisplayItem[]) => [
-    ...new Set(
-      Array.prototype.concat.apply(
-        [],
-        items.map((item) => item[key])
-      )
-    ),
-  ];
+  const getFilterChoiceValues = (
+    key: string,
+    items: UniversalInfoDisplayItem[]
+  ) =>
+    [
+      ...new Set(
+        Array.prototype.concat.apply(
+          [],
+          items.map((item) => item[key])
+        )
+      ),
+    ] as string[];
 
   const getFilterRange = (key: string, items: UniversalInfoDisplayItem[]) => {
     const vals = items.map((item) => item[key]);
-    return [Math.floor(Math.min(...vals)), Math.ceil(Math.max(...vals))];
+    return [Math.floor(Math.min(...vals)), Math.ceil(Math.max(...vals))] as [
+      number,
+      number
+    ];
   };
 
   const getData = () => {
@@ -176,7 +189,7 @@ const UniversalInfoDisplay = (props: {
       });
   };
 
-  const sortItems = () => {
+  const filterItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     // store
@@ -194,21 +207,24 @@ const UniversalInfoDisplay = (props: {
       .filter((f) => f?.type === "choice")
       .forEach((f) => {
         if (f) {
-          const fVals = f.val as string[];
-
-          if (fVals.length) {
+          (f.val as Choice[]).forEach((c) => {
             const choiceItems: UniversalInfoDisplayItem = [];
+            let choiceOn = false;
+            const cVals = c.values as string[];
 
-            fVals.forEach((choice) => {
+            cVals.forEach((val) => {
+              choiceOn = true;
               choiceItems.push(
-                ...filteredItems.filter((item) =>
-                  item[f.name]?.includes(choice)
+                ...filteredItems.filter(
+                  (item) => c.field && item[c.field].includes(val)
                 )
               );
             });
 
-            filteredItems = [...choiceItems].sort((a, b) => a.ppu - b.ppu);
-          }
+            if (choiceOn) {
+              filteredItems = [...choiceItems];
+            }
+          });
         }
       });
 
@@ -293,28 +309,32 @@ const UniversalInfoDisplay = (props: {
             ? a[rF[4].name] - b[rF[4].name]
             : b[rF[4].name] - a[rF[4].name])
       );
-    }
-
-    // sort by ppu if all filters off
-    if (
-      !(filter1?.val as string[])?.length &&
-      !(filter2?.val as string[])?.length &&
-      !(filter3?.val as string[])?.length &&
-      !(filter4?.val as string[])?.length &&
-      !(filter5?.val as string[])?.length &&
-      !filter1?.sort &&
-      !filter2?.sort &&
-      !filter3?.sort &&
-      !filter4?.sort &&
-      !filter5?.sort
-    ) {
+    } else {
+      // sort by ppu if all ranges off
       filteredItems.sort((a, b) => a.ppu - b.ppu);
     }
 
     return filteredItems;
   };
 
-  const sliderSelect = (type: T_SLIDER_TYPE, title: string, on: boolean) => {
+  const sliderSelect = (type: T_SLIDER_TYPE, title: string, field?: string) => {
+    const toggleChoice = (choices: Choice[], field: string, title: string) => {
+      const choices_copy = [...choices];
+      const selectedChoice = choices_copy.find((c) => c.field === field);
+
+      if (selectedChoice) {
+        if (selectedChoice.values.includes(title)) {
+          selectedChoice.values = selectedChoice.values.filter(
+            (v) => v !== title
+          );
+        } else {
+          selectedChoice.values.push(title);
+        }
+      }
+
+      return choices_copy;
+    };
+
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
@@ -327,51 +347,32 @@ const UniversalInfoDisplay = (props: {
         setSelectedPageIdx(1);
         setSelectedGroup(title);
       }
-    } else if (type === "choice") {
+    } else if (type === "choice" && field) {
+      setSelectedPageIdx(1);
       if (selectedFilterIdx === 1 && filter1) {
-        const f1Vals = filter1?.val as string[];
-        setSelectedPageIdx(1);
         setFilter1({
           ...filter1,
-          val: f1Vals.includes(title)
-            ? f1Vals.filter((val) => val !== title)
-            : f1Vals.concat([title]),
+          val: toggleChoice(filter1?.val as Choice[], field, title),
         });
       } else if (selectedFilterIdx === 2 && filter2) {
-        const f2Vals = filter2?.val as string[];
-        setSelectedPageIdx(1);
         setFilter2({
           ...filter2,
-          val: f2Vals.includes(title)
-            ? f2Vals.filter((val) => val !== title)
-            : f2Vals.concat([title]),
+          val: toggleChoice(filter2?.val as Choice[], field, title),
         });
       } else if (selectedFilterIdx === 3 && filter3) {
-        const f3Vals = filter3?.val as string[];
-        setSelectedPageIdx(1);
         setFilter3({
           ...filter3,
-          val: f3Vals.includes(title)
-            ? f3Vals.filter((val) => val !== title)
-            : f3Vals.concat([title]),
+          val: toggleChoice(filter3?.val as Choice[], field, title),
         });
       } else if (selectedFilterIdx === 4 && filter4) {
-        const f4Vals = filter4?.val as string[];
-        setSelectedPageIdx(1);
         setFilter4({
           ...filter4,
-          val: f4Vals.includes(title)
-            ? f4Vals.filter((val) => val !== title)
-            : f4Vals.concat([title]),
+          val: toggleChoice(filter4?.val as Choice[], field, title),
         });
       } else if (selectedFilterIdx === 5 && filter5) {
-        const f5Vals = filter5?.val as string[];
-        setSelectedPageIdx(1);
         setFilter5({
           ...filter5,
-          val: f5Vals.includes(title)
-            ? f5Vals.filter((val) => val !== title)
-            : f5Vals.concat([title]),
+          val: toggleChoice(filter5?.val as Choice[], field, title),
         });
       }
     }
@@ -416,7 +417,7 @@ const UniversalInfoDisplay = (props: {
     }
   };
 
-  const filteredItems = useMemo(sortItems, [
+  const filteredItems = useMemo(filterItems, [
     filter1?.val,
     filter2?.val,
     filter3?.val,
@@ -511,8 +512,8 @@ const UniversalInfoDisplay = (props: {
           .filter((resp) => resp)
           .map((store_items: any) => {
             return {
-              // REC only for now
-              items: store_items.filter((item: any) => item.m === "R"),
+              // TODO: re-think dealing with menu
+              items: store_items,
               total: 0,
               dist: loc_distance.filter((l) => l?.a === store_items[0]?.a)[0]
                 ?.dist,
@@ -570,6 +571,7 @@ const UniversalInfoDisplay = (props: {
           all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
         );
 
+        // value doesn't matter for now
         setPagesBool(
           chunkArr(all_items, 6).map((item: UniversalInfoDisplayItem) => true)
         );
@@ -586,27 +588,35 @@ const UniversalInfoDisplay = (props: {
           Object.entries(Filter)
             .filter(([key]) => key !== "group")
             .forEach(([key, obj]: any, idx) => {
-              let choices = getFilterChoices(key, all_items);
-              if (key === "g") {
-                choices = choices
-                  .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
-                  .sort((a, b) => a - b)
-                  .map((choice) => choice + key);
-              }
+              // choices
+              const choices: Choice[] = [];
+              key.split(",").forEach((field: string) => {
+                let choice_values = getFilterChoiceValues(field, all_items);
+                if (field === "g") {
+                  choice_values = choice_values
+                    .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
+                    .sort((a, b) => a - b)
+                    .map((choice) => choice + key);
+                }
+                choices.push({ field: field, values: choice_values });
+              });
 
+              console.log(choices);
+
+              // range
               let range = getFilterRange(key, all_items);
               if (key === "mi") {
                 range = [minMiles, maxMiles];
               }
 
-              const fObj = {
+              const fObj: Filter = {
                 name: key,
                 alias: obj.alias,
                 type: obj.type as FilterType,
                 props: obj.type === "choice" ? choices : range,
                 val:
                   obj.type === "choice"
-                    ? []
+                    ? choices.map((c) => ({ field: c.field, values: [] }))
                     : key === "mi"
                     ? maxMiles
                     : range[0],
@@ -626,7 +636,6 @@ const UniversalInfoDisplay = (props: {
               }
             });
         }
-
         setFetching(false);
       });
     }
@@ -687,11 +696,16 @@ const UniversalInfoDisplay = (props: {
           getData={getData}
           fetching={fetching}
           filtersOn={
-            (filter1?.val as string[])?.length ||
-            (filter2?.val as string[])?.length ||
-            (filter3?.val as string[])?.length ||
-            (filter4?.val as string[])?.length ||
-            (filter5?.val as string[])?.length ||
+            (filter1?.type === "choice" &&
+              (filter1?.val as Choice[])?.some((c) => c.values.length)) ||
+            (filter2?.type === "choice" &&
+              (filter2?.val as Choice[])?.some((c) => c.values.length)) ||
+            (filter3?.type === "choice" &&
+              (filter3?.val as Choice[])?.some((c) => c.values.length)) ||
+            (filter4?.type === "choice" &&
+              (filter4?.val as Choice[])?.some((c) => c.values.length)) ||
+            (filter5?.type === "choice" &&
+              (filter5?.val as Choice[])?.some((c) => c.values.length)) ||
             filter1?.sort ||
             filter2?.sort ||
             filter3?.sort ||
@@ -749,8 +763,8 @@ const UniversalInfoDisplay = (props: {
                 <Slider
                   key={idx}
                   type={"choice"}
-                  titles={f.props as string[]}
-                  selected={Array.isArray(f.val) ? f.val : [f.val.toString()]}
+                  choices={f.props as Choice[]}
+                  selected={f.val as Choice[]}
                   select={sliderSelect}
                   fetching={fetching}
                 />

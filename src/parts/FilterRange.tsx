@@ -36,9 +36,9 @@ const FilterRange = ({
       <div className="active" style={{ width: setActiveWidth() }} />
       <input
         type="range"
-        min={f.props[0]}
-        max={f.props[1]}
-        value={f.val}
+        min={f.props[0] as number}
+        max={f.props[1] as number}
+        value={f.val as number}
         onChange={(e) =>
           throttle(
             { delay: 15, leading: true, trailing: true },

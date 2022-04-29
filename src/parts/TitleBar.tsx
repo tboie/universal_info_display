@@ -1,4 +1,4 @@
-import { Filter, Store } from "./Shell";
+import { Choice, Filter, Store } from "./Shell";
 
 const TitleBar = ({
   selectedGroup,
@@ -25,6 +25,26 @@ const TitleBar = ({
   miles: number;
   fetching: boolean;
 }) => {
+  const getChoiceText = (choices: Choice[]) => {
+    const allChoices: string[] = [];
+    choices.forEach((c) => {
+      c.values.forEach((v) => {
+        allChoices.push(v);
+      });
+    });
+
+    if (allChoices.length) {
+      return allChoices
+        .join(", ")
+        .replace("I", "Indica")
+        .replace("S", "Sativa")
+        .replace("H", "Hybrid")
+        .replace("M", "MED")
+        .replace("R", "REC");
+    } else {
+      return "All";
+    }
+  };
   return (
     <div className="titlebar">
       {selectedGroup && (
@@ -47,17 +67,13 @@ const TitleBar = ({
           <span className="filters">
             {[filter1, filter2, filter3, filter4, filter5].map((f) => {
               if (f && f.type === "choice") {
-                let choiceStr = f?.name || "";
+                let choiceStr = f?.alias || f?.name || "";
                 return (
                   <>
                     <span className="choice-group">{choiceStr}</span>
                     {": "}
                     <span className="choice-values">
-                      {(f.val as string[])
-                        .join(", ")
-                        .replace("I", "Indica")
-                        .replace("S", "Sativa")
-                        .replace("H", "Hybrid") || "All"}
+                      {getChoiceText(f.val as Choice[])}
                     </span>
                   </>
                 );

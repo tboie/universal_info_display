@@ -1,12 +1,14 @@
 import { useEffect } from "react";
+import { Choice } from "./Shell";
 
 export type T_SLIDER_TYPE = "choice" | "group" | "page";
 
 type T_SLIDER = {
   type: T_SLIDER_TYPE;
-  titles: string[];
-  selected: string[];
-  select: (type: T_SLIDER_TYPE, title: string, on: boolean) => void;
+  titles?: string[];
+  choices?: Choice[];
+  selected: string[] | Choice[];
+  select: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
   setSelectedPageIdx?: (val: number) => any;
   fetching: boolean;
 };
@@ -15,13 +17,15 @@ type T_SLIDER_LABEL = {
   idx: number;
   type: T_SLIDER_TYPE;
   title: string;
+  field?: string;
   on: boolean;
-  click: (type: T_SLIDER_TYPE, title: string, on: boolean) => void;
+  click: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
 };
 
 const Slider = ({
   type,
   titles,
+  choices,
   selected,
   select,
   setSelectedPageIdx,
@@ -36,13 +40,16 @@ const Slider = ({
       const handleIntersect: IntersectionObserverCallback = (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            if (type === "page" && globalThis.pageSliderPressed) {
+            if (
+              type === "page" &&
+              globalThis.pageSliderPressed &&
+              titles?.length
+            ) {
               const ele = entry.target as HTMLElement;
               const idx =
                 parseInt(ele.id.replace("slider_label_" + type, "")) - 1;
               const title = titles[idx];
-              const selected = ele.classList.contains("selected");
-              select(type, title, selected);
+              select(type, title);
             }
           }
         });
@@ -69,10 +76,34 @@ const Slider = ({
     }
   }, [selected]);
 
+  const getAllChoicesLabels = (choices: Choice[]) => {
+    const eleLabels: JSX.Element[] = [];
+    let i = 0;
+
+    choices.forEach((c, idx) => {
+      c.values.forEach((v) => {
+        eleLabels.push(
+          <Label
+            idx={i}
+            key={i + v}
+            type={type}
+            title={v}
+            field={c.field}
+            on={(selected[idx] as Choice)?.values.includes(v)}
+            click={select}
+          />
+        );
+        i++;
+      });
+    });
+
+    return eleLabels;
+  };
+
   return (
     <div
       className={`slider ${type} ${
-        type === "page" && titles.length ? "tick" : ""
+        type === "page" && titles?.length ? "tick" : ""
       }`}
       onTouchStart={() => {
         globalThis.contentSliderPressed = false;
@@ -91,20 +122,24 @@ const Slider = ({
         }
       }}
     >
-      {!fetching && titles.length
+      {type !== "choice" && !fetching && titles?.length
         ? titles.map((t, idx) => (
             <Label
               idx={idx + 1}
               key={idx}
               type={type}
               title={t}
-              on={selected.includes(t)}
+              on={(selected as string[]).includes(t)}
               click={select}
             />
           ))
         : null}
 
-      {!fetching && titles.length && type === "page" ? (
+      {type === "choice" && !fetching && choices?.length
+        ? getAllChoicesLabels(choices).map((ele) => ele)
+        : null}
+
+      {type === "page" && !fetching && titles?.length ? (
         <>
           <button
             id="btn_first"
@@ -132,9 +167,11 @@ export const choiceStrMap: any = {
   I: "Indica",
   C: "C",
   N: "None",
+  R: "REC",
+  M: "MED",
 };
 
-const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
+const Label = ({ idx, type, title, field, on, click }: T_SLIDER_LABEL) => {
   const getChoiceText = (title: string) => {
     return choiceStrMap[title] || title;
   };
@@ -143,7 +180,7 @@ const Label = ({ idx, type, title, on, click }: T_SLIDER_LABEL) => {
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""}`}
       onClick={(e) => {
-        click(type, title, on);
+        click(type, title, field);
       }}
     >
       {type === "choice" ? getChoiceText(title) : title}
