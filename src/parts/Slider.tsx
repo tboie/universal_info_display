@@ -95,6 +95,9 @@ const Slider = ({
         );
         i++;
       });
+      if (idx !== choices.length - 1) {
+        eleLabels.push(<span className="slider_label">·</span>);
+      }
     });
 
     return eleLabels;
