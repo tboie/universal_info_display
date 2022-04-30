@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
-import FilterButtonBar from "./FilterButtonBar";
+import FilterButtonBar, { filterOn } from "./FilterButtonBar";
 import MapWrapper from "./Map";
 import FilterRange from "./FilterRange";
 import Item from "./Item";
@@ -575,8 +575,6 @@ const UniversalInfoDisplay = (props: {
                 choices.push({ field: field, values: choice_values });
               });
 
-              console.log(choices);
-
               // range
               let range = getFilterRange(key, all_items);
               if (key === "mi") {
@@ -673,21 +671,11 @@ const UniversalInfoDisplay = (props: {
           getData={getData}
           fetching={fetching}
           filtersOn={
-            (filter1?.type === "choice" &&
-              (filter1?.val as Choice[])?.some((c) => c.values.length)) ||
-            (filter2?.type === "choice" &&
-              (filter2?.val as Choice[])?.some((c) => c.values.length)) ||
-            (filter3?.type === "choice" &&
-              (filter3?.val as Choice[])?.some((c) => c.values.length)) ||
-            (filter4?.type === "choice" &&
-              (filter4?.val as Choice[])?.some((c) => c.values.length)) ||
-            (filter5?.type === "choice" &&
-              (filter5?.val as Choice[])?.some((c) => c.values.length)) ||
-            filter1?.sort ||
-            filter2?.sort ||
-            filter3?.sort ||
-            filter4?.sort ||
-            filter5?.sort
+            (filter1 && filterOn(filter1)) ||
+            (filter2 && filterOn(filter2)) ||
+            (filter3 && filterOn(filter3)) ||
+            (filter4 && filterOn(filter4)) ||
+            (filter5 && filterOn(filter5))
               ? true
               : false
           }

@@ -1,5 +1,13 @@
 import { FilterType, Filter, Store, Choice } from "./Shell";
 
+export const filterOn = (f: Filter) => {
+  if (f.type === "choice") {
+    return (f.val as Choice[]).some((c) => c.values.length);
+  } else {
+    return f.sort || f.name === "mi" ? true : false;
+  }
+};
+
 const FilterButtonBar = ({
   filter1,
   filter2,
@@ -39,14 +47,6 @@ const FilterButtonBar = ({
   setSelectedStore: (store?: Store) => any;
   fetching: boolean;
 }) => {
-  const isOn = (f: Filter) => {
-    if (f.type === "choice") {
-      return (f.val as Choice[]).some((c) => c.values.length);
-    } else {
-      return f.sort || f.name === "mi" ? true : false;
-    }
-  };
-
   const setFilter = (
     idx: number,
     type: FilterType,
@@ -134,7 +134,7 @@ const FilterButtonBar = ({
                   ? "store"
                   : f.alias || f.name
               }
-              on={isOn(f)}
+              on={filterOn(f)}
               selected={
                 selectedFilterIdx === idx + 1 ||
                 (f.name === "mi" && (map || selectedStore ? true : false))
