@@ -13,15 +13,6 @@ import Slider, { T_SLIDER_TYPE } from "./Slider";
 import TitleBar from "./TitleBar";
 import { getDistance } from "geolib";
 
-// !TEXT FEATURE NEEDS RE-IMPLEMENTEATION SINCE GROUPS BRANCH! (item support)
-// [TEXT CALCS]
-// 1st: display all text into 1 div and split text into pages using element height and viewport height
-// Two: Mount pages from above and detect overflow on them
-// Finally: from 1st page to last, detect if overflowing and move word to next if true
-// 3: Display text
-// Now: Improve
-// TODO: a) Don't break text on word for #1
-
 // globals
 declare global {
   var contentSliderPressed: boolean;
@@ -510,16 +501,11 @@ const UniversalInfoDisplay = (props: {
           stores_all[idx]["total"] = store_total;
         });
 
-        // check total count and add items to all array
-        // let numItems = 0;
+        // add items to all array
         const all_items: any = [];
         stores_all = stores_all.filter((store) => store.items.length > 0);
 
         stores_all = stores_all.filter((store) => {
-          // no limit for now (use 600 for 100 pages)
-          // if (numItems + store.total <= 1000) {
-          //  numItems += store.total;
-
           store.items.forEach((item: any) => {
             item.c.forEach((cut: any) => {
               all_items.push({
@@ -533,7 +519,6 @@ const UniversalInfoDisplay = (props: {
           });
 
           return true;
-          // }
         });
 
         // set stores state
