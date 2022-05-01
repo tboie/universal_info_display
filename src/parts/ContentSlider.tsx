@@ -407,8 +407,12 @@ const Page = ({
 
       {items && items.length ? (
         <Grid
-          page={num}
-          items={items}
+          // only render items in range of selectedPageIdx
+          items={
+            num >= selectedPageIdx - 4 && num <= selectedPageIdx + 4
+              ? items
+              : []
+          }
           setSelectedItemIdx={setSelectedItemIdx}
         />
       ) : filtersOn ? (
