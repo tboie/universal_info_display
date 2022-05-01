@@ -70,6 +70,7 @@ const Slider = ({
 
   useEffect(() => {
     if (type === "page" && !globalThis.pageSliderPressed) {
+      console.log("scrolling into view");
       document
         .querySelector(`.slider.${type} .selected`)
         ?.scrollIntoView({ inline: "center" });
@@ -146,15 +147,27 @@ const Slider = ({
         <>
           <button
             id="btn_first"
-            onClick={() => setSelectedPageIdx && setSelectedPageIdx(1)}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              if (setSelectedPageIdx) {
+                globalThis.pageSliderPressed = false;
+                setSelectedPageIdx(1);
+              }
+            }}
           >
             {"<<"}
           </button>
           <button
             id="btn_last"
-            onClick={() =>
-              setSelectedPageIdx && setSelectedPageIdx(titles.length)
-            }
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              if (setSelectedPageIdx) {
+                globalThis.pageSliderPressed = false;
+                setSelectedPageIdx(titles.length);
+              }
+            }}
           >
             {">>"}
           </button>
