@@ -511,29 +511,29 @@ const UniversalInfoDisplay = (props: {
         });
 
         // check total count and add items to all array
-        let numItems = 0;
+        // let numItems = 0;
         const all_items: any = [];
         stores_all = stores_all.filter((store) => store.items.length > 0);
 
         stores_all = stores_all.filter((store) => {
           // no limit for now (use 600 for 100 pages)
-          if (numItems + store.total <= 1000) {
-            numItems += store.total;
+          // if (numItems + store.total <= 1000) {
+          //  numItems += store.total;
 
-            store.items.forEach((item: any) => {
-              item.c.forEach((cut: any) => {
-                all_items.push({
-                  ...item,
-                  g: [cut.g + "g"],
-                  $: cut.$.toFixed(0),
-                  ppu: (cut.$ / cut.g).toFixed(1),
-                  dist: store.dist,
-                });
+          store.items.forEach((item: any) => {
+            item.c.forEach((cut: any) => {
+              all_items.push({
+                ...item,
+                g: [cut.g + "g"],
+                $: cut.$.toFixed(0),
+                ppu: (cut.$ / cut.g).toFixed(1),
+                dist: store.dist,
               });
             });
+          });
 
-            return true;
-          }
+          return true;
+          // }
         });
 
         // set stores state
@@ -620,17 +620,18 @@ const UniversalInfoDisplay = (props: {
   }, [lat, lng]);
 
   const getLocation = () => {
-    /*
     setTimeout(() => {
       console.log("setting location to boston");
       setLat(42.364506);
       setLng(-71.038887);
     }, 1000);
-    */
+
+    /*
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
+    */
   };
 
   return (
