@@ -42,7 +42,7 @@ const Slider = ({
           if (entry.isIntersecting) {
             if (
               type === "page" &&
-              globalThis.pageSliderPressed &&
+              !globalThis.contentSliderPressed &&
               titles?.length
             ) {
               const ele = entry.target as HTMLElement;
@@ -70,10 +70,17 @@ const Slider = ({
 
   useEffect(() => {
     if (type === "page" && !globalThis.pageSliderPressed) {
-      console.log("scrolling into view");
-      document
-        .querySelector(`.slider.${type} .selected`)
-        ?.scrollIntoView({ inline: "center" });
+      const container = document.querySelector(
+        `.slider.${type}`
+      ) as HTMLDivElement;
+
+      if (container) {
+        container.style.overflowX = "hidden";
+        document
+          .querySelector(`.slider.${type} .selected`)
+          ?.scrollIntoView({ inline: "center" });
+        container.style.overflowX = "scroll";
+      }
     }
   }, [selected]);
 
