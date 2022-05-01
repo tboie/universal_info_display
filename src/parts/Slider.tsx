@@ -196,6 +196,11 @@ const Label = ({ idx, type, title, field, on, click }: T_SLIDER_LABEL) => {
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""}`}
       onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (type === "page") {
+          globalThis.pageSliderPressed = false;
+        }
         click(type, title, field);
       }}
     >
