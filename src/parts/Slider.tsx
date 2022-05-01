@@ -69,7 +69,7 @@ const Slider = ({
   }, [titles]);
 
   useEffect(() => {
-    if (type === "page") {
+    if (type === "page" && !globalThis.pageSliderPressed) {
       document
         .querySelector(`.slider.${type} .selected`)
         ?.scrollIntoView({ inline: "center" });
