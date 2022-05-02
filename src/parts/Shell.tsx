@@ -90,6 +90,7 @@ const UniversalInfoDisplay = (props: {
 
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([]);
+  const [filterDefaults, setFilterDefaults] = useState([]);
 
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<Filter>();
@@ -136,19 +137,24 @@ const UniversalInfoDisplay = (props: {
   const getData = () => {
     setFetching(true);
     fetch("/data/groups.json")
-      .then((response) => response.json())
+      .then((r) => r.json())
       .then((groupData) => {
-        fetch("/data/key_dutchie.json")
+        fetch("/data/filter_defaults.json")
           .then((r) => r.json())
-          .then((json_dutchie) => {
-            fetch("/data/key_iheartjane.json")
+          .then((fDefaults) => {
+            fetch("/data/key_dutchie.json")
               .then((r) => r.json())
-              .then((json_iheartjane) => {
-                const master = json_dutchie.concat(json_iheartjane);
-                setKey(master);
-                setGroupFilters(groupData);
-                setSelectedGroup(groupData[0].group);
-                getLocation();
+              .then((json_dutchie) => {
+                fetch("/data/key_iheartjane.json")
+                  .then((r) => r.json())
+                  .then((json_iheartjane) => {
+                    const master = json_dutchie.concat(json_iheartjane);
+                    setKey(master);
+                    setGroupFilters(groupData);
+                    setFilterDefaults(fDefaults);
+                    setSelectedGroup(groupData[0].group);
+                    getLocation();
+                  });
               });
           });
       });
@@ -555,65 +561,59 @@ const UniversalInfoDisplay = (props: {
         );
 
         if (groupFilter) {
-          fetch("/data/filter_defaults.json")
-            .then((resp) => resp.json())
-            .then((filterDefaults) => {
-              Object.entries(groupFilter)
-                .filter(([key]) => key !== "group")
-                .forEach(([key, obj]: any, idx) => {
-                  // choices
-                  const choices: Choice[] = [];
-                  key.split(",").forEach((field: string) => {
-                    let choice_values = getFilterChoiceValues(field, all_items);
-                    if (field === "g") {
-                      choice_values = choice_values
-                        .map((choice) =>
-                          parseFloat(choice.replace(/[^0-9.]/g, ""))
-                        )
-                        .sort((a, b) => a - b)
-                        .map((choice) => choice + key);
-                    }
-                    choices.push({ field: field, values: choice_values });
-                  });
+          Object.entries(groupFilter)
+            .filter(([key]) => key !== "group")
+            .forEach(([key, obj]: any, idx) => {
+              // choices
+              const choices: Choice[] = [];
+              key.split(",").forEach((field: string) => {
+                let choice_values = getFilterChoiceValues(field, all_items);
+                if (field === "g") {
+                  choice_values = choice_values
+                    .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
+                    .sort((a, b) => a - b)
+                    .map((choice) => choice + key);
+                }
+                choices.push({ field: field, values: choice_values });
+              });
 
-                  // range
-                  let range = getFilterRange(key, all_items);
-                  if (key === "mi") {
-                    range = [minMiles, maxMiles];
-                  }
+              // range
+              let range = getFilterRange(key, all_items);
+              if (key === "mi") {
+                range = [minMiles, maxMiles];
+              }
 
-                  const fObj: Filter = {
-                    name: key,
-                    alias: obj.alias,
-                    type: obj.type as FilterType,
-                    props: obj.type === "choice" ? choices : range,
-                    val:
-                      obj.type === "choice"
-                        ? choices.map((c) => ({
-                            field: c.field,
-                            values:
-                              c.field && filterDefaults[groupFilterIdx][c.field]
-                                ? [filterDefaults[groupFilterIdx][c.field]]
-                                : [],
-                          }))
-                        : key === "mi"
-                        ? maxMiles
-                        : range[0],
-                    sort: undefined,
-                  };
+              const fObj: Filter = {
+                name: key,
+                alias: obj.alias,
+                type: obj.type as FilterType,
+                props: obj.type === "choice" ? choices : range,
+                val:
+                  obj.type === "choice"
+                    ? choices.map((c) => ({
+                        field: c.field,
+                        values:
+                          c.field && filterDefaults[groupFilterIdx][c.field]
+                            ? [filterDefaults[groupFilterIdx][c.field]]
+                            : [],
+                      }))
+                    : key === "mi"
+                    ? maxMiles
+                    : range[0],
+                sort: undefined,
+              };
 
-                  if (idx === 0) {
-                    setFilter1(fObj);
-                  } else if (idx === 1) {
-                    setFilter2(fObj);
-                  } else if (idx === 2) {
-                    setFilter3(fObj);
-                  } else if (idx === 3) {
-                    setFilter4(fObj);
-                  } else if (idx === 4) {
-                    setFilter5(fObj);
-                  }
-                });
+              if (idx === 0) {
+                setFilter1(fObj);
+              } else if (idx === 1) {
+                setFilter2(fObj);
+              } else if (idx === 2) {
+                setFilter3(fObj);
+              } else if (idx === 3) {
+                setFilter4(fObj);
+              } else if (idx === 4) {
+                setFilter5(fObj);
+              }
             });
         }
 
