@@ -542,7 +542,7 @@ const UniversalInfoDisplay = (props: {
         );
 
         // set max min miles
-        const maxMiles = Math.ceil(all_items[all_items.length - 1].dist);
+        const maxMiles = miles;
         const minMiles = Math.floor(all_items[0].dist) + 1;
         setMiles(maxMiles);
 
@@ -605,18 +605,18 @@ const UniversalInfoDisplay = (props: {
   }, [lat, lng]);
 
   const getLocation = () => {
+    /*
     setTimeout(() => {
       console.log("setting location to boston");
       setLat(42.364506);
       setLng(-71.038887);
     }, 1000);
+    */
 
-    /*
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
-    */
   };
 
   return (
