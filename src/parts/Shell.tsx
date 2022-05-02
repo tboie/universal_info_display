@@ -90,8 +90,8 @@ const UniversalInfoDisplay = (props: {
 
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState([]);
-  const [filterDefaults, setFilterDefaults] = useState([]);
 
+  const [filterDefaults, setFilterDefaults] = useState([]);
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<Filter>();
   const [filter2, setFilter2] = useState<Filter>();
@@ -101,8 +101,10 @@ const UniversalInfoDisplay = (props: {
 
   const [stores, setStores] = useState<Store[]>([]);
   const [selectedStore, setSelectedStore] = useState<Store | undefined>();
+
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
+  const [itemAliases, setItemAliases] = useState([]);
 
   const [map, toggleMap] = useState(false);
   const [miles, setMiles] = useState(50);
@@ -141,19 +143,24 @@ const UniversalInfoDisplay = (props: {
       .then((groupData) => {
         fetch("/data/filter_defaults.json")
           .then((r) => r.json())
-          .then((fDefaults) => {
-            fetch("/data/key_dutchie.json")
+          .then((filterDefaultData) => {
+            fetch("/data/item_aliases.json")
               .then((r) => r.json())
-              .then((json_dutchie) => {
-                fetch("/data/key_iheartjane.json")
+              .then((itemAliasesData) => {
+                fetch("/data/key_dutchie.json")
                   .then((r) => r.json())
-                  .then((json_iheartjane) => {
-                    const master = json_dutchie.concat(json_iheartjane);
-                    setKey(master);
-                    setGroupFilters(groupData);
-                    setFilterDefaults(fDefaults);
-                    setSelectedGroup(groupData[0].group);
-                    getLocation();
+                  .then((json_dutchie) => {
+                    fetch("/data/key_iheartjane.json")
+                      .then((r) => r.json())
+                      .then((json_iheartjane) => {
+                        const master = json_dutchie.concat(json_iheartjane);
+                        setKey(master);
+                        setGroupFilters(groupData);
+                        setFilterDefaults(filterDefaultData);
+                        setItemAliases(itemAliasesData);
+                        setSelectedGroup(groupData[0].group);
+                        getLocation();
+                      });
                   });
               });
           });
