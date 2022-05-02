@@ -546,59 +546,77 @@ const UniversalInfoDisplay = (props: {
         const minMiles = Math.floor(all_items[0].dist) + 1;
         setMiles(maxMiles);
 
-        // set filters
-        const Filter = groupFilters.find((g: any) => g.group === selectedGroup);
+        // set filters with groups.json data
+        const groupFilter = groupFilters.find(
+          (g: any) => g.group === selectedGroup
+        );
+        const groupFilterIdx = groupFilters.findIndex(
+          (g: any) => g.group === selectedGroup
+        );
 
-        if (Filter) {
-          Object.entries(Filter)
-            .filter(([key]) => key !== "group")
-            .forEach(([key, obj]: any, idx) => {
-              // choices
-              const choices: Choice[] = [];
-              key.split(",").forEach((field: string) => {
-                let choice_values = getFilterChoiceValues(field, all_items);
-                if (field === "g") {
-                  choice_values = choice_values
-                    .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
-                    .sort((a, b) => a - b)
-                    .map((choice) => choice + key);
-                }
-                choices.push({ field: field, values: choice_values });
-              });
+        if (groupFilter) {
+          fetch("/data/filter_defaults.json")
+            .then((resp) => resp.json())
+            .then((filterDefaults) => {
+              Object.entries(groupFilter)
+                .filter(([key]) => key !== "group")
+                .forEach(([key, obj]: any, idx) => {
+                  // choices
+                  const choices: Choice[] = [];
+                  key.split(",").forEach((field: string) => {
+                    let choice_values = getFilterChoiceValues(field, all_items);
+                    if (field === "g") {
+                      choice_values = choice_values
+                        .map((choice) =>
+                          parseFloat(choice.replace(/[^0-9.]/g, ""))
+                        )
+                        .sort((a, b) => a - b)
+                        .map((choice) => choice + key);
+                    }
+                    choices.push({ field: field, values: choice_values });
+                  });
 
-              // range
-              let range = getFilterRange(key, all_items);
-              if (key === "mi") {
-                range = [minMiles, maxMiles];
-              }
+                  // range
+                  let range = getFilterRange(key, all_items);
+                  if (key === "mi") {
+                    range = [minMiles, maxMiles];
+                  }
 
-              const fObj: Filter = {
-                name: key,
-                alias: obj.alias,
-                type: obj.type as FilterType,
-                props: obj.type === "choice" ? choices : range,
-                val:
-                  obj.type === "choice"
-                    ? choices.map((c) => ({ field: c.field, values: [] }))
-                    : key === "mi"
-                    ? maxMiles
-                    : range[0],
-                sort: undefined,
-              };
+                  const fObj: Filter = {
+                    name: key,
+                    alias: obj.alias,
+                    type: obj.type as FilterType,
+                    props: obj.type === "choice" ? choices : range,
+                    val:
+                      obj.type === "choice"
+                        ? choices.map((c) => ({
+                            field: c.field,
+                            values:
+                              c.field && filterDefaults[groupFilterIdx][c.field]
+                                ? [filterDefaults[groupFilterIdx][c.field]]
+                                : [],
+                          }))
+                        : key === "mi"
+                        ? maxMiles
+                        : range[0],
+                    sort: undefined,
+                  };
 
-              if (idx === 0) {
-                setFilter1(fObj);
-              } else if (idx === 1) {
-                setFilter2(fObj);
-              } else if (idx === 2) {
-                setFilter3(fObj);
-              } else if (idx === 3) {
-                setFilter4(fObj);
-              } else if (idx === 4) {
-                setFilter5(fObj);
-              }
+                  if (idx === 0) {
+                    setFilter1(fObj);
+                  } else if (idx === 1) {
+                    setFilter2(fObj);
+                  } else if (idx === 2) {
+                    setFilter3(fObj);
+                  } else if (idx === 3) {
+                    setFilter4(fObj);
+                  } else if (idx === 4) {
+                    setFilter5(fObj);
+                  }
+                });
             });
         }
+
         setFetching(false);
       });
     }
