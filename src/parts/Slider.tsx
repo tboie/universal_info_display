@@ -11,6 +11,7 @@ type T_SLIDER = {
   select: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
   setSelectedPageIdx?: (val: number) => any;
   fetching: boolean;
+  aliases?: any;
 };
 
 type T_SLIDER_LABEL = {
@@ -20,6 +21,7 @@ type T_SLIDER_LABEL = {
   field?: string;
   on: boolean;
   click: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
+  aliases?: any;
 };
 
 const Slider = ({
@@ -30,6 +32,7 @@ const Slider = ({
   select,
   setSelectedPageIdx,
   fetching,
+  aliases,
 }: T_SLIDER) => {
   useEffect(() => {
     let observer: IntersectionObserver;
@@ -99,6 +102,7 @@ const Slider = ({
             field={c.field}
             on={(selected[idx] as Choice)?.values.includes(v)}
             click={select}
+            aliases={aliases}
           />
         );
         i++;
@@ -184,20 +188,15 @@ const Slider = ({
   );
 };
 
-export const choiceStrMap: any = {
-  H: "Hybrid",
-  S: "Sativa",
-  I: "Indica",
-  C: "C",
-  N: "None",
-  R: "REC",
-  M: "MED",
-};
-
-const Label = ({ idx, type, title, field, on, click }: T_SLIDER_LABEL) => {
-  const getChoiceText = (title: string) => {
-    return choiceStrMap[title] || title;
-  };
+const Label = ({
+  idx,
+  type,
+  title,
+  field,
+  on,
+  click,
+  aliases,
+}: T_SLIDER_LABEL) => {
   return (
     <span
       id={`slider_label_${type + idx}`}
@@ -211,7 +210,9 @@ const Label = ({ idx, type, title, field, on, click }: T_SLIDER_LABEL) => {
         click(type, title, field);
       }}
     >
-      {type === "choice" ? getChoiceText(title) : title}
+      {aliases && field && aliases[field] && aliases[field][title]
+        ? aliases[field][title]
+        : title}
     </span>
   );
 };

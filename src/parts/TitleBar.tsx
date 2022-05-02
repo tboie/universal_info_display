@@ -13,6 +13,7 @@ const TitleBar = ({
   miles,
   fetching,
   map,
+  aliases,
 }: {
   selectedGroup: string;
   selectedPageIdx: number;
@@ -26,26 +27,21 @@ const TitleBar = ({
   miles: number;
   fetching: boolean;
   map: boolean;
+  aliases: any;
 }) => {
   const getChoiceText = (choices: Choice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {
       c.values.forEach((v) => {
-        allChoices.push(v);
+        allChoices.push(
+          aliases && c.field && aliases[c.field] && aliases[c.field][v]
+            ? aliases[c.field][v]
+            : v
+        );
       });
     });
 
-    if (allChoices.length) {
-      return allChoices
-        .join(", ")
-        .replace("I", "Indica")
-        .replace("S", "Sativa")
-        .replace("H", "Hybrid")
-        .replace("M", "MED")
-        .replace("R", "REC");
-    } else {
-      return "All";
-    }
+    return allChoices.length ? allChoices.join(", ") : "All";
   };
   return (
     <div className="titlebar">

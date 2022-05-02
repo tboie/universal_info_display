@@ -659,6 +659,11 @@ const UniversalInfoDisplay = (props: {
         miles={miles}
         fetching={fetching}
         map={map}
+        aliases={
+          itemAliases[
+            groupFilters.findIndex((g: any) => g.group === selectedGroup)
+          ]
+        }
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
@@ -750,6 +755,13 @@ const UniversalInfoDisplay = (props: {
                   selected={f.val as Choice[]}
                   select={sliderSelect}
                   fetching={fetching}
+                  aliases={
+                    itemAliases[
+                      groupFilters.findIndex(
+                        (g: any) => g.group === selectedGroup
+                      )
+                    ]
+                  }
                 />
               );
             }
