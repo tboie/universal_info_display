@@ -12,6 +12,7 @@ const TitleBar = ({
   selectedStore,
   miles,
   fetching,
+  map,
 }: {
   selectedGroup: string;
   selectedPageIdx: number;
@@ -24,6 +25,7 @@ const TitleBar = ({
   selectedStore?: Store;
   miles: number;
   fetching: boolean;
+  map: boolean;
 }) => {
   const getChoiceText = (choices: Choice[]) => {
     const allChoices: string[] = [];
@@ -80,7 +82,7 @@ const TitleBar = ({
               }
             })}
           </span>
-          {totalPages > 0 && (
+          {totalPages > 0 && !map && (
             <span className="numpages">
               <>
                 <span className="numpages-current">{selectedPageIdx}</span>

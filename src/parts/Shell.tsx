@@ -651,6 +651,7 @@ const UniversalInfoDisplay = (props: {
         selectedStore={selectedStore}
         miles={miles}
         fetching={fetching}
+        map={map}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
