@@ -12,7 +12,7 @@ const Item = ({
       {item.id}
       <img
         src={
-          "out2.gif"
+          "final.gif"
           /*item.img*/
         }
       />
