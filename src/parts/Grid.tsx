@@ -33,18 +33,23 @@ const GridItems = ({
               </span>
             </div>
             <div className="container-img">
+              {/*<div className="glow-css" />*/}
+              <img className="glow" src="glow.png" />
               <img
-                src={`${
+                className="thumb"
+                src={
+                  "final.gif" /*`${
                   item.w === "D"
                     ? "https://images.dutchie.com/" +
                       item["p"] +
                       "?auto=format&fit=fill&fill=solid&fillColor=%" +
-                      "23fff" +
+                      "23000" +
                       "&__typename=ImgixSettings&ixlib=react-9.0.2&h=200&w=200"
                     : item["p"]
-                }`}
+                }`*/
+                }
                 loading="lazy"
-                alt=""
+                alt="image"
               ></img>
             </div>
           </div>

@@ -140,7 +140,7 @@ const ContentSlider = ({
   };
 
   useEffect(() => {
-    calc();
+    // calc();
   }, []);
 
   useEffect(() => {

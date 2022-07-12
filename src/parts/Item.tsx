@@ -10,7 +10,12 @@ const Item = ({
   return (
     <div id="item">
       {item.id}
-      <img src={item.img} />
+      <img
+        src={
+          "out2.gif"
+          /*item.img*/
+        }
+      />
       <button id="item_close" onClick={() => close(-1)}>
         X
       </button>

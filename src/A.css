@@ -1,7 +1,6 @@
 .U {
   position: absolute;
   display: none;
-  border: 1px solid lightgray;
   overflow: hidden;
   touch-action: none;
 }
