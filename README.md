@@ -4,9 +4,8 @@
 <img width="278" alt="item ui" src="https://user-images.githubusercontent.com/26150152/179121738-379bb89c-0af4-49c3-9fb7-40ca0486c515.png">
 <img width="306" alt="map" src="https://user-images.githubusercontent.com/26150152/179119627-45414340-532c-419d-8015-b4b1e0a748cf.png">
 
-
 ### Version 1 (Mobile)
-- Display nearest x items less than x miles (50 default) from device location
+- Display nearest *x* items less than *x* miles (50 default) from device location
 
 ### Goals
 - Experiment navigating a simplified horizontally-scrolled content system
@@ -28,20 +27,23 @@ npm start
 - Tools were custom created for harvesting and reverse lookup
 
 ### Media Equipment/Software
-- iPhone camera
-- 3D printed stand for phone
-- Arduino uno with stepper motor
-- 3D printed nozzle for stepper motor to hold flower pin
-- [ffmpeg](https://ffmpeg.org) for video conversion
-- [backgroundremover](https://github.com/nadermx/backgroundremover) for item background removal
+- [iPhone Camera recorded video in square 1:1 format](https://jilaxzone.com/2021/11/23/heres-how-to-record-square-video-on-iphone-instead-of-default-169-no-3rd-party-app-installation-required/)
+- [3D Printed Phone Stand](https://www.tinkercad.com/things/c7iPako4ej5-phone-stand) [[.stl file]](https://github.com/tboie/universal_info_display/blob/groups/public/3d/phone-stand.stl)
+- [Arduino Uno](https://store-usa.arduino.cc/products/arduino-uno-rev3) [[arduino stepper code file]](https://github.com/tboie/universal_info_display/blob/groups/public/arduino/stepper_onerev_28BYJ-48.ino)
+- [Stepper Motor 28BYJ-48](https://create.arduino.cc/projecthub/debanshudas23/getting-started-with-stepper-motor-28byj-48-3de8c9)
+- [3D Printed Flower Pin Nozzle](https://www.tinkercad.com/things/0bvBJ69fsWk-needle-piece) [[.stl file]](https://github.com/tboie/universal_info_display/blob/groups/public/3d/needle-piece.stl)
+- [Flower Pins](https://www.walmart.com/ip/Dritz-Flat-Flower-Pin-100-Pack/51236523)
+- [Rubber Bumpers for noise reduction](https://www.walmart.com/ip/Clear-Adhesive-Bumper-Pads-106-PC-Combo-Pack-Round-Spherical-Square-Made-USA-Sound-Dampening-Transparent-Rubber-Feet-Cabinet-Doors-Drawers-Glass-Tops/762207313)
+- [ffmpeg](https://ffmpeg.org) video conversion
+- [backgroundremover](https://github.com/nadermx/backgroundremover) video background removal
 
 ### Camera To Computer
-- Item is rotating on stepper motor at 360 degrees per 30 seconds
-- Recorded with iphone video as a square on phone stand
-- Download to photos app on imac then export to hard drive
-- 10 seconds is considered the official slice start time because the camera had to be re-adjusted due to slight movements after rec ording
+- Item is rotating on stepper motor at [[360 degrees per 30 seconds]](https://github.com/tboie/universal_info_display/blob/groups/public/arduino/stepper_onerev_28BYJ-48.ino)
+- Use the phone stand and links above to [record square video](https://jilaxzone.com/2021/11/23/heres-how-to-record-square-video-on-iphone-instead-of-default-169-no-3rd-party-app-installation-required/) and rotate item on above setup
+- Transfer from phone to Photos App on OS X then export (File > Export) to drive and there should now be a square .mov file.
 
 ### Video Conversion Commands
+NOTE: 10 seconds is considered the official slice start time because the camera had to be re-adjusted due to slight movements after rec ording
 1. Slice 30 seconds (1 rotation) and create new keyframes from video starting at 10 seconds
 ```
 ffmpeg -i orig.mov -ss 00:00:10 -t 00:00:05 -r 10 -async 1 out-test.mov
