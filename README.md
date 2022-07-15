@@ -1,8 +1,9 @@
 # UNIVERSAL INFO DISPLAY (ITEMS)
 
-<img width="420" alt="concept" src="https://user-images.githubusercontent.com/26150152/153199853-4c7d251f-da39-42b1-a879-6e4f9e588c1d.png">
-<img width="278" alt="item ui" src="https://user-images.githubusercontent.com/26150152/179121738-379bb89c-0af4-49c3-9fb7-40ca0486c515.png">
-<img width="306" alt="map" src="https://user-images.githubusercontent.com/26150152/179119627-45414340-532c-419d-8015-b4b1e0a748cf.png">
+<img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
+<img width="430" alt="flow diagram" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
+<img width="268" alt="item ui" src="https://user-images.githubusercontent.com/26150152/179121738-379bb89c-0af4-49c3-9fb7-40ca0486c515.png">
+<img width="268" alt="map" src="https://user-images.githubusercontent.com/26150152/179227076-1b0dd3f7-9807-4b37-af56-fee6dcb02ec3.png">
 
 ### Version 1 (Mobile)
 - Display nearest *x* items less than *x* miles (50 default) from device location
