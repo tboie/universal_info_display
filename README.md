@@ -1,9 +1,9 @@
 # UNIVERSAL INFO DISPLAY PROTOTYPE (ITEMS)
 
 <img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
+<img width="430" alt="flow diagram" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
 <img width="268" alt="3d" src="https://user-images.githubusercontent.com/26150152/179373904-75cb0c80-9903-473a-9620-77faa822b408.gif">
 <img width="268" alt="map" src="https://user-images.githubusercontent.com/26150152/179227076-1b0dd3f7-9807-4b37-af56-fee6dcb02ec3.png">
-<img width="430" alt="flow diagram" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
 <img width="268" alt="wireframe" src="https://user-images.githubusercontent.com/26150152/179374209-d6162023-1908-44a9-9ba4-5f859cf56c0b.png">
 
 ### Version 1 (Mobile)
