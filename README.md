@@ -26,11 +26,13 @@ npm i
 npm start
 ```
 
-### Group Data Config
+### Data Config (TODO: Design left open)
 
-- a group is a dataset of items [(example flower group dataset in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
-- json files are used for UI configuration in [public/data/config](https://github.com/tboie/universal_info_display/tree/groups/public/data/config)
-- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/groups.json) - group filter name/field/alias config
+- items are stored by address(store) in arrays `[location store address].json` in [public/data/groups](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups)
+- a group is a dataset of items [(flower example in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
+- [/public/data/keys](https://github.com/tboie/universal_info_display/tree/groups/public/data/keys) are used to link location to item files
+- [public/data/config](https://github.com/tboie/universal_info_display/tree/groups/public/data/config) are used for item field UI configuration
+- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/groups.json) - group UI filter name/field/alias config
 - [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/filter_defaults.json) - default group filter values
 - [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/item_aliases.json) - item field aliases
 

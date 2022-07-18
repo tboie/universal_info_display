@@ -136,7 +136,9 @@ const UniversalInfoDisplay = (props: {
     ];
   };
 
+  // TODO: Design
   const configPath = "/data/config";
+  const keyPath = "/data/keys";
   const getData = () => {
     setFetching(true);
     fetch(`${configPath}/groups.json`)
@@ -148,20 +150,15 @@ const UniversalInfoDisplay = (props: {
             fetch(`${configPath}/item_aliases.json`)
               .then((r) => r.json())
               .then((itemAliasesData) => {
-                fetch("/data/key_dutchie.json")
+                fetch(`${keyPath}/${groupData[0].group}.json`)
                   .then((r) => r.json())
-                  .then((json_dutchie) => {
-                    fetch("/data/key_iheartjane.json")
-                      .then((r) => r.json())
-                      .then((json_iheartjane) => {
-                        const master = json_dutchie.concat(json_iheartjane);
-                        setKey(master);
-                        setGroupFilters(groupData);
-                        setFilterDefaults(filterDefaultData);
-                        setItemAliases(itemAliasesData);
-                        setSelectedGroup(groupData[0].group);
-                        getLocation();
-                      });
+                  .then((key) => {
+                    setKey(key);
+                    setGroupFilters(groupData);
+                    setFilterDefaults(filterDefaultData);
+                    setItemAliases(itemAliasesData);
+                    setSelectedGroup(groupData[0].group);
+                    getLocation();
                   });
               });
           });
