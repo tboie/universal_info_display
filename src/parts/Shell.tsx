@@ -136,15 +136,16 @@ const UniversalInfoDisplay = (props: {
     ];
   };
 
+  const configPath = "/data/config";
   const getData = () => {
     setFetching(true);
-    fetch("/data/groups.json")
+    fetch(`${configPath}/groups.json`)
       .then((r) => r.json())
       .then((groupData) => {
-        fetch("/data/filter_defaults.json")
+        fetch(`${configPath}/filter_defaults.json`)
           .then((r) => r.json())
           .then((filterDefaultData) => {
-            fetch("/data/item_aliases.json")
+            fetch(`${configPath}/item_aliases.json`)
               .then((r) => r.json())
               .then((itemAliasesData) => {
                 fetch("/data/key_dutchie.json")
@@ -484,7 +485,7 @@ const UniversalInfoDisplay = (props: {
       // all fetches
       const reqs: any = [];
       loc_distance.forEach((loc) => {
-        const uri = `/data/${selectedGroup}/${encodeURIComponent(
+        const uri = `/data/groups/${selectedGroup}/${encodeURIComponent(
           loc["a"]
         )}.json`;
         reqs.push(fetchData(uri));

@@ -28,20 +28,15 @@ npm start
 
 ### Group Data Config
 
-- to configure groups, filters, item aliases etc., use the json files in [public/data](https://github.com/tboie/universal_info_display/tree/groups/public/data)
-- pushing a new group to the json files will add another group
-- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups.json) - group name/field/alias config
-- [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/filter_defaults.json) - default group filter values
-- [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/item_aliases.json) - item field aliases
+- a group is a dataset of items [(example flower group dataset in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
+- json files are used for UI configuration in [public/data/config](https://github.com/tboie/universal_info_display/tree/groups/public/data/config)
+- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/groups.json) - group filter name/field/alias config
+- [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/filter_defaults.json) - default group filter values
+- [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/item_aliases.json) - item field aliases
 
 ### Performance
 
-- Pages are proximity-rendered from currently viewed/selected page
-
-### Industry Dataset
-
-- Tools were custom created for harvesting and reverse lookup
-- example data used located at [public/data/flower](https://github.com/tboie/universal_info_display/tree/groups/public/data/flower)
+- Items are proximity-rendered from currently selected(viewed) page
 
 ### Media Equipment/Software
 
@@ -92,10 +87,12 @@ Have the item "float" by displaying a slice of a full rotation.
 
 ### TODO/THINK/(RE)DESIGN
 
-- Loader Page
-- Selected Item Template Page
-- Allow more filters and scroll
+- Key fetch config for group data
+- Loader Page (1st page)
+- Selected Item Template Page (item is clicked from grid)
+- Allow more filters and scroll (filters scroll horizontally too)
 - Search
 - Themes
 - Extend map features?
 - Online shopping?
+- Secondary
