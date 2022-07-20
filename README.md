@@ -1,14 +1,9 @@
 # UNIVERSAL INFO DISPLAY PROTOTYPE (ITEMS)
 
-A horizontally scrolled content display system. It's current purpose is to display items within a range of the device. It uses both a grid and map to display items. UI Components are used to filter and sort item data.
-
-<img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
-<img width="268" alt="3d" src="https://user-images.githubusercontent.com/26150152/179373904-75cb0c80-9903-473a-9620-77faa822b408.gif">
-<img width="268" alt="map" src="https://user-images.githubusercontent.com/26150152/179227076-1b0dd3f7-9807-4b37-af56-fee6dcb02ec3.png">
-
 ### Version 1 (Mobile)
 
 - Display nearest _x_ items less than _x_ miles (50 default) from device location
+- A horizontally scrolled content display system. It's current purpose is to display items within a range of the device. It uses both a grid and map to display items. UI Components are used to filter and sort item data.
 
 ### Goals
 
@@ -16,6 +11,13 @@ A horizontally scrolled content display system. It's current purpose is to displ
 - Experiment enhanced content media presentation with rotating 3D effect items
 - Experiment using a real industry-level dataset (100k+ items, 2500+ stores)
 - Experiment map integration for items with [openstreetmap](https://openstreetmap.org)
+
+<img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
+<img width="268" alt="3d" src="https://user-images.githubusercontent.com/26150152/179373904-75cb0c80-9903-473a-9620-77faa822b408.gif">
+<img width="268" alt="map" src="https://user-images.githubusercontent.com/26150152/179227076-1b0dd3f7-9807-4b37-af56-fee6dcb02ec3.png">
+
+### Demo
+- [Universal Info Display Demo](https://universal-info-display.vercel.app/)
 
 ### Install/Run
 
