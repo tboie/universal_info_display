@@ -4,6 +4,8 @@ const TitleBar = ({
   selectedGroup,
   selectedPageIdx,
   totalPages,
+  editFilters,
+  setEditFilters,
   filter1,
   filter2,
   filter3,
@@ -18,6 +20,8 @@ const TitleBar = ({
   selectedGroup: string;
   selectedPageIdx: number;
   totalPages: number;
+  editFilters: boolean;
+  setEditFilters: (val: boolean) => void;
   filter1?: Filter;
   filter2?: Filter;
   filter3?: Filter;
@@ -44,7 +48,10 @@ const TitleBar = ({
     return allChoices.length ? allChoices.join(", ") : "All";
   };
   return (
-    <div className="titlebar">
+    <div
+      className={`titlebar ${editFilters ? "edit-filters" : ""}`}
+      onClick={() => setEditFilters(!editFilters)}
+    >
       {selectedGroup && (
         <span className="title">
           {selectedStore ? (
