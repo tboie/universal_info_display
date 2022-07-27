@@ -35,14 +35,15 @@
 }
 
 .titlebar .title {
-  width: 100%;
   white-space: nowrap;
   text-align: center;
   text-transform: capitalize;
   position: absolute;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   overflow-x: scroll;
   padding: 0.2rem 0.1rem 0.1rem 0.1rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .titlebar .miles {
@@ -57,7 +58,7 @@
   white-space: nowrap;
   width: calc(100% - 4rem);
   overflow-x: scroll;
-  padding: 0.1rem 0.2rem;
+  padding: 0.1rem 0.1rem 0.25rem 0.1rem;
   font-size: 1rem;
 }
 

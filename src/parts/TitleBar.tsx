@@ -1,4 +1,3 @@
-import { NumericLiteral, setSourceMapRange } from "typescript";
 import { Choice, Filter, Store } from "./Shell";
 
 const TitleBar = ({
@@ -48,6 +47,7 @@ const TitleBar = ({
       if (selectedFilterIdx === idx) {
         setEditFilters(false);
         setSelectedFilterIdx(0);
+        toggleMap(false);
       } else {
         setSelectedFilterIdx(idx);
       }
@@ -72,9 +72,15 @@ const TitleBar = ({
   return (
     <div
       className={`titlebar ${editFilters ? "edit-filters" : ""}`}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
         setEditFilters(!editFilters);
         setSelectedFilterIdx(editFilters ? 0 : selectedFilterIdx);
+        if (map) {
+          toggleMap(false);
+        }
       }}
     >
       {selectedGroup && (
