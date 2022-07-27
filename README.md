@@ -17,6 +17,7 @@
 <img width="268" alt="map" src="https://user-images.githubusercontent.com/26150152/179227076-1b0dd3f7-9807-4b37-af56-fee6dcb02ec3.png">
 
 ### Demo
+
 - [Universal Info Display Demo](https://universal-info-display.vercel.app/)
 
 ### Install/Run
@@ -59,6 +60,7 @@ npm start
 ### Performance
 
 - Items are proximity-rendered from currently selected(viewed) page
+- Optimization: Pages could be proximity-rendered as well by calculating page placement.
 
 ### Equipment/Info/Tools used for 3D Item object recording with iPhone
 
