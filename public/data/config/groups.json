@@ -1,12 +1,6 @@
 [
        {
               "group": "flower",
-              "$": {
-                     "type": "range"
-              },
-              "%": {
-                     "type": "range"
-              },
               "m,t": {
                      "alias": "type",
                      "type": "choice"
@@ -14,8 +8,15 @@
               "g": {
                      "type": "choice"
               },
+              "$": {
+                     "type": "range"
+              },
+              "%": {
+                     "type": "range"
+              }, 
               "mi": {
                      "type": "range"
               }
+             
        }
 ]

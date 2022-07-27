@@ -50,30 +50,31 @@
 }
 
 .titlebar .filters {
-  bottom: 0.1rem;
-  display: inline-block;
   position: absolute;
+  bottom: 0.1rem;
+  display: flex;
   left: 0;
   white-space: nowrap;
   width: calc(100% - 4rem);
   overflow-x: scroll;
-  margin: 0 0.1rem 0.1rem 0.1rem;
+  padding: 0.1rem 0.2rem;
+  font-size: 1rem;
 }
 
-.titlebar .filters .choice-group {
-  bottom: 0;
-  color: rgb(252, 252, 252);
-}
-
-.titlebar .filters .choice-values {
+.titlebar .filters .filter-vals {
   bottom: 0;
   color: gold;
-  margin-right: 0.75rem;
+  opacity: 0.85;
+  margin-right: 1rem;
+}
+
+.titlebar .filters .filter-vals.sel {
+  opacity: 1;
 }
 
 .titlebar .numpages {
   position: absolute;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   bottom: 0.1rem;
   right: 0.1rem;
 }

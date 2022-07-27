@@ -651,6 +651,8 @@ const UniversalInfoDisplay = (props: {
         totalPages={chunkArr(filteredItems, 6).length}
         editFilters={editFilters}
         setEditFilters={setEditFilters}
+        selectedFilterIdx={selectedFilterIdx}
+        setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
         filter1={filter1}
         filter2={filter2}
         filter3={filter3}
@@ -660,6 +662,7 @@ const UniversalInfoDisplay = (props: {
         miles={miles}
         fetching={fetching}
         map={map}
+        toggleMap={(val) => toggleMap(val)}
         aliases={
           itemAliases[
             groupFilters.findIndex((g: any) => g.group === selectedGroup)

@@ -1,3 +1,4 @@
+import { NumericLiteral, setSourceMapRange } from "typescript";
 import { Choice, Filter, Store } from "./Shell";
 
 const TitleBar = ({
@@ -6,6 +7,8 @@ const TitleBar = ({
   totalPages,
   editFilters,
   setEditFilters,
+  selectedFilterIdx,
+  setSelectedFilterIdx,
   filter1,
   filter2,
   filter3,
@@ -15,6 +18,7 @@ const TitleBar = ({
   miles,
   fetching,
   map,
+  toggleMap,
   aliases,
 }: {
   selectedGroup: string;
@@ -22,6 +26,8 @@ const TitleBar = ({
   totalPages: number;
   editFilters: boolean;
   setEditFilters: (val: boolean) => void;
+  selectedFilterIdx: number;
+  setSelectedFilterIdx: (idx: number) => void;
   filter1?: Filter;
   filter2?: Filter;
   filter3?: Filter;
@@ -31,8 +37,23 @@ const TitleBar = ({
   miles: number;
   fetching: boolean;
   map: boolean;
+  toggleMap: (val: boolean) => void;
   aliases: any;
 }) => {
+  const toggleFilter = (idx: number) => {
+    if (!editFilters) {
+      setEditFilters(true);
+      setSelectedFilterIdx(idx);
+    } else {
+      if (selectedFilterIdx === idx) {
+        setEditFilters(false);
+        setSelectedFilterIdx(0);
+      } else {
+        setSelectedFilterIdx(idx);
+      }
+    }
+  };
+
   const getChoiceText = (choices: Choice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {
@@ -45,15 +66,38 @@ const TitleBar = ({
       });
     });
 
-    return allChoices.length ? allChoices.join(", ") : "All";
+    return allChoices.length ? allChoices.join(", ") : "";
   };
+
   return (
     <div
       className={`titlebar ${editFilters ? "edit-filters" : ""}`}
-      onClick={() => setEditFilters(!editFilters)}
+      onClick={() => {
+        setEditFilters(!editFilters);
+        setSelectedFilterIdx(editFilters ? 0 : selectedFilterIdx);
+      }}
     >
       {selectedGroup && (
-        <span className="title">
+        <span
+          className="title"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (!map) {
+              setEditFilters(true);
+              setSelectedFilterIdx(
+                [filter1, filter2, filter3, filter4, filter5].findIndex(
+                  (f) => f && f.name === "mi"
+                ) + 1
+              );
+              toggleMap(true);
+            } else {
+              setEditFilters(false);
+              setSelectedFilterIdx(0);
+              toggleMap(false);
+            }
+          }}
+        >
           {selectedStore ? (
             selectedStore?.n.replaceAll("-", " ")
           ) : fetching ? (
@@ -70,18 +114,44 @@ const TitleBar = ({
       {!fetching && selectedGroup && (
         <>
           <span className="filters">
-            {[filter1, filter2, filter3, filter4, filter5].map((f) => {
-              if (f && f.type === "choice") {
-                let choiceStr = f?.alias || f?.name || "";
-                return (
-                  <>
-                    <span className="choice-group">{choiceStr}</span>
-                    {": "}
-                    <span className="choice-values">
-                      {getChoiceText(f.val as Choice[])}
+            {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
+              idx++;
+              if (f && f?.name !== "mi") {
+                if (f.type === "choice") {
+                  const selectedChoices = getChoiceText(f.val as Choice[]);
+                  if (selectedChoices) {
+                    return (
+                      <span
+                        className={`filter-vals ${
+                          selectedFilterIdx === idx ? "sel" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          toggleFilter(idx);
+                        }}
+                      >
+                        {getChoiceText(f.val as Choice[])}
+                      </span>
+                    );
+                  }
+                } else if (f.type === "range" && f.sort) {
+                  return (
+                    <span
+                      className={`filter-vals ${
+                        selectedFilterIdx === idx ? "sel" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        toggleFilter(idx);
+                      }}
+                    >
+                      {f.sort === "asc" ? ">" : "<"}
+                      {f.name !== "$" ? f.val + f.name : f.name + f.val}
                     </span>
-                  </>
-                );
+                  );
+                }
               }
             })}
           </span>

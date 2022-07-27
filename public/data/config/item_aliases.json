@@ -2,8 +2,8 @@
     {
         "m": {
             "alias": "Menu",
-            "R": "Rec",
-            "M": "Med"
+            "R": "REC",
+            "M": "MED"
         },
         "t": {
             "alias": "Type",
