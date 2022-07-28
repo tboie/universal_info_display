@@ -11,7 +11,6 @@ const ContentSlider = ({
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
-  clearFilters,
   filtersOn,
   getData,
   fetching,
@@ -23,7 +22,6 @@ const ContentSlider = ({
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
   setSelectedItemIdx: (val: any) => any;
-  clearFilters: () => void;
   filtersOn: boolean;
   getData: () => any;
   fetching: boolean;
@@ -214,14 +212,13 @@ const ContentSlider = ({
           ))
         ) : (
           <Page
-            text={"0 items"}
+            text={"No Items Found"}
             key={0}
             num={1}
             items={[]}
             selectedPageIdx={selectedPageIdx}
             setSelectedPageIdx={setSelectedPageIdx}
             setSelectedItemIdx={setSelectedItemIdx}
-            clearFilters={clearFilters}
             filtersOn={filtersOn}
             getData={getData}
             fetching={fetching}
@@ -239,7 +236,6 @@ const Page = ({
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
-  clearFilters,
   filtersOn,
   getData,
   fetching,
@@ -250,7 +246,6 @@ const Page = ({
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
   setSelectedItemIdx: (val: number) => void;
-  clearFilters?: () => void;
   filtersOn: boolean;
   getData: () => any;
   fetching: boolean;
@@ -396,7 +391,7 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
-      {text === "0 items" && filtersOn ? (
+      {text === "No Items Found" && filtersOn ? (
         <>
           <img className="page_bg" src="/bg.gif" />
           <span className="no-items">{text}</span>
@@ -415,11 +410,7 @@ const Page = ({
           }
           setSelectedItemIdx={setSelectedItemIdx}
         />
-      ) : filtersOn ? (
-        <button className="clear_filters" onClick={clearFilters}>
-          {"CLEAR FILTERS"}
-        </button>
-      ) : (
+      ) : filtersOn ? null : (
         <button className="get_data" onClick={getData} disabled={fetching}>
           {fetching ? "FETCHING" : "GET DATA"}
         </button>

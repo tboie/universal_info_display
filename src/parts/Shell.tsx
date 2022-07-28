@@ -696,7 +696,6 @@ const UniversalInfoDisplay = (props: {
           setSelectedPageIdx={setSelectedPageIdx}
           selectedPageIdx={selectedPageIdx}
           setSelectedItemIdx={setSelectedItemIdx}
-          clearFilters={clearFilters}
           getData={getData}
           fetching={fetching}
           filtersOn={
