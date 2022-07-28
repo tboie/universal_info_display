@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Choice } from "./Shell";
 
-export type T_SLIDER_TYPE = "choice" | "group" | "page";
+export type T_SLIDER_TYPE = "choice" | "group" | "page" | "clear-filters";
 
 type T_SLIDER = {
   type: T_SLIDER_TYPE;
@@ -184,6 +184,16 @@ const Slider = ({
           </button>
         </>
       ) : null}
+
+      {type === "clear-filters" && (
+        <Label
+          idx={0}
+          type={type}
+          title={"Clear Filters"}
+          on={false}
+          click={select}
+        />
+      )}
     </div>
   );
 };
@@ -200,7 +210,9 @@ const Label = ({
   return (
     <span
       id={`slider_label_${type + idx}`}
-      className={`slider_label ${on ? "selected" : ""}`}
+      className={`slider_label ${on ? "selected" : ""} ${
+        type === "clear-filters" ? "clear-filters" : ""
+      }`}
       onClick={(e) => {
         if (type === "page") {
           e.stopPropagation();

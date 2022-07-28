@@ -176,10 +176,6 @@
   background-color: #1e1f33;
 }
 
-.slider_label.selected {
-  color: rgb(252, 252, 252);
-}
-
 .filterbar {
   height: 2rem;
   max-height: 2rem;
@@ -489,6 +485,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider_label:last-of-type {
   padding-right: 50%;
+}
+
+.slider_label.clear-filters {
+  left: 50%;
+  padding-left: 0;
+  padding-right: 0;
+  transform: translateX(-50%);
 }
 
 .slider_label.selected {

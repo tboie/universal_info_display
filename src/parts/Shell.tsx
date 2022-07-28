@@ -352,6 +352,8 @@ const UniversalInfoDisplay = (props: {
           val: toggleChoice(filter5?.val as Choice[], field, title),
         });
       }
+    } else if (type === "clear-filters") {
+      clearFilters();
     }
   };
 
@@ -734,9 +736,8 @@ const UniversalInfoDisplay = (props: {
       {editFilters &&
         (!map && selectedFilterIdx === 0 ? (
           <Slider
-            type="group"
-            titles={groupFilters.map((g: any) => g.group)}
-            selected={[selectedGroup]}
+            type="clear-filters"
+            selected={[]}
             select={sliderSelect}
             fetching={fetching}
           />
@@ -783,9 +784,8 @@ const UniversalInfoDisplay = (props: {
 
       {map && !selectedStore ? (
         <Slider
-          type="group"
-          titles={groupFilters.map((g: any) => g.group)}
-          selected={[selectedGroup]}
+          type="clear-filters"
+          selected={[]}
           select={sliderSelect}
           fetching={fetching}
         />
