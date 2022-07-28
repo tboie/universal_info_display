@@ -88,7 +88,7 @@ export default function Overlays({
           geometry={new Circle(fromLonLat([lng, lat]), miles * 1.4 * 1609.344)}
         >
           <RStyle.RStyle>
-            <RStyle.RStroke color="yellow" width={4} />
+            <RStyle.RStroke color="gold" width={4} />
             <RStyle.RFill color="transparent" />
           </RStyle.RStyle>
         </RFeature>
