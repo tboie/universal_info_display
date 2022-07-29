@@ -398,16 +398,18 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
-      {text === "No Items Found" && filtersOn ? (
+      {items?.length === 0 && filtersOn && (
         <>
           <img className="page_bg" src="/bg.gif" />
           <span className="no-items">{text}</span>
         </>
-      ) : items?.length === 0 ? (
-        <img className="page_bg" src="/bg.gif" />
-      ) : null}
+      )}
 
-      {items && items.length && (
+      {(items?.length === 0 || !selectedGroup) && (
+        <img className="page_bg" src="/bg.gif" />
+      )}
+
+      {items?.length && (
         <Grid
           // only render items in range of selectedPageIdx
           items={
@@ -420,62 +422,6 @@ const Page = ({
           getData={getData}
         />
       )}
-    </div>
-  );
-};
-
-const ContentSliderBG = () => {
-  return (
-    <div className="scene">
-      <div className="wrapper">
-        <ul className="ball">
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-          <li className="ring"></li>
-        </ul>
-      </div>
     </div>
   );
 };

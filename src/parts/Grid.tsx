@@ -12,7 +12,11 @@ const GridItems = ({
   getData: (group: string) => void;
 }) => {
   return items.length ? (
-    <div className="item-grid">
+    <div
+      className={`item-grid ${
+        items?.length && selectedGroup ? "bg-gradient" : "end"
+      }`}
+    >
       {items.map((item, idx) => (
         <div
           className={`item`}
@@ -46,7 +50,6 @@ const GridItems = ({
               )}
             </div>
             <div className="container-img">
-              {/*<div className="glow-css" />*/}
               <img className="glow" src="glow.png" />
               <img
                 className="thumb"
@@ -70,6 +73,62 @@ const GridItems = ({
       ))}
     </div>
   ) : null;
+};
+
+const TestSphere = () => {
+  return (
+    <div className="scene">
+      <div className="wrapper">
+        <ul className="ball">
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+          <li className="ring"></li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default GridItems;

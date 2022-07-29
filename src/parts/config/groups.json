@@ -1,6 +1,6 @@
 [
        {
-              "group": "flower",
+              "group": "Flower",
               "m,t": {
                      "alias": "type",
                      "type": "choice"
@@ -18,5 +18,11 @@
                      "type": "range"
               }
              
+       },
+       {
+              "group": "Test Group",
+               "mi": {
+                     "type": "range"
+              }
        }
 ]
