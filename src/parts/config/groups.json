@@ -1,6 +1,6 @@
 [
        {
-              "group": "Flower",
+              "group": "flower",
               "m,t": {
                      "alias": "type",
                      "type": "choice"
