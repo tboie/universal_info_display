@@ -3,9 +3,13 @@ import { UniversalInfoDisplayItem } from "./Shell";
 const GridItems = ({
   items,
   setSelectedItemIdx,
+  selectedGroup,
+  getData,
 }: {
   items: UniversalInfoDisplayItem[];
   setSelectedItemIdx: (val: number) => any;
+  selectedGroup: string;
+  getData: (group: string) => void;
 }) => {
   return items.length ? (
     <div className="item-grid">
@@ -13,24 +17,33 @@ const GridItems = ({
         <div
           className={`item`}
           key={item.b + item.n + idx}
-          onClick={() => setSelectedItemIdx(item.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+
+            selectedGroup ? setSelectedItemIdx(item.id) : getData(item.n);
+          }}
         >
           <span className="title">{item.n}</span>
 
           <div className="container">
             <div className="container-text">
-              <span className="price">{"$" + item["$"]}</span>
-              <span className="choice">
-                {item["g"] ? item["g"].join(",") : ""}
-              </span>
-              <span className="percent">
-                {item["%"] ? Math.round(item["%"]) + "%" : ""}
-              </span>
-              <span className="type">{item["t"]}</span>
+              {selectedGroup && (
+                <>
+                  <span className="price">{"$" + item["$"]}</span>
+                  <span className="choice">
+                    {item["g"] ? item["g"].join(",") : ""}
+                  </span>
+                  <span className="percent">
+                    {item["%"] ? Math.round(item["%"]) + "%" : ""}
+                  </span>
+                  <span className="type">{item["t"]}</span>
 
-              <span className="ppu">
-                {item["ppu"] ? "$" + item["ppu"] + "/g" : ""}
-              </span>
+                  <span className="ppu">
+                    {item["ppu"] ? "$" + item["ppu"] + "/g" : ""}
+                  </span>
+                </>
+              )}
             </div>
             <div className="container-img">
               {/*<div className="glow-css" />*/}

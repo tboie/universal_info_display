@@ -8,6 +8,7 @@ const ContentSlider = ({
   items,
   pagesBool,
   setPagesBool,
+  selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
@@ -19,11 +20,12 @@ const ContentSlider = ({
   items: UniversalInfoDisplayItem[];
   pagesBool: boolean[];
   setPagesBool: (val: any) => any;
+  selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
   setSelectedItemIdx: (val: any) => any;
   filtersOn: boolean;
-  getData: () => any;
+  getData: (group: string) => void;
   fetching: boolean;
 }) => {
   const [textChunks, setTextChunks] = useState(
@@ -187,6 +189,7 @@ const ContentSlider = ({
                 key={i}
                 num={i}
                 text={textChunks[i]}
+                selectedGroup={selectedGroup}
                 selectedPageIdx={selectedPageIdx}
                 setSelectedPageIdx={setSelectedPageIdx}
                 setSelectedItemIdx={setSelectedItemIdx}
@@ -202,6 +205,7 @@ const ContentSlider = ({
               key={idx}
               num={idx + 1}
               items={items}
+              selectedGroup={selectedGroup}
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
               setSelectedItemIdx={setSelectedItemIdx}
@@ -216,6 +220,7 @@ const ContentSlider = ({
             key={0}
             num={1}
             items={[]}
+            selectedGroup={selectedGroup}
             selectedPageIdx={selectedPageIdx}
             setSelectedPageIdx={setSelectedPageIdx}
             setSelectedItemIdx={setSelectedItemIdx}
@@ -233,6 +238,7 @@ const Page = ({
   text,
   items,
   num,
+  selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
@@ -243,11 +249,12 @@ const Page = ({
   text?: string;
   items?: UniversalInfoDisplayItem[];
   num: number;
+  selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
   setSelectedItemIdx: (val: number) => void;
   filtersOn: boolean;
-  getData: () => any;
+  getData: (group: string) => void;
   fetching: boolean;
 }) => {
   // IntersectionObservers for page snaps and page changes
@@ -400,7 +407,7 @@ const Page = ({
         <img className="page_bg" src="/bg.gif" />
       ) : null}
 
-      {items && items.length ? (
+      {items && items.length && (
         <Grid
           // only render items in range of selectedPageIdx
           items={
@@ -409,11 +416,9 @@ const Page = ({
               : []
           }
           setSelectedItemIdx={setSelectedItemIdx}
+          selectedGroup={selectedGroup}
+          getData={getData}
         />
-      ) : filtersOn ? null : (
-        <button className="get_data" onClick={getData} disabled={fetching}>
-          {fetching ? "FETCHING" : "GET DATA"}
-        </button>
       )}
     </div>
   );

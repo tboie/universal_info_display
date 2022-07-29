@@ -83,40 +83,41 @@ const TitleBar = ({
         }
       }}
     >
-      {selectedGroup && (
-        <span
-          className="title"
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            if (!map) {
-              setEditFilters(true);
-              setSelectedFilterIdx(
-                [filter1, filter2, filter3, filter4, filter5].findIndex(
-                  (f) => f && f.name === "mi"
-                ) + 1
-              );
-              toggleMap(true);
-            } else {
-              setEditFilters(false);
-              setSelectedFilterIdx(0);
-              toggleMap(false);
-            }
-          }}
-        >
-          {selectedStore ? (
-            selectedStore?.n.replaceAll("-", " ")
-          ) : fetching ? (
-            "Fetching " + selectedGroup
-          ) : (
-            <>
-              <span className="group">{selectedGroup}</span>
-              {" < "}
-              <span className="miles">{miles + "mi"}</span>
-            </>
-          )}
-        </span>
-      )}
+      <span
+        className="title"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (!map) {
+            setEditFilters(true);
+            setSelectedFilterIdx(
+              [filter1, filter2, filter3, filter4, filter5].findIndex(
+                (f) => f && f.name === "mi"
+              ) + 1
+            );
+            toggleMap(true);
+          } else {
+            setEditFilters(false);
+            setSelectedFilterIdx(0);
+            toggleMap(false);
+          }
+        }}
+      >
+        {selectedStore ? (
+          selectedStore?.n.replaceAll("-", " ")
+        ) : fetching ? (
+          "Fetching " + selectedGroup
+        ) : selectedGroup ? (
+          <>
+            <span className="group">{selectedGroup}</span>
+            {" < "}
+            <span className="miles">{miles + "mi"}</span>
+          </>
+        ) : (
+          <span className="group">Cannabis Items Near You</span>
+        )}
+      </span>
+
       {!fetching && selectedGroup && (
         <>
           <span className="filters">

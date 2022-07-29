@@ -12,6 +12,9 @@ import Item from "./Item";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
 import TitleBar from "./TitleBar";
 import { getDistance } from "geolib";
+import groupFilterData from "./config/groups.json";
+import itemAliasData from "./config/item_aliases.json";
+import filterDefaultData from "./config/filter_defaults.json";
 
 // globals
 declare global {
@@ -89,10 +92,10 @@ const UniversalInfoDisplay = (props: {
   const [pagesBool, setPagesBool] = useState([true]);
 
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [groupFilters, setGroupFilters] = useState([]);
+  const [groupFilters, setGroupFilters] = useState<any>(groupFilterData);
 
   const [editFilters, setEditFilters] = useState(false);
-  const [filterDefaults, setFilterDefaults] = useState([]);
+  const [filterDefaults, setFilterDefaults] = useState<any>(filterDefaultData);
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<Filter>();
   const [filter2, setFilter2] = useState<Filter>();
@@ -105,7 +108,7 @@ const UniversalInfoDisplay = (props: {
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
-  const [itemAliases, setItemAliases] = useState([]);
+  const [itemAliases, setItemAliases] = useState<any>(itemAliasData);
 
   const [map, toggleMap] = useState(false);
   const [miles, setMiles] = useState(50);
@@ -138,31 +141,15 @@ const UniversalInfoDisplay = (props: {
   };
 
   // TODO: Design
-  const configPath = "/data/config";
   const keyPath = "/data/keys";
-  const getData = () => {
+  const getData = (group: string) => {
     setFetching(true);
-    fetch(`${configPath}/groups.json`)
+    fetch(`${keyPath}/${group}.json`)
       .then((r) => r.json())
-      .then((groupData) => {
-        fetch(`${configPath}/filter_defaults.json`)
-          .then((r) => r.json())
-          .then((filterDefaultData) => {
-            fetch(`${configPath}/item_aliases.json`)
-              .then((r) => r.json())
-              .then((itemAliasesData) => {
-                fetch(`${keyPath}/${groupData[0].group}.json`)
-                  .then((r) => r.json())
-                  .then((key) => {
-                    setKey(key);
-                    setGroupFilters(groupData);
-                    setFilterDefaults(filterDefaultData);
-                    setItemAliases(itemAliasesData);
-                    setSelectedGroup(groupData[0].group);
-                    getLocation();
-                  });
-              });
-          });
+      .then((key) => {
+        setKey(key);
+        setSelectedGroup(group);
+        getLocation();
       });
   };
 
@@ -690,13 +677,18 @@ const UniversalInfoDisplay = (props: {
       ) : (
         <ContentSlider
           contentType={props.contentType}
-          items={filteredItems}
+          items={
+            selectedGroup
+              ? filteredItems
+              : groupFilters.map((g: any) => ({ n: g.group }))
+          }
           pagesBool={pagesBool}
           setPagesBool={setPagesBool}
+          selectedGroup={selectedGroup}
           setSelectedPageIdx={setSelectedPageIdx}
           selectedPageIdx={selectedPageIdx}
           setSelectedItemIdx={setSelectedItemIdx}
-          getData={getData}
+          getData={(group) => getData(group)}
           fetching={fetching}
           filtersOn={
             (filter1 && filterOn(filter1)) ||
