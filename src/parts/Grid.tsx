@@ -14,7 +14,7 @@ const GridItems = ({
   return items.length ? (
     <div
       className={`item-grid ${
-        items?.length && selectedGroup ? "bg-gradient" : "end"
+        items?.length && selectedGroup ? "items" : "groups"
       }`}
     >
       {items.map((item, idx) => (
