@@ -136,7 +136,7 @@
   flex: 1;
 }
 
-.content_slider .content_page {
+.content_page {
   background-color: #1e1f33;
   color: #1e1f33;
   height: 100%;
@@ -145,8 +145,10 @@
   min-height: 100%;
   max-width: 100%;
   max-height: 100%;
-  /* glow overflow */
-  overflow: visible;
+}
+
+.content_page:last-of-type {
+  overflow: hidden;
 }
 
 .content_page .no-items {
