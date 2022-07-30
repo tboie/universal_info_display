@@ -372,6 +372,11 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: flex-end;
 }
 
+.item-grid.groups .item {
+  /* glow doesn't overflow with rgba? */
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 .item-grid.items {
   background-color: #32409b;
   background-image: linear-gradient(0deg, #1b1a22 0%, #32409b 100%);
@@ -412,7 +417,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .item-grid.groups .item .title {
+  color: greenyellow;
+  font-size: 1.2rem;
   text-transform: capitalize;
+  width: 100%;
+  text-align: center;
 }
 
 .item-grid .item .container {
