@@ -62,7 +62,7 @@ group key --> group items
 ### Performance
 
 - Items are proximity-rendered from currently selected(viewed) page
-- Optimization: Pages could be proximity-rendered as well by calculating page placement.
+- Optimization Opportunity: Pages could be proximity-rendered as well by calculating page placement.
 
 ### Equipment/Info/Tools used for 3D Item object recording with iPhone
 
@@ -117,6 +117,7 @@ Have the item "float" by displaying a slice of a full rotation.
 - Secondary Property view when item grid swiped vertically
 - Selected Item Template Page (item is clicked from grid)
 - Allow more filters and scroll (filters scroll horizontally too)
+- Re-design range sort asc/desc toggle
 - Search
 - Themes
 - Extend map features?
