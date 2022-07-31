@@ -20,7 +20,7 @@
              
        },
        {
-              "group": "Glass",
+              "group": "glass",
                "mi": {
                      "type": "range"
               }
