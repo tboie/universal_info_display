@@ -558,7 +558,7 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   border: 1px solid #1e1f33;
   font-weight: bold;
-  width: 12%;
+  width: 10%;
 }
 
 .slider #btn_first {
