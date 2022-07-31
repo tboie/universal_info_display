@@ -36,18 +36,20 @@ npm start
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
 - [FilterButtonBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterButtonBar.tsx): Displays UI data filter buttons
 - [FilterRange](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterRange.tsx): A data asc/desc range control with the min/max auto-populated from data
-- [Grid](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Grid.tsx): A 9x9 flex grid displaying items
+- [Grid](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Grid.tsx): A 9 unit flex grid displaying items
 - [Item](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Item.tsx): A modal of the selected item
 - [Map](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Map.tsx): An openstreetmap called rlayers to display item locations
 - [Shell](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Shell.tsx): High-level application shell containing UI components
-- [Slider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Slider.tsx): A horizontally scrolled choice component
-- [TitleBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/TitleBar.tsx): Status bar at the top displaying current configuration and state of app
+- [Slider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Slider.tsx): A horizontally scrolled data-driven choice component
+- [TitleBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/TitleBar.tsx): Status bar at the top displaying status info
 
 ### UX Flow
 
 <img width="430" alt="flow diagram" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
 
 ### Data Config (TODO: Design left open)
+
+group key --> group items
 
 - items are stored by address(store) in arrays `[location store address].json` in [public/data/groups](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups)
 - a group is a dataset of items [(flower example in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
