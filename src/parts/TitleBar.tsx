@@ -203,7 +203,8 @@ const TitleBar = ({
                 </>
               ) : (
                 <span className="total-items">
-                  {totalItems.toLocaleString("en", { useGrouping: true })}
+                  {totalItems.toLocaleString("en", { useGrouping: true }) +
+                    " items"}
                 </span>
               )}
             </span>
