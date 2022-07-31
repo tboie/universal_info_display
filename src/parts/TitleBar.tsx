@@ -19,6 +19,7 @@ const TitleBar = ({
   map,
   toggleMap,
   aliases,
+  totalItems,
 }: {
   selectedGroup: string;
   selectedPageIdx: number;
@@ -38,6 +39,7 @@ const TitleBar = ({
   map: boolean;
   toggleMap: (val: boolean) => void;
   aliases: any;
+  totalItems: number;
 }) => {
   const toggleFilter = (idx: number) => {
     if (!editFilters) {
@@ -162,13 +164,19 @@ const TitleBar = ({
               }
             })}
           </span>
-          {totalPages > 0 && !map && (
-            <span className="numpages">
-              <>
-                <span className="numpages-current">{selectedPageIdx}</span>
-                {"/"}
-                <span className="numpages-total">{totalPages}</span>
-              </>
+          {selectedGroup && (
+            <span className="total">
+              {!map ? (
+                <>
+                  <span className="current-page">{selectedPageIdx}</span>
+                  {"/"}
+                  <span className="total-pages">{totalPages}</span>
+                </>
+              ) : (
+                <span className="total-items">
+                  {totalItems.toLocaleString("en", { useGrouping: true })}
+                </span>
+              )}
             </span>
           )}
         </>

@@ -73,18 +73,19 @@
   opacity: 1;
 }
 
-.titlebar .numpages {
+.titlebar .total {
   position: absolute;
   font-size: 1.1rem;
   bottom: 0.1rem;
   right: 0.1rem;
 }
 
-.titlebar .numpages-current {
+.titlebar .current-page {
   color: gold;
 }
 
-.titlebar .numpages-total {
+.titlebar .total-pages,
+.titlebar .total-items {
   color: lightgray;
   text-shadow: 1px 1px green;
 }

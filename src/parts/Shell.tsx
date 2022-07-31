@@ -657,6 +657,7 @@ const UniversalInfoDisplay = (props: {
             groupFilters.findIndex((g: any) => g.group === selectedGroup)
           ]
         }
+        totalItems={filteredItems.length}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
