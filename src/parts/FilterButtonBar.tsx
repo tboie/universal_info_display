@@ -8,6 +8,12 @@ export const filterOn = (f: Filter) => {
   }
 };
 
+export const filtersOn = (filters: (Filter | undefined)[]) => {
+  return filters.some((f) => {
+    return f && f.name !== "mi" ? filterOn(f) : false;
+  });
+};
+
 const FilterButtonBar = ({
   filter1,
   filter2,

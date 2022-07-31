@@ -20,6 +20,7 @@ const TitleBar = ({
   toggleMap,
   aliases,
   totalItems,
+  filtersOn,
 }: {
   selectedGroup: string;
   selectedPageIdx: number;
@@ -40,6 +41,7 @@ const TitleBar = ({
   toggleMap: (val: boolean) => void;
   aliases: any;
   totalItems: number;
+  filtersOn: boolean;
 }) => {
   const toggleFilter = (idx: number) => {
     if (!editFilters) {
@@ -125,6 +127,12 @@ const TitleBar = ({
       {!fetching && selectedGroup && (
         <>
           <span className="filters">
+            {!filtersOn && (
+              <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
+                All
+              </span>
+            )}
+
             {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
               idx++;
               if (f && f?.name !== "mi") {
@@ -134,7 +142,7 @@ const TitleBar = ({
                     return (
                       <span
                         className={`filter-vals ${
-                          selectedFilterIdx === idx ? "sel" : ""
+                          editFilters && selectedFilterIdx === idx ? "sel" : ""
                         }`}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -150,7 +158,7 @@ const TitleBar = ({
                   return (
                     <span
                       className={`filter-vals ${
-                        selectedFilterIdx === idx ? "sel" : ""
+                        editFilters && selectedFilterIdx === idx ? "sel" : ""
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -166,6 +174,7 @@ const TitleBar = ({
               }
             })}
           </span>
+
           {selectedGroup && (
             <span className="total">
               {!map ? (

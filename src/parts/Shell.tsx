@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
-import FilterButtonBar, { filterOn } from "./FilterButtonBar";
+import FilterButtonBar, { filtersOn } from "./FilterButtonBar";
 import MapWrapper from "./Map";
 import FilterRange from "./FilterRange";
 import Item from "./Item";
@@ -658,6 +658,7 @@ const UniversalInfoDisplay = (props: {
           ]
         }
         totalItems={filteredItems.length}
+        filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
       />
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
@@ -691,15 +692,7 @@ const UniversalInfoDisplay = (props: {
           setSelectedItemIdx={setSelectedItemIdx}
           getData={(group) => getData(group)}
           fetching={fetching}
-          filtersOn={
-            (filter1 && filterOn(filter1)) ||
-            (filter2 && filterOn(filter2)) ||
-            (filter3 && filterOn(filter3)) ||
-            (filter4 && filterOn(filter4)) ||
-            (filter5 && filterOn(filter5))
-              ? true
-              : false
-          }
+          filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
         />
       )}
       <span id="filter_range_status" />
