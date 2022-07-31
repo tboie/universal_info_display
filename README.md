@@ -77,7 +77,7 @@ npm start
 ### 3D Item Object iPhone Recording and Media Transfer
 
 - Item is rotating on stepper motor at [360 degrees per 30 seconds](https://github.com/tboie/universal_info_display/blob/groups/public/arduino/stepper_onerev_28BYJ-48.ino)
-- Place the phone on stand then [record square video of object](https://jilaxzone.com/2021/11/23/heres-how-to-record-square-video-on-iphone-instead-of-default-169-no-3rd-party-app-installation-required/) and rotate item on above setup
+- Place the phone on stand then [record square video of object for 1 rotation (30 sec)](https://jilaxzone.com/2021/11/23/heres-how-to-record-square-video-on-iphone-instead-of-default-169-no-3rd-party-app-installation-required/) and rotate item on above setup
 - Transfer from phone to Photos App on OS X then export (File > Export) to drive and there should now be a square .mov file.
 
 ### Video Conversion Commands
