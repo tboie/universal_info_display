@@ -15,6 +15,7 @@ import { getDistance } from "geolib";
 import groupFilterData from "./config/groups.json";
 import itemAliasData from "./config/item_aliases.json";
 import filterDefaultData from "./config/filter_defaults.json";
+import { setSourceMapRange } from "typescript";
 
 // globals
 declare global {
@@ -636,6 +637,7 @@ const UniversalInfoDisplay = (props: {
     <div className="universal_info_display">
       <TitleBar
         selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
         selectedPageIdx={selectedPageIdx}
         totalPages={chunkArr(filteredItems, 6).length}
         editFilters={editFilters}
@@ -659,10 +661,33 @@ const UniversalInfoDisplay = (props: {
         }
         totalItems={filteredItems.length}
         filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
+        close={
+          selectedGroup || fetching
+            ? () => {
+                setSelectedGroup("");
+                setSelectedItemIdx(-1);
+                setSelectedStore(undefined);
+                setFetching(false);
+                setLat(0);
+                setLng(0);
+                setItems([]);
+                setStores([]);
+                setKey([]);
+                toggleMap(false);
+                setFilter1(undefined);
+                setFilter2(undefined);
+                setFilter3(undefined);
+                setFilter4(undefined);
+                setFilter5(undefined);
+              }
+            : undefined
+        }
       />
+
       {selectedItemIdx > -1 && (
         <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
       )}
+
       {map ? (
         <MapWrapper
           lng={lng}
@@ -695,7 +720,9 @@ const UniversalInfoDisplay = (props: {
           filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
         />
       )}
+
       <span id="filter_range_status" />
+
       {editFilters && (
         <FilterButtonBar
           filter1={filter1}
@@ -718,6 +745,7 @@ const UniversalInfoDisplay = (props: {
           fetching={fetching}
         />
       )}
+
       {editFilters &&
         (!map && selectedFilterIdx === 0 ? (
           <Slider

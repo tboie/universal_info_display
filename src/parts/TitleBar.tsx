@@ -1,7 +1,9 @@
+import { setMaxListeners } from "process";
 import { Choice, Filter, Store } from "./Shell";
 
 const TitleBar = ({
   selectedGroup,
+  setSelectedGroup,
   selectedPageIdx,
   totalPages,
   editFilters,
@@ -21,8 +23,10 @@ const TitleBar = ({
   aliases,
   totalItems,
   filtersOn,
+  close,
 }: {
   selectedGroup: string;
+  setSelectedGroup: (group: string) => void;
   selectedPageIdx: number;
   totalPages: number;
   editFilters: boolean;
@@ -42,6 +46,7 @@ const TitleBar = ({
   aliases: any;
   totalItems: number;
   filtersOn: boolean;
+  close?: () => void;
 }) => {
   const toggleFilter = (idx: number) => {
     if (!editFilters) {
@@ -123,6 +128,19 @@ const TitleBar = ({
           <span className="group">Cannabis Items Near You</span>
         )}
       </span>
+
+      {close && (
+        <span
+          className="close"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            close();
+          }}
+        >
+          X
+        </span>
+      )}
 
       {!fetching && selectedGroup && (
         <>
