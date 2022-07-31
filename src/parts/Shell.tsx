@@ -679,6 +679,7 @@ const UniversalInfoDisplay = (props: {
                 setFilter3(undefined);
                 setFilter4(undefined);
                 setFilter5(undefined);
+                setEditFilters(false);
               }
             : undefined
         }
