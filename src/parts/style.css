@@ -633,6 +633,10 @@ input[type="range"]::-webkit-slider-thumb {
   animation: blinker 5s linear infinite;
 }
 
+.no-pointer-events {
+  pointer-events: none;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0.5;

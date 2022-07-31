@@ -73,7 +73,9 @@ const TitleBar = ({
 
   return (
     <div
-      className={`titlebar ${editFilters ? "edit-filters" : ""}`}
+      className={`titlebar ${editFilters ? "edit-filters" : ""} ${
+        !selectedGroup || fetching ? "no-pointer-events" : ""
+      }`}
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
