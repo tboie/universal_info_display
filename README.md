@@ -52,10 +52,10 @@ npm start
 - items are stored by address(store) in arrays `[location store address].json` in [public/data/groups](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups)
 - a group is a dataset of items [(flower example in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
 - [/public/data/keys](https://github.com/tboie/universal_info_display/tree/groups/public/data/keys) are used to link location to item files
-- [public/data/config](https://github.com/tboie/universal_info_display/tree/groups/public/data/config) are used for item field UI configuration
-- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/groups.json) - group UI filter name/field/alias config
-- [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/filter_defaults.json) - default group filter values
-- [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/public/data/config/item_aliases.json) - item field aliases
+- [/src/parts/config](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config) directory used for item field UI configuration
+- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/groups.json) - group UI filter name/field/alias config
+- [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/filter_defaults.json) - default group filter values
+- [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/item_aliases.json) - item field aliases
 
 ### Performance
 
@@ -93,7 +93,7 @@ ffmpeg -i orig.mov -ss 00:00:10 -t 00:00:30 -async 1 out.mov
 2. Remove background of mov and export gif
 
 ```
-backgroundremover -i "out.mov" -tg -o "out2.gif"
+backgroundremover -i out.mov -tg -o out2.gif
 ```
 
 3. Scale gif to 200x200 and retain transparency
@@ -111,12 +111,11 @@ Have the item "float" by displaying a slice of a full rotation.
 
 ### TODO/THINK/(RE)DESIGN
 
-- Key fetch config for group data
-- Loader Page (1st page)
+- Home/Search/Filter icons?
+- Secondary Property view when item grid swiped vertically
 - Selected Item Template Page (item is clicked from grid)
 - Allow more filters and scroll (filters scroll horizontally too)
 - Search
 - Themes
 - Extend map features?
 - Online shopping?
-- Secondary
