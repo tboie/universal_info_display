@@ -661,28 +661,25 @@ const UniversalInfoDisplay = (props: {
         }
         totalItems={filteredItems.length}
         filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
-        close={
-          selectedGroup || fetching
-            ? () => {
-                setSelectedGroup("");
-                setSelectedItemIdx(-1);
-                setSelectedStore(undefined);
-                setFetching(false);
-                setLat(0);
-                setLng(0);
-                setItems([]);
-                setStores([]);
-                setKey([]);
-                toggleMap(false);
-                setFilter1(undefined);
-                setFilter2(undefined);
-                setFilter3(undefined);
-                setFilter4(undefined);
-                setFilter5(undefined);
-                setEditFilters(false);
-              }
-            : undefined
-        }
+        close={() => {
+          setSelectedGroup("");
+          setSelectedItemIdx(-1);
+          setSelectedStore(undefined);
+          setFetching(false);
+          setLat(0);
+          setLng(0);
+          setItems([]);
+          setStores([]);
+          setKey([]);
+          toggleMap(false);
+          setFilter1(undefined);
+          setFilter2(undefined);
+          setFilter3(undefined);
+          setFilter4(undefined);
+          setFilter5(undefined);
+          setEditFilters(false);
+        }}
+        showCloseIcon={map || selectedStore ? true : false}
       />
 
       {selectedItemIdx > -1 && (
