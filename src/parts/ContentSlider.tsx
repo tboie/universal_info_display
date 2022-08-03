@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DetectableOverflow from "react-detectable-overflow";
 import { chunkArr, chunkString, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
+import { callbackify } from "util";
 
 const ContentSlider = ({
   contentType,
@@ -200,20 +201,29 @@ const ContentSlider = ({
             ))}
 
         {contentType === "item" && items?.length ? (
-          chunkArr(items, 6).map((items, idx) => (
-            <Page
-              key={idx}
-              num={idx + 1}
-              items={items}
-              selectedGroup={selectedGroup}
-              selectedPageIdx={selectedPageIdx}
-              setSelectedPageIdx={setSelectedPageIdx}
-              setSelectedItemIdx={setSelectedItemIdx}
-              filtersOn={filtersOn}
-              getData={getData}
-              fetching={fetching}
-            />
-          ))
+          chunkArr(items, 6).map((items, idx) => {
+            if (
+              idx + 1 >= selectedPageIdx - 4 &&
+              idx + 1 <= selectedPageIdx + 4
+            ) {
+              return (
+                <Page
+                  key={idx}
+                  num={idx + 1}
+                  items={items}
+                  selectedGroup={selectedGroup}
+                  selectedPageIdx={selectedPageIdx}
+                  setSelectedPageIdx={setSelectedPageIdx}
+                  setSelectedItemIdx={setSelectedItemIdx}
+                  filtersOn={filtersOn}
+                  getData={getData}
+                  fetching={fetching}
+                />
+              );
+            } else {
+              return null;
+            }
+          })
         ) : (
           <Page
             text={"No Items Found"}
@@ -354,10 +364,11 @@ const Page = ({
     );
 
     const ele = document.querySelectorAll(".content_page")[num - 1];
-
-    obsPageChange.observe(ele);
-    obsSnapLeft.observe(ele);
-    obsSnapRight.observe(ele);
+    if (ele) {
+      obsPageChange.observe(ele);
+      obsSnapLeft.observe(ele);
+      obsSnapRight.observe(ele);
+    }
 
     return () => {
       obsPageChange.disconnect();

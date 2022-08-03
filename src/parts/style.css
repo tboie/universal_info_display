@@ -7,46 +7,25 @@
 }
 
 .titlebar {
+  display: flex;
   width: 100%;
-  height: 3.5rem;
-  min-height: 3.5rem;
-  max-height: 3.5rem;
   background-color: #1e1f33;
-  position: relative;
   font-size: 1.1rem;
-  color: #80f077;
   text-shadow: 1px 1px green;
   border-bottom: 1px solid #2e2f41;
   z-index: 1;
-}
-
-.titlebar.edit-filters {
-  border-bottom: 1px solid gold;
-  box-shadow: 0px 3px 3px rgb(216, 211, 183);
-}
-
-.titlebar span {
   color: #80f077;
-  padding: 0.1rem;
-}
-
-.titlebar .close {
-  position: absolute;
-  right: 0;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: rgba(150, 150, 150, 1);
-  text-shadow: 1px 1px black;
 }
 
 .titlebar .title {
+  text-align: center;
   white-space: nowrap;
   text-transform: capitalize;
-  position: absolute;
   font-size: 1.1rem;
   overflow-x: scroll;
-  left: 50%;
-  transform: translateX(-50%);
+  display: block;
+  width: 100%;
+  padding: 0.2rem;
 }
 
 .titlebar .group {
@@ -57,48 +36,18 @@
   color: gold;
 }
 
-.titlebar .filters {
+.titlebar .close {
   position: absolute;
-  bottom: 0.1rem;
-  display: flex;
-  left: 0;
-  white-space: nowrap;
-  width: calc(100% - 4rem);
-  overflow-x: scroll;
-  font-size: 1rem;
-}
-
-.titlebar .filters .filter-vals {
-  bottom: 0;
-  color: gold;
-  opacity: 0.85;
-  margin-right: 1rem;
-}
-
-.titlebar .filters .filter-vals.sel {
-  opacity: 1;
-}
-
-.titlebar .total {
-  position: absolute;
+  padding: 0.2rem;
+  right: 0;
   font-size: 1.1rem;
-  bottom: 0.1rem;
-  right: 0.1rem;
-}
-
-.titlebar .current-page {
-  color: gold;
-}
-
-.titlebar .total-pages,
-.titlebar .total-items {
-  color: lightgray;
-  text-shadow: 1px 1px green;
+  font-weight: bold;
+  color: rgba(150, 150, 150, 1);
+  text-shadow: 1px 1px black;
 }
 
 .map {
-  height: calc(100% - 12.5rem);
-  width: 100%;
+  flex: 1;
 }
 
 .map-loc {
@@ -135,9 +84,10 @@
 
 .content_slider {
   position: relative;
-  width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: flex-start;
   flex: 1;
@@ -146,8 +96,8 @@
 .content_page {
   background-color: #1e1f33;
   color: #1e1f33;
-  height: 100%;
   width: 100%;
+  height: 100%;
   min-width: 100%;
   min-height: 100%;
   max-width: 100%;
@@ -192,6 +142,47 @@
 
 #universal_info_display_nav_page_slider {
   background-color: #1e1f33;
+}
+
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #1b1a26;
+  color: #80f077;
+  text-shadow: 1px 1px green;
+}
+
+.statusbar .filters,
+.statusbar .total {
+  padding: 0.3rem;
+}
+
+.statusbar .filters {
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
+.statusbar .filters .filter-vals {
+  color: gold;
+  opacity: 0.8;
+  margin-right: 1.25rem;
+}
+
+.statusbar .filters .filter-vals.sel {
+  opacity: 1;
+}
+
+.statusbar .total {
+  padding-left: 0.5rem;
+}
+
+.statusbar .current-page {
+  color: gold;
+}
+
+.statusbar .total-pages {
+  color: lightgray;
 }
 
 .filterbar {
@@ -490,7 +481,6 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider {
-  background-color: #191a26;
   height: 3.5rem;
   min-height: 3.5rem;
   max-height: 3.5rem;
@@ -554,17 +544,15 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider button {
   position: fixed;
-  background-color: #707e92;
+  background-color: #1e1f33;
+  padding: 0.5rem;
   font-size: 1rem;
-  height: 3.5rem;
   color: #80f077;
   text-shadow: 1px 1px green;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #1e1f33;
-  font-weight: bold;
-  width: 10%;
 }
 
 .slider #btn_first {

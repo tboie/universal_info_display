@@ -1,35 +1,7 @@
-import { setMaxListeners } from "process";
-import { Choice, Filter, Store } from "./Shell";
+import { Filter, Store } from "./Shell";
 
-const TitleBar = ({
-  selectedGroup,
-  setSelectedGroup,
-  selectedPageIdx,
-  totalPages,
-  editFilters,
-  setEditFilters,
-  selectedFilterIdx,
-  setSelectedFilterIdx,
-  filter1,
-  filter2,
-  filter3,
-  filter4,
-  filter5,
-  selectedStore,
-  miles,
-  fetching,
-  map,
-  toggleMap,
-  aliases,
-  totalItems,
-  filtersOn,
-  close,
-  showCloseIcon,
-}: {
+type TitleBar = {
   selectedGroup: string;
-  setSelectedGroup: (group: string) => void;
-  selectedPageIdx: number;
-  totalPages: number;
   editFilters: boolean;
   setEditFilters: (val: boolean) => void;
   selectedFilterIdx: number;
@@ -44,42 +16,29 @@ const TitleBar = ({
   fetching: boolean;
   map: boolean;
   toggleMap: (val: boolean) => void;
-  aliases: any;
-  totalItems: number;
-  filtersOn: boolean;
   close: () => void;
   showCloseIcon: boolean;
-}) => {
-  const toggleFilter = (idx: number) => {
-    if (!editFilters) {
-      setEditFilters(true);
-      setSelectedFilterIdx(idx);
-    } else {
-      if (selectedFilterIdx === idx) {
-        setEditFilters(false);
-        setSelectedFilterIdx(0);
-        toggleMap(false);
-      } else {
-        setSelectedFilterIdx(idx);
-      }
-    }
-  };
+};
 
-  const getChoiceText = (choices: Choice[]) => {
-    const allChoices: string[] = [];
-    choices.forEach((c) => {
-      c.values.forEach((v) => {
-        allChoices.push(
-          aliases && c.field && aliases[c.field] && aliases[c.field][v]
-            ? aliases[c.field][v]
-            : v
-        );
-      });
-    });
-
-    return allChoices.length ? allChoices.join(", ") : "";
-  };
-
+const TitleBar = ({
+  selectedGroup,
+  editFilters,
+  setEditFilters,
+  selectedFilterIdx,
+  setSelectedFilterIdx,
+  filter1,
+  filter2,
+  filter3,
+  filter4,
+  filter5,
+  selectedStore,
+  miles,
+  fetching,
+  map,
+  toggleMap,
+  close,
+  showCloseIcon,
+}: TitleBar) => {
   return (
     <div
       className={`titlebar ${editFilters ? "edit-filters" : ""} ${
@@ -142,7 +101,7 @@ const TitleBar = ({
         )}
       </span>
 
-      {showCloseIcon && (
+      {(fetching || showCloseIcon) && (
         <span
           className="close"
           onClick={(e) => {
@@ -153,76 +112,6 @@ const TitleBar = ({
         >
           X
         </span>
-      )}
-
-      {!fetching && selectedGroup && (
-        <>
-          <span className="filters">
-            {!filtersOn && (
-              <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
-                All
-              </span>
-            )}
-
-            {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
-              idx++;
-              if (f && f?.name !== "mi") {
-                if (f.type === "choice") {
-                  const selectedChoices = getChoiceText(f.val as Choice[]);
-                  if (selectedChoices) {
-                    return (
-                      <span
-                        className={`filter-vals ${
-                          editFilters && selectedFilterIdx === idx ? "sel" : ""
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          toggleFilter(idx);
-                        }}
-                      >
-                        {getChoiceText(f.val as Choice[])}
-                      </span>
-                    );
-                  }
-                } else if (f.type === "range" && f.sort) {
-                  return (
-                    <span
-                      className={`filter-vals ${
-                        editFilters && selectedFilterIdx === idx ? "sel" : ""
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        toggleFilter(idx);
-                      }}
-                    >
-                      {f.sort === "asc" ? ">" : "<"}
-                      {f.name !== "$" ? f.val + f.name : f.name + f.val}
-                    </span>
-                  );
-                }
-              }
-            })}
-          </span>
-
-          {selectedGroup && (
-            <span className="total">
-              {!map ? (
-                <>
-                  <span className="current-page">{selectedPageIdx}</span>
-                  {"/"}
-                  <span className="total-pages">{totalPages}</span>
-                </>
-              ) : (
-                <span className="total-items">
-                  {totalItems.toLocaleString("en", { useGrouping: true }) +
-                    " items"}
-                </span>
-              )}
-            </span>
-          )}
-        </>
       )}
     </div>
   );

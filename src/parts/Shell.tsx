@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
+import StatusBar from "./StatusBar";
 import FilterButtonBar, { filtersOn } from "./FilterButtonBar";
 import MapWrapper from "./Map";
 import FilterRange from "./FilterRange";
@@ -637,9 +638,6 @@ const UniversalInfoDisplay = (props: {
     <div className="universal_info_display">
       <TitleBar
         selectedGroup={selectedGroup}
-        setSelectedGroup={setSelectedGroup}
-        selectedPageIdx={selectedPageIdx}
-        totalPages={chunkArr(filteredItems, 6).length}
         editFilters={editFilters}
         setEditFilters={setEditFilters}
         selectedFilterIdx={selectedFilterIdx}
@@ -654,13 +652,6 @@ const UniversalInfoDisplay = (props: {
         fetching={fetching}
         map={map}
         toggleMap={(val) => toggleMap(val)}
-        aliases={
-          itemAliases[
-            groupFilters.findIndex((g: any) => g.group === selectedGroup)
-          ]
-        }
-        totalItems={filteredItems.length}
-        filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
         close={() => {
           setSelectedGroup("");
           setSelectedItemIdx(-1);
@@ -721,28 +712,30 @@ const UniversalInfoDisplay = (props: {
 
       <span id="filter_range_status" />
 
-      {editFilters && (
-        <FilterButtonBar
-          filter1={filter1}
-          filter2={filter2}
-          filter3={filter3}
-          filter4={filter4}
-          filter5={filter5}
-          setFilter1={setFilter1}
-          setFilter2={setFilter2}
-          setFilter3={setFilter3}
-          setFilter4={setFilter4}
-          setFilter5={setFilter5}
-          selectedFilterIdx={selectedFilterIdx}
-          setSelectedFilterIdx={setSelectedFilterIdx}
-          setSelectedPageIdx={setSelectedPageIdx}
-          map={map}
-          toggleMap={() => toggleMap(!map)}
-          selectedStore={selectedStore}
-          setSelectedStore={setSelectedStore}
-          fetching={fetching}
-        />
-      )}
+      <StatusBar
+        selectedGroup={selectedGroup}
+        selectedPageIdx={selectedPageIdx}
+        totalPages={chunkArr(filteredItems, 6).length}
+        editFilters={editFilters}
+        setEditFilters={setEditFilters}
+        selectedFilterIdx={selectedFilterIdx}
+        setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
+        filter1={filter1}
+        filter2={filter2}
+        filter3={filter3}
+        filter4={filter4}
+        filter5={filter5}
+        fetching={fetching}
+        map={map}
+        toggleMap={(val) => toggleMap(val)}
+        aliases={
+          itemAliases[
+            groupFilters.findIndex((g: any) => g.group === selectedGroup)
+          ]
+        }
+        totalItems={filteredItems.length}
+        filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
+      />
 
       {editFilters &&
         (!map && selectedFilterIdx === 0 ? (
@@ -801,16 +794,40 @@ const UniversalInfoDisplay = (props: {
           fetching={fetching}
         />
       ) : (
-        <Slider
-          type="page"
-          titles={chunkArr(filteredItems, 6).map((item, idx) =>
-            (idx + 1).toString()
+        <>
+          {editFilters && (
+            <FilterButtonBar
+              filter1={filter1}
+              filter2={filter2}
+              filter3={filter3}
+              filter4={filter4}
+              filter5={filter5}
+              setFilter1={setFilter1}
+              setFilter2={setFilter2}
+              setFilter3={setFilter3}
+              setFilter4={setFilter4}
+              setFilter5={setFilter5}
+              selectedFilterIdx={selectedFilterIdx}
+              setSelectedFilterIdx={setSelectedFilterIdx}
+              setSelectedPageIdx={setSelectedPageIdx}
+              map={map}
+              toggleMap={() => toggleMap(!map)}
+              selectedStore={selectedStore}
+              setSelectedStore={setSelectedStore}
+              fetching={fetching}
+            />
           )}
-          selected={[selectedPageIdx.toString()]}
-          select={sliderSelect}
-          setSelectedPageIdx={setSelectedPageIdx}
-          fetching={fetching}
-        />
+          <Slider
+            type="page"
+            titles={chunkArr(filteredItems, 6).map((item, idx) =>
+              (idx + 1).toString()
+            )}
+            selected={[selectedPageIdx.toString()]}
+            select={sliderSelect}
+            setSelectedPageIdx={setSelectedPageIdx}
+            fetching={fetching}
+          />
+        </>
       )}
     </div>
   );
