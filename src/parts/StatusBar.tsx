@@ -90,7 +90,7 @@ const StatusBar = ({
           <span className="filters">
             {!filtersOn && (
               <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
-                All
+                All {selectedGroup}
               </span>
             )}
 

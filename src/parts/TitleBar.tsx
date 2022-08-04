@@ -44,16 +44,6 @@ const TitleBar = ({
       className={`titlebar ${editFilters ? "edit-filters" : ""} ${
         !selectedGroup || fetching ? "no-pointer-events" : ""
       }`}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        setEditFilters(!editFilters);
-        setSelectedFilterIdx(editFilters ? 0 : selectedFilterIdx);
-        if (map) {
-          toggleMap(false);
-        }
-      }}
     >
       <span className="title">
         {selectedStore ? (

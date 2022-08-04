@@ -155,7 +155,7 @@
 
 .statusbar .filters,
 .statusbar .total {
-  padding: 0.3rem;
+  padding: 0.5rem 0.25rem;
 }
 
 .statusbar .filters {
@@ -164,6 +164,7 @@
 }
 
 .statusbar .filters .filter-vals {
+  text-transform: capitalize;
   color: gold;
   opacity: 0.8;
   margin-right: 1.25rem;
@@ -246,26 +247,12 @@
   font-size: 1rem;
 }
 
-.range_control .range_label.min {
-  padding-top: 1.75rem;
-}
-
-.range_control .range_label.max {
-  padding-bottom: 1.75rem;
-}
-
-.range_control.mi .range_label.min,
-.range_control.mi .range_label.max {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
 .range_control.mi .range_label.min,
 .range_control.asc .range_label.min,
 .range_control.desc .range_label.max {
   left: 0;
   transform: translateX(-100%);
-  padding-right: 1px;
+  padding-right: 0.25rem;
 }
 
 .range_control.mi .range_label.max,
@@ -273,7 +260,7 @@
 .range_control.desc .range_label.min {
   right: 0;
   transform: translateX(100%);
-  padding-left: 1px;
+  padding-left: 0.25rem;
 }
 
 input {

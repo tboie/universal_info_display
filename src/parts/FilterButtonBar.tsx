@@ -132,10 +132,11 @@ const FilterButtonBar = ({
               text={
                 (f?.val > -1 && f.sort && f.type === "range") ||
                 (f.name === "mi" && !selectedStore)
-                  ? (f.sort === "asc" ? ">" : "<") +
+                  ? f.name /* show value
+                    (f.sort === "asc" ? ">" : "<") +
                     (f.name === "$" ? "$" : "") +
                     f.val +
-                    (f.name !== "$" ? f.name : "")
+                    (f.name !== "$" ? f.name : "") */
                   : selectedStore && f.name === "mi"
                   ? "store"
                   : f.alias || f.name
