@@ -129,6 +129,7 @@ const StatusBar = ({
                     >
                       {f.sort === "asc" ? ">" : "<"}
                       {f.name !== "$" ? f.val + f.name : f.name + f.val}
+                      {f.sort === "asc" ? "↑" : "↓"}
                     </span>
                   );
                 }

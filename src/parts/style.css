@@ -145,10 +145,10 @@
 }
 
 .statusbar {
+  background-color: #1b1a26;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #1b1a26;
   color: #80f077;
   text-shadow: 1px 1px green;
 }
@@ -468,6 +468,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider {
+  position: relative;
+  background-color: #1b1a26;
   height: 3.5rem;
   min-height: 3.5rem;
   max-height: 3.5rem;
@@ -477,12 +479,7 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  position: relative;
   text-shadow: 1px 1px green;
-}
-
-.slider.group {
-  background-color: #1e1f33;
 }
 
 .slider_label {
@@ -520,12 +517,12 @@ input[type="range"]::-webkit-slider-thumb {
 .slider.page.tick {
   background: linear-gradient(
     to left,
-    #1e1f33 0%,
-    #1e1f33 49%,
+    #1b1a26 0%,
+    #1b1a26 49%,
     rgb(255, 215, 0, 0.4) 49%,
     rgb(255, 215, 0, 0.4) 51%,
-    #1e1f33 51%,
-    #1e1f33 100%
+    #1b1a26 51%,
+    #1b1a26 100%
   );
 }
 
