@@ -12,6 +12,7 @@
   background-color: #1e1f33;
   font-size: 1.1rem;
   text-shadow: 1px 1px green;
+  border-top: 1px solid #2e2f41;
   border-bottom: 1px solid #2e2f41;
   z-index: 1;
   color: #80f077;
@@ -151,6 +152,7 @@
   width: 100%;
   color: #80f077;
   text-shadow: 1px 1px green;
+  border-top: 1px solid #2e2f41;
 }
 
 .statusbar .filters,
@@ -202,6 +204,8 @@
   height: 3.5rem;
   min-height: 3.5rem;
   max-height: 3.5rem;
+  border-top: 1px solid #2e2f41;
+  border-bottom: 1px solid #2e2f41;
 }
 
 .range_control .active {
@@ -480,6 +484,8 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   flex-wrap: nowrap;
   text-shadow: 1px 1px green;
+  border-top: 1px solid #2e2f41;
+  border-bottom: 1px solid #2e2f41;
 }
 
 .slider_label {
@@ -528,7 +534,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider button {
   position: fixed;
-  background-color: #1e1f33;
+  background-color: #1b1a26;
   padding: 0.5rem;
   font-size: 1rem;
   color: #80f077;
@@ -547,12 +553,6 @@ input[type="range"]::-webkit-slider-thumb {
 .slider #btn_last {
   right: 0;
   text-align: right;
-}
-
-.slider.group,
-.slider.choice {
-  border-top: 1px solid #2e2f41;
-  border-bottom: 1px solid #2e2f41;
 }
 
 .slider.page .slider_label.selected,
