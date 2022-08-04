@@ -408,6 +408,8 @@ const UniversalInfoDisplay = (props: {
       }));
 
     setSelectedFilterIdx(0);
+    setSelectedPageIdx(1);
+
     if (filter1) {
       setFilter1({
         ...filter1,
