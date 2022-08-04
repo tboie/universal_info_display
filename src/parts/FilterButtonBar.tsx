@@ -94,10 +94,10 @@ const FilterButtonBar = ({
       let val;
       if (!sort) {
         sort = selected ? "desc" : "asc";
-        val = selected ? f?.props[0] : f?.val;
+        val = f?.val;
       } else if (sort === "asc") {
         sort = selected ? "desc" : "asc";
-        val = selected ? f?.props[1] : f?.val;
+        val = f?.val;
       } else if (sort === "desc") {
         sort = selected ? undefined : "desc";
         val = selected ? f?.props[0] : f?.val;
