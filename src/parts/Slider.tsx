@@ -12,6 +12,7 @@ type T_SLIDER = {
   setSelectedPageIdx?: (val: number) => any;
   fetching: boolean;
   aliases?: any;
+  filtersOn?: boolean;
 };
 
 type T_SLIDER_LABEL = {
@@ -22,6 +23,7 @@ type T_SLIDER_LABEL = {
   on: boolean;
   click: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
   aliases?: any;
+  filtersOn?: boolean;
 };
 
 const Slider = ({
@@ -33,6 +35,7 @@ const Slider = ({
   setSelectedPageIdx,
   fetching,
   aliases,
+  filtersOn,
 }: T_SLIDER) => {
   useEffect(() => {
     let observer: IntersectionObserver;
@@ -192,6 +195,7 @@ const Slider = ({
           title={"Clear Filters"}
           on={false}
           click={select}
+          filtersOn={filtersOn}
         />
       )}
     </div>
@@ -206,13 +210,14 @@ const Label = ({
   on,
   click,
   aliases,
+  filtersOn,
 }: T_SLIDER_LABEL) => {
   return (
     <span
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""} ${
         type === "clear-filters" ? "clear-filters" : ""
-      }`}
+      } ${type === "clear-filters" && filtersOn ? "" : "disabled"}`}
       onClick={(e) => {
         if (type === "page") {
           e.stopPropagation();

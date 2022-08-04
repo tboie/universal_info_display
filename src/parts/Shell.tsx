@@ -744,6 +744,7 @@ const UniversalInfoDisplay = (props: {
             selected={[]}
             select={sliderSelect}
             fetching={fetching}
+            filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
           />
         ) : (
           [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {

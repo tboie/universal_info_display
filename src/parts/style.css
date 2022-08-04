@@ -536,6 +536,10 @@ input[type="range"]::-webkit-slider-thumb {
   transform: translateX(-50%);
 }
 
+.slider_label.clear-filters.disabled {
+  color: green;
+}
+
 .slider_label.selected {
   color: gold;
   font-size: 1.1rem;
