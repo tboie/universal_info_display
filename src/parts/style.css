@@ -9,6 +9,7 @@
 .titlebar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   background-color: #1e1f33;
   font-size: 1.1rem;
@@ -17,6 +18,7 @@
   border-bottom: 1px solid #2e2f41;
   z-index: 1;
   color: #80f077;
+  padding: 0.25rem;
 }
 
 .titlebar .title {
@@ -25,7 +27,6 @@
   font-size: 1.1rem;
   overflow-x: scroll;
   display: block;
-  padding: 0.2rem;
 }
 
 .titlebar .group {
@@ -37,7 +38,7 @@
 }
 
 .titlebar .total {
-  padding: 0.2rem 0.2rem 0.2rem 0.5rem;
+  padding-left: 0.5rem;
 }
 
 .titlebar .current-page {
