@@ -560,14 +560,14 @@ input[type="range"]::-webkit-slider-thumb {
 .slider button {
   position: fixed;
   background-color: #1b1a26;
-  padding: 0.5rem;
-  font-size: 1rem;
   color: #80f077;
   text-shadow: 1px 1px green;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid #1e1f33;
+  width: 2rem;
+  height: 2rem;
 }
 
 .slider #btn_first {
