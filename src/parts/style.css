@@ -161,9 +161,9 @@
 }
 
 .statusbar img {
-  height: 1.25rem;
-  width: 1.75rem;
-  opacity: 0.75;
+  height: 1rem;
+  width: 1.5rem;
+  opacity: 0.8;
 }
 
 .statusbar .filters,
