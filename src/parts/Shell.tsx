@@ -786,37 +786,30 @@ const UniversalInfoDisplay = (props: {
           })
         ))}
 
-      {map && !selectedStore ? (
-        <Slider
-          type="clear-filters"
-          selected={[]}
-          select={sliderSelect}
-          fetching={fetching}
-        />
-      ) : (
-        <>
-          {editFilters && (
-            <FilterButtonBar
-              filter1={filter1}
-              filter2={filter2}
-              filter3={filter3}
-              filter4={filter4}
-              filter5={filter5}
-              setFilter1={setFilter1}
-              setFilter2={setFilter2}
-              setFilter3={setFilter3}
-              setFilter4={setFilter4}
-              setFilter5={setFilter5}
-              selectedFilterIdx={selectedFilterIdx}
-              setSelectedFilterIdx={setSelectedFilterIdx}
-              setSelectedPageIdx={setSelectedPageIdx}
-              map={map}
-              toggleMap={() => toggleMap(!map)}
-              selectedStore={selectedStore}
-              setSelectedStore={setSelectedStore}
-              fetching={fetching}
-            />
-          )}
+      <>
+        {editFilters && (
+          <FilterButtonBar
+            filter1={filter1}
+            filter2={filter2}
+            filter3={filter3}
+            filter4={filter4}
+            filter5={filter5}
+            setFilter1={setFilter1}
+            setFilter2={setFilter2}
+            setFilter3={setFilter3}
+            setFilter4={setFilter4}
+            setFilter5={setFilter5}
+            selectedFilterIdx={selectedFilterIdx}
+            setSelectedFilterIdx={setSelectedFilterIdx}
+            setSelectedPageIdx={setSelectedPageIdx}
+            map={map}
+            toggleMap={() => toggleMap(!map)}
+            selectedStore={selectedStore}
+            setSelectedStore={setSelectedStore}
+            fetching={fetching}
+          />
+        )}
+        {!map && (
           <Slider
             type="page"
             titles={chunkArr(filteredItems, 6).map((item, idx) =>
@@ -827,8 +820,8 @@ const UniversalInfoDisplay = (props: {
             setSelectedPageIdx={setSelectedPageIdx}
             fetching={fetching}
           />
-        </>
-      )}
+        )}
+      </>
     </div>
   );
 };
