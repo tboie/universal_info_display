@@ -2,8 +2,6 @@ import { Choice, Filter } from "./Shell";
 
 type StatusBar = {
   selectedGroup: string;
-  selectedPageIdx: number;
-  totalPages: number;
   editFilters: boolean;
   setEditFilters: (val: boolean) => void;
   selectedFilterIdx: number;
@@ -17,14 +15,11 @@ type StatusBar = {
   map: boolean;
   toggleMap: (val: boolean) => void;
   aliases: any;
-  totalItems: number;
   filtersOn: boolean;
 };
 
 const StatusBar = ({
   selectedGroup,
-  selectedPageIdx,
-  totalPages,
   editFilters,
   setEditFilters,
   selectedFilterIdx,
@@ -38,7 +33,6 @@ const StatusBar = ({
   map,
   toggleMap,
   aliases,
-  totalItems,
   filtersOn,
 }: StatusBar) => {
   const toggleFilter = (idx: number) => {
@@ -148,23 +142,6 @@ const StatusBar = ({
               }
             })}
           </span>
-
-          {selectedGroup && (
-            <span className="total">
-              {!map ? (
-                <>
-                  <span className="current-page">{selectedPageIdx}</span>
-                  {"/"}
-                  <span className="total-pages">{totalPages}</span>
-                </>
-              ) : (
-                <span className="total-items">
-                  {totalItems.toLocaleString("en", { useGrouping: true }) +
-                    " items"}
-                </span>
-              )}
-            </span>
-          )}
         </>
       )}
     </div>

@@ -640,6 +640,8 @@ const UniversalInfoDisplay = (props: {
     <div className="universal_info_display">
       <TitleBar
         selectedGroup={selectedGroup}
+        selectedPageIdx={selectedPageIdx}
+        totalPages={chunkArr(filteredItems, 6).length}
         editFilters={editFilters}
         setEditFilters={setEditFilters}
         selectedFilterIdx={selectedFilterIdx}
@@ -654,6 +656,7 @@ const UniversalInfoDisplay = (props: {
         fetching={fetching}
         map={map}
         toggleMap={(val) => toggleMap(val)}
+        totalItems={filteredItems.length}
         close={() => {
           setSelectedGroup("");
           setSelectedItemIdx(-1);
@@ -672,7 +675,7 @@ const UniversalInfoDisplay = (props: {
           setFilter5(undefined);
           setEditFilters(false);
         }}
-        showCloseIcon={map || selectedStore ? true : false}
+        showCloseIcon={fetching}
       />
 
       {selectedItemIdx > -1 && (
@@ -716,8 +719,6 @@ const UniversalInfoDisplay = (props: {
 
       <StatusBar
         selectedGroup={selectedGroup}
-        selectedPageIdx={selectedPageIdx}
-        totalPages={chunkArr(filteredItems, 6).length}
         editFilters={editFilters}
         setEditFilters={setEditFilters}
         selectedFilterIdx={selectedFilterIdx}
@@ -735,7 +736,6 @@ const UniversalInfoDisplay = (props: {
             groupFilters.findIndex((g: any) => g.group === selectedGroup)
           ]
         }
-        totalItems={filteredItems.length}
         filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
       />
 

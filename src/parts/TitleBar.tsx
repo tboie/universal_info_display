@@ -2,6 +2,8 @@ import { Filter, Store } from "./Shell";
 
 type TitleBar = {
   selectedGroup: string;
+  selectedPageIdx: number;
+  totalPages: number;
   editFilters: boolean;
   setEditFilters: (val: boolean) => void;
   selectedFilterIdx: number;
@@ -16,12 +18,15 @@ type TitleBar = {
   fetching: boolean;
   map: boolean;
   toggleMap: (val: boolean) => void;
+  totalItems: number;
   close: () => void;
   showCloseIcon: boolean;
 };
 
 const TitleBar = ({
   selectedGroup,
+  selectedPageIdx,
+  totalPages,
   editFilters,
   setEditFilters,
   selectedFilterIdx,
@@ -36,6 +41,7 @@ const TitleBar = ({
   fetching,
   map,
   toggleMap,
+  totalItems,
   close,
   showCloseIcon,
 }: TitleBar) => {
@@ -91,7 +97,24 @@ const TitleBar = ({
         )}
       </span>
 
-      {(fetching || showCloseIcon) && (
+      {selectedGroup && !fetching && (
+        <span className="total">
+          {!map ? (
+            <>
+              <span className="current-page">{selectedPageIdx}</span>
+              {"/"}
+              <span className="total-pages">{totalPages}</span>
+            </>
+          ) : (
+            <span className="total-items">
+              {totalItems.toLocaleString("en", { useGrouping: true }) +
+                " items"}
+            </span>
+          )}
+        </span>
+      )}
+
+      {(showCloseIcon || fetching) && (
         <span
           className="close"
           onClick={(e) => {

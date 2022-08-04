@@ -8,6 +8,7 @@
 
 .titlebar {
   display: flex;
+  justify-content: space-between;
   width: 100%;
   background-color: #1e1f33;
   font-size: 1.1rem;
@@ -19,13 +20,11 @@
 }
 
 .titlebar .title {
-  text-align: center;
   white-space: nowrap;
   text-transform: capitalize;
   font-size: 1.1rem;
   overflow-x: scroll;
   display: block;
-  width: 100%;
   padding: 0.2rem;
 }
 
@@ -37,10 +36,20 @@
   color: gold;
 }
 
+.titlebar .total {
+  padding: 0.2rem 0.2rem 0.2rem 0.5rem;
+}
+
+.titlebar .current-page {
+  color: gold;
+}
+
+.titlebar .total-pages {
+  color: lightgray;
+}
+
 .titlebar .close {
-  position: absolute;
   padding: 0.2rem;
-  right: 0;
   font-size: 1.1rem;
   font-weight: bold;
   color: rgba(150, 150, 150, 1);
