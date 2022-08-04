@@ -217,7 +217,7 @@ const Label = ({
       id={`slider_label_${type + idx}`}
       className={`slider_label ${on ? "selected" : ""} ${
         type === "clear-filters" ? "clear-filters" : ""
-      } ${type === "clear-filters" && filtersOn ? "" : "disabled"}`}
+      } ${type === "clear-filters" ? (filtersOn ? "" : "disabled") : ""}`}
       onClick={(e) => {
         if (type === "page") {
           e.stopPropagation();

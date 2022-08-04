@@ -6,9 +6,9 @@
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import StatusBar from "./StatusBar";
-import FilterButtonBar, { filtersOn } from "./FilterButtonBar";
+import ButtonBar, { filtersOn } from "./ButtonBar";
 import MapWrapper from "./Map";
-import FilterRange from "./FilterRange";
+import Range from "./Range";
 import Item from "./Item";
 import Slider, { T_SLIDER_TYPE } from "./Slider";
 import TitleBar from "./TitleBar";
@@ -16,7 +16,6 @@ import { getDistance } from "geolib";
 import groupFilterData from "./config/groups.json";
 import itemAliasData from "./config/item_aliases.json";
 import filterDefaultData from "./config/filter_defaults.json";
-import { setSourceMapRange } from "typescript";
 
 // globals
 declare global {
@@ -759,12 +758,7 @@ const UniversalInfoDisplay = (props: {
             ) {
               if (f.type === "range") {
                 return (
-                  <FilterRange
-                    key={idx}
-                    idx={idx + 1}
-                    f={f}
-                    set={rangeSelect}
-                  />
+                  <Range key={idx} idx={idx + 1} f={f} set={rangeSelect} />
                 );
               } else if (f.type === "choice") {
                 return (
@@ -791,7 +785,7 @@ const UniversalInfoDisplay = (props: {
 
       <>
         {editFilters && (
-          <FilterButtonBar
+          <ButtonBar
             filter1={filter1}
             filter2={filter2}
             filter3={filter3}

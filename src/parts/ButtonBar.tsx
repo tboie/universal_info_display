@@ -14,7 +14,7 @@ export const filtersOn = (filters: (Filter | undefined)[]) => {
   });
 };
 
-const FilterButtonBar = ({
+const ButtonBar = ({
   filter1,
   filter2,
   filter3,
@@ -120,7 +120,7 @@ const FilterButtonBar = ({
   };
 
   return (
-    <div className="filterbar">
+    <div className="buttonbar">
       {[filter1, filter2, filter3, filter4, filter5].map(
         (f, idx) =>
           f &&
@@ -203,4 +203,4 @@ const FilterButton = ({
   );
 };
 
-export default FilterButtonBar;
+export default ButtonBar;

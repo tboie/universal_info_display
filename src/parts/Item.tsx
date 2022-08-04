@@ -9,13 +9,7 @@ const Item = ({
 }) => {
   return (
     <div id="item">
-      {item.id}
-      <img
-        src={
-          "final.gif"
-          /*item.img*/
-        }
-      />
+      <img src={"flower.gif"} />
       <button id="item_close" onClick={() => close(-1)}>
         X
       </button>

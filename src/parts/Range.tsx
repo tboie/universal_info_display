@@ -1,7 +1,7 @@
 import { Filter } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
-const FilterRange = ({
+const Range = ({
   idx,
   f,
   set,
@@ -55,4 +55,4 @@ const FilterRange = ({
   );
 };
 
-export default FilterRange;
+export default Range;
