@@ -201,29 +201,20 @@ const ContentSlider = ({
             ))}
 
         {contentType === "item" && items?.length ? (
-          chunkArr(items, 6).map((items, idx) => {
-            if (
-              idx + 1 >= selectedPageIdx - 4 &&
-              idx + 1 <= selectedPageIdx + 4
-            ) {
-              return (
-                <Page
-                  key={idx}
-                  num={idx + 1}
-                  items={items}
-                  selectedGroup={selectedGroup}
-                  selectedPageIdx={selectedPageIdx}
-                  setSelectedPageIdx={setSelectedPageIdx}
-                  setSelectedItemIdx={setSelectedItemIdx}
-                  filtersOn={filtersOn}
-                  getData={getData}
-                  fetching={fetching}
-                />
-              );
-            } else {
-              return null;
-            }
-          })
+          chunkArr(items, 6).map((items, idx) => (
+            <Page
+              key={idx}
+              num={idx + 1}
+              items={items}
+              selectedGroup={selectedGroup}
+              selectedPageIdx={selectedPageIdx}
+              setSelectedPageIdx={setSelectedPageIdx}
+              setSelectedItemIdx={setSelectedItemIdx}
+              filtersOn={filtersOn}
+              getData={getData}
+              fetching={fetching}
+            />
+          ))
         ) : (
           <Page
             text={"No Items Found"}
