@@ -80,6 +80,18 @@ const StatusBar = ({
       }}
     >
       {!fetching && selectedGroup && (
+        <div
+          className={"search"}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <img src="/search.svg" />
+        </div>
+      )}
+
+      {!fetching && selectedGroup && (
         <span className="filters">
           {!filtersOn && (
             <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
@@ -129,18 +141,6 @@ const StatusBar = ({
             }
           })}
         </span>
-      )}
-
-      {!fetching && selectedGroup && (
-        <div
-          className={"search"}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-        >
-          <img src="/search.svg" />
-        </div>
       )}
     </div>
   );

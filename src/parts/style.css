@@ -143,7 +143,6 @@
   position: relative;
   background-color: #1b1a26;
   display: flex;
-  justify-content: space-between;
   width: 100%;
   color: #80f077;
   text-shadow: 1px 1px green;
@@ -167,7 +166,7 @@
 
 .statusbar .filters,
 .statusbar .total {
-  padding: 0.5rem 0.25rem;
+  padding: 0.25rem 0.25rem;
 }
 
 .statusbar .filters {
