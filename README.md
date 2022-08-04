@@ -13,8 +13,6 @@
 - Experiment map integration for items with [openstreetmap](https://openstreetmap.org)
 
 <img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
-<img width="268" alt="3d" src="https://user-images.githubusercontent.com/26150152/179373904-75cb0c80-9903-473a-9620-77faa822b408.gif">
-<img width="268" alt="map" src="https://user-images.githubusercontent.com/26150152/179227076-1b0dd3f7-9807-4b37-af56-fee6dcb02ec3.png">
 
 ### Demo
 
@@ -79,7 +77,7 @@ group key --> group items
 ### 3D Item Object iPhone Recording and Media Transfer
 
 - Item is rotating on stepper motor at [360 degrees per 30 seconds](https://github.com/tboie/universal_info_display/blob/groups/public/arduino/stepper_onerev_28BYJ-48.ino)
-- Place the phone on stand then [record square video of object for 1 rotation (30 sec)](https://jilaxzone.com/2021/11/23/heres-how-to-record-square-video-on-iphone-instead-of-default-169-no-3rd-party-app-installation-required/) and rotate item on above setup
+- Place the phone on stand then [record a square video of object for 1 rotation (30 sec)](https://jilaxzone.com/2021/11/23/heres-how-to-record-square-video-on-iphone-instead-of-default-169-no-3rd-party-app-installation-required/) and rotate item on above setup
 - Transfer from phone to Photos App on OS X then export (File > Export) to drive and there should now be a square .mov file.
 
 ### Video Conversion Commands
@@ -113,12 +111,17 @@ Have the item "float" by displaying a slice of a full rotation.
 
 ### TODO/THINK/(RE)DESIGN
 
-- Home/Search/Filter icons?
-- Secondary Property view when item grid swiped vertically
+- Secondary/Tertiary item property values in item grid when pressed?
 - Selected Item Template Page (item is clicked from grid)
 - Allow more filters and scroll (filters scroll horizontally too)
-- Re-design range sort asc/desc toggle
+- Re-design range sort asc/desc toggle?
 - Search
 - Themes
 - Extend map features?
 - Online shopping?
+- Live customer support video stream lol
+- Custom ranking systems/designs...
+- Social Features
+- Don't forget PPU field (price per unit aka weight)
+- GAMIFICATIONs
+- Scrolling Image Titles that overflow
