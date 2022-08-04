@@ -86,6 +86,18 @@ const StatusBar = ({
       }}
     >
       {!fetching && selectedGroup && (
+        <div
+          className={"search"}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <img src="/search.svg" />
+        </div>
+      )}
+
+      {!fetching && selectedGroup && (
         <>
           <span className="filters">
             {!filtersOn && (
