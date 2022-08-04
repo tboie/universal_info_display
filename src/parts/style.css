@@ -12,7 +12,6 @@
   align-items: center;
   width: 100%;
   background-color: #1e1f33;
-  font-size: 1.1rem;
   text-shadow: 1px 1px green;
   border-top: 1px solid #2e2f41;
   border-bottom: 1px solid #2e2f41;
@@ -24,7 +23,6 @@
 .titlebar .title {
   white-space: nowrap;
   text-transform: capitalize;
-  font-size: 1.1rem;
   overflow-x: scroll;
   display: block;
 }
