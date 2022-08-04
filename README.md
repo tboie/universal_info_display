@@ -12,15 +12,13 @@
 - Experiment using a real industry-level dataset (100k+ items, 2500+ stores)
 - Experiment map integration for items with [openstreetmap](https://openstreetmap.org)
 
-<img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
-
 ### Demo
 
 - [Universal Info Display Demo](https://universal-info-display.vercel.app/)
 
 ### Install/Run
 
-(view using dev tools mobile)
+(view using browser dev tools mobile)
 
 ```
 npm i
@@ -122,6 +120,6 @@ Have the item "float" by displaying a slice of a full rotation.
 - Live customer support video stream lol
 - Custom ranking systems/designs...
 - Social Features
-- Don't forget PPU field (price per unit aka weight)
+- Don't forget PPU field (price, _points_ per unit aka weight)
 - GAMIFICATIONs
-- Scrolling Image Titles that overflow
+- Scrolling grid titles when overflowing
