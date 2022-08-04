@@ -80,48 +80,19 @@ const StatusBar = ({
       }}
     >
       {!fetching && selectedGroup && (
-        <div
-          className={"search"}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-        >
-          <img src="/search.svg" />
-        </div>
-      )}
+        <span className="filters">
+          {!filtersOn && (
+            <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
+              All {selectedGroup}
+            </span>
+          )}
 
-      {!fetching && selectedGroup && (
-        <>
-          <span className="filters">
-            {!filtersOn && (
-              <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
-                All {selectedGroup}
-              </span>
-            )}
-
-            {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
-              idx++;
-              if (f && f?.name !== "mi") {
-                if (f.type === "choice") {
-                  const selectedChoices = getChoiceText(f.val as Choice[]);
-                  if (selectedChoices) {
-                    return (
-                      <span
-                        className={`filter-vals ${
-                          editFilters && selectedFilterIdx === idx ? "sel" : ""
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          toggleFilter(idx);
-                        }}
-                      >
-                        {getChoiceText(f.val as Choice[])}
-                      </span>
-                    );
-                  }
-                } else if (f.type === "range" && f.sort) {
+          {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
+            idx++;
+            if (f && f?.name !== "mi") {
+              if (f.type === "choice") {
+                const selectedChoices = getChoiceText(f.val as Choice[]);
+                if (selectedChoices) {
                   return (
                     <span
                       className={`filter-vals ${
@@ -133,16 +104,43 @@ const StatusBar = ({
                         toggleFilter(idx);
                       }}
                     >
-                      {f.sort === "asc" ? ">" : "<"}
-                      {f.name !== "$" ? f.val + f.name : f.name + f.val}
-                      {f.sort === "asc" ? "↑" : "↓"}
+                      {getChoiceText(f.val as Choice[])}
                     </span>
                   );
                 }
+              } else if (f.type === "range" && f.sort) {
+                return (
+                  <span
+                    className={`filter-vals ${
+                      editFilters && selectedFilterIdx === idx ? "sel" : ""
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      toggleFilter(idx);
+                    }}
+                  >
+                    {f.sort === "asc" ? ">" : "<"}
+                    {f.name !== "$" ? f.val + f.name : f.name + f.val}
+                    {f.sort === "asc" ? "↑" : "↓"}
+                  </span>
+                );
               }
-            })}
-          </span>
-        </>
+            }
+          })}
+        </span>
+      )}
+
+      {!fetching && selectedGroup && (
+        <div
+          className={"search"}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <img src="/search.svg" />
+        </div>
       )}
     </div>
   );
