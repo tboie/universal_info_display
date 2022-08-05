@@ -331,12 +331,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .filter_button.selected {
-  border: 1px solid gold;
+  border: 1px solid rgba(255, 215, 0, 0.9);
 }
 
 .filter_button.on {
   color: gold;
   text-shadow: none;
+  background-color: #292645;
 }
 
 .filter_button.asc {
