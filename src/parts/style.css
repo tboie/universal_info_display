@@ -24,14 +24,7 @@
   text-transform: capitalize;
   overflow-x: scroll;
   display: block;
-}
-
-.titlebar .group {
-  color: rgb(252, 252, 252);
-}
-
-.titlebar .miles {
-  color: gold;
+  color: rgba(252, 252, 252, 0.9);
 }
 
 .titlebar .total {

@@ -35,7 +35,7 @@ const StatusBar = ({
   aliases,
   filtersOn,
 }: StatusBar) => {
-  const toggleFilter = (idx: number) => {
+  const toggleFilter = (idx: number, field: string) => {
     if (!editFilters) {
       setEditFilters(true);
       setSelectedFilterIdx(idx);
@@ -43,10 +43,15 @@ const StatusBar = ({
       if (selectedFilterIdx === idx) {
         setEditFilters(false);
         setSelectedFilterIdx(0);
-        toggleMap(false);
       } else {
         setSelectedFilterIdx(idx);
       }
+    }
+
+    if (field === "mi") {
+      toggleMap(!map);
+    } else if (map) {
+      toggleMap(false);
     }
   };
 
@@ -95,46 +100,48 @@ const StatusBar = ({
         <span className="filters">
           {!filtersOn && (
             <span className={`filter-vals ${editFilters ? "sel" : ""}`}>
-              All {selectedGroup}
+              All
             </span>
           )}
 
           {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
             idx++;
-            if (f && f?.name !== "mi") {
+            if (f) {
               if (f.type === "choice") {
                 const selectedChoices = getChoiceText(f.val as Choice[]);
                 if (selectedChoices) {
                   return (
                     <span
+                      key={`status-${f.name}`}
                       className={`filter-vals ${
                         editFilters && selectedFilterIdx === idx ? "sel" : ""
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        toggleFilter(idx);
+                        toggleFilter(idx, f.name);
                       }}
                     >
                       {getChoiceText(f.val as Choice[])}
                     </span>
                   );
                 }
-              } else if (f.type === "range" && f.sort) {
+              } else if (f.type === "range" && (f.sort || f.name === "mi")) {
                 return (
                   <span
+                    key={`status-${f.name}`}
                     className={`filter-vals ${
                       editFilters && selectedFilterIdx === idx ? "sel" : ""
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      toggleFilter(idx);
+                      toggleFilter(idx, f.name);
                     }}
                   >
                     {f.sort === "asc" ? ">" : "<"}
                     {f.name !== "$" ? f.val + f.name : f.name + f.val}
-                    {f.sort === "asc" ? "↑" : "↓"}
+                    {f.name !== "mi" ? (f.sort === "asc" ? "↑" : "↓") : ""}
                   </span>
                 );
               }

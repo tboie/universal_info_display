@@ -642,19 +642,9 @@ const UniversalInfoDisplay = (props: {
         selectedPageIdx={selectedPageIdx}
         totalPages={chunkArr(filteredItems, 6).length}
         editFilters={editFilters}
-        setEditFilters={setEditFilters}
-        selectedFilterIdx={selectedFilterIdx}
-        setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
-        filter1={filter1}
-        filter2={filter2}
-        filter3={filter3}
-        filter4={filter4}
-        filter5={filter5}
         selectedStore={selectedStore}
-        miles={miles}
         fetching={fetching}
         map={map}
-        toggleMap={(val) => toggleMap(val)}
         totalItems={filteredItems.length}
         close={() => {
           setSelectedGroup("");

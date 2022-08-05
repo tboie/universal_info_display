@@ -111,7 +111,11 @@ const Slider = ({
         i++;
       });
       if (idx !== choices.length - 1) {
-        eleLabels.push(<span className="slider_label">·</span>);
+        eleLabels.push(
+          <span key={`choice-${c.field}-${idx}`} className="slider_label">
+            ·
+          </span>
+        );
       }
     });
 

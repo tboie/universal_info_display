@@ -1,28 +1,27 @@
 [
-       {
-              "group": "flower",
-              "m,t": {
-                     "alias": "type",
-                     "type": "choice"
-              },
-              "g": {
-                     "type": "choice"
-              },
-              "$": {
-                     "type": "range"
-              },
-              "%": {
-                     "type": "range"
-              }, 
-              "mi": {
-                     "type": "range"
-              }
-             
-       },
-       {
-              "group": "glass",
-               "mi": {
-                     "type": "range"
-              }
-       }
+    {
+        "group": "flower",
+        "m,t": {
+            "alias": "type",
+            "type": "choice"
+        },
+        "g": {
+            "type": "choice"
+        },
+        "$": {
+            "type": "range"
+        },
+        "%": {
+            "type": "range"
+        },
+        "mi": {
+            "type": "range"
+        }
+    },
+    {
+        "group": "glass",
+        "mi": {
+            "type": "range"
+        }
+    }
 ]
