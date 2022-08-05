@@ -157,8 +157,7 @@
   opacity: 0.8;
 }
 
-.statusbar .filters,
-.statusbar .total {
+.statusbar .filters {
   padding: 0.25rem 0.25rem;
 }
 
@@ -168,7 +167,6 @@
 }
 
 .statusbar .filters .filter-vals {
-  text-transform: capitalize;
   color: gold;
   opacity: 0.75;
   margin-right: 1.25rem;
@@ -176,18 +174,6 @@
 
 .statusbar .filters .filter-vals.sel {
   opacity: 1;
-}
-
-.statusbar .total {
-  padding-left: 0.5rem;
-}
-
-.statusbar .current-page {
-  color: gold;
-}
-
-.statusbar .total-pages {
-  color: lightgray;
 }
 
 .range_control {

@@ -95,7 +95,6 @@ const UniversalInfoDisplay = (props: {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState<any>(groupFilterData);
 
-  const [editFilters, setEditFilters] = useState(false);
   const [filterDefaults, setFilterDefaults] = useState<any>(filterDefaultData);
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<Filter>();
@@ -641,7 +640,6 @@ const UniversalInfoDisplay = (props: {
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
         totalPages={chunkArr(filteredItems, 6).length}
-        editFilters={editFilters}
         selectedStore={selectedStore}
         fetching={fetching}
         map={map}
@@ -662,7 +660,6 @@ const UniversalInfoDisplay = (props: {
           setFilter3(undefined);
           setFilter4(undefined);
           setFilter5(undefined);
-          setEditFilters(false);
         }}
         showCloseIcon={fetching}
       />
@@ -708,8 +705,6 @@ const UniversalInfoDisplay = (props: {
 
       <StatusBar
         selectedGroup={selectedGroup}
-        editFilters={editFilters}
-        setEditFilters={setEditFilters}
         selectedFilterIdx={selectedFilterIdx}
         setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
         filter1={filter1}
@@ -717,6 +712,11 @@ const UniversalInfoDisplay = (props: {
         filter3={filter3}
         filter4={filter4}
         filter5={filter5}
+        setFilter1={setFilter1}
+        setFilter2={setFilter2}
+        setFilter3={setFilter3}
+        setFilter4={setFilter4}
+        setFilter5={setFilter5}
         fetching={fetching}
         map={map}
         toggleMap={(val) => toggleMap(val)}
@@ -726,113 +726,60 @@ const UniversalInfoDisplay = (props: {
           ]
         }
         filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
+        selectedStore={selectedStore}
+        setSelectedStore={setSelectedStore}
+        setSelectedPageIdx={setSelectedPageIdx}
       />
 
-      {editFilters &&
-        (!map && selectedFilterIdx === 0 ? (
-          <Slider
-            type="clear-filters"
-            selected={[]}
-            select={sliderSelect}
-            fetching={fetching}
-            filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
-          />
-        ) : (
-          [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
-            if (
-              f &&
-              (selectedFilterIdx === idx + 1 ||
-                (f.name === "mi" &&
-                  (map || selectedStore) &&
-                  (selectedFilterIdx === idx + 1 || selectedFilterIdx === 0)))
-            ) {
-              if (f.type === "range") {
-                return (
-                  <Range key={idx} idx={idx + 1} f={f} set={rangeSelect} />
-                );
-              } else if (f.type === "choice") {
-                return (
-                  <Slider
-                    key={idx}
-                    type={"choice"}
-                    choices={f.props as Choice[]}
-                    selected={f.val as Choice[]}
-                    select={sliderSelect}
-                    fetching={fetching}
-                    aliases={
-                      itemAliases[
-                        groupFilters.findIndex(
-                          (g: any) => g.group === selectedGroup
-                        )
-                      ]
-                    }
-                  />
-                );
-              }
+      {selectedFilterIdx !== 0 &&
+        [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
+          if (
+            f &&
+            (selectedFilterIdx === idx + 1 ||
+              (f.name === "mi" &&
+                (map || selectedStore) &&
+                (selectedFilterIdx === idx + 1 || selectedFilterIdx === 0)))
+          ) {
+            if (f.type === "range") {
+              return <Range key={idx} idx={idx + 1} f={f} set={rangeSelect} />;
+            } else if (f.type === "choice") {
+              return (
+                <Slider
+                  key={idx}
+                  type={"choice"}
+                  choices={f.props as Choice[]}
+                  selected={f.val as Choice[]}
+                  select={sliderSelect}
+                  fetching={fetching}
+                  aliases={
+                    itemAliases[
+                      groupFilters.findIndex(
+                        (g: any) => g.group === selectedGroup
+                      )
+                    ]
+                  }
+                />
+              );
             }
-          })
-        ))}
+          }
+        })}
 
-      <>
-        {editFilters && (
-          <ButtonBar
-            filter1={filter1}
-            filter2={filter2}
-            filter3={filter3}
-            filter4={filter4}
-            filter5={filter5}
-            setFilter1={setFilter1}
-            setFilter2={setFilter2}
-            setFilter3={setFilter3}
-            setFilter4={setFilter4}
-            setFilter5={setFilter5}
-            selectedFilterIdx={selectedFilterIdx}
-            setSelectedFilterIdx={setSelectedFilterIdx}
-            setSelectedPageIdx={setSelectedPageIdx}
-            map={map}
-            toggleMap={() => toggleMap(!map)}
-            selectedStore={selectedStore}
-            setSelectedStore={setSelectedStore}
-            fetching={fetching}
-          />
-        )}
-
-        {
-          // show Clear Filters when 0 items or map on
-          ((!map &&
-            selectedGroup &&
-            !fetching &&
-            chunkArr(filteredItems, 6).length === 0) ||
-            map) && (
-            <Slider
-              type="clear-filters"
-              selected={[]}
-              select={sliderSelect}
-              fetching={fetching}
-              filtersOn={filtersOn([
-                filter1,
-                filter2,
-                filter3,
-                filter4,
-                filter5,
-              ])}
-            />
-          )
-        }
-
-        {!map && (
-          <Slider
-            type={"page"}
-            titles={chunkArr(filteredItems, 6).map((item, idx) =>
-              (idx + 1).toString()
-            )}
-            selected={[selectedPageIdx.toString()]}
-            select={sliderSelect}
-            setSelectedPageIdx={setSelectedPageIdx}
-            fetching={fetching}
-          />
-        )}
-      </>
+      {!map && selectedGroup && !fetching && (
+        <Slider
+          type={"page"}
+          titles={
+            filteredItems.length
+              ? chunkArr(filteredItems, 6).map((item, idx) =>
+                  (idx + 1).toString()
+                )
+              : ["0"]
+          }
+          selected={[selectedPageIdx.toString()]}
+          select={sliderSelect}
+          setSelectedPageIdx={setSelectedPageIdx}
+          fetching={fetching}
+        />
+      )}
     </div>
   );
 };

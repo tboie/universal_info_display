@@ -4,7 +4,6 @@ type TitleBar = {
   selectedGroup: string;
   selectedPageIdx: number;
   totalPages: number;
-  editFilters: boolean;
   selectedStore?: Store;
   fetching: boolean;
   map: boolean;
@@ -17,7 +16,6 @@ const TitleBar = ({
   selectedGroup,
   selectedPageIdx,
   totalPages,
-  editFilters,
   selectedStore,
   fetching,
   map,
@@ -27,7 +25,7 @@ const TitleBar = ({
 }: TitleBar) => {
   return (
     <div
-      className={`titlebar ${editFilters ? "edit-filters" : ""} ${
+      className={`titlebar ${
         !selectedGroup || fetching ? "no-pointer-events" : ""
       }`}
     >
