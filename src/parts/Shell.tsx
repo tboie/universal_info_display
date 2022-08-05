@@ -806,18 +806,37 @@ const UniversalInfoDisplay = (props: {
             fetching={fetching}
           />
         )}
-        {!map && (
-          <Slider
-            type="page"
-            titles={chunkArr(filteredItems, 6).map((item, idx) =>
-              (idx + 1).toString()
-            )}
-            selected={[selectedPageIdx.toString()]}
-            select={sliderSelect}
-            setSelectedPageIdx={setSelectedPageIdx}
-            fetching={fetching}
-          />
-        )}
+
+        {!map ? (
+          selectedGroup &&
+          !fetching &&
+          chunkArr(filteredItems, 6).length === 0 ? (
+            <Slider
+              type="clear-filters"
+              selected={[]}
+              select={sliderSelect}
+              fetching={fetching}
+              filtersOn={filtersOn([
+                filter1,
+                filter2,
+                filter3,
+                filter4,
+                filter5,
+              ])}
+            />
+          ) : (
+            <Slider
+              type={"page"}
+              titles={chunkArr(filteredItems, 6).map((item, idx) =>
+                (idx + 1).toString()
+              )}
+              selected={[selectedPageIdx.toString()]}
+              select={sliderSelect}
+              setSelectedPageIdx={setSelectedPageIdx}
+              fetching={fetching}
+            />
+          )
+        ) : null}
       </>
     </div>
   );

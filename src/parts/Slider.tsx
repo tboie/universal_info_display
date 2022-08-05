@@ -219,9 +219,9 @@ const Label = ({
         type === "clear-filters" ? "clear-filters" : ""
       } ${type === "clear-filters" ? (filtersOn ? "" : "disabled") : ""}`}
       onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
         if (type === "page") {
-          e.stopPropagation();
-          e.preventDefault();
           globalThis.pageSliderPressed = false;
         }
         click(type, title, field);
