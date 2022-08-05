@@ -13,3 +13,7 @@ body,
   margin: 0;
   overflow: hidden;
 }
+
+button:focus {
+  outline: 0;
+}

@@ -285,7 +285,7 @@ input[type="range"]::-webkit-slider-thumb {
   position: absolute;
   height: 2rem;
   width: 2rem;
-  margin-top: 11px;
+  margin-top: 0.5rem;
   border-radius: 1rem;
   border: 4px solid #1e1f33;
   background-color: rgb(252, 252, 252);
@@ -294,6 +294,8 @@ input[type="range"]::-webkit-slider-thumb {
   z-index: 1;
   transform: translateX(100%);
   pointer-events: none;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .buttonbar {
