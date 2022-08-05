@@ -38,9 +38,11 @@ const GridItems = ({
                   <span className="choice">
                     {item["g"] ? item["g"].join(",") : ""}
                   </span>
+                  {/*}
                   <span className="percent">
                     {item["%"] ? item["%"] + "%" : ""}
                   </span>
+
                   <span className="type">{item["t"]}</span>
 
                   <span className="ppu">
@@ -50,6 +52,7 @@ const GridItems = ({
                   <span className="mi">
                     {item["dist"] ? Math.round(item["dist"]) + "mi" : ""}
                   </span>
+                  */}
                 </>
               )}
             </div>
