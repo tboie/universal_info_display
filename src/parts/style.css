@@ -510,6 +510,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .slider_label {
+  position: relative;
   padding: 0.8rem;
   display: block;
   color: #80f077;
@@ -561,18 +562,18 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #1e1f33;
   width: 2rem;
   height: 2rem;
+  border: 0;
 }
 
 .slider #btn_first {
-  left: 0;
+  left: 1px;
   text-align: left;
 }
 
 .slider #btn_last {
-  right: 0;
+  right: 1px;
   text-align: right;
 }
 
