@@ -47,8 +47,6 @@
 }
 
 .titlebar .close {
-  padding: 0.2rem;
-  font-size: 1.1rem;
   font-weight: bold;
   color: rgba(150, 150, 150, 1);
   text-shadow: 1px 1px black;
