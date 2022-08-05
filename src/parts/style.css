@@ -289,7 +289,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   height: 0.1rem;
   cursor: pointer;
   background-color: greenyellow;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 input[type="range"]:focus {
@@ -511,7 +511,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .slider_label {
   position: relative;
-  padding: 0.8rem;
+  padding: 0.75rem;
   display: block;
   color: #80f077;
   border: 0;
