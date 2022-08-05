@@ -243,7 +243,7 @@
 }
 
 .range_label {
-  color: rgb(252, 252, 252);
+  color: rgba(252, 252, 252, 0.85);
   position: absolute;
   height: 100%;
   display: flex;
