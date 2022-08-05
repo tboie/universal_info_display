@@ -119,14 +119,15 @@
 .content_page .no-items {
   position: absolute;
   font-size: 1.5rem;
-  color: rgba(252, 252, 252);
-  background-color: rgba(0, 0, 0, 1);
+  color: rgba(252, 252, 252, 1);
+  background-color: rgba(0, 0, 0, 0.75);
   height: 100%;
   width: 100%;
   display: inline-flex;
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 6rem;
+  z-index: 1;
 }
 
 #all-text {
