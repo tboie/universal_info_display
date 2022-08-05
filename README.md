@@ -102,6 +102,8 @@ ffmpeg -i out2.gif -filter_complex "[0:v] scale=200:200:flags=lanczos,split [a][
 
 ### Media Optimization Opportunity (secret sauce?)
 
+TODO: look into webm/video component
+
 Have the item "float" by displaying a slice of a full rotation.
 
 - Use CSS sprite animations
