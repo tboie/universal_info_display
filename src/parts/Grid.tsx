@@ -64,7 +64,7 @@ const GridItems = ({
                 )
               }
               <img
-                className="thumb"
+                className="media"
                 src={
                   selectedGroup ? `${selectedGroup}.gif` : `${item.n}.gif` /*`${
                   item.w === "D"

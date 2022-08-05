@@ -18,7 +18,7 @@ const Range = ({
     if (f.sort === "asc") {
       res = 100 - res;
     }
-    return res + "%";
+    return res;
   };
 
   return (
@@ -33,7 +33,17 @@ const Range = ({
           (f.name !== "$" ? f.name : "")}
       </span>
 
-      <div className="active" style={{ width: setActiveWidth() }} />
+      <button
+        className={"thumb"}
+        style={{
+          right: setActiveWidth() + "%",
+          transform: "translateX(" + setActiveWidth() + "%)",
+        }}
+      >
+        {f.sort === "asc" ? "↑" : f.sort ? "↓" : "X"}
+      </button>
+
+      <div className="active" style={{ width: setActiveWidth() + "%" }} />
       <input
         type="range"
         min={f.props[0] as number}
