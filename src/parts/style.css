@@ -290,6 +290,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   height: 0.1rem;
   cursor: pointer;
   background-color: greenyellow;
+  opacity: 0.9;
 }
 
 input[type="range"]:focus {
