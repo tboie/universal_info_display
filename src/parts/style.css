@@ -146,7 +146,7 @@
   font-size: 0.9rem;
   color: #80f077;
   text-shadow: 1px 1px green;
-  border-top: 1px solid #2e2f41;
+  border: 1px solid #2e2f41;
 }
 
 .statusbar .search {
@@ -202,11 +202,6 @@
   margin: 0% 12%;
   width: 76%;
   position: relative;
-  height: 3.25rem;
-  min-height: 3.25rem;
-  max-height: 3.25rem;
-  border-top: 1px solid #2e2f41;
-  border-bottom: 1px solid #2e2f41;
 }
 
 .range_control .active {
@@ -245,6 +240,7 @@
 .range_label {
   color: rgba(252, 252, 252, 0.85);
   position: absolute;
+  top: 0;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -269,7 +265,8 @@
 }
 
 input {
-  position: absolute;
+  position: relative;
+  height: 44px;
   -webkit-appearance: none;
   z-index: 1;
   width: 100%;
