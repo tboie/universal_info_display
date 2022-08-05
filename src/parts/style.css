@@ -498,9 +498,6 @@ input[type="range"]::-webkit-slider-thumb {
 .slider {
   position: relative;
   background-color: #1b1a26;
-  height: 3.25rem;
-  min-height: 3.25rem;
-  max-height: 3.25rem;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -508,16 +505,13 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   flex-wrap: nowrap;
   text-shadow: 1px 1px green;
-  border-top: 1px solid #2e2f41;
-  border-bottom: 1px solid #2e2f41;
+  border: 1px solid #2e2f41;
 }
 
 .slider_label {
-  position: relative;
-  padding: 1rem;
+  padding: 0.8rem;
   display: block;
   color: #80f077;
-  padding-bottom: 1rem;
   border: 0;
   text-transform: capitalize;
 }
