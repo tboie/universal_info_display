@@ -797,10 +797,13 @@ const UniversalInfoDisplay = (props: {
           />
         )}
 
-        {!map ? (
-          selectedGroup &&
-          !fetching &&
-          chunkArr(filteredItems, 6).length === 0 ? (
+        {
+          // show Clear Filters when 0 items or map on
+          ((!map &&
+            selectedGroup &&
+            !fetching &&
+            chunkArr(filteredItems, 6).length === 0) ||
+            map) && (
             <Slider
               type="clear-filters"
               selected={[]}
@@ -814,19 +817,21 @@ const UniversalInfoDisplay = (props: {
                 filter5,
               ])}
             />
-          ) : (
-            <Slider
-              type={"page"}
-              titles={chunkArr(filteredItems, 6).map((item, idx) =>
-                (idx + 1).toString()
-              )}
-              selected={[selectedPageIdx.toString()]}
-              select={sliderSelect}
-              setSelectedPageIdx={setSelectedPageIdx}
-              fetching={fetching}
-            />
           )
-        ) : null}
+        }
+
+        {!map && (
+          <Slider
+            type={"page"}
+            titles={chunkArr(filteredItems, 6).map((item, idx) =>
+              (idx + 1).toString()
+            )}
+            selected={[selectedPageIdx.toString()]}
+            select={sliderSelect}
+            setSelectedPageIdx={setSelectedPageIdx}
+            fetching={fetching}
+          />
+        )}
       </>
     </div>
   );
