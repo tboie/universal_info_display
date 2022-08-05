@@ -24,7 +24,7 @@
   text-transform: capitalize;
   overflow-x: scroll;
   display: block;
-  color: gold;
+  color: rgba(255, 215, 0, 0.9);
 }
 
 .titlebar .total {
