@@ -16,12 +16,6 @@ type StatusBar = {
   filtersOn: boolean;
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
-  setSelectedPageIdx: (val: number) => any;
-  setFilter1: (val: any) => any;
-  setFilter2: (val: any) => any;
-  setFilter3: (val: any) => any;
-  setFilter4: (val: any) => any;
-  setFilter5: (val: any) => any;
 };
 
 const StatusBar = ({
@@ -40,12 +34,6 @@ const StatusBar = ({
   filtersOn,
   selectedStore,
   setSelectedStore,
-  setSelectedPageIdx,
-  setFilter1,
-  setFilter2,
-  setFilter3,
-  setFilter4,
-  setFilter5,
 }: StatusBar) => {
   const getChoiceText = (choices: Choice[]) => {
     const allChoices: string[] = [];
@@ -89,7 +77,7 @@ const StatusBar = ({
     return val;
   };
 
-  const setFilter = (
+  const setSelectedFilter = (
     idx: number,
     type: FilterType,
     selected: boolean,
@@ -109,49 +97,8 @@ const StatusBar = ({
       } else if (selectedFilterIdx !== idx && map) {
         setSelectedFilterIdx(idx);
       }
-    } else if (type === "choice") {
+    } else if (type === "choice" || "range") {
       setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
-    } else if (type === "range") {
-      let f;
-
-      if (idx === 1) {
-        f = filter1;
-      } else if (idx === 2) {
-        f = filter2;
-      } else if (idx === 3) {
-        f = filter3;
-      } else if (idx === 4) {
-        f = filter4;
-      } else if (idx === 5) {
-        f = filter5;
-      }
-
-      let sort = f?.sort;
-      let val;
-      if (!sort) {
-        sort = selected ? "desc" : "asc";
-        val = f?.val;
-      } else if (sort === "asc") {
-        sort = selected ? "desc" : "asc";
-        val = f?.val;
-      } else if (sort === "desc") {
-        sort = selected ? undefined : "desc";
-        val = selected ? f?.props[0] : f?.val;
-      }
-
-      setSelectedFilterIdx(sort ? idx : 0);
-      setSelectedPageIdx(1);
-      if (idx === 1) {
-        setFilter1({ ...filter1, sort: sort, val: val });
-      } else if (idx === 2) {
-        setFilter2({ ...filter2, sort: sort, val: val });
-      } else if (idx === 3) {
-        setFilter3({ ...filter3, sort: sort, val: val });
-      } else if (idx === 4) {
-        setFilter4({ ...filter4, sort: sort, val: val });
-      } else if (idx === 5) {
-        setFilter5({ ...filter5, sort: sort, val: val });
-      }
     }
   };
 
@@ -184,7 +131,12 @@ const StatusBar = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      setFilter(idx, f.type, selectedFilterIdx === idx, f.name);
+                      setSelectedFilter(
+                        idx,
+                        f.type,
+                        selectedFilterIdx === idx,
+                        f.name
+                      );
                     }}
                   >
                     {getChoiceText(f.val as Choice[]) || f.alias || f.name}
@@ -200,7 +152,12 @@ const StatusBar = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      setFilter(idx, f.type, selectedFilterIdx === idx, f.name);
+                      setSelectedFilter(
+                        idx,
+                        f.type,
+                        selectedFilterIdx === idx,
+                        f.name
+                      );
                     }}
                   >
                     {formatRangeText(f)}

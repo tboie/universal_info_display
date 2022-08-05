@@ -712,11 +712,6 @@ const UniversalInfoDisplay = (props: {
         filter3={filter3}
         filter4={filter4}
         filter5={filter5}
-        setFilter1={setFilter1}
-        setFilter2={setFilter2}
-        setFilter3={setFilter3}
-        setFilter4={setFilter4}
-        setFilter5={setFilter5}
         fetching={fetching}
         map={map}
         toggleMap={(val) => toggleMap(val)}
@@ -728,7 +723,6 @@ const UniversalInfoDisplay = (props: {
         filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
         selectedStore={selectedStore}
         setSelectedStore={setSelectedStore}
-        setSelectedPageIdx={setSelectedPageIdx}
       />
 
       {selectedFilterIdx !== 0 &&
@@ -741,7 +735,19 @@ const UniversalInfoDisplay = (props: {
                 (selectedFilterIdx === idx + 1 || selectedFilterIdx === 0)))
           ) {
             if (f.type === "range") {
-              return <Range key={idx} idx={idx + 1} f={f} set={rangeSelect} />;
+              return (
+                <Range
+                  key={idx}
+                  idx={idx + 1}
+                  f={f}
+                  set={rangeSelect}
+                  setFilter1={setFilter1}
+                  setFilter2={setFilter2}
+                  setFilter3={setFilter3}
+                  setFilter4={setFilter4}
+                  setFilter5={setFilter5}
+                />
+              );
             } else if (f.type === "choice") {
               return (
                 <Slider
