@@ -6,7 +6,7 @@
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import StatusBar from "./StatusBar";
-import ButtonBar, { filtersOn } from "./ButtonBar";
+import { filtersOn } from "./ButtonBar";
 import MapWrapper from "./Map";
 import Range from "./Range";
 import Item from "./Item";
@@ -134,10 +134,10 @@ const UniversalInfoDisplay = (props: {
 
   const getFilterRange = (key: string, items: UniversalInfoDisplayItem[]) => {
     const vals = items.map((item) => item[key]);
-    return [Math.floor(Math.min(...vals)), Math.ceil(Math.max(...vals))] as [
-      number,
-      number
-    ];
+    return [
+      Math.floor(Math.min(...vals) - 1),
+      Math.ceil(Math.max(...vals)) + 1,
+    ] as [number, number];
   };
 
   // TODO: Design
