@@ -39,9 +39,10 @@ const Range = ({
       val = f.props[0] as number;
     } else if (sort === "desc") {
       sort = undefined;
-      val = f.props[1] as number;
+      val = f.props[0] as number;
     } else {
       sort = "desc";
+      val = f.props[1] as number;
     }
 
     if (idx === 1) {
@@ -63,67 +64,50 @@ const Range = ({
     <div
       className={`range_control ${f.name === "mi" ? "mi" : ""} ${
         f.sort === "asc" ? "asc" : ""
-      }${f.sort === "desc" ? "desc" : ""} ${
-        typeof f.sort === "undefined" ? "off" : ""
-      }`}
+      }${f.sort === "desc" ? "desc" : ""}`}
     >
-      {f.sort ? (
-        <>
-          <span
-            className="range_label min"
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              toggleSort(f);
-            }}
-          >
-            {(f.name === "$" ? "$" : "") +
-              f.props[0] +
-              (f.name !== "$" ? f.name : "")}
-          </span>
+      <span
+        className="range_label min"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          toggleSort(f);
+        }}
+      >
+        {(f.name === "$" ? "$" : "") +
+          f.props[0] +
+          (f.name !== "$" ? f.name : "")}
+      </span>
 
-          <div className="active" style={{ width: setActiveWidth() + "%" }} />
+      <div className="active" style={{ width: setActiveWidth() + "%" }} />
 
-          <input
-            type="range"
-            min={f.props[0] as number}
-            max={f.props[1] as number}
-            value={f.val as number}
-            onChange={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              throttle(
-                { delay: 15, leading: true, trailing: true },
-                set(idx, f.name, e.currentTarget.valueAsNumber, f.sort)
-              );
-            }}
-          />
+      <input
+        type="range"
+        min={f.props[0] as number}
+        max={f.props[1] as number}
+        value={f.val as number}
+        onChange={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          throttle(
+            { delay: 15, leading: true, trailing: true },
+            set(idx, f.name, e.currentTarget.valueAsNumber, f.sort)
+          );
+        }}
+      />
 
-          <span
-            className="range_label max"
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              toggleSort(f);
-            }}
-          >
-            {(f.name === "$" ? "$" : "") +
-              f.props[1] +
-              (f.name !== "$" ? f.name : "")}
-          </span>
-        </>
-      ) : (
-        <button
-          className={"on-btn"}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            toggleSort(f);
-          }}
-        >
-          {"Filter " + f.name}
-        </button>
-      )}
+      <span
+        className="range_label max"
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          toggleSort(f);
+        }}
+      >
+        {(f.name === "$" ? "$" : "") +
+          f.props[1] +
+          (f.name !== "$" ? f.name : "")}
+      </span>
     </div>
   );
 };

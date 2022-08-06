@@ -243,7 +243,7 @@
   font-size: 0.9rem;
 }
 
-.range_control.mi .range_label.min,
+.range_label.min,
 .range_control.asc .range_label.min,
 .range_control.desc .range_label.max {
   left: 0;
@@ -251,7 +251,7 @@
   padding-right: 0.25rem;
 }
 
-.range_control.mi .range_label.max,
+.range_label.max,
 .range_control.asc .range_label.max,
 .range_control.desc .range_label.min {
   right: 0;
