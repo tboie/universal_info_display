@@ -6,7 +6,6 @@
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import StatusBar from "./StatusBar";
-import { filtersOn } from "./ButtonBar";
 import MapWrapper from "./Map";
 import Range from "./Range";
 import Item from "./Item";
@@ -192,11 +191,12 @@ const UniversalInfoDisplay = (props: {
         }
       });
 
-    // ranges
+    // range filters
     let rF = [filter1, filter2, filter3, filter4, filter5].filter(
       (f) => f && f.type === "range" && f.name !== "mi"
     ) as Filter[];
 
+    // filter items by range value
     rF.forEach((f) => {
       if (f) {
         filteredItems = [
@@ -209,94 +209,84 @@ const UniversalInfoDisplay = (props: {
       }
     });
 
+    rF = [...rF.filter((f) => f.sort)];
+
+    /*
+    // sort by ppu if all ranges sort off
+    // TODO: ppu should be a filter?
+    if (rF.length === 0) {
+      filteredItems.sort((a, b) => a.ppu - b.ppu);
+    }
+    */
+
     // multi column range sort
     // more dependable than any algs tried
-
-    // sort by ppu if no sort on all ranges
-    if (!rF.some((f) => (f.sort ? true : false))) {
-      filteredItems.sort((a, b) => a.ppu - b.ppu);
-    } else {
-      if (rF.length === 1) {
-        rF[0].sort &&
-          filteredItems.sort((a, b) =>
-            rF[0].sort === "asc"
-              ? a[rF[0].name] - b[rF[0].name]
-              : b[rF[0].name] - a[rF[0].name]
-          );
-      } else if (rF.length === 2) {
-        rF[0].sort &&
-          rF[1].sort &&
-          filteredItems.sort(
-            (a, b) =>
-              (rF[0].sort === "asc"
-                ? a[rF[0].name] - b[rF[0].name]
-                : b[rF[0].name] - a[rF[0].name]) ||
-              (rF[1].sort === "asc"
-                ? a[rF[1].name] - b[rF[1].name]
-                : b[rF[1].name] - a[rF[1].name])
-          );
-      } else if (rF.length === 3) {
-        rF[0].sort &&
-          rF[1].sort &&
-          rF[2].sort &&
-          filteredItems.sort(
-            (a, b) =>
-              (rF[0].sort === "asc"
-                ? a[rF[0].name] - b[rF[0].name]
-                : b[rF[0].name] - a[rF[0].name]) ||
-              (rF[1].sort === "asc"
-                ? a[rF[1].name] - b[rF[1].name]
-                : b[rF[1].name] - a[rF[1].name]) ||
-              (rF[2].sort === "asc"
-                ? a[rF[2].name] - b[rF[2].name]
-                : b[rF[2].name] - a[rF[2].name])
-          );
-      } else if (rF.length === 4) {
-        rF[0].sort &&
-          rF[1].sort &&
-          rF[2].sort &&
-          rF[3].sort &&
-          filteredItems.sort(
-            (a, b) =>
-              (rF[0].sort === "asc"
-                ? a[rF[0].name] - b[rF[0].name]
-                : b[rF[0].name] - a[rF[0].name]) ||
-              (rF[1].sort === "asc"
-                ? a[rF[1].name] - b[rF[1].name]
-                : b[rF[1].name] - a[rF[1].name]) ||
-              (rF[2].sort === "asc"
-                ? a[rF[2].name] - b[rF[2].name]
-                : b[rF[2].name] - a[rF[2].name]) ||
-              (rF[3].sort === "asc"
-                ? a[rF[3].name] - b[rF[3].name]
-                : b[rF[3].name] - a[rF[3].name])
-          );
-      } else if (rF.length === 5) {
-        rF[0].sort &&
-          rF[1].sort &&
-          rF[2].sort &&
-          rF[3].sort &&
-          rF[4].sort &&
-          filteredItems.sort(
-            (a, b) =>
-              (rF[0].sort === "asc"
-                ? a[rF[0].name] - b[rF[0].name]
-                : b[rF[0].name] - a[rF[0].name]) ||
-              (rF[1].sort === "asc"
-                ? a[rF[1].name] - b[rF[1].name]
-                : b[rF[1].name] - a[rF[1].name]) ||
-              (rF[2].sort === "asc"
-                ? a[rF[2].name] - b[rF[2].name]
-                : b[rF[2].name] - a[rF[2].name]) ||
-              (rF[3].sort === "asc"
-                ? a[rF[3].name] - b[rF[3].name]
-                : b[rF[3].name] - a[rF[3].name]) ||
-              (rF[4].sort === "asc"
-                ? a[rF[4].name] - b[rF[4].name]
-                : b[rF[4].name] - a[rF[4].name])
-          );
-      }
+    if (rF.length === 1) {
+      filteredItems.sort((a, b) =>
+        rF[0].sort === "asc"
+          ? a[rF[0].name] - b[rF[0].name]
+          : b[rF[0].name] - a[rF[0].name]
+      );
+    } else if (rF.length === 2) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name])
+      );
+    } else if (rF.length === 3) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name]) ||
+          (rF[2].sort === "asc"
+            ? a[rF[2].name] - b[rF[2].name]
+            : b[rF[2].name] - a[rF[2].name])
+      );
+    } else if (rF.length === 4) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name]) ||
+          (rF[2].sort === "asc"
+            ? a[rF[2].name] - b[rF[2].name]
+            : b[rF[2].name] - a[rF[2].name]) ||
+          (rF[3].sort === "asc"
+            ? a[rF[3].name] - b[rF[3].name]
+            : b[rF[3].name] - a[rF[3].name])
+      );
+    } else if (rF.length === 5) {
+      filteredItems.sort(
+        (a, b) =>
+          (rF[0].sort === "asc"
+            ? a[rF[0].name] - b[rF[0].name]
+            : b[rF[0].name] - a[rF[0].name]) ||
+          (rF[1].sort === "asc"
+            ? a[rF[1].name] - b[rF[1].name]
+            : b[rF[1].name] - a[rF[1].name]) ||
+          (rF[2].sort === "asc"
+            ? a[rF[2].name] - b[rF[2].name]
+            : b[rF[2].name] - a[rF[2].name]) ||
+          (rF[3].sort === "asc"
+            ? a[rF[3].name] - b[rF[3].name]
+            : b[rF[3].name] - a[rF[3].name]) ||
+          (rF[4].sort === "asc"
+            ? a[rF[4].name] - b[rF[4].name]
+            : b[rF[4].name] - a[rF[4].name])
+      );
     }
+
     return filteredItems;
   };
 
@@ -717,7 +707,6 @@ const UniversalInfoDisplay = (props: {
           setSelectedItemIdx={setSelectedItemIdx}
           getData={(group) => getData(group)}
           fetching={fetching}
-          filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
         />
       )}
 
@@ -740,7 +729,6 @@ const UniversalInfoDisplay = (props: {
             groupFilters.findIndex((g: any) => g.group === selectedGroup)
           ]
         }
-        filtersOn={filtersOn([filter1, filter2, filter3, filter4, filter5])}
         selectedStore={selectedStore}
         setSelectedStore={setSelectedStore}
       />

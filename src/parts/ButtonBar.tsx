@@ -4,8 +4,14 @@ export const filterOn = (f: Filter) => {
   if (f.type === "choice") {
     return (f.val as Choice[]).some((c) => c.values.length);
   } else {
-    return f.sort || f.name === "mi" ? true : false;
+    if (f.name !== "mi") {
+      if (!f.sort) {
+        // off if no sort and value equals min
+        return f.val !== f.props[0];
+      }
+    }
   }
+  return false;
 };
 
 export const filtersOn = (filters: (Filter | undefined)[]) => {

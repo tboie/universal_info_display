@@ -13,7 +13,6 @@ type StatusBar = {
   map: boolean;
   toggleMap: (val: boolean) => void;
   aliases: any;
-  filtersOn: boolean;
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
 };
@@ -31,7 +30,6 @@ const StatusBar = ({
   map,
   toggleMap,
   aliases,
-  filtersOn,
   selectedStore,
   setSelectedStore,
 }: StatusBar) => {

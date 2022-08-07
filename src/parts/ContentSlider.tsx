@@ -13,7 +13,6 @@ const ContentSlider = ({
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
-  filtersOn,
   getData,
   fetching,
 }: {
@@ -25,7 +24,6 @@ const ContentSlider = ({
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
   setSelectedItemIdx: (val: any) => any;
-  filtersOn: boolean;
   getData: (group: string) => void;
   fetching: boolean;
 }) => {
@@ -194,7 +192,6 @@ const ContentSlider = ({
                 selectedPageIdx={selectedPageIdx}
                 setSelectedPageIdx={setSelectedPageIdx}
                 setSelectedItemIdx={setSelectedItemIdx}
-                filtersOn={filtersOn}
                 getData={getData}
                 fetching={fetching}
               />
@@ -210,7 +207,6 @@ const ContentSlider = ({
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
               setSelectedItemIdx={setSelectedItemIdx}
-              filtersOn={filtersOn}
               getData={getData}
               fetching={fetching}
             />
@@ -225,7 +221,6 @@ const ContentSlider = ({
             selectedPageIdx={selectedPageIdx}
             setSelectedPageIdx={setSelectedPageIdx}
             setSelectedItemIdx={setSelectedItemIdx}
-            filtersOn={filtersOn}
             getData={getData}
             fetching={fetching}
           />
@@ -243,7 +238,6 @@ const Page = ({
   selectedPageIdx,
   setSelectedPageIdx,
   setSelectedItemIdx,
-  filtersOn,
   getData,
   fetching,
 }: {
@@ -254,7 +248,6 @@ const Page = ({
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
   setSelectedItemIdx: (val: number) => void;
-  filtersOn: boolean;
   getData: (group: string) => void;
   fetching: boolean;
 }) => {
@@ -400,7 +393,7 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
-      {items?.length === 0 && filtersOn && (
+      {items?.length === 0 && !fetching && (
         <>
           <img className="page_bg" src="/bg.gif" />
           <span className="no-items">{text}</span>
