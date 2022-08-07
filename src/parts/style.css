@@ -245,11 +245,6 @@
   );
 }
 
-.range_control .active {
-  right: 0;
-  left: auto;
-}
-
 .range_label {
   color: #80f077;
   position: absolute;

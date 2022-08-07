@@ -81,6 +81,7 @@ export type Filter = {
   props: Choice[] | [number, number];
   val: Choice[] | number;
   sort: "asc" | "desc" | undefined;
+  op?: ">" | "<";
 };
 
 // main
@@ -200,9 +201,7 @@ const UniversalInfoDisplay = (props: {
     rF.forEach(
       (f) =>
         (filteredItems = filteredItems.filter((item) =>
-          !f.sort || f.sort === "asc"
-            ? item[f.name] > f.val
-            : item[f.name] < f.val
+          f.op === ">" ? item[f.name] > f.val : item[f.name] < f.val
         ))
     );
 
@@ -595,6 +594,12 @@ const UniversalInfoDisplay = (props: {
                     ? maxMiles
                     : range[0],
                 sort: undefined,
+                op:
+                  obj.type === "range"
+                    ? key === "$" || key === "mi"
+                      ? "<"
+                      : ">"
+                    : undefined,
               };
 
               if (idx === 0) {

@@ -33,17 +33,15 @@ const Range = ({
     return res;
   };
 
-  const toggleSort = (f: Filter) => {
+  const toggleSort = () => {
     let sort = f.sort;
     let val = f.val;
     if (!sort) {
       sort = "asc";
-      val = f.props[0] as number;
     } else if (sort === "desc") {
       sort = undefined;
     } else {
       sort = "desc";
-      val = f.props[1] as number;
     }
 
     if (idx === 1) {
@@ -61,18 +59,32 @@ const Range = ({
     //setSelectedPageIdx(1)
   };
 
+  const toggleOp = () => {
+    if (idx === 1) {
+      setFilter1({ ...f, op: f.op === ">" ? "<" : ">" });
+    } else if (idx === 2) {
+      setFilter2({ ...f, op: f.op === ">" ? "<" : ">" });
+    } else if (idx === 3) {
+      setFilter3({ ...f, op: f.op === ">" ? "<" : ">" });
+    } else if (idx === 4) {
+      setFilter4({ ...f, op: f.op === ">" ? "<" : ">" });
+    } else if (idx === 5) {
+      setFilter5({ ...f, op: f.op === ">" ? "<" : ">" });
+    }
+  };
+
   return (
     <div
       className={`range_control ${f.name === "mi" ? "mi" : ""} ${
         f.sort === "asc" ? "asc" : ""
-      }${f.sort === "desc" ? "desc" : ""}`}
+      }${f.sort === "desc" ? "desc" : ""} ${f.op === ">" ? "gt" : "lt"}`}
     >
       <span
         className="range_label min"
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          toggleSort(f);
+          toggleSort();
         }}
       >
         {(f.name === "$" ? "$" : "") +
@@ -80,7 +92,12 @@ const Range = ({
           (f.name !== "$" ? f.name : "")}
       </span>
 
-      <div className="active" style={{ width: setActiveWidth() + "%" }} />
+      <div
+        className="active"
+        style={{
+          width: setActiveWidth() + "%",
+        }}
+      />
 
       <input
         type="range"
@@ -110,7 +127,7 @@ const Range = ({
         }}
         onPointerUp={(e) => {
           if (thumbState === "pressed") {
-            toggleSort(f);
+            toggleOp();
           }
           thumbState = "ready";
         }}
@@ -138,7 +155,7 @@ const Range = ({
           transform: "translateX(" + setActiveWidth() + "%)",
         }}
       >
-        {f.sort === "desc" ? "<" : ">"}
+        {f.op}
       </span>
 
       <span
@@ -146,7 +163,7 @@ const Range = ({
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          toggleSort(f);
+          toggleSort();
         }}
       >
         {(f.name === "$" ? "$" : "") +
