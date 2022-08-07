@@ -211,90 +211,92 @@ const UniversalInfoDisplay = (props: {
 
     // multi column range sort
     // more dependable than any algs tried
-    if (rF.length === 1) {
-      rF[0].sort &&
-        filteredItems.sort((a, b) =>
-          rF[0].sort === "asc"
-            ? a[rF[0].name] - b[rF[0].name]
-            : b[rF[0].name] - a[rF[0].name]
-        );
-    } else if (rF.length === 2) {
-      rF[0].sort &&
-        rF[1].sort &&
-        filteredItems.sort(
-          (a, b) =>
-            (rF[0].sort === "asc"
-              ? a[rF[0].name] - b[rF[0].name]
-              : b[rF[0].name] - a[rF[0].name]) ||
-            (rF[1].sort === "asc"
-              ? a[rF[1].name] - b[rF[1].name]
-              : b[rF[1].name] - a[rF[1].name])
-        );
-    } else if (rF.length === 3) {
-      rF[0].sort &&
-        rF[1].sort &&
-        rF[2].sort &&
-        filteredItems.sort(
-          (a, b) =>
-            (rF[0].sort === "asc"
-              ? a[rF[0].name] - b[rF[0].name]
-              : b[rF[0].name] - a[rF[0].name]) ||
-            (rF[1].sort === "asc"
-              ? a[rF[1].name] - b[rF[1].name]
-              : b[rF[1].name] - a[rF[1].name]) ||
-            (rF[2].sort === "asc"
-              ? a[rF[2].name] - b[rF[2].name]
-              : b[rF[2].name] - a[rF[2].name])
-        );
-    } else if (rF.length === 4) {
-      rF[0].sort &&
-        rF[1].sort &&
-        rF[2].sort &&
-        rF[3].sort &&
-        filteredItems.sort(
-          (a, b) =>
-            (rF[0].sort === "asc"
-              ? a[rF[0].name] - b[rF[0].name]
-              : b[rF[0].name] - a[rF[0].name]) ||
-            (rF[1].sort === "asc"
-              ? a[rF[1].name] - b[rF[1].name]
-              : b[rF[1].name] - a[rF[1].name]) ||
-            (rF[2].sort === "asc"
-              ? a[rF[2].name] - b[rF[2].name]
-              : b[rF[2].name] - a[rF[2].name]) ||
-            (rF[3].sort === "asc"
-              ? a[rF[3].name] - b[rF[3].name]
-              : b[rF[3].name] - a[rF[3].name])
-        );
-    } else if (rF.length === 5) {
-      rF[0].sort &&
-        rF[1].sort &&
-        rF[2].sort &&
-        rF[3].sort &&
-        rF[4].sort &&
-        filteredItems.sort(
-          (a, b) =>
-            (rF[0].sort === "asc"
-              ? a[rF[0].name] - b[rF[0].name]
-              : b[rF[0].name] - a[rF[0].name]) ||
-            (rF[1].sort === "asc"
-              ? a[rF[1].name] - b[rF[1].name]
-              : b[rF[1].name] - a[rF[1].name]) ||
-            (rF[2].sort === "asc"
-              ? a[rF[2].name] - b[rF[2].name]
-              : b[rF[2].name] - a[rF[2].name]) ||
-            (rF[3].sort === "asc"
-              ? a[rF[3].name] - b[rF[3].name]
-              : b[rF[3].name] - a[rF[3].name]) ||
-            (rF[4].sort === "asc"
-              ? a[rF[4].name] - b[rF[4].name]
-              : b[rF[4].name] - a[rF[4].name])
-        );
-    } else {
-      // sort by ppu if all ranges off
-      filteredItems.sort((a, b) => a.ppu - b.ppu);
-    }
 
+    // sort by ppu if no sort on all ranges
+    if (!rF.some((f) => (f.sort ? true : false))) {
+      filteredItems.sort((a, b) => a.ppu - b.ppu);
+    } else {
+      if (rF.length === 1) {
+        rF[0].sort &&
+          filteredItems.sort((a, b) =>
+            rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]
+          );
+      } else if (rF.length === 2) {
+        rF[0].sort &&
+          rF[1].sort &&
+          filteredItems.sort(
+            (a, b) =>
+              (rF[0].sort === "asc"
+                ? a[rF[0].name] - b[rF[0].name]
+                : b[rF[0].name] - a[rF[0].name]) ||
+              (rF[1].sort === "asc"
+                ? a[rF[1].name] - b[rF[1].name]
+                : b[rF[1].name] - a[rF[1].name])
+          );
+      } else if (rF.length === 3) {
+        rF[0].sort &&
+          rF[1].sort &&
+          rF[2].sort &&
+          filteredItems.sort(
+            (a, b) =>
+              (rF[0].sort === "asc"
+                ? a[rF[0].name] - b[rF[0].name]
+                : b[rF[0].name] - a[rF[0].name]) ||
+              (rF[1].sort === "asc"
+                ? a[rF[1].name] - b[rF[1].name]
+                : b[rF[1].name] - a[rF[1].name]) ||
+              (rF[2].sort === "asc"
+                ? a[rF[2].name] - b[rF[2].name]
+                : b[rF[2].name] - a[rF[2].name])
+          );
+      } else if (rF.length === 4) {
+        rF[0].sort &&
+          rF[1].sort &&
+          rF[2].sort &&
+          rF[3].sort &&
+          filteredItems.sort(
+            (a, b) =>
+              (rF[0].sort === "asc"
+                ? a[rF[0].name] - b[rF[0].name]
+                : b[rF[0].name] - a[rF[0].name]) ||
+              (rF[1].sort === "asc"
+                ? a[rF[1].name] - b[rF[1].name]
+                : b[rF[1].name] - a[rF[1].name]) ||
+              (rF[2].sort === "asc"
+                ? a[rF[2].name] - b[rF[2].name]
+                : b[rF[2].name] - a[rF[2].name]) ||
+              (rF[3].sort === "asc"
+                ? a[rF[3].name] - b[rF[3].name]
+                : b[rF[3].name] - a[rF[3].name])
+          );
+      } else if (rF.length === 5) {
+        rF[0].sort &&
+          rF[1].sort &&
+          rF[2].sort &&
+          rF[3].sort &&
+          rF[4].sort &&
+          filteredItems.sort(
+            (a, b) =>
+              (rF[0].sort === "asc"
+                ? a[rF[0].name] - b[rF[0].name]
+                : b[rF[0].name] - a[rF[0].name]) ||
+              (rF[1].sort === "asc"
+                ? a[rF[1].name] - b[rF[1].name]
+                : b[rF[1].name] - a[rF[1].name]) ||
+              (rF[2].sort === "asc"
+                ? a[rF[2].name] - b[rF[2].name]
+                : b[rF[2].name] - a[rF[2].name]) ||
+              (rF[3].sort === "asc"
+                ? a[rF[3].name] - b[rF[3].name]
+                : b[rF[3].name] - a[rF[3].name]) ||
+              (rF[4].sort === "asc"
+                ? a[rF[4].name] - b[rF[4].name]
+                : b[rF[4].name] - a[rF[4].name])
+          );
+      }
+    }
     return filteredItems;
   };
 
