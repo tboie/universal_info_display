@@ -1,3 +1,4 @@
+import { filterOn } from "./ButtonBar";
 import { Choice, Filter, FilterType, Store } from "./Shell";
 
 type StatusBar = {
@@ -48,6 +49,7 @@ const StatusBar = ({
     return allChoices.length ? allChoices.join(", ") : "";
   };
 
+  // prob re-write this
   const formatRangeText = (f: Filter) => {
     let val = f.name;
 
@@ -55,19 +57,29 @@ const StatusBar = ({
       if (f.name === "mi") {
         val = "<" + f.val + f.name;
       } else {
-        if (f.sort) {
-          if (f.name !== "$") {
-            if (f.sort === "asc") {
-              val = ">" + f.val + f.name + "↑";
-            } else {
-              val = "<" + f.val + f.name + "↓";
-            }
-          } else {
-            if (f.sort === "asc") {
+        if (filterOn(f)) {
+          if (f.name === "$") {
+            if (!f.sort) {
+              val = ">" + f.name + f.val;
+            } else if (f.sort === "asc") {
               val = ">" + f.name + f.val + "↑";
             } else {
               val = "<" + f.name + f.val + "↓";
             }
+          } else {
+            if (!f.sort) {
+              val = ">" + f.val + f.name;
+            } else if (f.sort === "asc") {
+              val = ">" + f.val + f.name + "↑";
+            } else {
+              val = "<" + f.val + f.name + "↓";
+            }
+          }
+        } else {
+          if (f.sort === "asc") {
+            val = f.name + "↑";
+          } else if (f.sort === "desc") {
+            val = f.name + "↓";
           }
         }
       }

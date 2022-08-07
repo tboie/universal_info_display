@@ -5,9 +5,12 @@ export const filterOn = (f: Filter) => {
     return (f.val as Choice[]).some((c) => c.values.length);
   } else {
     if (f.name !== "mi") {
-      if (!f.sort) {
-        // off if no sort and value equals min
+      if (!f.sort || f.sort === "asc") {
+        // off if value equals min
         return f.val !== f.props[0];
+      } else {
+        // off if value equals max
+        return f.val !== f.props[1];
       }
     }
   }
