@@ -189,7 +189,7 @@
 
 .statusbar .clear-filters {
   margin-left: auto;
-  color: rgb(211, 101, 101);
+  color: lightgray;
   background: transparent;
   border: 0;
   opacity: 0.8;
