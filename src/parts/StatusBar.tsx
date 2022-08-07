@@ -112,6 +112,22 @@ const StatusBar = ({
     }
   };
 
+  // TODO: add idx to Filter type
+  const getFilterByIdx = (idx: number) => {
+    if (idx === 1) {
+      return filter1;
+    } else if (idx === 2) {
+      return filter2;
+    } else if (idx === 3) {
+      return filter3;
+    } else if (idx === 4) {
+      return filter4;
+    } else if (idx === 5) {
+      return filter5;
+    }
+    return undefined;
+  };
+
   return (
     <div className={"statusbar"}>
       {!fetching && selectedGroup && (
@@ -137,7 +153,7 @@ const StatusBar = ({
                     key={`status-${f.name}`}
                     className={`filter-vals ${
                       selectedFilterIdx === idx ? "sel" : ""
-                    }`}
+                    } ${filterOn(getFilterByIdx(idx)) ? "on" : ""}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
@@ -158,6 +174,8 @@ const StatusBar = ({
                     key={`status-${f.name}`}
                     className={`filter-vals ${
                       selectedFilterIdx === idx ? "sel" : ""
+                    } ${filterOn(getFilterByIdx(idx)) ? "on" : ""} ${
+                      getFilterByIdx(idx)?.sort ? "sort" : ""
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();

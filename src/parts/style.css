@@ -167,14 +167,23 @@
   overflow-x: scroll;
 }
 
+.statusbar .filters span {
+  padding: 0.2rem;
+}
+
 .statusbar .filters .filter-vals {
-  color: gold;
   opacity: 0.75;
   margin-right: 1.25rem;
 }
 
+.statusbar .filters .filter-vals.on,
+.statusbar .filters .filter-vals.sort {
+  color: gold;
+}
+
 .statusbar .filters .filter-vals.sel {
   opacity: 1;
+  border: 1px solid rgba(255, 212, 0, 0.5);
 }
 
 .range_control {

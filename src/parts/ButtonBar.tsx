@@ -1,16 +1,18 @@
 import { FilterType, Filter, Store, Choice } from "./Shell";
 
-export const filterOn = (f: Filter) => {
-  if (f.type === "choice") {
-    return (f.val as Choice[]).some((c) => c.values.length);
-  } else {
-    if (f.name !== "mi") {
-      if (!f.sort || f.sort === "asc") {
-        // off if value equals min
-        return f.val !== f.props[0];
-      } else {
-        // off if value equals max
-        return f.val !== f.props[1];
+export const filterOn = (f?: Filter) => {
+  if (f) {
+    if (f.type === "choice") {
+      return (f.val as Choice[]).some((c) => c.values.length);
+    } else {
+      if (f.name !== "mi") {
+        if (!f.sort || f.sort === "asc") {
+          // off if value equals min
+          return f.val !== f.props[0];
+        } else {
+          // off if value equals max
+          return f.val !== f.props[1];
+        }
       }
     }
   }
