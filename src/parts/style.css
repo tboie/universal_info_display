@@ -256,6 +256,16 @@
   padding-left: 0.25rem;
 }
 
+.range_control.asc .min,
+.range_control.desc .max {
+  padding-top: 1.25rem;
+}
+
+.range_control.asc .max,
+.range_control.desc .min {
+  padding-bottom: 1.25rem;
+}
+
 input {
   position: relative;
   height: 44px;
