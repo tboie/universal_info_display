@@ -4,6 +4,7 @@
   background-color: #1b1a26;
   display: flex;
   flex-direction: column;
+  letter-spacing: 0.01em;
 }
 
 .titlebar {
