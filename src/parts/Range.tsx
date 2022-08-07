@@ -22,6 +22,17 @@ const Range = ({
   setFilter4: (f: Filter) => void;
   setFilter5: (f: Filter) => void;
 }) => {
+  const getThumbRight = () => {
+    const val = f.val as number;
+    const min = f.props[0] as number;
+    const max = f.props[1] as number;
+    let res = ((val - min) * 100) / (max - min);
+    if (!f.sort || f.sort === "asc") {
+      res = 100 - res;
+    }
+    return res;
+  };
+
   const getActiveWidth = () => {
     const val = f.val as number;
     const min = f.props[0] as number;
@@ -106,14 +117,14 @@ const Range = ({
           // lots of values taken from css, these can be retrieved from elements
           // TODO: optimize if works
           const input = e.currentTarget;
-          let valPercent = (100 - getActiveWidth()) * 0.01;
+          let valPercent = (100 - getThumbRight()) * 0.01;
           const inputWidth = e.currentTarget.getBoundingClientRect().width;
           const valLeft = valPercent * inputWidth;
           const inputLeft = 0.06 * window.innerWidth;
           const thumbX = inputLeft + valLeft + 24; // border and padding
 
           const bound = 16;
-          valPercent = 100 - getActiveWidth();
+          valPercent = 100 - getThumbRight();
           // see component inline transform styling for a more precise approach
           if (valPercent <= 50) {
             if (thumbX > e.pageX - bound && thumbX < e.pageX) {
@@ -151,8 +162,8 @@ const Range = ({
       <span
         className="thumb"
         style={{
-          right: getActiveWidth() + "%",
-          transform: "translateX(" + getActiveWidth() + "%)",
+          right: getThumbRight() + "%",
+          transform: "translateX(" + getThumbRight() + "%)",
         }}
       >
         {f.op}
