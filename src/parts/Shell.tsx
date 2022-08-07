@@ -373,10 +373,11 @@ const UniversalInfoDisplay = (props: {
       "#filter_range_status"
     ) as HTMLSpanElement;
 
-    if (eleStatus && sort) {
+    if (eleStatus) {
       eleStatus.style.opacity = "1";
       eleStatus.innerHTML =
-        (sort === "asc" ? ">" : "<") +
+        (!sort || sort === "asc" ? ">" : "") +
+        (sort === "asc" ? ">" : "") +
         (unit === "$" ? "$" : "") +
         val.toString() +
         (unit !== "$" ? unit : "");
