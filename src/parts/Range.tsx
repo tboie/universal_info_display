@@ -36,13 +36,10 @@ const Range = ({
     let val = f.val;
     if (!sort) {
       sort = "asc";
-      val = f.props[0] as number;
     } else if (sort === "desc") {
       sort = undefined;
-      val = f.props[0] as number;
     } else {
       sort = "desc";
-      val = f.props[1] as number;
     }
 
     if (idx === 1) {
