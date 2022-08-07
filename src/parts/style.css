@@ -297,7 +297,7 @@ input[type="range"]:focus {
 input[type="range"]::-webkit-slider-thumb {
   height: 2rem;
   width: 2rem;
-  margin-top: -12px;
+  margin-top: -15px;
   border-radius: 1rem;
   border: 4px solid #1e1f33;
   background-color: rgb(252, 252, 252);
