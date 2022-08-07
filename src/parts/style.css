@@ -225,6 +225,17 @@
   left: 0;
 }
 
+.range_control.gt .active,
+.range_control.desc.lt .active {
+  right: 0;
+  left: auto;
+}
+
+.range_control.desc.gt .active {
+  left: 0;
+  right: auto;
+}
+
 .range_control.asc {
   background: linear-gradient(
     to bottom right,

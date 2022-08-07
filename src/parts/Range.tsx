@@ -23,6 +23,7 @@ const Range = ({
   setFilter5: (f: Filter) => void;
 }) => {
   const getThumbRight = () => {
+    // this works, but wasn't meant for this.
     const val = f.val as number;
     const min = f.props[0] as number;
     const max = f.props[1] as number;
@@ -38,8 +39,15 @@ const Range = ({
     const min = f.props[0] as number;
     const max = f.props[1] as number;
     let res = ((val - min) * 100) / (max - min);
-    if (!f.sort || f.sort === "asc") {
-      res = 100 - res;
+
+    if (!f.sort) {
+      if (f.op === ">") {
+        res = 100 - res;
+      }
+    } else {
+      if (f.op === ">") {
+        res = 100 - res;
+      }
     }
     return res;
   };
