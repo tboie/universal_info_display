@@ -723,7 +723,7 @@ const UniversalInfoDisplay = (props: {
         }
         selectedStore={selectedStore}
         setSelectedStore={setSelectedStore}
-        clearFilters={clearFilters}
+        clearFilters={() => clearFilters()}
       />
 
       {selectedFilterIdx !== 0 &&
