@@ -396,49 +396,72 @@ const UniversalInfoDisplay = (props: {
   ]);
 
   const clearFilters = () => {
-    const clearChoiceVal = (f: Filter) =>
-      (f.val as Choice[]).map((c) => ({
+    const clearChoiceVal = (f: Filter) => {
+      return (f.val as Choice[]).map((c) => ({
         field: c.field,
         values: [],
       }));
+    };
 
-    setSelectedPageIdx(1);
+    const resetOp = (f: Filter) => {
+      return f.type === "range"
+        ? f.name === "$" || f.name === "mi"
+          ? "<"
+          : ">"
+        : undefined;
+    };
+
+    const getVal = (f: Filter) => {
+      return f.type === "choice" ? clearChoiceVal(f) : (f.props[0] as number);
+    };
 
     if (filter1) {
+      const f = filter1;
       setFilter1({
-        ...filter1,
-        val: filter1.type === "choice" ? clearChoiceVal(filter1) : filter1.val,
+        ...f,
+        val: getVal(f),
         sort: undefined,
+        op: resetOp(f),
       });
     }
     if (filter2) {
+      const f = filter2;
       setFilter2({
-        ...filter2,
-        val: filter2.type === "choice" ? clearChoiceVal(filter2) : filter2.val,
+        ...f,
+        val: getVal(f),
         sort: undefined,
+        op: resetOp(f),
       });
     }
     if (filter3) {
+      const f = filter3;
       setFilter3({
-        ...filter3,
-        val: filter3.type === "choice" ? clearChoiceVal(filter3) : filter3.val,
+        ...f,
+        val: getVal(f),
         sort: undefined,
+        op: resetOp(f),
       });
     }
     if (filter4) {
+      const f = filter4;
       setFilter4({
-        ...filter4,
-        val: filter4.type === "choice" ? clearChoiceVal(filter4) : filter4.val,
+        ...f,
+        val: getVal(f),
         sort: undefined,
+        op: resetOp(f),
       });
     }
     if (filter5) {
+      const f = filter5;
       setFilter5({
-        ...filter5,
-        val: filter5.type === "choice" ? clearChoiceVal(filter5) : filter5.val,
+        ...f,
+        val: getVal(f),
         sort: undefined,
+        op: resetOp(f),
       });
     }
+
+    setSelectedPageIdx(1);
   };
 
   useEffect(() => {
