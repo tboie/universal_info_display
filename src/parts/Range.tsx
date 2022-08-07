@@ -1,6 +1,8 @@
 import { Filter } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
+let thumbState: "pressed" | "changed" | "ready" = "ready";
+
 const Range = ({
   idx,
   f,
@@ -82,18 +84,62 @@ const Range = ({
 
       <input
         type="range"
+        onPointerDown={(e) => {
+          // Custom thumb press to toggle sort ... last resort
+          // lots of values taken from css, these can be retrieved from elements
+          // TODO: optimize if works
+          const input = e.currentTarget;
+          let valPercent = (100 - setActiveWidth()) * 0.01;
+          const inputWidth = e.currentTarget.getBoundingClientRect().width;
+          const valLeft = valPercent * inputWidth;
+          const inputLeft = 0.06 * window.innerWidth;
+          const thumbX = inputLeft + valLeft + 24; // border and padding
+
+          const bound = 16;
+          valPercent = 100 - setActiveWidth();
+          // see component inline transform styling for a more precise approach
+          if (valPercent <= 50) {
+            if (thumbX > e.pageX - bound && thumbX < e.pageX) {
+              thumbState = "pressed";
+            }
+          } else if (valPercent > 50) {
+            if (thumbX < e.pageX + bound && thumbX > e.pageX) {
+              thumbState = "pressed";
+            }
+          }
+        }}
+        onPointerUp={(e) => {
+          if (thumbState === "pressed") {
+            toggleSort(f);
+          }
+          thumbState = "ready";
+        }}
+        onPointerLeave={(e) => {
+          thumbState = "ready";
+        }}
         min={f.props[0] as number}
         max={f.props[1] as number}
         value={f.val as number}
         onChange={(e) => {
           e.stopPropagation();
           e.preventDefault();
+          thumbState = "changed";
           throttle(
             { delay: 15, leading: true, trailing: true },
             set(idx, f.name, e.currentTarget.valueAsNumber, f.sort)
           );
         }}
       />
+
+      <span
+        className="thumb"
+        style={{
+          right: setActiveWidth() + "%",
+          transform: "translateX(" + setActiveWidth() + "%)",
+        }}
+      >
+        {f.sort === "desc" ? "<" : ">"}
+      </span>
 
       <span
         className="range_label max"
