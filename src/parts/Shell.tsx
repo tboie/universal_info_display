@@ -403,7 +403,6 @@ const UniversalInfoDisplay = (props: {
         values: [],
       }));
 
-    setSelectedFilterIdx(0);
     setSelectedPageIdx(1);
 
     if (filter1) {
@@ -719,6 +718,7 @@ const UniversalInfoDisplay = (props: {
         }
         selectedStore={selectedStore}
         setSelectedStore={setSelectedStore}
+        clearFilters={clearFilters}
       />
 
       {selectedFilterIdx !== 0 &&

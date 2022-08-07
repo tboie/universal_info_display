@@ -1,4 +1,4 @@
-import { filterOn } from "./ButtonBar";
+import { filterOn, filtersOn } from "./ButtonBar";
 import { Choice, Filter, FilterType, Store } from "./Shell";
 
 type StatusBar = {
@@ -16,6 +16,7 @@ type StatusBar = {
   aliases: any;
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
+  clearFilters: () => void;
 };
 
 const StatusBar = ({
@@ -33,6 +34,7 @@ const StatusBar = ({
   aliases,
   selectedStore,
   setSelectedStore,
+  clearFilters,
 }: StatusBar) => {
   const getChoiceText = (choices: Choice[]) => {
     const allChoices: string[] = [];
@@ -196,6 +198,20 @@ const StatusBar = ({
           })}
         </span>
       )}
+
+      {selectedGroup &&
+        filtersOn([filter1, filter2, filter3, filter4, filter5]) && (
+          <button
+            className={"clear-filters"}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              clearFilters();
+            }}
+          >
+            X
+          </button>
+        )}
     </div>
   );
 };
