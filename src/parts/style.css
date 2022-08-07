@@ -226,8 +226,8 @@
     #32409b 100%
   );
 }
-.range_control.desc .active,
-.range_control.asc .active {
+
+.range_control .active {
   right: 0;
   left: auto;
 }
@@ -243,17 +243,13 @@
   font-size: 0.9rem;
 }
 
-.range_label.min,
-.range_control.asc .range_label.min,
-.range_control.desc .range_label.max {
+.range_control .min {
   left: 0;
   transform: translateX(-100%);
   padding-right: 0.25rem;
 }
 
-.range_label.max,
-.range_control.asc .range_label.max,
-.range_control.desc .range_label.min {
+.range_control .max {
   right: 0;
   transform: translateX(100%);
   padding-left: 0.25rem;

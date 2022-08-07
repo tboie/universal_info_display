@@ -25,7 +25,7 @@ const Range = ({
     const min = f.props[0] as number;
     const max = f.props[1] as number;
     let res = ((val - min) * 100) / (max - min);
-    if (f.sort === "asc") {
+    if (!f.sort || f.sort === "asc") {
       res = 100 - res;
     }
     return res;
@@ -75,7 +75,7 @@ const Range = ({
         }}
       >
         {(f.name === "$" ? "$" : "") +
-          f.props[0] +
+          (!f.sort || f.sort === "asc" ? f.props[0] : f.props[1]) +
           (f.name !== "$" ? f.name : "")}
       </span>
 
@@ -105,7 +105,7 @@ const Range = ({
         }}
       >
         {(f.name === "$" ? "$" : "") +
-          f.props[1] +
+          (!f.sort || f.sort === "asc" ? f.props[1] : f.props[0]) +
           (f.name !== "$" ? f.name : "")}
       </span>
     </div>
