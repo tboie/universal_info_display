@@ -197,30 +197,18 @@ const UniversalInfoDisplay = (props: {
     ) as Filter[];
 
     // filter items by range value
-    rF.forEach((f) => {
-      if (f) {
-        filteredItems = [
-          ...filteredItems.filter((item) =>
-            !f.sort || f.sort === "asc"
-              ? item[f.name] > f.val
-              : item[f.name] < f.val
-          ),
-        ];
-      }
-    });
-
-    rF = [...rF.filter((f) => f.sort)];
-
-    /*
-    // sort by ppu if all ranges sort off
-    // TODO: ppu should be a filter?
-    if (rF.length === 0) {
-      filteredItems.sort((a, b) => a.ppu - b.ppu);
-    }
-    */
+    rF.forEach(
+      (f) =>
+        (filteredItems = filteredItems.filter((item) =>
+          !f.sort || f.sort === "asc"
+            ? item[f.name] > f.val
+            : item[f.name] < f.val
+        ))
+    );
 
     // multi column range sort
     // more dependable than any algs tried
+    rF = rF.filter((f) => f.sort);
     if (rF.length === 1) {
       filteredItems.sort((a, b) =>
         rF[0].sort === "asc"
@@ -367,7 +355,7 @@ const UniversalInfoDisplay = (props: {
       eleStatus.style.opacity = "1";
       eleStatus.innerHTML =
         (!sort || sort === "asc" ? ">" : "") +
-        (sort === "asc" ? ">" : "") +
+        (sort === "desc" ? "<" : "") +
         (unit === "$" ? "$" : "") +
         val.toString() +
         (unit !== "$" ? unit : "");
