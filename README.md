@@ -1,5 +1,7 @@
 # UNIVERSAL INFO DISPLAY PROTOTYPE (ITEMS)
 
+<img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
+
 ### Version 1 (Mobile)
 
 - Display nearest _x_ items less than _x_ miles (50 default) from device location
@@ -27,16 +29,15 @@ npm start
 
 ### Components/Parts
 
-<img width="268" alt="wireframe" src="https://user-images.githubusercontent.com/26150152/179374209-d6162023-1908-44a9-9ba4-5f859cf56c0b.png">
-
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
-- [FilterButtonBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterButtonBar.tsx): Displays UI data filter buttons
-- [FilterRange](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterRange.tsx): A data asc/desc range control with the min/max auto-populated from data
+- [ButtonBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterButtonBar.tsx): Displays UI data filter buttons
+- [Range](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterRange.tsx): A data asc/desc range control with the min/max auto-populated from data
 - [Grid](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Grid.tsx): A 9 unit flex grid displaying items
 - [Item](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Item.tsx): A modal of the selected item
 - [Map](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Map.tsx): An openstreetmap called rlayers to display item locations
 - [Shell](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Shell.tsx): High-level application shell containing UI components
 - [Slider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Slider.tsx): A horizontally scrolled data-driven choice component
+- [StatusBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/StatusBar.tsx): A horizontally scrolled filter tab bar
 - [TitleBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/TitleBar.tsx): Status bar at the top displaying status info
 
 ### UX Flow
