@@ -708,29 +708,32 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      <span id="filter_range_status" />
-
-      <StatusBar
-        selectedGroup={selectedGroup}
-        selectedFilterIdx={selectedFilterIdx}
-        setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
-        filter1={filter1}
-        filter2={filter2}
-        filter3={filter3}
-        filter4={filter4}
-        filter5={filter5}
-        fetching={fetching}
-        map={map}
-        toggleMap={(val) => toggleMap(val)}
-        aliases={
-          itemAliases[
-            groupFilters.findIndex((g: any) => g.group === selectedGroup)
-          ]
-        }
-        selectedStore={selectedStore}
-        setSelectedStore={setSelectedStore}
-        clearFilters={() => clearFilters()}
-      />
+      {selectedGroup && !fetching && (
+        <>
+          <span id="filter_range_status" />
+          <StatusBar
+            selectedGroup={selectedGroup}
+            selectedFilterIdx={selectedFilterIdx}
+            setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
+            filter1={filter1}
+            filter2={filter2}
+            filter3={filter3}
+            filter4={filter4}
+            filter5={filter5}
+            fetching={fetching}
+            map={map}
+            toggleMap={(val) => toggleMap(val)}
+            aliases={
+              itemAliases[
+                groupFilters.findIndex((g: any) => g.group === selectedGroup)
+              ]
+            }
+            selectedStore={selectedStore}
+            setSelectedStore={setSelectedStore}
+            clearFilters={() => clearFilters()}
+          />
+        </>
+      )}
 
       {selectedFilterIdx !== 0 &&
         [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
