@@ -63,33 +63,27 @@ const Range = ({
       sort = "desc";
     }
 
-    if (idx === 1) {
-      setFilter1({ ...f, sort: sort, val: val });
-    } else if (idx === 2) {
-      setFilter2({ ...f, sort: sort, val: val });
-    } else if (idx === 3) {
-      setFilter3({ ...f, sort: sort, val: val });
-    } else if (idx === 4) {
-      setFilter4({ ...f, sort: sort, val: val });
-    } else if (idx === 5) {
-      setFilter5({ ...f, sort: sort, val: val });
-    }
+    [setFilter1, setFilter2, setFilter3, setFilter4, setFilter5].some(
+      (setFilter, i) => {
+        if (i + 1 === idx) {
+          setFilter({ ...f, sort: sort, val: val });
+          return true;
+        }
+      }
+    );
 
     //setSelectedPageIdx(1)
   };
 
   const toggleOp = () => {
-    if (idx === 1) {
-      setFilter1({ ...f, op: f.op === ">" ? "<" : ">" });
-    } else if (idx === 2) {
-      setFilter2({ ...f, op: f.op === ">" ? "<" : ">" });
-    } else if (idx === 3) {
-      setFilter3({ ...f, op: f.op === ">" ? "<" : ">" });
-    } else if (idx === 4) {
-      setFilter4({ ...f, op: f.op === ">" ? "<" : ">" });
-    } else if (idx === 5) {
-      setFilter5({ ...f, op: f.op === ">" ? "<" : ">" });
-    }
+    [setFilter1, setFilter2, setFilter3, setFilter4, setFilter5].some(
+      (setFilter, i) => {
+        if (i + 1 === idx) {
+          setFilter({ ...f, op: f.op === ">" ? "<" : ">" });
+          return true;
+        }
+      }
+    );
   };
 
   return (
