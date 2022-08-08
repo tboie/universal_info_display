@@ -343,7 +343,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 2rem;
   margin-top: -15px;
   border-radius: 1rem;
-  border: 1px solid #2e2f41;
+  border: 1px solid gray;
   background-color: #1e1f33;
   cursor: pointer;
   -webkit-appearance: none;
