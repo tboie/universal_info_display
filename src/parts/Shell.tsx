@@ -132,7 +132,7 @@ const UniversalInfoDisplay = (props: {
       ),
     ] as string[];
 
-  const getFilterRangeMinMax = (
+  const getItemFilterRangeMinMax = (
     key: string,
     items: UniversalInfoDisplayItem[]
   ) => {
@@ -587,7 +587,7 @@ const UniversalInfoDisplay = (props: {
               });
 
               // range
-              let range = getFilterRangeMinMax(key, all_items);
+              let range = getItemFilterRangeMinMax(key, all_items);
               if (key === "mi") {
                 range = [minMiles, maxMiles];
               }
