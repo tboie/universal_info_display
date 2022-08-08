@@ -1,5 +1,5 @@
 import { filterOn, filtersOn } from "./ButtonBar";
-import { Choice, Filter, FilterType, Store } from "./Shell";
+import { FilterChoice, Filter, FilterType, Store } from "./Shell";
 
 type StatusBar = {
   selectedGroup: string;
@@ -36,7 +36,7 @@ const StatusBar = ({
   setSelectedStore,
   clearFilters,
 }: StatusBar) => {
-  const getChoiceText = (choices: Choice[]) => {
+  const getChoiceText = (choices: FilterChoice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {
       c.values.forEach((v) => {
@@ -163,7 +163,9 @@ const StatusBar = ({
                       );
                     }}
                   >
-                    {getChoiceText(f.val as Choice[]) || f.alias || f.name}
+                    {getChoiceText(f.val as FilterChoice[]) ||
+                      f.alias ||
+                      f.name}
                   </span>
                 );
               } else if (f.type === "range") {

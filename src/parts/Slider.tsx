@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { Choice } from "./Shell";
+import { FilterChoice } from "./Shell";
 
 export type T_SLIDER_TYPE = "choice" | "group" | "page" | "clear-filters";
 
 type T_SLIDER = {
   type: T_SLIDER_TYPE;
   titles?: string[];
-  choices?: Choice[];
-  selected: string[] | Choice[];
+  choices?: FilterChoice[];
+  selected: string[] | FilterChoice[];
   select: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
   setSelectedPageIdx?: (val: number) => any;
   fetching: boolean;
@@ -90,7 +90,7 @@ const Slider = ({
     }
   }, [selected]);
 
-  const getAllChoicesLabels = (choices: Choice[]) => {
+  const getAllChoicesLabels = (choices: FilterChoice[]) => {
     const eleLabels: JSX.Element[] = [];
     let i = 0;
 
@@ -103,7 +103,7 @@ const Slider = ({
             type={type}
             title={v}
             field={c.field}
-            on={(selected[idx] as Choice)?.values.includes(v)}
+            on={(selected[idx] as FilterChoice)?.values.includes(v)}
             click={select}
             aliases={aliases}
           />

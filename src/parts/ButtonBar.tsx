@@ -1,9 +1,9 @@
-import { FilterType, Filter, Store, Choice } from "./Shell";
+import { FilterType, Filter, Store, FilterChoice } from "./Shell";
 
 export const filterOn = (f?: Filter) => {
   if (f) {
     if (f.type === "choice") {
-      return (f.val as Choice[]).some((c) => c.values.length);
+      return (f.val as FilterChoice[]).some((c) => c.values.length);
     } else {
       if (f.name !== "mi") {
         // this works for all conditions

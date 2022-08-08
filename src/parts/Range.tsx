@@ -1,4 +1,4 @@
-import { Filter } from "./Shell";
+import { Filter, FilterOp, FilterSort } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
 let thumbState: "pressed" | "changed" | "ready" = "ready";
@@ -11,7 +11,13 @@ const Range = ({
 }: {
   idx: number;
   f: Filter;
-  set: (idx: number, unit: string, val: number, sort?: "asc" | "desc") => void;
+  set: (
+    idx: number,
+    unit: string,
+    val: number,
+    op: FilterOp,
+    sort?: FilterSort
+  ) => void;
   setF?: (f: Filter) => void;
 }) => {
   const getThumbRight = () => {
@@ -100,6 +106,7 @@ const Range = ({
           let valPercent = (100 - getThumbRight()) * 0.01;
           const inputWidth = e.currentTarget.getBoundingClientRect().width;
           const valLeft = valPercent * inputWidth;
+          // input has 6% left/right margins
           const inputLeft = 0.06 * window.innerWidth;
           const thumbX = inputLeft + valLeft + 24; // border and padding
 
@@ -134,7 +141,7 @@ const Range = ({
           thumbState = "changed";
           throttle(
             { delay: 15, leading: true, trailing: true },
-            set(idx, f.name, e.currentTarget.valueAsNumber, f.sort)
+            set(idx, f.name, e.currentTarget.valueAsNumber, f.op, f.sort)
           );
         }}
       />

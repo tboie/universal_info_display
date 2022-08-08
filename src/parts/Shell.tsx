@@ -68,20 +68,22 @@ export type Slider = {
 
 // filters
 export type FilterType = "choice" | "range";
-
-export type Choice = {
+export type FilterChoice = {
   field?: string;
   values: string[];
 };
+export type FilterRange = [number, number];
+export type FilterOp = ">" | "<" | undefined;
+export type FilterSort = "asc" | "desc" | undefined;
 
 export type Filter = {
   name: string;
   alias?: string;
   type: FilterType;
-  props: Choice[] | [number, number];
-  val: Choice[] | number;
-  sort: "asc" | "desc" | undefined;
-  op?: ">" | "<";
+  props: FilterChoice[] | FilterRange;
+  val: FilterChoice[] | number;
+  sort: FilterSort;
+  op: FilterOp;
 };
 
 // main
@@ -140,10 +142,13 @@ const UniversalInfoDisplay = (props: {
     return [
       Math.floor(Math.min(...vals) - 1),
       Math.ceil(Math.max(...vals)) + 1,
-    ] as [number, number];
+    ] as FilterRange;
   };
 
-  const getDefaultFilterChoiceVal = (groupIdx: number, choices: Choice[]) => {
+  const getDefaultFilterChoiceVal = (
+    groupIdx: number,
+    choices: FilterChoice[]
+  ) => {
     return choices.map((c) => ({
       field: c.field,
       values:
@@ -152,7 +157,7 @@ const UniversalInfoDisplay = (props: {
           : [],
     }));
   };
-  const getDefaultFilterRangeVal = (name: string, range: [number, number]) => {
+  const getDefaultFilterRangeVal = (name: string, range: FilterRange) => {
     return getDefaultFilterOp("range", name) === "<" ? range[1] : range[0];
   };
 
@@ -195,7 +200,7 @@ const UniversalInfoDisplay = (props: {
       .filter((f) => f?.type === "choice")
       .forEach((f) => {
         if (f) {
-          (f.val as Choice[]).forEach((c) => {
+          (f.val as FilterChoice[]).forEach((c) => {
             const choiceItems: UniversalInfoDisplayItem = [];
             let choiceOn = false;
             const cVals = c.values as string[];
@@ -302,7 +307,11 @@ const UniversalInfoDisplay = (props: {
   };
 
   const sliderSelect = (type: T_SLIDER_TYPE, title: string, field?: string) => {
-    const toggleChoice = (choices: Choice[], field: string, title: string) => {
+    const toggleChoice = (
+      choices: FilterChoice[],
+      field: string,
+      title: string
+    ) => {
       const choices_copy = [...choices];
       const selectedChoice = choices_copy.find((c) => c.field === field);
 
@@ -336,27 +345,27 @@ const UniversalInfoDisplay = (props: {
       if (selectedFilterIdx === 1 && filter1) {
         setFilter1({
           ...filter1,
-          val: toggleChoice(filter1?.val as Choice[], field, title),
+          val: toggleChoice(filter1?.val as FilterChoice[], field, title),
         });
       } else if (selectedFilterIdx === 2 && filter2) {
         setFilter2({
           ...filter2,
-          val: toggleChoice(filter2?.val as Choice[], field, title),
+          val: toggleChoice(filter2?.val as FilterChoice[], field, title),
         });
       } else if (selectedFilterIdx === 3 && filter3) {
         setFilter3({
           ...filter3,
-          val: toggleChoice(filter3?.val as Choice[], field, title),
+          val: toggleChoice(filter3?.val as FilterChoice[], field, title),
         });
       } else if (selectedFilterIdx === 4 && filter4) {
         setFilter4({
           ...filter4,
-          val: toggleChoice(filter4?.val as Choice[], field, title),
+          val: toggleChoice(filter4?.val as FilterChoice[], field, title),
         });
       } else if (selectedFilterIdx === 5 && filter5) {
         setFilter5({
           ...filter5,
-          val: toggleChoice(filter5?.val as Choice[], field, title),
+          val: toggleChoice(filter5?.val as FilterChoice[], field, title),
         });
       }
     } else if (type === "clear-filters") {
@@ -368,6 +377,7 @@ const UniversalInfoDisplay = (props: {
     idx: number,
     unit: string,
     val: number,
+    op: FilterOp,
     sort?: "asc" | "desc"
   ) => {
     const eleStatus = document.querySelector(
@@ -377,11 +387,8 @@ const UniversalInfoDisplay = (props: {
     if (eleStatus) {
       eleStatus.style.opacity = "1";
       eleStatus.innerHTML =
-        (!sort || sort === "asc" ? ">" : "") +
-        (sort === "desc" ? "<" : "") +
-        (unit === "$" ? "$" : "") +
-        val.toString() +
-        (unit !== "$" ? unit : "");
+        // f.op +
+        (unit === "$" ? "$" : "") + val.toString() + (unit !== "$" ? unit : "");
       setTimeout(() => {
         eleStatus.style.opacity = "0";
       }, 1000);
@@ -405,16 +412,11 @@ const UniversalInfoDisplay = (props: {
   };
 
   const filteredItems = useMemo(filterItems, [
-    filter1?.val,
-    filter2?.val,
-    filter3?.val,
-    filter4?.val,
-    filter5?.val,
-    filter1?.sort,
-    filter2?.sort,
-    filter3?.sort,
-    filter4?.sort,
-    filter5?.sort,
+    filter1,
+    filter2,
+    filter3,
+    filter4,
+    filter5,
     selectedStore,
     miles,
   ]);
@@ -422,14 +424,14 @@ const UniversalInfoDisplay = (props: {
   // filter_defaults.json vals not applied, all filters cleared
   const clearFilters = () => {
     const clearChoiceVal = (f: Filter) => {
-      return (f.val as Choice[]).map((c) => ({
+      return (f.val as FilterChoice[]).map((c) => ({
         field: c.field,
         values: [],
       }));
     };
 
     const clearRangeVal = (f: Filter) => {
-      return getDefaultFilterRangeVal(f.name, f.props as [number, number]);
+      return getDefaultFilterRangeVal(f.name, f.props as FilterRange);
     };
 
     const clearVal = (f: Filter) => {
@@ -574,7 +576,7 @@ const UniversalInfoDisplay = (props: {
             .filter(([key]) => key !== "group")
             .forEach(([key, obj]: any, idx) => {
               // choices
-              const choices: Choice[] = [];
+              const choices: FilterChoice[] = [];
               key.split(",").forEach((field: string) => {
                 let choice_values = getFilterChoiceValues(field, all_items);
                 if (field === "g") {
@@ -759,8 +761,8 @@ const UniversalInfoDisplay = (props: {
                 <Slider
                   key={idx}
                   type={"choice"}
-                  choices={f.props as Choice[]}
-                  selected={f.val as Choice[]}
+                  choices={f.props as FilterChoice[]}
+                  selected={f.val as FilterChoice[]}
                   select={sliderSelect}
                   fetching={fetching}
                   aliases={
