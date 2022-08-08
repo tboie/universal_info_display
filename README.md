@@ -4,8 +4,8 @@
 
 ### Version 1 (Mobile)
 
+- A horizontally scrolled content display system. It's purpose is to display and navigate sets of item data. Location and map features included. UI Components are used to filter and sort item data.
 - Display nearest _x_ items less than _x_ miles (50 default) from device location
-- A horizontally scrolled content display system. It's current purpose is to display items within a range of the device. It uses both a grid and map to display items. UI Components are used to filter and sort item data.
 
 ### Goals
 
