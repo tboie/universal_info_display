@@ -28,6 +28,7 @@ declare global {
   var scrollDirection: "left" | "right" | "stopped";
 }
 
+// TODO: revisit these for page snaps
 globalThis.contentSliderPressed = false;
 globalThis.pageSliderPressed = false;
 globalThis.groupSliderPressed = false;
@@ -89,10 +90,7 @@ export type Filter = {
 };
 
 // main
-const UniversalInfoDisplay = (props: {
-  contentType: "text" | "item";
-  items: UniversalInfoDisplayItem[];
-}) => {
+const UniversalInfoDisplay = () => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
   const [pagesBool, setPagesBool] = useState([true]);
 
@@ -693,7 +691,6 @@ const UniversalInfoDisplay = (props: {
         />
       ) : (
         <ContentSlider
-          contentType={props.contentType}
           items={
             selectedGroup
               ? filteredItems

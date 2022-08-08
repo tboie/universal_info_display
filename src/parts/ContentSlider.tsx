@@ -1,12 +1,10 @@
 import "./ContentSlider.css";
 
-import { useState, useEffect } from "react";
-import DetectableOverflow from "react-detectable-overflow";
-import { chunkArr, chunkString, UniversalInfoDisplayItem } from "./Shell";
+import { useEffect } from "react";
+import { chunkArr, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 
 const ContentSlider = ({
-  contentType,
   items,
   pagesBool,
   setPagesBool,
@@ -17,7 +15,6 @@ const ContentSlider = ({
   getData,
   fetching,
 }: {
-  contentType: "text" | "item";
   items: UniversalInfoDisplayItem[];
   pagesBool: boolean[];
   setPagesBool: (val: any) => any;
@@ -28,43 +25,7 @@ const ContentSlider = ({
   getData: (group: string) => void;
   fetching: boolean;
 }) => {
-  const [textChunks, setTextChunks] = useState(
-    //this might be a problem when text type gets implemented
-    contentType === "text" ? items : []
-  );
-
-  // callback on element change
-  const overflowChanged = (isOverflowing: boolean, i: number) => {
-    if (contentType === "text") {
-      setPagesBool((prevState: any) => {
-        let copy = [...prevState];
-        copy[i] = isOverflowing;
-        return copy;
-      });
-    }
-  };
-
-  const calc = () => {
-    // Split text into pages using heights
-    if (contentType === "text") {
-      const winH = window.innerHeight;
-      const allH = document
-        .getElementById("all-text")
-        ?.getBoundingClientRect().height;
-
-      if (winH && allH) {
-        const numScreens = Math.floor(allH / (winH - winH * 0.2));
-        const charsPerScreen = parseInt(
-          (textChunks[0].length / numScreens).toFixed(0)
-        );
-        const chunks = chunkString(textChunks[0], charsPerScreen);
-
-        if (chunks) {
-          setTextChunks(chunks);
-        }
-      }
-    }
-
+  const initScrollSpeedListener = () => {
     // scroll speed/direction
     const container = document.getElementById(
       "universal_info_display_content_slider"
@@ -94,62 +55,9 @@ const ContentSlider = ({
     }
   };
 
-  // move word to next page
-  const proc = () => {
-    // stop warnings
-    setTimeout(() => {
-      pagesBool.some((val, idx) => {
-        if (val && textChunks[idx]) {
-          const words = textChunks[idx].split(" ");
-
-          if (idx !== textChunks.length - 1) {
-            const newText2 =
-              words[words.length - 1] + " " + textChunks[idx + 1];
-
-            words.pop();
-            const newText1 = words.join(" ");
-
-            setTextChunks((prevState) =>
-              prevState.map((txt, i) => {
-                if (i === idx) {
-                  return newText1;
-                } else if (i === idx + 1) {
-                  return newText2;
-                } else {
-                  return txt;
-                }
-              })
-            );
-
-            return true;
-            // TODO: fix
-          } else if (idx === textChunks.length - 1) {
-            if (val) {
-              setTextChunks((prevState) => {
-                let newCopy = [...prevState];
-                newCopy.push("[END]");
-                return newCopy;
-              });
-
-              return true;
-            }
-          }
-        }
-      });
-    });
-  };
-
   useEffect(() => {
-    // calc();
+    initScrollSpeedListener();
   }, []);
-
-  useEffect(() => {
-    if (contentType === "text") {
-      if (textChunks.length) {
-        proc();
-      }
-    }
-  }, [textChunks]);
 
   return (
     <>
@@ -157,48 +65,7 @@ const ContentSlider = ({
         id="universal_info_display_content_slider"
         className="content_slider"
       >
-        {/* fix this when text implemented */}
-        {contentType === "text" && <div id="all-text">{items}</div>}
-
-        {
-          /* initial page loader */
-          contentType === "text" &&
-            textChunks.map((txt, idx) => (
-              <div key={idx} className={`page_loader`}>
-                <DetectableOverflow
-                  onChange={(overflowing) => overflowChanged(overflowing, idx)}
-                  style={{
-                    whiteSpace: "normal",
-                    wordBreak: "break-word",
-                    overflow: "scroll",
-                    height: "100%",
-                    width: "100%",
-                  }}
-                >
-                  {txt}
-                </DetectableOverflow>
-              </div>
-            ))
-        }
-
-        {contentType === "text" &&
-          pagesBool
-            .filter((p) => p === false)
-            .map((p, i) => (
-              <Page
-                key={i}
-                num={i}
-                text={textChunks[i]}
-                selectedGroup={selectedGroup}
-                selectedPageIdx={selectedPageIdx}
-                setSelectedPageIdx={setSelectedPageIdx}
-                setSelectedItemIdx={setSelectedItemIdx}
-                getData={getData}
-                fetching={fetching}
-              />
-            ))}
-
-        {contentType === "item" && items?.length ? (
+        {items?.length ? (
           chunkArr(items, 6).map((items, idx) => (
             <Page
               key={idx}

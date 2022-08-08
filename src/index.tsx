@@ -8,7 +8,7 @@ import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <UniversalInfoDisplay contentType="item" items={[]} />
+    <UniversalInfoDisplay />
   </React.StrictMode>,
   document.getElementById("root")
 );
