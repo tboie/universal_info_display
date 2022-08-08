@@ -68,8 +68,14 @@ const GridItems = ({
                 )
               }
               <video className="media" autoPlay loop muted playsInline>
-                <source src="final.webm" type="video/webm" />
-                <source src="final.mp4" type="video/mp4" />
+                <source
+                  src={`${selectedGroup || item.n}.webm`}
+                  type="video/webm"
+                />
+                <source
+                  src={`${selectedGroup || item.n}.mp4`}
+                  type="video/mp4"
+                />
               </video>
               {/*
               <img
