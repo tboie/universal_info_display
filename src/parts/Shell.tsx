@@ -377,8 +377,7 @@ const UniversalInfoDisplay = (props: {
     idx: number,
     unit: string,
     val: number,
-    op: FilterOp,
-    sort?: "asc" | "desc"
+    op: FilterOp
   ) => {
     const eleStatus = document.querySelector(
       "#filter_range_status"
@@ -387,8 +386,10 @@ const UniversalInfoDisplay = (props: {
     if (eleStatus) {
       eleStatus.style.opacity = "1";
       eleStatus.innerHTML =
-        // f.op +
-        (unit === "$" ? "$" : "") + val.toString() + (unit !== "$" ? unit : "");
+        op +
+        (unit === "$" ? "$" : "") +
+        val.toString() +
+        (unit !== "$" ? unit : "");
       setTimeout(() => {
         eleStatus.style.opacity = "0";
       }, 1000);

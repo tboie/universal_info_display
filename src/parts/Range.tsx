@@ -11,13 +11,7 @@ const Range = ({
 }: {
   idx: number;
   f: Filter;
-  set: (
-    idx: number,
-    unit: string,
-    val: number,
-    op: FilterOp,
-    sort?: FilterSort
-  ) => void;
+  set: (idx: number, unit: string, val: number, op: FilterOp) => void;
   setF?: (f: Filter) => void;
 }) => {
   const getThumbRight = () => {
@@ -141,7 +135,7 @@ const Range = ({
           thumbState = "changed";
           throttle(
             { delay: 15, leading: true, trailing: true },
-            set(idx, f.name, e.currentTarget.valueAsNumber, f.op, f.sort)
+            set(idx, f.name, e.currentTarget.valueAsNumber, f.op)
           );
         }}
       />
