@@ -415,51 +415,22 @@ const UniversalInfoDisplay = (props: {
       return f.type === "choice" ? clearChoiceVal(f) : (f.props[0] as number);
     };
 
-    if (filter1) {
-      const f = filter1;
-      setFilter1({
-        ...f,
-        val: getVal(f),
-        sort: undefined,
-        op: resetOp(f),
-      });
-    }
-    if (filter2) {
-      const f = filter2;
-      setFilter2({
-        ...f,
-        val: getVal(f),
-        sort: undefined,
-        op: resetOp(f),
-      });
-    }
-    if (filter3) {
-      const f = filter3;
-      setFilter3({
-        ...f,
-        val: getVal(f),
-        sort: undefined,
-        op: resetOp(f),
-      });
-    }
-    if (filter4) {
-      const f = filter4;
-      setFilter4({
-        ...f,
-        val: getVal(f),
-        sort: undefined,
-        op: resetOp(f),
-      });
-    }
-    if (filter5) {
-      const f = filter5;
-      setFilter5({
-        ...f,
-        val: getVal(f),
-        sort: undefined,
-        op: resetOp(f),
-      });
-    }
+    [
+      [filter1, setFilter1],
+      [filter2, setFilter2],
+      [filter3, setFilter3],
+      [filter4, setFilter4],
+      [filter5, setFilter5],
+    ].forEach((fArr: any) => {
+      if (fArr[0] && fArr[1]) {
+        fArr[1]({
+          ...fArr[0],
+          val: getVal(fArr[0]),
+          sort: undefined,
+          op: resetOp(fArr[0]),
+        });
+      }
+    });
 
     setSelectedPageIdx(1);
   };
