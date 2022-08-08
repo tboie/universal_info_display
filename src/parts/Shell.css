@@ -7,13 +7,6 @@
   letter-spacing: 0.01em;
 }
 
-.page_bg {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  opacity: 0.8;
-}
-
 .page_loader {
   background-color: rgb(252, 252, 252);
   color: #1e1f33;
