@@ -132,12 +132,28 @@ const UniversalInfoDisplay = (props: {
       ),
     ] as string[];
 
-  const getFilterRange = (key: string, items: UniversalInfoDisplayItem[]) => {
+  const getFilterRangeMinMax = (
+    key: string,
+    items: UniversalInfoDisplayItem[]
+  ) => {
     const vals = items.map((item) => item[key]);
     return [
       Math.floor(Math.min(...vals) - 1),
       Math.ceil(Math.max(...vals)) + 1,
     ] as [number, number];
+  };
+
+  const getDefaultFilterChoiceVal = (groupIdx: number, choices: Choice[]) => {
+    return choices.map((c) => ({
+      field: c.field,
+      values:
+        c.field && filterDefaults[groupIdx][c.field]
+          ? [filterDefaults[groupIdx][c.field]]
+          : [],
+    }));
+  };
+  const getDefaultFilterRangeVal = (name: string, range: [number, number]) => {
+    return getDefaultFilterOp("range", name) === "<" ? range[1] : range[0];
   };
 
   // TODO: Design
@@ -151,6 +167,14 @@ const UniversalInfoDisplay = (props: {
         setSelectedGroup(group);
         getLocation();
       });
+  };
+
+  const getDefaultFilterOp = (type: FilterType, name: string) => {
+    return type === "range"
+      ? name === "$" || name === "mi"
+        ? "<"
+        : ">"
+      : undefined;
   };
 
   const filterItems = () => {
@@ -395,6 +419,7 @@ const UniversalInfoDisplay = (props: {
     miles,
   ]);
 
+  // filter_defaults.json vals not applied, all filters cleared
   const clearFilters = () => {
     const clearChoiceVal = (f: Filter) => {
       return (f.val as Choice[]).map((c) => ({
@@ -403,17 +428,16 @@ const UniversalInfoDisplay = (props: {
       }));
     };
 
-    const resetOp = (f: Filter) => {
-      return f.type === "range"
-        ? f.name === "$" || f.name === "mi"
-          ? "<"
-          : ">"
-        : undefined;
+    const clearRangeVal = (f: Filter) => {
+      return getDefaultFilterRangeVal(f.name, f.props as [number, number]);
     };
 
-    const getVal = (f: Filter) => {
-      return f.type === "choice" ? clearChoiceVal(f) : (f.props[0] as number);
+    const clearVal = (f: Filter) => {
+      return f.type === "choice" ? clearChoiceVal(f) : clearRangeVal(f);
     };
+
+    // doesn't work well
+    // setSelectedPageIdx(1);
 
     [
       [filter1, setFilter1],
@@ -425,14 +449,12 @@ const UniversalInfoDisplay = (props: {
       if (fArr[0] && fArr[1]) {
         fArr[1]({
           ...fArr[0],
-          val: getVal(fArr[0]),
+          val: clearVal(fArr[0]),
           sort: undefined,
-          op: resetOp(fArr[0]),
+          op: getDefaultFilterOp(fArr[0].type, fArr[0].name),
         });
       }
     });
-
-    setSelectedPageIdx(1);
   };
 
   useEffect(() => {
@@ -565,7 +587,7 @@ const UniversalInfoDisplay = (props: {
               });
 
               // range
-              let range = getFilterRange(key, all_items);
+              let range = getFilterRangeMinMax(key, all_items);
               if (key === "mi") {
                 range = [minMiles, maxMiles];
               }
@@ -577,23 +599,10 @@ const UniversalInfoDisplay = (props: {
                 props: obj.type === "choice" ? choices : range,
                 val:
                   obj.type === "choice"
-                    ? choices.map((c) => ({
-                        field: c.field,
-                        values:
-                          c.field && filterDefaults[groupFilterIdx][c.field]
-                            ? [filterDefaults[groupFilterIdx][c.field]]
-                            : [],
-                      }))
-                    : key === "mi"
-                    ? maxMiles
-                    : range[0],
+                    ? getDefaultFilterChoiceVal(groupFilterIdx, choices)
+                    : getDefaultFilterRangeVal(key, range),
                 sort: undefined,
-                op:
-                  obj.type === "range"
-                    ? key === "$" || key === "mi"
-                      ? "<"
-                      : ">"
-                    : undefined,
+                op: getDefaultFilterOp(obj.type, key),
               };
 
               if (idx === 0) {
