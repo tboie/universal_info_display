@@ -439,9 +439,6 @@ const UniversalInfoDisplay = () => {
       return f.type === "choice" ? clearChoiceVal(f) : clearRangeVal(f);
     };
 
-    // doesn't work well
-    // setSelectedPageIdx(1);
-
     [
       [filter1, setFilter1],
       [filter2, setFilter2],
@@ -458,6 +455,10 @@ const UniversalInfoDisplay = () => {
         });
       }
     });
+
+    // this must be set for it to work?
+    globalThis.pageSliderPressed = false;
+    setSelectedPageIdx(1);
   };
 
   useEffect(() => {
