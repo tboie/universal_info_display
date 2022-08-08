@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { createDocumentRegistry } from "typescript";
 import "./Grid.css";
 
 import { UniversalInfoDisplayItem } from "./Shell";
@@ -65,6 +67,11 @@ const GridItems = ({
                   <img className="glow" src="glow.png" />
                 )
               }
+              <video className="media" autoPlay loop muted playsInline>
+                <source src="final.webm" type="video/webm" />
+                <source src="final.mp4" type="video/mp4" />
+              </video>
+              {/*
               <img
                 className="media"
                 src={
@@ -77,10 +84,11 @@ const GridItems = ({
                       "&__typename=ImgixSettings&ixlib=react-9.0.2&h=200&w=200"
                     : item["p"]
                 }`*/
+              /*
                 }
                 loading="lazy"
                 alt="image"
-              ></img>
+              ></img> */}
             </div>
           </div>
         </div>

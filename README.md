@@ -101,9 +101,13 @@ backgroundremover -i out.mov -tg -o out2.gif
 ffmpeg -i out2.gif -filter_complex "[0:v] scale=200:200:flags=lanczos,split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse" -loop 0 final.gif
 ```
 
-### Media Optimization Opportunity (secret sauce?)
+[using video player instead of animated gifs](https://www.smashingmagazine.com/2018/11/gif-to-video/)
 
-TODO: look into webm/video component
+4. ffmpeg -i final.gif -b:v 0 -crf 25 final.mp4
+
+5. ffmpeg -i final.gif -c vp9 -b:v 0 -crf 41 final.webm
+
+### Media Optimization Opportunity (secret sauce?)
 
 Have the item "float" by displaying a slice of a full rotation.
 
