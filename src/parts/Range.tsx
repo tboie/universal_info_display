@@ -88,9 +88,9 @@ const Range = ({
 
   return (
     <div
-      className={`range_control ${f.name === "mi" ? "mi" : ""} ${
-        f.sort === "asc" ? "asc" : ""
-      }${f.sort === "desc" ? "desc" : ""} ${f.op === ">" ? "gt" : "lt"}`}
+      className={`range_control ${f.sort === "asc" ? "asc" : ""}${
+        f.sort === "desc" ? "desc" : ""
+      } ${f.op === ">" ? "gt" : "lt"}`}
     >
       <span
         className="range_label min"

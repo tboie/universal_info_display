@@ -56,33 +56,29 @@ const StatusBar = ({
     let val = f.name;
 
     if (f && f.op) {
-      if (f.name === "mi") {
-        val = f.op + f.val + f.name;
-      } else {
-        if (filterOn(f)) {
-          if (f.name === "$") {
-            if (!f.sort) {
-              val = f.op + f.name + f.val;
-            } else if (f.sort === "asc") {
-              val = f.op + f.name + f.val + "↑";
-            } else {
-              val = f.op + f.name + f.val + "↓";
-            }
+      if (filterOn(f)) {
+        if (f.name === "$") {
+          if (!f.sort) {
+            val = f.op + f.name + f.val;
+          } else if (f.sort === "asc") {
+            val = f.op + f.name + f.val + "↑";
           } else {
-            if (!f.sort) {
-              val = f.op + f.val + f.name;
-            } else if (f.sort === "asc") {
-              val = f.op + f.val + f.name + "↑";
-            } else {
-              val = f.op + f.val + f.name + "↓";
-            }
+            val = f.op + f.name + f.val + "↓";
           }
         } else {
-          if (f.sort === "asc") {
-            val = f.name + "↑";
-          } else if (f.sort === "desc") {
-            val = f.name + "↓";
+          if (!f.sort) {
+            val = f.op + f.val + f.name;
+          } else if (f.sort === "asc") {
+            val = f.op + f.val + f.name + "↑";
+          } else {
+            val = f.op + f.val + f.name + "↓";
           }
+        }
+      } else {
+        if (f.sort === "asc") {
+          val = f.name + "↑";
+        } else if (f.sort === "desc") {
+          val = f.name + "↓";
         }
       }
     }
