@@ -744,12 +744,14 @@ const UniversalInfoDisplay = (props: {
                   key={idx}
                   idx={idx + 1}
                   f={f}
+                  setF={[
+                    setFilter1,
+                    setFilter2,
+                    setFilter3,
+                    setFilter4,
+                    setFilter5,
+                  ].find((sF, i) => i === idx)}
                   set={rangeSelect}
-                  setFilter1={setFilter1}
-                  setFilter2={setFilter2}
-                  setFilter3={setFilter3}
-                  setFilter4={setFilter4}
-                  setFilter5={setFilter5}
                 />
               );
             } else if (f.type === "choice") {

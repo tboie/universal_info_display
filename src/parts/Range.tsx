@@ -7,20 +7,12 @@ const Range = ({
   idx,
   f,
   set,
-  setFilter1,
-  setFilter2,
-  setFilter3,
-  setFilter4,
-  setFilter5,
+  setF,
 }: {
   idx: number;
   f: Filter;
   set: (idx: number, unit: string, val: number, sort?: "asc" | "desc") => void;
-  setFilter1: (f: Filter) => void;
-  setFilter2: (f: Filter) => void;
-  setFilter3: (f: Filter) => void;
-  setFilter4: (f: Filter) => void;
-  setFilter5: (f: Filter) => void;
+  setF?: (f: Filter) => void;
 }) => {
   const getThumbRight = () => {
     // this works, but wasn't meant for this.
@@ -63,27 +55,13 @@ const Range = ({
       sort = "desc";
     }
 
-    [setFilter1, setFilter2, setFilter3, setFilter4, setFilter5].some(
-      (setFilter, i) => {
-        if (i + 1 === idx) {
-          setFilter({ ...f, sort: sort, val: val });
-          return true;
-        }
-      }
-    );
+    setF && setF({ ...f, sort: sort, val: val });
 
     //setSelectedPageIdx(1)
   };
 
   const toggleOp = () => {
-    [setFilter1, setFilter2, setFilter3, setFilter4, setFilter5].some(
-      (setFilter, i) => {
-        if (i + 1 === idx) {
-          setFilter({ ...f, op: f.op === ">" ? "<" : ">" });
-          return true;
-        }
-      }
-    );
+    setF && setF({ ...f, op: f.op === ">" ? "<" : ">" });
   };
 
   return (
