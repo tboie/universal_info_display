@@ -1,3 +1,5 @@
+import "./Slider.css";
+
 import { useEffect } from "react";
 import { FilterChoice } from "./Shell";
 

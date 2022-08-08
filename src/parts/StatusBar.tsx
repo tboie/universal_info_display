@@ -1,3 +1,5 @@
+import "./StatusBar.css";
+
 import { filterOn, filtersOn } from "./ButtonBar";
 import { FilterChoice, Filter, FilterType, Store } from "./Shell";
 

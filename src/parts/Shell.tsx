@@ -3,6 +3,8 @@
 // [Coded using purpose-oriented-programming]
 // ***
 
+import "./Shell.css";
+
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import StatusBar from "./StatusBar";

@@ -1,3 +1,5 @@
+import "./Grid.css";
+
 import { UniversalInfoDisplayItem } from "./Shell";
 
 const GridItems = ({

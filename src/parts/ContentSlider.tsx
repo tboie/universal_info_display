@@ -1,8 +1,9 @@
+import "./ContentSlider.css";
+
 import { useState, useEffect } from "react";
 import DetectableOverflow from "react-detectable-overflow";
 import { chunkArr, chunkString, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
-import { callbackify } from "util";
 
 const ContentSlider = ({
   contentType,

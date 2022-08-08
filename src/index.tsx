@@ -5,7 +5,6 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import UniversalInfoDisplay from "./parts/Shell";
 import "./index.css";
-import "./parts/style.css";
 
 ReactDOM.render(
   <React.StrictMode>

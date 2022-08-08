@@ -1,3 +1,5 @@
+import "./Range.css";
+
 import { Filter, FilterOp } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 

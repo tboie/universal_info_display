@@ -1,0 +1,51 @@
+.buttonbar {
+  height: 1.8rem;
+  max-height: 1.8rem;
+  min-height: 1.8rem;
+  width: 100%;
+  display: flex;
+}
+
+.filter_button {
+  flex: 1 1 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid #2e2f41;
+  border-right: 0;
+  background-color: #1b1a26;
+  font-size: 1rem;
+  color: #80f077;
+  text-shadow: 1px 1px green;
+}
+
+.filter_button.selected {
+  border: 1px solid rgba(255, 215, 0, 0.9);
+}
+
+.filter_button.on {
+  color: gold;
+  text-shadow: none;
+}
+
+.filter_button.asc {
+  background: linear-gradient(
+    to bottom right,
+    #1b1a26 0%,
+    #1b1a26 50%,
+    #32409b 50%,
+    #32409b 100%
+  );
+}
+
+.filter_button.desc {
+  background: linear-gradient(
+    to bottom left,
+    #1b1a26 0%,
+    #1b1a26 50%,
+    #32409b 50%,
+    #32409b 100%
+  );
+}

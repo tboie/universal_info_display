@@ -1,4 +1,6 @@
-import { Filter, Store } from "./Shell";
+import "./TitleBar.css";
+
+import { Store } from "./Shell";
 
 type TitleBar = {
   selectedGroup: string;

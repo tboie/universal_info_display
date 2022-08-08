@@ -1,3 +1,5 @@
+import "./Item.css";
+
 import { UniversalInfoDisplayItem } from "./Shell";
 
 const Item = ({

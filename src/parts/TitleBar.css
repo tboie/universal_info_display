@@ -1,0 +1,39 @@
+.titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #1e1f33;
+  text-shadow: 1px 1px green;
+  border-top: 1px solid #2e2f41;
+  border-bottom: 1px solid #2e2f41;
+  z-index: 1;
+  color: #80f077;
+  padding: 0.25rem;
+}
+
+.titlebar .title {
+  white-space: nowrap;
+  text-transform: capitalize;
+  overflow-x: scroll;
+  display: block;
+  color: rgba(255, 215, 0, 0.9);
+}
+
+.titlebar .total {
+  padding-left: 0.5rem;
+}
+
+.titlebar .current-page {
+  color: gold;
+}
+
+.titlebar .total-pages {
+  color: lightgray;
+}
+
+.titlebar .close {
+  font-weight: bold;
+  color: rgba(150, 150, 150, 1);
+  text-shadow: 1px 1px black;
+}

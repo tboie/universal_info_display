@@ -1,5 +1,6 @@
+import "./Map.css";
+
 import { fromLonLat } from "ol/proj";
-import { Coordinate } from "ol/coordinate";
 import { Point, Circle } from "ol/geom";
 import "ol/ol.css";
 
