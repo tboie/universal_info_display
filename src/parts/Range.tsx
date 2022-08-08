@@ -1,4 +1,4 @@
-import { Filter, FilterOp, FilterSort } from "./Shell";
+import { Filter, FilterOp } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
 let thumbState: "pressed" | "changed" | "ready" = "ready";
@@ -32,15 +32,10 @@ const Range = ({
     const max = f.props[1] as number;
     let res = ((val - min) * 100) / (max - min);
 
-    if (!f.sort) {
-      if (f.op === ">") {
-        res = 100 - res;
-      }
-    } else {
-      if (f.op === ">") {
-        res = 100 - res;
-      }
+    if (f.op === ">") {
+      res = 100 - res;
     }
+
     return res;
   };
 
