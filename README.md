@@ -101,13 +101,9 @@ backgroundremover -i out.mov -tg -o out2.gif
 ffmpeg -i out2.gif -filter_complex "[0:v] scale=200:200:flags=lanczos,split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse" -loop 0 final.gif
 ```
 
-[using video player instead of animated gifs](https://www.smashingmagazine.com/2018/11/gif-to-video/)
-
-4. ffmpeg -i final.gif -b:v 0 -crf 25 final.mp4
-
-5. ffmpeg -i final.gif -c vp9 -b:v 0 -crf 41 final.webm
-
 ### Media Optimization Opportunity (secret sauce?)
+
+NOTE: Tried using the video player with webm/mp4 files and found safari/ios can only play h264 format. That format does not appear to support an alpha(transparency channel).
 
 Have the item "float" by displaying a slice of a full rotation.
 
