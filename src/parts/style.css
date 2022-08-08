@@ -178,7 +178,8 @@
   padding-right: 0.5rem;
 }
 
-.statusbar .filters .filter-vals.on {
+.statusbar .filters .filter-vals.on,
+.statusbar .filters .filter-vals.sort {
   color: gold;
 }
 

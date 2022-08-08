@@ -6,13 +6,14 @@ export const filterOn = (f?: Filter) => {
       return (f.val as Choice[]).some((c) => c.values.length);
     } else {
       if (f.name !== "mi") {
-        if (!f.sort || f.sort === "asc") {
-          // off if value equals min
-          return f.val !== f.props[0];
-        } else {
-          // off if value equals max
+        // this works for all conditions
+        if (f.op === "<") {
           return f.val !== f.props[1];
+        } else {
+          return f.val !== f.props[0];
         }
+      } else {
+        return true;
       }
     }
   }
@@ -21,7 +22,7 @@ export const filterOn = (f?: Filter) => {
 
 export const filtersOn = (filters: (Filter | undefined)[]) => {
   return filters.some((f) => {
-    return f && f.name !== "mi" ? filterOn(f) : false;
+    return filterOn(f);
   });
 };
 
