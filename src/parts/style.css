@@ -299,8 +299,8 @@
   width: 2rem;
   margin-top: 12px;
   border-radius: 1rem;
-  border: 2px solid trasparent;
   background-color: transparent;
+  color: #80f077;
   cursor: pointer;
   text-align: center;
   font-weight: bold;
@@ -339,8 +339,8 @@ input[type="range"]::-webkit-slider-thumb {
   width: 2rem;
   margin-top: -15px;
   border-radius: 1rem;
-  border: 2px solid #1e1f33;
-  background-color: rgb(252, 252, 252);
+  border: 1px solid gray;
+  background-color: #1e1f33;
   cursor: pointer;
   -webkit-appearance: none;
 }
