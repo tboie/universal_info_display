@@ -73,18 +73,18 @@
   border: 0;
   font-size: 0.8rem;
   height: calc(1.5rem + 0.9rem + 4px);
-  padding: 0 0.5rem;
+  padding: 0 0.4rem;
 }
 
 .slider #btn_first {
   text-align: left;
-  left: 0;
+  left: -2px;
   border-right: 2px solid #2e2f41;
 }
 
 .slider #btn_last {
   text-align: right;
-  right: 0;
+  right: -2px;
   border-left: 2px solid #2e2f41;
 }
 
