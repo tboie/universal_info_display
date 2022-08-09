@@ -2,23 +2,8 @@
   margin: 0% 12%;
   width: 76%;
   position: relative;
-  height: 44px;
-}
-
-.range_control.off {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  width: 100%;
-}
-
-.range_control .on-btn {
-  margin: 0.25rem 0;
-  background: transparent;
-  color: #80f077;
-  font-size: 1rem;
-  border: 0;
+  /* slider label font size + padding + sum of top/bottom borders */
+  height: calc(0.9rem + 1.5rem + 0.25rem);
 }
 
 .range_control .active {
