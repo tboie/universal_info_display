@@ -69,7 +69,7 @@ const TitleBar = ({
         </span>
       )}
 
-      {(showCloseIcon || fetching) && (
+      {showCloseIcon && (
         <span
           className="close"
           onClick={(e) => {
