@@ -1,7 +1,6 @@
 .range_control {
   position: relative;
   width: 100%;
-  /* slider label font size + padding + sum of top/bottom borders */
   height: 2.5rem;
   border-top: 1px solid #2e2f41;
 }
