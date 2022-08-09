@@ -72,8 +72,8 @@
   align-items: center;
   border: 0;
   font-size: 0.8rem;
-  height: calc(1.5rem + 0.9rem + 4px);
-  padding: 0 0.4rem;
+  height: calc(1.5rem + 0.9rem + 5px);
+  padding: 0 0.5rem;
 }
 
 .slider #btn_first {
