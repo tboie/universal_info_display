@@ -3,6 +3,8 @@
   width: 100%;
   /* slider label font size + padding + sum of top/bottom borders */
   height: calc(0.9rem + 1.5rem + 0.25rem);
+  border-top: 1px solid #2e2f41;
+  border-bottom: 1px solid #2e2f41;
 }
 
 .range_control .range_wrapper {
@@ -10,8 +12,6 @@
   width: 76%;
   height: 100%;
   margin: 0 12%;
-  border-top: 1px solid #2e2f41;
-  border-bottom: 1px solid #2e2f41;
 }
 
 .range_control .active {
