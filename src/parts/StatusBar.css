@@ -68,4 +68,7 @@
   border-left: 1px solid #2e2f41;
   height: 100%;
   width: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
