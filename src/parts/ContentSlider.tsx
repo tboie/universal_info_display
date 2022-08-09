@@ -272,7 +272,7 @@ const Page = ({
         <img className="page_bg" src="/bg.jpg" />
       )}
 
-      {items?.length && (
+      {!fetching && items?.length && (
         <Grid
           // only render items in range of selectedPageIdx
           items={

@@ -669,7 +669,7 @@ const UniversalInfoDisplay = () => {
           setFilter4(undefined);
           setFilter5(undefined);
         }}
-        showCloseIcon={fetching}
+        showCloseIcon={false}
       />
 
       {selectedItemIdx > -1 && (
