@@ -67,98 +67,100 @@ const Range = ({
         f.sort === "desc" ? "desc" : ""
       } ${f.op === ">" ? "gt" : "lt"}`}
     >
-      <span
-        className="range_label min"
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          toggleSort();
-        }}
-      >
-        {(f.name === "$" ? "$" : "") +
-          (!f.sort || f.sort === "asc" ? f.props[0] : f.props[1]) +
-          (f.name !== "$" ? f.name : "")}
-      </span>
+      <div className={`range_wrapper`}>
+        <span
+          className="range_label min"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleSort();
+          }}
+        >
+          {(f.name === "$" ? "$" : "") +
+            (!f.sort || f.sort === "asc" ? f.props[0] : f.props[1]) +
+            (f.name !== "$" ? f.name : "")}
+        </span>
 
-      <div
-        className="active"
-        style={{
-          width: getActiveWidth() + "%",
-        }}
-      />
+        <div
+          className="active"
+          style={{
+            width: getActiveWidth() + "%",
+          }}
+        />
 
-      <input
-        type="range"
-        onPointerDown={(e) => {
-          // Custom thumb press to toggle sort ... last resort
-          // lots of values taken from css, these can be retrieved from elements
-          // TODO: optimize if works
-          const input = e.currentTarget;
-          let valPercent = (100 - getThumbRight()) * 0.01;
-          const inputWidth = e.currentTarget.getBoundingClientRect().width;
-          const valLeft = valPercent * inputWidth;
-          // input has 6% left/right margins
-          const inputLeft = 0.06 * window.innerWidth;
-          const thumbX = inputLeft + valLeft + 24; // border and padding
+        <input
+          type="range"
+          onPointerDown={(e) => {
+            // Custom thumb press to toggle sort ... last resort
+            // lots of values taken from css, these can be retrieved from elements
+            // TODO: optimize if works
+            const input = e.currentTarget;
+            let valPercent = (100 - getThumbRight()) * 0.01;
+            const inputWidth = e.currentTarget.getBoundingClientRect().width;
+            const valLeft = valPercent * inputWidth;
+            // input has 6% left/right margins
+            const inputLeft = 0.06 * window.innerWidth;
+            const thumbX = inputLeft + valLeft + 24; // border and padding
 
-          const bound = 16;
-          valPercent = 100 - getThumbRight();
-          // see component inline transform styling for a more precise approach
-          if (valPercent <= 50) {
-            if (thumbX > e.pageX - bound && thumbX < e.pageX) {
-              thumbState = "pressed";
+            const bound = 16;
+            valPercent = 100 - getThumbRight();
+            // see component inline transform styling for a more precise approach
+            if (valPercent <= 50) {
+              if (thumbX > e.pageX - bound && thumbX < e.pageX) {
+                thumbState = "pressed";
+              }
+            } else if (valPercent > 50) {
+              if (thumbX < e.pageX + bound && thumbX > e.pageX) {
+                thumbState = "pressed";
+              }
             }
-          } else if (valPercent > 50) {
-            if (thumbX < e.pageX + bound && thumbX > e.pageX) {
-              thumbState = "pressed";
+          }}
+          onPointerUp={(e) => {
+            if (thumbState === "pressed") {
+              toggleOp();
             }
-          }
-        }}
-        onPointerUp={(e) => {
-          if (thumbState === "pressed") {
-            toggleOp();
-          }
-          thumbState = "ready";
-        }}
-        onPointerLeave={(e) => {
-          thumbState = "ready";
-        }}
-        min={f.props[0] as number}
-        max={f.props[1] as number}
-        value={f.val as number}
-        onChange={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          thumbState = "changed";
-          throttle(
-            { delay: 15, leading: true, trailing: true },
-            set(idx, f.name, e.currentTarget.valueAsNumber, f.op)
-          );
-        }}
-      />
+            thumbState = "ready";
+          }}
+          onPointerLeave={(e) => {
+            thumbState = "ready";
+          }}
+          min={f.props[0] as number}
+          max={f.props[1] as number}
+          value={f.val as number}
+          onChange={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            thumbState = "changed";
+            throttle(
+              { delay: 15, leading: true, trailing: true },
+              set(idx, f.name, e.currentTarget.valueAsNumber, f.op)
+            );
+          }}
+        />
 
-      <span
-        className="thumb"
-        style={{
-          right: getThumbRight() + "%",
-          transform: "translateX(" + getThumbRight() + "%)",
-        }}
-      >
-        {f.op}
-      </span>
+        <span
+          className="thumb"
+          style={{
+            right: getThumbRight() + "%",
+            transform: "translateX(" + getThumbRight() + "%)",
+          }}
+        >
+          {f.op}
+        </span>
 
-      <span
-        className="range_label max"
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          toggleSort();
-        }}
-      >
-        {(f.name === "$" ? "$" : "") +
-          (!f.sort || f.sort === "asc" ? f.props[1] : f.props[0]) +
-          (f.name !== "$" ? f.name : "")}
-      </span>
+        <span
+          className="range_label max"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleSort();
+          }}
+        >
+          {(f.name === "$" ? "$" : "") +
+            (!f.sort || f.sort === "asc" ? f.props[1] : f.props[0]) +
+            (f.name !== "$" ? f.name : "")}
+        </span>
+      </div>
     </div>
   );
 };
