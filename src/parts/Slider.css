@@ -63,7 +63,7 @@
 }
 
 .slider button {
-  position: absolute;
+  position: fixed;
   background-color: #1b1a26;
   color: #80f077;
   text-shadow: 1px 1px green;
@@ -72,7 +72,7 @@
   align-items: center;
   border: 0;
   font-size: 0.8rem;
-  height: 100%;
+  height: calc(1.5rem + 0.9rem + 4px);
   padding: 0 0.5rem;
 }
 
