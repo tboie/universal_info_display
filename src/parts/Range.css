@@ -4,7 +4,6 @@
   /* slider label font size + padding + sum of top/bottom borders */
   height: calc(0.9rem + 1.5rem + 0.5rem);
   border-top: 1px solid #2e2f41;
-  border-bottom: 1px solid #2e2f41;
 }
 
 .range_control .range_wrapper {

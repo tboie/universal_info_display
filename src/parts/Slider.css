@@ -13,7 +13,6 @@
   flex-wrap: nowrap;
   text-shadow: 1px 1px green;
   border-top: 1px solid #2e2f41;
-  border-bottom: 1px solid #2e2f41;
   font-size: 0.9rem;
 }
 
@@ -79,13 +78,13 @@
 .slider #btn_first {
   text-align: left;
   left: -2px;
-  border-right: 2px solid #2e2f41;
+  border-right: 1px solid #2e2f41;
 }
 
 .slider #btn_last {
   text-align: right;
   right: -2px;
-  border-left: 2px solid #2e2f41;
+  border-left: 1px solid #2e2f41;
 }
 
 .slider.page .slider_label.selected,
