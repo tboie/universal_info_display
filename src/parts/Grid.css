@@ -31,7 +31,7 @@
 }
 
 .item-grid .item span {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   z-index: 1;
   padding: 0.1rem 0.2rem;
   text-shadow: 2px 2px black;
@@ -39,7 +39,6 @@
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   margin-left: 0.2rem;
-  opacity: 0.96;
   color: lightyellow;
 }
 
@@ -52,11 +51,10 @@
   max-width: calc(100% - 0.2rem);
   padding-bottom: 0.1rem;
   margin-top: 0.2rem;
+  font-size: 1rem;
 }
 
-.item-grid.groups .item .title {
-  color: #80f077;
-  font-size: 1.1rem;
+.item-grid.groups .title {
   text-transform: capitalize;
   width: 100%;
   text-align: center;

@@ -19,7 +19,7 @@
   background-color: #1b1a26;
   padding: 0 0.5rem;
   border-right: 1px solid #2e2f41;
-  opacity: 0.8rem;
+  opacity: 0.8;
 }
 
 .statusbar img {
@@ -37,7 +37,6 @@
 
 .statusbar .filters span {
   height: 100%;
-  opacity: 0.9;
   display: flex;
   align-items: center;
   justify-content: center;
