@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   /* slider label font size + padding + sum of top/bottom borders */
-  height: calc(0.9rem + 1.5rem + 0.5rem);
+  height: calc(0.9rem + 1.5rem + 0.4rem);
   border-top: 1px solid #2e2f41;
 }
 
