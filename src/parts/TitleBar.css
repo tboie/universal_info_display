@@ -5,7 +5,6 @@
   width: 100%;
   background-color: #1e1f33;
   text-shadow: 1px 1px green;
-  border-bottom: 1px solid #2e2f41;
   z-index: 1;
   color: #80f077;
   padding: 0.25rem;
@@ -29,7 +28,7 @@
 }
 
 .titlebar .total-pages {
-  color: lightgray;
+  color: rgb(211, 211, 211);
 }
 
 .titlebar .close {

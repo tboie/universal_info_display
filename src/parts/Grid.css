@@ -45,7 +45,7 @@
 
 .item-grid .item .title {
   font-weight: bold;
-  color: #80f077;
+  color: greenyellow;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
