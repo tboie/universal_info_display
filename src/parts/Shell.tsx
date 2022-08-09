@@ -92,7 +92,6 @@ export type Filter = {
 // main
 const UniversalInfoDisplay = () => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
-  const [pagesBool, setPagesBool] = useState([true]);
 
   const [selectedGroup, setSelectedGroup] = useState("");
   const [groupFilters, setGroupFilters] = useState<any>(groupFilterData);
@@ -554,11 +553,6 @@ const UniversalInfoDisplay = () => {
           all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
         );
 
-        // value doesn't matter for now
-        setPagesBool(
-          chunkArr(all_items, 6).map((item: UniversalInfoDisplayItem) => true)
-        );
-
         // set max min miles
         const maxMiles = miles;
         const minMiles = Math.floor(all_items[0].dist) + 1;
@@ -696,8 +690,6 @@ const UniversalInfoDisplay = () => {
               ? filteredItems
               : groupFilters.map((g: any) => ({ n: g.group }))
           }
-          pagesBool={pagesBool}
-          setPagesBool={setPagesBool}
           selectedGroup={selectedGroup}
           setSelectedPageIdx={setSelectedPageIdx}
           selectedPageIdx={selectedPageIdx}

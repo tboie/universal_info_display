@@ -6,8 +6,6 @@ import Grid from "./Grid";
 
 const ContentSlider = ({
   items,
-  pagesBool,
-  setPagesBool,
   selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
@@ -16,8 +14,6 @@ const ContentSlider = ({
   fetching,
 }: {
   items: UniversalInfoDisplayItem[];
-  pagesBool: boolean[];
-  setPagesBool: (val: any) => any;
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
