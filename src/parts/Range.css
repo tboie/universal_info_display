@@ -33,7 +33,7 @@
   right: auto;
 }
 
-.range_control.asc {
+.range_control.asc .range_wrapper {
   background: linear-gradient(
     to bottom right,
     transparent 0%,
@@ -43,7 +43,7 @@
   );
 }
 
-.range_control.desc {
+.range_control.desc .range_wrapper {
   background: linear-gradient(
     to bottom left,
     transparent 0%,
