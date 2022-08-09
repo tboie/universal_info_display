@@ -63,27 +63,29 @@
 }
 
 .slider button {
-  position: fixed;
+  position: absolute;
   background-color: #1b1a26;
   color: #80f077;
   text-shadow: 1px 1px green;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  height: 2rem;
   border: 0;
   font-size: 0.8rem;
+  height: 100%;
+  padding: 0 0.5rem;
 }
 
 .slider #btn_first {
   text-align: left;
   left: 0;
+  border-right: 2px solid #2e2f41;
 }
 
 .slider #btn_last {
   text-align: right;
   right: 0;
+  border-left: 2px solid #2e2f41;
 }
 
 .slider.page .slider_label.selected,

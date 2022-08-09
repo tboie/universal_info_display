@@ -628,18 +628,18 @@ const UniversalInfoDisplay = () => {
   }, [lat, lng]);
 
   const getLocation = () => {
-    /*
     setTimeout(() => {
       console.log("setting location to boston");
       setLat(42.364506);
       setLng(-71.038887);
-    }, 1000);
-    */
+    }, 250);
 
+    /*
     navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
     });
+    */
   };
 
   return (
