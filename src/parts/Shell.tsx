@@ -120,7 +120,7 @@ const UniversalInfoDisplay = () => {
 
   const [fetching, setFetching] = useState(false);
 
-  const getFilterChoiceValues = (
+  const getFilterChoicesFromItems = (
     key: string,
     items: UniversalInfoDisplayItem[]
   ) =>
@@ -573,7 +573,7 @@ const UniversalInfoDisplay = () => {
               // choices
               const choices: FilterChoice[] = [];
               key.split(",").forEach((field: string) => {
-                let choice_values = getFilterChoiceValues(field, all_items);
+                let choice_values = getFilterChoicesFromItems(field, all_items);
                 if (field === "g") {
                   choice_values = choice_values
                     .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
