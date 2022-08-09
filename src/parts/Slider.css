@@ -14,11 +14,13 @@
   text-shadow: 1px 1px green;
   border-top: 1px solid #2e2f41;
   font-size: 0.9rem;
+  height: 2.5rem;
 }
 
 .slider_label {
   position: relative;
-  padding: 0.75rem;
+  height: 100%;
+  padding: 0.75rem 0.8rem;
   display: block;
   color: #80f077;
   border: 0;
@@ -47,6 +49,7 @@
 .slider_label.selected {
   color: gold;
   font-size: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .slider.page.tick {
@@ -71,7 +74,7 @@
   align-items: center;
   border: 0;
   font-size: 0.8rem;
-  height: calc(1.5rem + 0.9rem + 5px);
+  height: 2.5rem;
   padding: 0 0.5rem;
 }
 
