@@ -148,7 +148,7 @@ const Page = ({
         if (entry.isIntersecting) {
           if (globalThis.contentSliderPressed) {
             if (scrollDirection === "right") {
-              if (scrollSpeed * -1 < 0.4) {
+              if (scrollSpeed * -1 < 0.45) {
                 const container = document.querySelector(
                   "#universal_info_display_content_slider"
                 ) as HTMLElement;
@@ -188,7 +188,7 @@ const Page = ({
     const optSnapLeft = {
       root: container,
       threshold: 0,
-      rootMargin: "0% -46% 0% 4%",
+      rootMargin: "0% -48% 0% 2%",
     };
     const optPageChange = {
       root: container,
@@ -198,7 +198,7 @@ const Page = ({
     const optSnapRight = {
       root: container,
       threshold: 0,
-      rootMargin: "0% 4% 0% -46%",
+      rootMargin: "0% 2% 0% -48%",
     };
 
     const obsPageChange = new IntersectionObserver(
