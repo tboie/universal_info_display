@@ -72,10 +72,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 0;
+  border-top: 1px solid #2e2f41;
   font-size: 0.8rem;
   height: 2.8rem;
   padding: 0 0.5rem;
+  bottom: 0;
 }
 
 .slider #btn_first {
