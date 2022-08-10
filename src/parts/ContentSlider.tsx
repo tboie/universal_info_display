@@ -122,7 +122,7 @@ const Page = ({
         if (entry.isIntersecting) {
           if (globalThis.contentSliderPressed) {
             if (scrollDirection === "left") {
-              if (scrollSpeed < 0.45) {
+              if (scrollSpeed < 0.4) {
                 const container = document.querySelector(
                   "#universal_info_display_content_slider"
                 ) as HTMLElement;
@@ -148,7 +148,7 @@ const Page = ({
         if (entry.isIntersecting) {
           if (globalThis.contentSliderPressed) {
             if (scrollDirection === "right") {
-              if (scrollSpeed * -1 < 0.45) {
+              if (scrollSpeed * -1 < 0.4) {
                 const container = document.querySelector(
                   "#universal_info_display_content_slider"
                 ) as HTMLElement;
