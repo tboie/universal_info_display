@@ -259,13 +259,13 @@ const Page = ({
     >
       {items?.length === 0 && !fetching && (
         <>
-          <img className="page_bg" src="/bg.jpg" />
+          <img className="page_bg" src="/media/bg.jpg" />
           <span className="no-items">{text}</span>
         </>
       )}
 
       {(items?.length === 0 || !selectedGroup) && (
-        <img className="page_bg" src="/bg.jpg" />
+        <img className="page_bg" src="/media/bg.jpg" />
       )}
 
       {!fetching && items?.length && (

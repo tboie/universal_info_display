@@ -138,7 +138,7 @@ const StatusBar = ({
             e.preventDefault();
           }}
         >
-          <img src="/search.svg" />
+          <img src="/media/search.svg" />
         </div>
       )}
 

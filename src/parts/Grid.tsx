@@ -64,13 +64,15 @@ const GridItems = ({
               {
                 // only glow flower for now
                 (item.n === "flower" || selectedGroup === "flower") && (
-                  <img className="glow" src="glow.png" />
+                  <img className="glow" src="/media/glow.png" />
                 )
               }
               <img
                 className="media"
                 src={
-                  selectedGroup ? `${selectedGroup}.gif` : `${item.n}.gif` /*`${
+                  selectedGroup
+                    ? `/media/${selectedGroup}.gif`
+                    : `/media/${item.n}.gif` /*`${
                   item.w === "D"
                     ? "https://images.dutchie.com/" +
                       item["p"] +
