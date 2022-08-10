@@ -32,7 +32,7 @@
 }
 
 .item-grid .item span {
-  font-size: 0.9rem;
+  font-size: 1rem;
   z-index: 1;
   padding: 0.1rem 0.2rem;
   text-shadow: 2px 2px black;
@@ -46,9 +46,8 @@
   color: greenyellow;
   overflow-x: scroll;
   white-space: nowrap;
-  max-width: calc(100% - 0.2rem);
+  max-width: 100%;
   padding-bottom: 0.1rem;
-  font-size: 1rem;
 }
 
 .item-grid .item .title {
