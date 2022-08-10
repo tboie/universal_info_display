@@ -28,6 +28,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: 0.2rem 0 0 0.2rem;
 }
 
 .item-grid .item span {
@@ -38,19 +39,24 @@
   background: rgba(0, 0, 0, 0.25);
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  margin-left: 0.2rem;
   color: lightyellow;
 }
 
 .item-grid .item .title {
   color: greenyellow;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  overflow-x: scroll;
   white-space: nowrap;
   max-width: calc(100% - 0.2rem);
   padding-bottom: 0.1rem;
-  margin-top: 0.2rem;
   font-size: 1rem;
+}
+
+.item-grid .item .title {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.item-grid .item .title::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 .item-grid.groups .title {
