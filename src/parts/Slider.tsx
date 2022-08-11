@@ -1,7 +1,7 @@
 import "./Slider.css";
 
 import { useEffect } from "react";
-import { FilterChoice } from "./Shell";
+import { FilterChoice, FilterChoiceValues } from "./Shell";
 
 export type T_SLIDER_TYPE = "choice" | "group" | "page" | "clear-filters";
 
@@ -97,15 +97,18 @@ const Slider = ({
     let i = 0;
 
     choices.forEach((c, idx) => {
+      const selChoice = selected[idx] as FilterChoice;
+      const selVals = selChoice.values;
+
       c.values.forEach((v) => {
         eleLabels.push(
           <Label
             idx={i}
-            key={i + v}
+            key={i + v.toString()}
             type={type}
-            title={v}
+            title={c.type === "string" ? v.toString() : v.toString() + c.field}
             field={c.field}
-            on={(selected[idx] as FilterChoice)?.values.includes(v)}
+            on={selVals.map((v) => v).includes(v)}
             click={select}
             aliases={aliases}
           />

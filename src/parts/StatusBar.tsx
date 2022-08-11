@@ -41,12 +41,23 @@ const StatusBar = ({
   const getChoiceText = (choices: FilterChoice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {
+      // sort numbers
+      if (c.type === "number") {
+        c.values.sort((a: any, b: any) => a - b);
+      }
+
       c.values.forEach((v) => {
-        allChoices.push(
-          aliases && c.field && aliases[c.field] && aliases[c.field][v]
-            ? aliases[c.field][v]
-            : v
-        );
+        let alias: string = "";
+        if (aliases && c.field && aliases[c.field] && aliases[c.field][v]) {
+          alias = aliases[c.field][v];
+        }
+
+        // add unit to numbers
+        if (c.type === "number") {
+          v = v + c.field;
+        }
+
+        allChoices.push(alias || (v as string));
       });
     });
 

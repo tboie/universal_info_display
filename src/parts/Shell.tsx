@@ -71,15 +71,19 @@ export type Slider = {
 
 // filters
 export type FilterType = "choice" | "range";
+export type FilterChoiceType = "string" | "number";
+export type FilterChoiceValues = string[] | number[];
 export type FilterChoice = {
-  field?: string;
-  values: string[];
+  field: string;
+  values: FilterChoiceValues;
+  type: FilterChoiceType;
 };
 export type FilterRange = [number, number];
 export type FilterOp = ">" | "<" | undefined;
 export type FilterSort = "asc" | "desc" | undefined;
 
 export type Filter = {
+  i: number;
   name: string;
   alias?: string;
   type: FilterType;
@@ -131,7 +135,13 @@ const UniversalInfoDisplay = () => {
           items.map((item) => item[key])
         )
       ),
-    ] as string[];
+    ] as string[] | number[];
+
+  const getFilterChoiceType = (values: any[]) => {
+    return (
+      values.every((i: any) => typeof i === "string") ? "string" : "number"
+    ) as FilterChoiceType;
+  };
 
   const getFilterRangeMinMaxFromItems = (
     key: string,
@@ -146,7 +156,8 @@ const UniversalInfoDisplay = () => {
 
   const getDefaultFilterChoiceVal = (
     groupIdx: number,
-    choices: FilterChoice[]
+    choices: FilterChoice[],
+    type: FilterChoiceType
   ) => {
     return choices.map((c) => ({
       field: c.field,
@@ -154,6 +165,7 @@ const UniversalInfoDisplay = () => {
         c.field && filterDefaults[groupIdx][c.field]
           ? [filterDefaults[groupIdx][c.field]]
           : [],
+      type: type,
     }));
   };
   const getDefaultFilterRangeVal = (name: string, range: FilterRange) => {
@@ -202,8 +214,8 @@ const UniversalInfoDisplay = () => {
           (f.val as FilterChoice[]).forEach((c) => {
             const choiceItems: UniversalInfoDisplayItem = [];
             let choiceOn = false;
-            const cVals = c.values as string[];
 
+            const cVals = c.values;
             cVals.forEach((val) => {
               choiceOn = true;
               choiceItems.push(
@@ -315,12 +327,21 @@ const UniversalInfoDisplay = () => {
       const selectedChoice = choices_copy.find((c) => c.field === field);
 
       if (selectedChoice) {
-        if (selectedChoice.values.includes(title)) {
-          selectedChoice.values = selectedChoice.values.filter(
-            (v) => v !== title
-          );
-        } else {
-          selectedChoice.values.push(title);
+        if (selectedChoice.type === "string") {
+          const vals = selectedChoice.values as string[];
+          if (vals.includes(title)) {
+            selectedChoice.values = vals.filter((v) => v !== title);
+          } else {
+            vals.push(title);
+          }
+        } else if (selectedChoice.type === "number") {
+          const vals = selectedChoice.values as number[];
+          const titleNum = parseFloat(title.replace(field, ""));
+          if (vals.includes(titleNum)) {
+            selectedChoice.values = vals.filter((v) => v !== titleNum);
+          } else {
+            vals.push(titleNum);
+          }
         }
       }
 
@@ -341,32 +362,22 @@ const UniversalInfoDisplay = () => {
       }
     } else if (type === "choice" && field) {
       setSelectedPageIdx(1);
-      if (selectedFilterIdx === 1 && filter1) {
-        setFilter1({
-          ...filter1,
-          val: toggleChoice(filter1?.val as FilterChoice[], field, title),
-        });
-      } else if (selectedFilterIdx === 2 && filter2) {
-        setFilter2({
-          ...filter2,
-          val: toggleChoice(filter2?.val as FilterChoice[], field, title),
-        });
-      } else if (selectedFilterIdx === 3 && filter3) {
-        setFilter3({
-          ...filter3,
-          val: toggleChoice(filter3?.val as FilterChoice[], field, title),
-        });
-      } else if (selectedFilterIdx === 4 && filter4) {
-        setFilter4({
-          ...filter4,
-          val: toggleChoice(filter4?.val as FilterChoice[], field, title),
-        });
-      } else if (selectedFilterIdx === 5 && filter5) {
-        setFilter5({
-          ...filter5,
-          val: toggleChoice(filter5?.val as FilterChoice[], field, title),
-        });
-      }
+      [
+        { f: filter1, s: setFilter1 },
+        { f: filter2, s: setFilter2 },
+        { f: filter3, s: setFilter3 },
+        { f: filter4, s: setFilter4 },
+        { f: filter5, s: setFilter5 },
+      ].some((fObj, idx) => {
+        if (fObj.f) {
+          if (idx + 1 === selectedFilterIdx) {
+            fObj.s({
+              ...fObj.f,
+              val: toggleChoice(fObj.f.val as FilterChoice[], field, title),
+            });
+          }
+        }
+      });
     } else if (type === "clear-filters") {
       clearFilters();
     }
@@ -527,7 +538,7 @@ const UniversalInfoDisplay = () => {
             item.c.forEach((cut: any) => {
               all_items.push({
                 ...item,
-                g: [cut.g + "g"],
+                g: [cut.g],
                 $: cut.$.toFixed(0),
                 ppu: (cut.$ / cut.g).toFixed(1),
                 dist: store.dist,
@@ -570,33 +581,53 @@ const UniversalInfoDisplay = () => {
           Object.entries(groupFilter)
             .filter(([key]) => key !== "group")
             .forEach(([key, obj]: any, idx) => {
-              // choices
-              const choices: FilterChoice[] = [];
-              key.split(",").forEach((field: string) => {
-                let choice_values = getFilterChoicesFromItems(field, all_items);
-                if (field === "g") {
-                  choice_values = choice_values
-                    .map((choice) => parseFloat(choice.replace(/[^0-9.]/g, "")))
-                    .sort((a, b) => a - b)
-                    .map((choice) => choice + key);
-                }
-                choices.push({ field: field, values: choice_values });
-              });
+              let choices: FilterChoice[] = [];
+              let choice_type: FilterChoiceType = "string";
+              let range: FilterRange = [0, 0];
 
-              // range
-              let range = getFilterRangeMinMaxFromItems(key, all_items);
-              if (key === "mi") {
-                range = [minMiles, maxMiles];
+              // choices
+              if (obj.type === "choice") {
+                key.split(",").forEach((field: string) => {
+                  const choice_values = getFilterChoicesFromItems(
+                    field,
+                    all_items
+                  );
+                  choice_type = getFilterChoiceType(choice_values);
+
+                  if (choice_type === "number") {
+                    choice_values.sort((a: any, b: any) => a - b);
+                  } else {
+                    choice_values.sort();
+                  }
+                  choices.push({
+                    field: field,
+                    values: choice_values,
+                    type: choice_type,
+                  });
+                });
               }
+              // range
+              else if (obj.type === "range") {
+                range = getFilterRangeMinMaxFromItems(key, all_items);
+                if (key === "mi") {
+                  range = [minMiles, maxMiles];
+                }
+              }
+              // range
 
               const fObj: Filter = {
+                i: idx + 1,
                 name: key,
                 alias: obj.alias,
                 type: obj.type as FilterType,
                 props: obj.type === "choice" ? choices : range,
                 val:
                   obj.type === "choice"
-                    ? getDefaultFilterChoiceVal(groupFilterIdx, choices)
+                    ? getDefaultFilterChoiceVal(
+                        groupFilterIdx,
+                        choices,
+                        choice_type
+                      )
                     : getDefaultFilterRangeVal(key, range),
                 sort: undefined,
                 op: getDefaultFilterOp(obj.type, key),
