@@ -436,7 +436,7 @@ const UniversalInfoDisplay = () => {
   const clearFilters = () => {
     const clearChoiceVal = (f: Filter) => {
       return (f.val as FilterChoice[]).map((c) => ({
-        field: c.field,
+        ...c,
         values: [],
       }));
     };
