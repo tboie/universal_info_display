@@ -1,6 +1,5 @@
 import "./StatusBar.css";
 
-import { filterOn, filtersOn } from "./ButtonBar";
 import { FilterChoice, Filter, FilterType, Store } from "./Shell";
 
 type PartStatusBarType = {
@@ -38,6 +37,32 @@ const StatusBar = ({
   setSelectedStore,
   clearFilters,
 }: PartStatusBarType) => {
+  const filterOn = (f?: Filter) => {
+    if (f) {
+      if (f.type === "choice") {
+        return (f.val as FilterChoice[]).some((c) => c.values.length);
+      } else {
+        if (f.name !== "mi") {
+          // this works for all conditions
+          if (f.op === "<") {
+            return f.val !== f.props[1];
+          } else {
+            return f.val !== f.props[0];
+          }
+        } else {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const filtersOn = (filters: (Filter | undefined)[]) => {
+    return filters.some((f) => {
+      return filterOn(f);
+    });
+  };
+
   const getChoiceText = (choices: FilterChoice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {
