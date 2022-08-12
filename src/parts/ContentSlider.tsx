@@ -188,7 +188,7 @@ const Page = ({
     const optPageChange = {
       root: container,
       threshold: 0,
-      rootMargin: "50%",
+      rootMargin: "-50%",
     };
     const optSnapRight = {
       root: container,
