@@ -127,10 +127,7 @@ const Page = ({
                 container.style.overflowX = "hidden";
                 setTimeout(() => {
                   entry.target.scrollIntoView({
-                    inline:
-                      entry.target.id.indexOf("half-page") > -1
-                        ? "nearest"
-                        : "center",
+                    inline: "center",
                   });
                 }, 10);
                 setTimeout(() => {
@@ -156,10 +153,7 @@ const Page = ({
                 container.style.overflowX = "hidden";
                 setTimeout(() => {
                   entry.target.scrollIntoView({
-                    inline:
-                      entry.target.id.indexOf("half-page") > -1
-                        ? "end"
-                        : "center",
+                    inline: "center",
                   });
                 }, 10);
                 setTimeout(() => {
@@ -219,12 +213,6 @@ const Page = ({
       obsSnapRight.observe(elePage);
     }
 
-    const eleHalf = document.querySelectorAll(".half-page")[num - 1];
-    if (eleHalf) {
-      obsSnapLeft.observe(eleHalf);
-      obsSnapRight.observe(eleHalf);
-    }
-
     return () => {
       obsPageChange.disconnect();
       obsSnapLeft.disconnect();
@@ -264,7 +252,6 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
-      <div id={`half-page${num}`} className="half-page" />
       {items?.length === 0 && !fetching && (
         <>
           <img className="page-bg" src="/media/bg.jpg" />

@@ -45,9 +45,3 @@
   width: 100%;
   opacity: 0.8;
 }
-
-.half-page {
-  height: 0;
-  width: 0;
-  margin-left: 50%;
-}
