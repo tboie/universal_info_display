@@ -98,9 +98,9 @@ const UniversalInfoDisplay = () => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
 
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [groupFilters, setGroupFilters] = useState<any>(groupFilterData);
+  const [groupFilters] = useState<any>(groupFilterData);
 
-  const [filterDefaults, setFilterDefaults] = useState<any>(filterDefaultData);
+  const [filterDefaults] = useState<any>(filterDefaultData);
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
   const [filter1, setFilter1] = useState<Filter>();
   const [filter2, setFilter2] = useState<Filter>();
@@ -113,7 +113,7 @@ const UniversalInfoDisplay = () => {
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
-  const [itemAliases, setItemAliases] = useState<any>(itemAliasData);
+  const [itemAliases] = useState<any>(itemAliasData);
 
   const [map, toggleMap] = useState(false);
   const [miles, setMiles] = useState(50);
