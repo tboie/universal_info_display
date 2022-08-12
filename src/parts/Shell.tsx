@@ -137,7 +137,7 @@ const UniversalInfoDisplay = () => {
       ),
     ] as string[] | number[];
 
-  const getFilterChoiceType = (values: FilterChoiceValues[]) => {
+  const getFilterChoiceType = (values: any[]) => {
     return (
       values.every((i: any) => typeof i === "number") ? "number" : "string"
     ) as FilterChoiceType;
