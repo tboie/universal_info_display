@@ -12,7 +12,6 @@ const ContentSlider = ({
   setSelectedItemIdx,
   getData,
   fetching,
-  snap,
 }: {
   items: UniversalInfoDisplayItem[];
   selectedGroup: string;
@@ -21,7 +20,6 @@ const ContentSlider = ({
   setSelectedItemIdx: (val: any) => any;
   getData: (group: string) => void;
   fetching: boolean;
-  snap?: "page" | "half";
 }) => {
   const initScrollSpeedListener = () => {
     // scroll speed/direction
@@ -52,9 +50,7 @@ const ContentSlider = ({
   };
 
   useEffect(() => {
-    if (snap) {
-      initScrollSpeedListener();
-    }
+    initScrollSpeedListener();
   }, []);
 
   return (
@@ -121,7 +117,7 @@ const Page = ({
         if (entry.isIntersecting) {
           if (globalThis.contentSliderPressed) {
             if (scrollDirection === "left") {
-              if (scrollSpeed < 0.38) {
+              if (scrollSpeed < 0.4) {
                 const container = document.querySelector(
                   "#content-slider"
                 ) as HTMLElement;
@@ -150,7 +146,7 @@ const Page = ({
         if (entry.isIntersecting) {
           if (globalThis.contentSliderPressed) {
             if (scrollDirection === "right") {
-              if (scrollSpeed * -1 < 0.38) {
+              if (scrollSpeed * -1 < 0.4) {
                 const container = document.querySelector(
                   "#content-slider"
                 ) as HTMLElement;

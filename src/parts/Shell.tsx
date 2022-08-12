@@ -727,7 +727,6 @@ const UniversalInfoDisplay = () => {
           setSelectedItemIdx={setSelectedItemIdx}
           getData={(group) => getData(group)}
           fetching={fetching}
-          snap={"half"}
         />
       )}
 
