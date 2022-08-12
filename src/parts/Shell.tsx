@@ -176,11 +176,12 @@ const UniversalInfoDisplay = () => {
   const keyPath = "/data/keys";
   const getData = (group: string) => {
     setFetching(true);
+    setSelectedGroup(group);
+
     fetch(`${keyPath}/${group}.json`)
       .then((r) => r.json())
       .then((key) => {
         setKey(key);
-        setSelectedGroup(group);
         getLocation();
       });
   };
