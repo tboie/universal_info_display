@@ -12,6 +12,7 @@ const ContentSlider = ({
   setSelectedItemIdx,
   getData,
   fetching,
+  snap,
 }: {
   items: UniversalInfoDisplayItem[];
   selectedGroup: string;
@@ -20,12 +21,11 @@ const ContentSlider = ({
   setSelectedItemIdx: (val: any) => any;
   getData: (group: string) => void;
   fetching: boolean;
+  snap?: "page" | "half";
 }) => {
   const initScrollSpeedListener = () => {
     // scroll speed/direction
-    const container = document.getElementById(
-      "universal_info_display_content_slider"
-    );
+    const container = document.getElementById("content-slider");
     if (container) {
       let lastOffset = container.scrollLeft;
       let lastDate = new Date().getTime();
@@ -52,15 +52,14 @@ const ContentSlider = ({
   };
 
   useEffect(() => {
-    initScrollSpeedListener();
+    if (snap) {
+      initScrollSpeedListener();
+    }
   }, []);
 
   return (
     <>
-      <div
-        id="universal_info_display_content_slider"
-        className="content_slider"
-      >
+      <div id="content-slider" className="content-slider">
         {items?.length ? (
           chunkArr(items, 6).map((items, idx) => (
             <Page
@@ -124,13 +123,16 @@ const Page = ({
             if (scrollDirection === "left") {
               if (scrollSpeed < 0.38) {
                 const container = document.querySelector(
-                  "#universal_info_display_content_slider"
+                  "#content-slider"
                 ) as HTMLElement;
 
                 container.style.overflowX = "hidden";
                 setTimeout(() => {
                   entry.target.scrollIntoView({
-                    inline: "center",
+                    inline:
+                      entry.target.id.indexOf("half-page") > -1
+                        ? "nearest"
+                        : "center",
                   });
                 }, 10);
                 setTimeout(() => {
@@ -150,13 +152,16 @@ const Page = ({
             if (scrollDirection === "right") {
               if (scrollSpeed * -1 < 0.38) {
                 const container = document.querySelector(
-                  "#universal_info_display_content_slider"
+                  "#content-slider"
                 ) as HTMLElement;
 
                 container.style.overflowX = "hidden";
                 setTimeout(() => {
                   entry.target.scrollIntoView({
-                    inline: "center",
+                    inline:
+                      entry.target.id.indexOf("half-page") > -1
+                        ? "end"
+                        : "center",
                   });
                 }, 10);
                 setTimeout(() => {
@@ -174,16 +179,14 @@ const Page = ({
         if (entry.isIntersecting) {
           if (globalThis.contentSliderPressed) {
             const id = entry.target.id;
-            const selected = parseInt(id.replace("content_page", ""));
+            const selected = parseInt(id.replace("content-page", ""));
             setSelectedPageIdx(selected);
           }
         }
       });
     };
 
-    const container = document.querySelector(
-      "#universal_info_display_content_slider"
-    ) as HTMLElement;
+    const container = document.querySelector("#content-slider") as HTMLElement;
 
     const optSnapLeft = {
       root: container,
@@ -211,11 +214,17 @@ const Page = ({
       optSnapRight
     );
 
-    const ele = document.querySelectorAll(".content_page")[num - 1];
-    if (ele) {
-      obsPageChange.observe(ele);
-      obsSnapLeft.observe(ele);
-      obsSnapRight.observe(ele);
+    const elePage = document.querySelector(`.content-page:nth-of-type(${num})`);
+    if (elePage) {
+      obsPageChange.observe(elePage);
+      obsSnapLeft.observe(elePage);
+      obsSnapRight.observe(elePage);
+    }
+
+    const eleHalf = document.querySelector(`.half-page:nth-of-type(${num})`);
+    if (eleHalf) {
+      obsSnapLeft.observe(eleHalf);
+      obsSnapRight.observe(eleHalf);
     }
 
     return () => {
@@ -229,13 +238,13 @@ const Page = ({
   useEffect(() => {
     if (!globalThis.contentSliderPressed) {
       const container = document.querySelector(
-        "#universal_info_display_content_slider"
+        "#content-slider"
       ) as HTMLElement;
 
       container.style.overflowX = "hidden";
       setTimeout(() => {
         document
-          .querySelectorAll(".content_page")
+          .querySelectorAll(".content-page")
           [selectedPageIdx - 1]?.scrollIntoView({
             inline: "center",
           });
@@ -248,8 +257,8 @@ const Page = ({
 
   return (
     <div
-      id={`content_page${num}`}
-      className="content_page"
+      id={`content-page${num}`}
+      className="content-page"
       onTouchStart={(e) => {
         globalThis.contentSliderPressed = true;
         globalThis.pageSliderPressed = false;
@@ -257,15 +266,16 @@ const Page = ({
         globalThis.choiceSliderPressed = false;
       }}
     >
+      <div id={`half-page${num}`} className="half-page" />
       {items?.length === 0 && !fetching && (
         <>
-          <img className="page_bg" src="/media/bg.jpg" />
+          <img className="page-bg" src="/media/bg.jpg" />
           <span className="no-items">{text}</span>
         </>
       )}
 
       {(items?.length === 0 || !selectedGroup) && (
-        <img className="page_bg" src="/media/bg.jpg" />
+        <img className="page-bg" src="/media/bg.jpg" />
       )}
 
       {!fetching && items?.length && (

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { createDocumentRegistry } from "typescript";
 import "./Grid.css";
 
 import { UniversalInfoDisplayItem } from "./Shell";

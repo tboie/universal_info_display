@@ -1,4 +1,4 @@
-.content_slider {
+.content-slider {
   position: relative;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -10,7 +10,7 @@
   border-top: 1px solid #2e2f41;
 }
 
-.content_page {
+.content-page {
   background-color: #1e1f33;
   color: #1e1f33;
   width: 100%;
@@ -21,11 +21,11 @@
   max-height: 100%;
 }
 
-.content_page:last-of-type {
+.content-page:last-of-type {
   overflow: hidden;
 }
 
-.content_page .no-items {
+.content-page .no-items {
   position: absolute;
   font-size: 1.5rem;
   color: rgba(252, 252, 252, 1);
@@ -39,9 +39,15 @@
   z-index: 1;
 }
 
-.page_bg {
+.page-bg {
   position: absolute;
   height: 100%;
   width: 100%;
   opacity: 0.8;
+}
+
+.half-page {
+  height: 0;
+  width: 0;
+  margin-left: 50%;
 }
