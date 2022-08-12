@@ -214,14 +214,14 @@ const Page = ({
       optSnapRight
     );
 
-    const elePage = document.querySelector(`.content-page:nth-of-type(${num})`);
+    const elePage = document.querySelectorAll(".content-page")[num - 1];
     if (elePage) {
       obsPageChange.observe(elePage);
       obsSnapLeft.observe(elePage);
       obsSnapRight.observe(elePage);
     }
 
-    const eleHalf = document.querySelector(`.half-page:nth-of-type(${num})`);
+    const eleHalf = document.querySelectorAll(".half-page")[num - 1];
     if (eleHalf) {
       obsSnapLeft.observe(eleHalf);
       obsSnapRight.observe(eleHalf);
