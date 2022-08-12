@@ -67,7 +67,7 @@
 .slider button {
   position: fixed;
   background-color: #1b1a26;
-  color: rgba(128, 240, 119, 0.5);
+  color: rgba(128, 240, 119, 0.9);
   text-shadow: 1px 1px green;
   display: flex;
   justify-content: center;
