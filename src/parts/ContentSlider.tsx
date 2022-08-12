@@ -4,6 +4,16 @@ import { useEffect } from "react";
 import { chunkArr, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 
+type PartContentSliderType = {
+  items: UniversalInfoDisplayItem[];
+  selectedGroup: string;
+  selectedPageIdx: number;
+  setSelectedPageIdx: (val: number) => any;
+  setSelectedItemIdx: (val: any) => any;
+  getData: (group: string) => void;
+  fetching: boolean;
+};
+
 const ContentSlider = ({
   items,
   selectedGroup,
@@ -12,15 +22,7 @@ const ContentSlider = ({
   setSelectedItemIdx,
   getData,
   fetching,
-}: {
-  items: UniversalInfoDisplayItem[];
-  selectedGroup: string;
-  selectedPageIdx: number;
-  setSelectedPageIdx: (val: number) => any;
-  setSelectedItemIdx: (val: any) => any;
-  getData: (group: string) => void;
-  fetching: boolean;
-}) => {
+}: PartContentSliderType) => {
   const initScrollSpeedListener = () => {
     // scroll speed/direction
     const container = document.getElementById("content-slider");

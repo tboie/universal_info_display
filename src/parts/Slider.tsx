@@ -1,29 +1,29 @@
 import "./Slider.css";
 
 import { useEffect } from "react";
-import { FilterChoice, FilterChoiceValues } from "./Shell";
+import { FilterChoice } from "./Shell";
 
-export type T_SLIDER_TYPE = "choice" | "group" | "page" | "clear-filters";
+export type SliderType = "choice" | "group" | "page" | "clear-filters";
 
-type T_SLIDER = {
-  type: T_SLIDER_TYPE;
+type PartSliderType = {
+  type: SliderType;
   titles?: string[];
   choices?: FilterChoice[];
   selected: string[] | FilterChoice[];
-  select: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
+  select: (type: SliderType, title: string, field?: string) => void;
   setSelectedPageIdx?: (val: number) => any;
   fetching: boolean;
   aliases?: any;
   filtersOn?: boolean;
 };
 
-type T_SLIDER_LABEL = {
+type PartSliderLabelType = {
   idx: number;
-  type: T_SLIDER_TYPE;
+  type: SliderType;
   title: string;
   field?: string;
   on: boolean;
-  click: (type: T_SLIDER_TYPE, title: string, field?: string) => void;
+  click: (type: SliderType, title: string, field?: string) => void;
   aliases?: any;
   filtersOn?: boolean;
 };
@@ -38,7 +38,7 @@ const Slider = ({
   fetching,
   aliases,
   filtersOn,
-}: T_SLIDER) => {
+}: PartSliderType) => {
   useEffect(() => {
     let observer: IntersectionObserver;
     const container = document.querySelector(`.slider.${type}`);
@@ -220,7 +220,7 @@ const Label = ({
   click,
   aliases,
   filtersOn,
-}: T_SLIDER_LABEL) => {
+}: PartSliderLabelType) => {
   return (
     <span
       id={`slider_label_${type + idx}`}

@@ -3,7 +3,7 @@ import "./StatusBar.css";
 import { filterOn, filtersOn } from "./ButtonBar";
 import { FilterChoice, Filter, FilterType, Store } from "./Shell";
 
-type StatusBar = {
+type PartStatusBarType = {
   selectedGroup: string;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (idx: number) => void;
@@ -37,7 +37,7 @@ const StatusBar = ({
   selectedStore,
   setSelectedStore,
   clearFilters,
-}: StatusBar) => {
+}: PartStatusBarType) => {
   const getChoiceText = (choices: FilterChoice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {

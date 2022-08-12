@@ -2,7 +2,7 @@ import "./TitleBar.css";
 
 import { Store } from "./Shell";
 
-type TypeTitleBar = {
+type PartTitleBarType = {
   selectedGroup: string;
   selectedPageIdx: number;
   totalPages: number;
@@ -24,7 +24,7 @@ const TitleBar = ({
   totalItems,
   close,
   showCloseIcon,
-}: TypeTitleBar) => {
+}: PartTitleBarType) => {
   return (
     <div
       className={`titlebar ${

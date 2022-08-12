@@ -2,17 +2,19 @@ import "./Grid.css";
 
 import { UniversalInfoDisplayItem } from "./Shell";
 
-const GridItems = ({
-  items,
-  setSelectedItemIdx,
-  selectedGroup,
-  getData,
-}: {
+type PartGridType = {
   items: UniversalInfoDisplayItem[];
   setSelectedItemIdx: (val: number) => any;
   selectedGroup: string;
   getData: (group: string) => void;
-}) => {
+};
+
+const Grid = ({
+  items,
+  setSelectedItemIdx,
+  selectedGroup,
+  getData,
+}: PartGridType) => {
   return items.length ? (
     <div
       className={`item-grid ${
@@ -91,4 +93,4 @@ const GridItems = ({
   ) : null;
 };
 
-export default GridItems;
+export default Grid;

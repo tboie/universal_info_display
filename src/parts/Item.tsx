@@ -2,13 +2,12 @@ import "./Item.css";
 
 import { UniversalInfoDisplayItem } from "./Shell";
 
-const Item = ({
-  item,
-  close,
-}: {
+type PartItemType = {
   item: UniversalInfoDisplayItem;
   close: (val: number) => any;
-}) => {
+};
+
+const Item = ({ item, close }: PartItemType) => {
   return (
     <div id="item">
       <img src={"/media/flower.gif"} />

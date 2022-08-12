@@ -11,7 +11,7 @@ import StatusBar from "./StatusBar";
 import MapWrapper from "./Map";
 import Range from "./Range";
 import Item from "./Item";
-import Slider, { T_SLIDER_TYPE } from "./Slider";
+import Slider, { SliderType } from "./Slider";
 import TitleBar from "./TitleBar";
 import { getDistance } from "geolib";
 import groupFilterData from "./config/groups.json";
@@ -318,7 +318,7 @@ const UniversalInfoDisplay = () => {
     return filteredItems;
   };
 
-  const sliderSelect = (type: T_SLIDER_TYPE, title: string, field?: string) => {
+  const sliderSelect = (type: SliderType, title: string, field?: string) => {
     const toggleChoice = (
       choices: FilterChoice[],
       field: string,

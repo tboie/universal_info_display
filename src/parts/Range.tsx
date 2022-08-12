@@ -3,19 +3,16 @@ import "./Range.css";
 import { Filter, FilterOp } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
-let thumbState: "pressed" | "changed" | "ready" = "ready";
-
-const Range = ({
-  idx,
-  f,
-  set,
-  setF,
-}: {
+type PartRangeType = {
   idx: number;
   f: Filter;
   set: (idx: number, unit: string, val: number, op: FilterOp) => void;
   setF?: (f: Filter) => void;
-}) => {
+};
+
+let thumbState: "pressed" | "changed" | "ready" = "ready";
+
+const Range = ({ idx, f, set, setF }: PartRangeType) => {
   const getThumbRight = () => {
     // this works, but wasn't meant for this.
     const val = f.val as number;
