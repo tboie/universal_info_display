@@ -117,7 +117,7 @@ const Slider = ({
       });
       if (idx !== choices.length - 1) {
         eleLabels.push(
-          <span key={`choice-${c.field}-${idx}`} className="slider_label">
+          <span key={`choice-${c.field}-${idx}`} className="slider_label dot">
             ·
           </span>
         );
