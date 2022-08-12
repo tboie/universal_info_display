@@ -38,7 +38,7 @@ const GridItems = ({
                 <>
                   <span className="price">{"$" + item["$"]}</span>
                   <span className="choice">
-                    {item["g"] ? item["g"].join(",") : ""}
+                    {item["g"] ? item["g"].join(",") + "g" : ""}
                   </span>
                   {/*}
                   <span className="percent">
