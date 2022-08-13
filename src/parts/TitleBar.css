@@ -9,6 +9,7 @@
   color: #80f077;
   padding: 0 0.25rem;
   height: 1.5rem;
+  border-top: 1px solid #2e2f41;
 }
 
 .titlebar .title {
