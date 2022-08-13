@@ -472,9 +472,10 @@ const UniversalInfoDisplay = () => {
             dist = dist / 1609.34;
             return { ...k, dist: dist.toFixed(3) };
           }
+          return { ...k, dist: 0 };
         })
         .sort((a, b) => a.dist - b.dist)
-        .filter((i) => i.dist < miles);
+        .filter((i) => i.dist && i.dist < miles);
 
       // all fetches
       const reqs: any = [];
@@ -789,6 +790,7 @@ const UniversalInfoDisplay = () => {
               );
             }
           }
+          return null;
         })}
 
       {!map && selectedGroup && !fetching && (

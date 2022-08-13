@@ -225,6 +225,7 @@ const StatusBar = ({
                 );
               }
             }
+            return null;
           })}
         </span>
       )}
