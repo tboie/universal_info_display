@@ -89,7 +89,6 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
             // Custom thumb press to toggle sort ... last resort
             // lots of values taken from css, these can be retrieved from elements
             // TODO: optimize if works
-            const input = e.currentTarget;
             let valPercent = (100 - getThumbRight()) * 0.01;
             const inputWidth = e.currentTarget.getBoundingClientRect().width;
             const valLeft = valPercent * inputWidth;
