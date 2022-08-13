@@ -17,6 +17,10 @@
   height: 2.8rem;
 }
 
+.slider.page {
+  border-bottom: 1px solid #2e2f41;
+}
+
 .slider_label {
   position: relative;
   height: 100%;
