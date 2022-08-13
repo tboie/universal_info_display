@@ -49,10 +49,6 @@ export type Store = {
   numItems: number;
 };
 
-export type Slider = {
-  type: "group" | "page" | "choice";
-};
-
 // filters
 export type FilterType = "choice" | "range";
 export type FilterChoiceType = "string" | "number";

@@ -253,13 +253,13 @@ const Page = ({
     <div id={`content-page${num}`} className="content-page">
       {items?.length === 0 && !fetching && (
         <>
-          <img className="page-bg" src="/media/bg.jpg" />
+          <img className="page-bg" src="/media/bg.jpg" alt="bg" />
           <span className="no-items">{text}</span>
         </>
       )}
 
       {(items?.length === 0 || !selectedGroup) && (
-        <img className="page-bg" src="/media/bg.jpg" />
+        <img className="page-bg" src="/media/bg.jpg" alt="bg" />
       )}
 
       {!fetching && items?.length && (

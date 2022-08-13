@@ -61,7 +61,7 @@ const Grid = ({
               {
                 // only glow flower for now
                 (item.n === "flower" || selectedGroup === "flower") && (
-                  <img className="glow" src="/media/glow.png" />
+                  <img className="glow" src="/media/glow.png" alt="glow" />
                 )
               }
               <img
@@ -80,7 +80,7 @@ const Grid = ({
                 }`*/
                 }
                 loading="lazy"
-                alt="image"
+                alt="thumb"
               ></img>
             </div>
           </div>

@@ -10,7 +10,7 @@ type PartItemType = {
 const Item = ({ item, close }: PartItemType) => {
   return (
     <div id="item">
-      <img src={"/media/flower.gif"} />
+      <img src={"/media/flower.gif"} alt="item" />
       <button id="item_close" onClick={() => close(-1)}>
         X
       </button>
