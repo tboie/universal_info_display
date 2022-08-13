@@ -147,7 +147,7 @@ const UniversalInfoDisplay = () => {
       field: c.field,
       values:
         c.field && filterDefaults[groupIdx][c.field]
-          ? [filterDefaults[groupIdx][c.field]]
+          ? filterDefaults[groupIdx][c.field]
           : [],
       type: type,
     }));

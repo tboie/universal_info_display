@@ -1,6 +1,7 @@
 import "./StatusBar.css";
 
 import { FilterChoice, Filter, FilterType, Store } from "./Shell";
+import { isIdentifierOrPrivateIdentifier } from "typescript";
 
 type PartStatusBarType = {
   selectedGroup: string;
@@ -67,12 +68,15 @@ const StatusBar = ({
     const allChoices: string[] = [];
     choices.forEach((c) => {
       // sort numbers
-      if (c.type === "number") {
-        c.values.sort((a: any, b: any) => a - b);
-      }
+      c.type === "number"
+        ? c.values.sort((a: any, b: any) => a - b)
+        : c.values.sort();
 
+      // get each value text
       c.values.forEach((v) => {
         let alias: string = "";
+
+        // use field alias if defined
         if (aliases && c.field && aliases[c.field] && aliases[c.field][v]) {
           alias = aliases[c.field][v];
         }
