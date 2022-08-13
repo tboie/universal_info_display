@@ -18,21 +18,16 @@ import groupFilterData from "./config/groups.json";
 import itemAliasData from "./config/item_aliases.json";
 import filterDefaultData from "./config/filter_defaults.json";
 
-// globals
+// page change and page snap utils
 declare global {
   var contentSliderPressed: boolean;
   var pageSliderPressed: boolean;
-  var groupSliderPressed: boolean;
-  var choiceSliderPressed: boolean;
   var scrollSpeed: number;
   var scrollDirection: "left" | "right" | "stopped";
 }
 
-// TODO: revisit these for page snaps
 globalThis.contentSliderPressed = false;
 globalThis.pageSliderPressed = false;
-globalThis.groupSliderPressed = false;
-globalThis.choiceSliderPressed = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
@@ -41,17 +36,6 @@ export function chunkArr(arr: any[], size: number) {
   return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
-}
-
-export function chunkString(str: string, len: number) {
-  const size = Math.ceil(str.length / len);
-  const r = Array(size);
-  let offset = 0;
-  for (let i = 0; i < size; i++) {
-    r[i] = str.substr(offset, len);
-    offset += len;
-  }
-  return r;
 }
 
 // serious
@@ -450,7 +434,6 @@ const UniversalInfoDisplay = () => {
       return f.type === "choice" ? clearChoiceVal(f) : clearRangeVal(f);
     };
 
-    globalThis.pageSliderPressed = false;
     setSelectedPageIdx(1);
 
     [
@@ -669,7 +652,14 @@ const UniversalInfoDisplay = () => {
   };
 
   return (
-    <div className="universal_info_display">
+    <div
+      className="universal_info_display"
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        globalThis.contentSliderPressed = false;
+        globalThis.pageSliderPressed = false;
+      }}
+    >
       <TitleBar
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}

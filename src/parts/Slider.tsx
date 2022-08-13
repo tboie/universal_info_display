@@ -132,20 +132,11 @@ const Slider = ({
       className={`slider ${type} ${
         type === "page" && titles?.length ? "tick" : ""
       }`}
-      onTouchStart={() => {
+      onTouchStart={(e) => {
+        e.stopPropagation();
         globalThis.contentSliderPressed = false;
         if (type === "page") {
-          globalThis.groupSliderPressed = false;
-          globalThis.choiceSliderPressed = false;
           globalThis.pageSliderPressed = true;
-        } else if (type === "group") {
-          globalThis.pageSliderPressed = false;
-          globalThis.choiceSliderPressed = false;
-          globalThis.groupSliderPressed = true;
-        } else if (type === "choice") {
-          globalThis.pageSliderPressed = false;
-          globalThis.groupSliderPressed = false;
-          globalThis.choiceSliderPressed = true;
         }
       }}
     >
@@ -171,8 +162,6 @@ const Slider = ({
           <button
             id="btn_first"
             onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
               if (setSelectedPageIdx) {
                 globalThis.pageSliderPressed = false;
                 setSelectedPageIdx(1);
@@ -184,8 +173,6 @@ const Slider = ({
           <button
             id="btn_last"
             onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
               if (setSelectedPageIdx) {
                 globalThis.pageSliderPressed = false;
                 setSelectedPageIdx(titles.length);
@@ -229,8 +216,8 @@ const Label = ({
       } ${type === "clear-filters" ? (filtersOn ? "" : "disabled") : ""}`}
       onClick={(e) => {
         e.stopPropagation();
-        e.preventDefault();
         if (type === "page") {
+          globalThis.contentSliderPressed = false;
           globalThis.pageSliderPressed = false;
         }
         click(type, title, field);

@@ -40,8 +40,6 @@ const TitleBar = ({
           <span
             className="group"
             onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
               close && close();
             }}
           >
@@ -73,8 +71,6 @@ const TitleBar = ({
         <span
           className="close"
           onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
             close();
           }}
         >

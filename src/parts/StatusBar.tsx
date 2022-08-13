@@ -167,13 +167,7 @@ const StatusBar = ({
   return (
     <div className={"statusbar"}>
       {!fetching && selectedGroup && (
-        <div
-          className={"search"}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-        >
+        <div className={"search"}>
           <img src="/media/search.svg" />
         </div>
       )}
@@ -191,8 +185,6 @@ const StatusBar = ({
                       selectedFilterIdx === idx ? "sel" : ""
                     } ${filterOn(getFilterByIdx(idx)) ? "on" : ""}`}
                     onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
                       setSelectedFilter(
                         idx,
                         f.type,
@@ -216,8 +208,6 @@ const StatusBar = ({
                       getFilterByIdx(idx)?.sort ? "sort" : ""
                     }`}
                     onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
                       setSelectedFilter(
                         idx,
                         f.type,
@@ -240,8 +230,6 @@ const StatusBar = ({
           <button
             className={"clear-filters"}
             onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
               clearFilters();
             }}
           >

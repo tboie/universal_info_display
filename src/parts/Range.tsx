@@ -68,8 +68,6 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
         <span
           className="range_label min"
           onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
             toggleSort();
           }}
         >
@@ -125,7 +123,6 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
           max={f.props[1] as number}
           value={f.val as number}
           onChange={(e) => {
-            e.stopPropagation();
             e.preventDefault();
             thumbState = "changed";
             throttle(
@@ -148,8 +145,6 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
         <span
           className="range_label max"
           onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
             toggleSort();
           }}
         >

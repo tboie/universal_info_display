@@ -57,7 +57,15 @@ const ContentSlider = ({
 
   return (
     <>
-      <div id="content-slider" className="content-slider">
+      <div
+        id="content-slider"
+        className="content-slider"
+        onTouchStart={(e) => {
+          e.stopPropagation();
+          globalThis.contentSliderPressed = true;
+          globalThis.pageSliderPressed = false;
+        }}
+      >
         {items?.length ? (
           chunkArr(items, 6).map((items, idx) => (
             <Page
@@ -242,16 +250,7 @@ const Page = ({
   }, [selectedPageIdx]);
 
   return (
-    <div
-      id={`content-page${num}`}
-      className="content-page"
-      onTouchStart={(e) => {
-        globalThis.contentSliderPressed = true;
-        globalThis.pageSliderPressed = false;
-        globalThis.groupSliderPressed = false;
-        globalThis.choiceSliderPressed = false;
-      }}
-    >
+    <div id={`content-page${num}`} className="content-page">
       {items?.length === 0 && !fetching && (
         <>
           <img className="page-bg" src="/media/bg.jpg" />

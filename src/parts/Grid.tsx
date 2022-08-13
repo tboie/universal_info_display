@@ -26,9 +26,6 @@ const Grid = ({
           className={`item`}
           key={item.b + item.n + idx}
           onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-
             selectedGroup ? setSelectedItemIdx(item.id) : getData(item.n);
           }}
         >
