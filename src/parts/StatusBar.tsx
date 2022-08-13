@@ -1,7 +1,6 @@
 import "./StatusBar.css";
 
 import { FilterChoice, Filter, FilterType, Store } from "./Shell";
-import { isIdentifierOrPrivateIdentifier } from "typescript";
 
 type PartStatusBarType = {
   selectedGroup: string;

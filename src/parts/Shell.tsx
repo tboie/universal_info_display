@@ -356,8 +356,10 @@ const UniversalInfoDisplay = () => {
               ...fObj.f,
               val: toggleChoice(fObj.f.val as FilterChoice[], field, title),
             });
+            return true;
           }
         }
+        return false;
       });
     } else if (type === "clear-filters") {
       clearFilters();

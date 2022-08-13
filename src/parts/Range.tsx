@@ -124,6 +124,7 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
           value={f.val as number}
           onChange={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             thumbState = "changed";
             throttle(
               { delay: 15, leading: true, trailing: true },
