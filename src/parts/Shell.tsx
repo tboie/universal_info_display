@@ -7,9 +7,9 @@ import "./Shell.css";
 
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
-import StatusBar from "./StatusBar";
+import StatusBar from "./FilterBar";
 import MapWrapper from "./Map";
-import Range, { RangeStatus } from "./Range";
+import Range from "./Range";
 import Item from "./Item";
 import Slider, { SliderType } from "./Slider";
 import TitleBar from "./TitleBar";

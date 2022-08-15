@@ -1,8 +1,8 @@
-import "./StatusBar.css";
+import "./FilterBar.css";
 
 import { FilterChoice, Filter, FilterType, Store } from "./Shell";
 
-type PartStatusBarType = {
+type PartFilterBarType = {
   selectedGroup: string;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (idx: number) => void;
@@ -20,7 +20,7 @@ type PartStatusBarType = {
   clearFilters: () => void;
 };
 
-const StatusBar = ({
+const FilterBar = ({
   selectedGroup,
   selectedFilterIdx,
   setSelectedFilterIdx,
@@ -36,7 +36,7 @@ const StatusBar = ({
   selectedStore,
   setSelectedStore,
   clearFilters,
-}: PartStatusBarType) => {
+}: PartFilterBarType) => {
   const filterOn = (f?: Filter) => {
     if (f) {
       if (f.type === "choice") {
@@ -244,4 +244,4 @@ const StatusBar = ({
   );
 };
 
-export default StatusBar;
+export default FilterBar;
