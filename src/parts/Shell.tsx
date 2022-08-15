@@ -154,18 +154,9 @@ const UniversalInfoDisplay = () => {
   };
 
   const getFilterByIdx = (idx: number) => {
-    if (idx === 1) {
-      return filter1;
-    } else if (idx === 2) {
-      return filter2;
-    } else if (idx === 3) {
-      return filter3;
-    } else if (idx === 4) {
-      return filter4;
-    } else if (idx === 5) {
-      return filter5;
-    }
-    return undefined;
+    return [filter1, filter2, filter3, filter4, filter5].find(
+      (f) => f && f.i === idx
+    );
   };
 
   // TODO: Design
