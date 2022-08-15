@@ -1,18 +1,19 @@
 import "./Range.css";
 
-import { Filter, FilterOp } from "./Shell";
+import { Filter, FilterOp, FilterType } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
 type PartRangeType = {
   idx: number;
   f: Filter;
-  set: (idx: number, unit: string, val: number, op: FilterOp) => void;
+  set: (idx: number, unit: string, val: number) => void;
   setF?: (f: Filter) => void;
+  setRangeModal?: (val: boolean) => void;
 };
 
 let thumbState: "pressed" | "changed" | "ready" = "ready";
 
-const Range = ({ idx, f, set, setF }: PartRangeType) => {
+const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
   const getThumbRight = () => {
     // this works, but wasn't meant for this.
     const val = f.val as number;
@@ -108,15 +109,18 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
                 thumbState = "pressed";
               }
             }
+            setRangeModal && setRangeModal(true);
           }}
           onPointerUp={(e) => {
             if (thumbState === "pressed") {
               toggleOp();
             }
             thumbState = "ready";
+            setRangeModal && setRangeModal(false);
           }}
           onPointerLeave={(e) => {
             thumbState = "ready";
+            setRangeModal && setRangeModal(false);
           }}
           min={f.props[0] as number}
           max={f.props[1] as number}
@@ -127,7 +131,7 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
             thumbState = "changed";
             throttle(
               { delay: 15, leading: true, trailing: true },
-              set(idx, f.name, e.currentTarget.valueAsNumber, f.op)
+              set(idx, f.name, e.currentTarget.valueAsNumber)
             );
           }}
         />
@@ -155,6 +159,22 @@ const Range = ({ idx, f, set, setF }: PartRangeType) => {
       </div>
     </div>
   );
+};
+
+export const RangeStatus = ({ f }: { f?: Filter }) => {
+  const formatText = () => {
+    let text = "";
+    if (f) {
+      text =
+        f.op +
+        (f.name === "$" ? "$" : "") +
+        f.val.toString() +
+        (f.name !== "$" ? f.name : "");
+    }
+    return text;
+  };
+
+  return <div className={`status`}>{formatText()}</div>;
 };
 
 export default Range;

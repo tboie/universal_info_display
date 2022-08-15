@@ -46,3 +46,19 @@
   width: 100%;
   opacity: 0.8;
 }
+
+.status {
+  position: fixed;
+  left: 0;
+  right: 0;
+  /* titlebar - filterbar - slider x 2 ... flex grow fixed element? */
+  height: calc(100% - 1.6rem - 2rem - 5.6rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: rgb(252, 252, 252);
+  font-size: 4rem;
+  pointer-events: none;
+  z-index: 2;
+}

@@ -9,7 +9,7 @@ import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
 import StatusBar from "./StatusBar";
 import MapWrapper from "./Map";
-import Range from "./Range";
+import Range, { RangeStatus } from "./Range";
 import Item from "./Item";
 import Slider, { SliderType } from "./Slider";
 import TitleBar from "./TitleBar";
@@ -87,6 +87,7 @@ const UniversalInfoDisplay = () => {
   const [filter3, setFilter3] = useState<Filter>();
   const [filter4, setFilter4] = useState<Filter>();
   const [filter5, setFilter5] = useState<Filter>();
+  const [rangeModal, setRangeModal] = useState(false);
 
   const [stores, setStores] = useState<Store[]>([]);
   const [selectedStore, setSelectedStore] = useState<Store | undefined>();
@@ -150,6 +151,21 @@ const UniversalInfoDisplay = () => {
   };
   const getDefaultFilterRangeVal = (name: string, range: FilterRange) => {
     return getDefaultFilterOp("range", name) === "<" ? range[1] : range[0];
+  };
+
+  const getFilterByIdx = (idx: number) => {
+    if (idx === 1) {
+      return filter1;
+    } else if (idx === 2) {
+      return filter2;
+    } else if (idx === 3) {
+      return filter3;
+    } else if (idx === 4) {
+      return filter4;
+    } else if (idx === 5) {
+      return filter5;
+    }
+    return undefined;
   };
 
   // TODO: Design
@@ -366,39 +382,22 @@ const UniversalInfoDisplay = () => {
     }
   };
 
-  const rangeSelect = (
-    idx: number,
-    unit: string,
-    val: number,
-    op: FilterOp
-  ) => {
-    const eleStatus = document.querySelector(
-      "#filter_range_status"
-    ) as HTMLSpanElement;
-
-    if (eleStatus) {
-      eleStatus.style.opacity = "1";
-      eleStatus.innerHTML =
-        op +
-        (unit === "$" ? "$" : "") +
-        val.toString() +
-        (unit !== "$" ? unit : "");
-      setTimeout(() => {
-        eleStatus.style.opacity = "0";
-      }, 1000);
-    }
-
-    if (idx === 1 && filter1) {
-      setFilter1({ ...filter1, val: val });
-    } else if (idx === 2 && filter2) {
-      setFilter2({ ...filter2, val: val });
-    } else if (idx === 3 && filter3) {
-      setFilter3({ ...filter3, val: val });
-    } else if (idx === 4 && filter4) {
-      setFilter4({ ...filter4, val: val });
-    } else if (idx === 5 && filter5) {
-      setFilter5({ ...filter5, val: val });
-    }
+  const rangeSelect = (idx: number, unit: string, val: number) => {
+    [
+      [filter1, setFilter1],
+      [filter2, setFilter2],
+      [filter3, setFilter3],
+      [filter4, setFilter4],
+      [filter5, setFilter5],
+    ].some((fArr: any, i: number) => {
+      if (i + 1 === idx) {
+        if (fArr[0] && fArr[1]) {
+          fArr[1]({ ...fArr[0], val: val });
+          return true;
+        }
+      }
+      return false;
+    });
 
     if (unit === "mi") {
       setMiles(val);
@@ -717,34 +716,33 @@ const UniversalInfoDisplay = () => {
           setSelectedItemIdx={setSelectedItemIdx}
           getData={(group) => getData(group)}
           fetching={fetching}
+          rangeModal={rangeModal}
+          selectedFilter={getFilterByIdx(selectedFilterIdx)}
         />
       )}
 
       {selectedGroup && !fetching && (
-        <>
-          <span id="filter_range_status" />
-          <StatusBar
-            selectedGroup={selectedGroup}
-            selectedFilterIdx={selectedFilterIdx}
-            setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
-            filter1={filter1}
-            filter2={filter2}
-            filter3={filter3}
-            filter4={filter4}
-            filter5={filter5}
-            fetching={fetching}
-            map={map}
-            toggleMap={(val) => toggleMap(val)}
-            aliases={
-              itemAliases[
-                groupFilters.findIndex((g: any) => g.group === selectedGroup)
-              ]
-            }
-            selectedStore={selectedStore}
-            setSelectedStore={setSelectedStore}
-            clearFilters={() => clearFilters()}
-          />
-        </>
+        <StatusBar
+          selectedGroup={selectedGroup}
+          selectedFilterIdx={selectedFilterIdx}
+          setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
+          filter1={filter1}
+          filter2={filter2}
+          filter3={filter3}
+          filter4={filter4}
+          filter5={filter5}
+          fetching={fetching}
+          map={map}
+          toggleMap={(val) => toggleMap(val)}
+          aliases={
+            itemAliases[
+              groupFilters.findIndex((g: any) => g.group === selectedGroup)
+            ]
+          }
+          selectedStore={selectedStore}
+          setSelectedStore={setSelectedStore}
+          clearFilters={() => clearFilters()}
+        />
       )}
 
       {selectedFilterIdx !== 0 &&
@@ -770,6 +768,7 @@ const UniversalInfoDisplay = () => {
                     setFilter5,
                   ].find((sF, i) => i === idx)}
                   set={rangeSelect}
+                  setRangeModal={setRangeModal}
                 />
               );
             } else if (f.type === "choice") {

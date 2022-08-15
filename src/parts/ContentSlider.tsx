@@ -1,8 +1,9 @@
 import "./ContentSlider.css";
 
 import { useEffect } from "react";
-import { chunkArr, UniversalInfoDisplayItem } from "./Shell";
+import { chunkArr, Filter, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
+import { RangeStatus } from "./Range";
 
 type PartContentSliderType = {
   items: UniversalInfoDisplayItem[];
@@ -12,6 +13,8 @@ type PartContentSliderType = {
   setSelectedItemIdx: (val: any) => any;
   getData: (group: string) => void;
   fetching: boolean;
+  rangeModal: boolean;
+  selectedFilter?: Filter;
 };
 
 const ContentSlider = ({
@@ -22,6 +25,8 @@ const ContentSlider = ({
   setSelectedItemIdx,
   getData,
   fetching,
+  rangeModal,
+  selectedFilter,
 }: PartContentSliderType) => {
   const initScrollSpeedListener = () => {
     // scroll speed/direction
@@ -56,36 +61,21 @@ const ContentSlider = ({
   }, []);
 
   return (
-    <>
-      <div
-        id="content-slider"
-        className="content-slider"
-        onTouchStart={(e) => {
-          e.stopPropagation();
-          globalThis.contentSliderPressed = true;
-          globalThis.pageSliderPressed = false;
-        }}
-      >
-        {items?.length ? (
-          chunkArr(items, 6).map((items, idx) => (
-            <Page
-              key={idx}
-              num={idx + 1}
-              items={items}
-              selectedGroup={selectedGroup}
-              selectedPageIdx={selectedPageIdx}
-              setSelectedPageIdx={setSelectedPageIdx}
-              setSelectedItemIdx={setSelectedItemIdx}
-              getData={getData}
-              fetching={fetching}
-            />
-          ))
-        ) : (
+    <div
+      id="content-slider"
+      className="content-slider"
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        globalThis.contentSliderPressed = true;
+        globalThis.pageSliderPressed = false;
+      }}
+    >
+      {items?.length ? (
+        chunkArr(items, 6).map((items, idx) => (
           <Page
-            text={"No Items Found"}
-            key={0}
-            num={1}
-            items={[]}
+            key={idx}
+            num={idx + 1}
+            items={items}
             selectedGroup={selectedGroup}
             selectedPageIdx={selectedPageIdx}
             setSelectedPageIdx={setSelectedPageIdx}
@@ -93,9 +83,24 @@ const ContentSlider = ({
             getData={getData}
             fetching={fetching}
           />
-        )}
-      </div>
-    </>
+        ))
+      ) : (
+        <Page
+          text={"No Items Found"}
+          key={0}
+          num={1}
+          items={[]}
+          selectedGroup={selectedGroup}
+          selectedPageIdx={selectedPageIdx}
+          setSelectedPageIdx={setSelectedPageIdx}
+          setSelectedItemIdx={setSelectedItemIdx}
+          getData={getData}
+          fetching={fetching}
+        />
+      )}
+
+      {rangeModal && <RangeStatus f={selectedFilter} />}
+    </div>
   );
 };
 

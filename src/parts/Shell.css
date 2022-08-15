@@ -11,22 +11,6 @@
   opacity: 0.96;
 }
 
-#filter_range_status {
-  background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  position: fixed;
-  color: rgb(252, 252, 252);
-  font-size: 3rem;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity ease 1s;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .no-pointer-events {
   pointer-events: none;
 }
