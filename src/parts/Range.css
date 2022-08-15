@@ -136,3 +136,46 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-appearance: none;
 }
+
+.range-status {
+  position: fixed;
+  left: 0;
+  right: 0;
+  /* titlebar - filterbar - slider x 2 ... flex grow fixed element? */
+  height: calc(100% - 1.6rem - 2rem - 5.6rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.range-status span {
+  padding: 1rem;
+  border: 1px solid rgba(252, 252, 252, 0.75);
+  color: rgb(252, 252, 252);
+  border-radius: 1rem;
+  font-size: 4rem;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.range-status span.asc {
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.75) 50%,
+    #32409b 50%,
+    #32409b 100%
+  );
+}
+
+.range-status span.desc {
+  background: linear-gradient(
+    to bottom left,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.75) 50%,
+    #32409b 50%,
+    #32409b 100%
+  );
+}

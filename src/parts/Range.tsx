@@ -175,8 +175,14 @@ export const RangeStatus = ({ f }: { f?: Filter }) => {
   };
 
   return (
-    <div className={`status`}>
-      <span>{formatText()}</span>
+    <div className={`range-status`}>
+      <span
+        className={`${
+          f?.sort === "asc" ? "asc" : f?.sort === "desc" ? "desc" : ""
+        }`}
+      >
+        {formatText()}
+      </span>
     </div>
   );
 };
