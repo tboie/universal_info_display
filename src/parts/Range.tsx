@@ -174,7 +174,11 @@ export const RangeStatus = ({ f }: { f?: Filter }) => {
     return text;
   };
 
-  return <div className={`status`}>{formatText()}</div>;
+  return (
+    <div className={`status`}>
+      <span>{formatText()}</span>
+    </div>
+  );
 };
 
 export default Range;
