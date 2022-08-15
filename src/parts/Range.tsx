@@ -162,6 +162,19 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
 };
 
 export const RangeStatus = ({ f }: { f?: Filter }) => {
+  const getActiveWidth = (f: Filter) => {
+    const val = f.val as number;
+    const min = f.props[0] as number;
+    const max = f.props[1] as number;
+    let res = ((val - min) * 100) / (max - min);
+
+    if (f.op === ">") {
+      res = 100 - res;
+    }
+
+    return res;
+  };
+
   const formatText = () => {
     let text = "";
     if (f) {
@@ -175,14 +188,22 @@ export const RangeStatus = ({ f }: { f?: Filter }) => {
   };
 
   return (
-    <div className={`range-status`}>
-      <span
-        className={`${
-          f?.sort === "asc" ? "asc" : f?.sort === "desc" ? "desc" : ""
-        }`}
-      >
-        {formatText()}
-      </span>
+    <div
+      className={`range-status 
+      ${f?.sort === "asc" ? "asc" : ""} 
+      ${f?.sort === "desc" ? "desc" : ""} 
+      ${f?.op === ">" ? "gt" : ""} 
+      ${f?.op === "<" ? "lt" : ""}`}
+    >
+      <div className={`container`}>
+        <div
+          className={`active`}
+          style={{
+            width: (f ? getActiveWidth(f) : 0) + "%",
+          }}
+        />
+        <span className={`text`}>{formatText()}</span>
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@
   margin: 0 12%;
 }
 
-.range_control .active {
+.active {
   position: absolute;
   height: 100%;
   background-color: gold;
@@ -21,31 +21,36 @@
 }
 
 .range_control.gt .active,
-.range_control.desc.lt .active {
+.range_control.desc.lt .active,
+.range-status.gt .active,
+.range-status.desc.lt .active {
   right: 0;
   left: auto;
 }
 
-.range_control.desc.gt .active {
+.range_control.desc.gt .active,
+.range-status.desc.gt .active {
   left: 0;
   right: auto;
 }
 
-.range_control.asc .range_wrapper {
+.range_control.asc .range_wrapper,
+.range-status.asc .container {
   background: linear-gradient(
     to bottom right,
-    transparent 0%,
-    transparent 50%,
+    #1b1a26 0%,
+    #1b1a26 50%,
     #32409b 50%,
     #32409b 100%
   );
 }
 
-.range_control.desc .range_wrapper {
+.range_control.desc .range_wrapper,
+.range-status.desc .container {
   background: linear-gradient(
     to bottom left,
-    transparent 0%,
-    transparent 50%,
+    #1b1a26 0%,
+    #1b1a26 50%,
     #32409b 50%,
     #32409b 100%
   );
@@ -148,34 +153,23 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.75);
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
 }
 
-.range-status span {
-  padding: 1rem;
+.range-status .container {
+  background-color: #1b1a26;
+  position: relative;
   border: 1px solid rgba(252, 252, 252, 0.75);
   color: rgb(252, 252, 252);
   border-radius: 1rem;
   font-size: 4rem;
-  background: rgba(0, 0, 0, 0.75);
 }
 
-.range-status span.asc {
-  background: linear-gradient(
-    to bottom right,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.75) 50%,
-    #32409b 50%,
-    #32409b 100%
-  );
+.range-status .text {
+  margin: 1rem 1.5rem;
+  display: flex;
 }
 
-.range-status span.desc {
-  background: linear-gradient(
-    to bottom left,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.75) 50%,
-    #32409b 50%,
-    #32409b 100%
-  );
+.range-status .active {
+  opacity: 0.2;
 }
