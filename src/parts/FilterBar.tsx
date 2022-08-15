@@ -151,22 +151,6 @@ const FilterBar = ({
     }
   };
 
-  // TODO: add idx to Filter type
-  const getFilterByIdx = (idx: number) => {
-    if (idx === 1) {
-      return filter1;
-    } else if (idx === 2) {
-      return filter2;
-    } else if (idx === 3) {
-      return filter3;
-    } else if (idx === 4) {
-      return filter4;
-    } else if (idx === 5) {
-      return filter5;
-    }
-    return undefined;
-  };
-
   return (
     <div className={"statusbar"}>
       {!fetching && selectedGroup && (
@@ -186,7 +170,7 @@ const FilterBar = ({
                     key={`status-${f.name}`}
                     className={`filter-vals ${
                       selectedFilterIdx === idx ? "sel" : ""
-                    } ${filterOn(getFilterByIdx(idx)) ? "on" : ""}`}
+                    } ${filterOn(f) ? "on" : ""}`}
                     onClick={(e) => {
                       setSelectedFilter(
                         idx,
@@ -207,9 +191,7 @@ const FilterBar = ({
                     key={`status-${f.name}`}
                     className={`filter-vals ${
                       selectedFilterIdx === idx ? "sel" : ""
-                    } ${filterOn(getFilterByIdx(idx)) ? "on" : ""} ${
-                      getFilterByIdx(idx)?.sort ? "sort" : ""
-                    }`}
+                    } ${filterOn(f) ? "on" : ""} ${f?.sort ? "sort" : ""}`}
                     onClick={(e) => {
                       setSelectedFilter(
                         idx,
