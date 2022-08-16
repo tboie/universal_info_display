@@ -61,13 +61,13 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
 
   return (
     <div
-      className={`range_control ${f.sort === "asc" ? "asc" : ""}${
+      className={`range-control ${f.sort === "asc" ? "asc" : ""}${
         f.sort === "desc" ? "desc" : ""
       } ${f.op === ">" ? "gt" : "lt"}`}
     >
-      <div className={`range_wrapper`}>
+      <div className={`range-wrapper`}>
         <span
-          className="range_label min"
+          className="range-label min"
           onClick={(e) => {
             toggleSort();
           }}
@@ -147,7 +147,7 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
         </span>
 
         <span
-          className="range_label max"
+          className="range-label max"
           onClick={(e) => {
             toggleSort();
           }}

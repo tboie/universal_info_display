@@ -152,7 +152,7 @@ const FilterBar = ({
   };
 
   return (
-    <div className={"statusbar"}>
+    <div className={"filterbar"}>
       {!fetching && selectedGroup && (
         <div className={"search"}>
           <img src="/media/search.svg" alt="search" />

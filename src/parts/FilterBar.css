@@ -1,4 +1,4 @@
-.statusbar {
+.filterbar {
   position: relative;
   background-color: #1b1a26;
   display: flex;
@@ -11,7 +11,7 @@
   height: 2rem;
 }
 
-.statusbar .search {
+.filterbar .search {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,42 +22,42 @@
   opacity: 0.8;
 }
 
-.statusbar img {
+.filterbar img {
   height: 1rem;
   width: 1rem;
   opacity: 0.8;
 }
 
-.statusbar .filters {
+.filterbar .filters {
   white-space: nowrap;
   overflow-x: scroll;
   height: 100%;
   display: flex;
 }
 
-.statusbar .filters span {
+.filterbar .filters span {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.statusbar .filters .filter-vals {
+.filterbar .filters .filter-vals {
   margin-right: 0.5rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
 
-.statusbar .filters .filter-vals.on,
-.statusbar .filters .filter-vals.sort {
+.filterbar .filters .filter-vals.on,
+.filterbar .filters .filter-vals.sort {
   color: gold;
 }
 
-.statusbar .filters .filter-vals.sel {
+.filterbar .filters .filter-vals.sel {
   border: 1px solid rgba(255, 212, 0, 0.8);
 }
 
-.statusbar .clear-filters {
+.filterbar .clear-filters {
   margin-left: auto;
   color: rgb(152, 59, 99);
   background: transparent;

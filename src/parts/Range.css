@@ -1,11 +1,11 @@
-.range_control {
+.range-control {
   position: relative;
   width: 100%;
   height: 2.8rem;
   border-top: 1px solid #2e2f41;
 }
 
-.range_control .range_wrapper {
+.range-control .range-wrapper {
   position: relative;
   width: 76%;
   height: 100%;
@@ -20,21 +20,21 @@
   left: 0;
 }
 
-.range_control.gt .active,
-.range_control.desc.lt .active,
+.range-control.gt .active,
+.range-control.desc.lt .active,
 .range-status.gt .active,
 .range-status.desc.lt .active {
   right: 0;
   left: auto;
 }
 
-.range_control.desc.gt .active,
+.range-control.desc.gt .active,
 .range-status.desc.gt .active {
   left: 0;
   right: auto;
 }
 
-.range_control.asc .range_wrapper,
+.range-control.asc .range-wrapper,
 .range-status.asc .container {
   background: linear-gradient(
     to bottom right,
@@ -45,7 +45,7 @@
   );
 }
 
-.range_control.desc .range_wrapper,
+.range-control.desc .range-wrapper,
 .range-status.desc .container {
   background: linear-gradient(
     to bottom left,
@@ -56,7 +56,7 @@
   );
 }
 
-.range_label {
+.range-label {
   color: #80f077;
   position: absolute;
   top: 0;
@@ -67,29 +67,29 @@
   font-size: 0.8rem;
 }
 
-.range_control .min {
+.range-control .min {
   left: 0;
   transform: translateX(-100%);
   padding-right: 0.2rem;
 }
 
-.range_control .max {
+.range-control .max {
   right: 0;
   transform: translateX(100%);
   padding-left: 0.2rem;
 }
 
-.range_control.asc .min,
-.range_control.desc .max {
+.range-control.asc .min,
+.range-control.desc .max {
   padding-top: 1.25rem;
 }
 
-.range_control.asc .max,
-.range_control.desc .min {
+.range-control.asc .max,
+.range-control.desc .min {
   padding-bottom: 1.25rem;
 }
 
-.range_control .thumb {
+.range-control .thumb {
   position: absolute;
   pointer-events: none;
   height: 2rem;
@@ -116,7 +116,7 @@ input {
   background-color: transparent;
 }
 
-.range_control.desc input {
+.range-control.desc input {
   direction: rtl;
 }
 

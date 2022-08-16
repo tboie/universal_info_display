@@ -42,7 +42,7 @@ const Slider = ({
   useEffect(() => {
     let observer: IntersectionObserver;
     const container = document.querySelector(`.slider.${type}`);
-    const labels = document.querySelectorAll(`.slider.${type} .slider_label`);
+    const labels = document.querySelectorAll(`.slider.${type} .slider-label`);
 
     if (container) {
       const handleIntersect: IntersectionObserverCallback = (entries) => {
@@ -55,7 +55,7 @@ const Slider = ({
             ) {
               const ele = entry.target as HTMLElement;
               const idx =
-                parseInt(ele.id.replace("slider_label_" + type, "")) - 1;
+                parseInt(ele.id.replace("slider-label-" + type, "")) - 1;
               const title = titles[idx];
               select(type, title);
             }
@@ -117,7 +117,7 @@ const Slider = ({
       });
       if (idx !== choices.length - 1) {
         eleLabels.push(
-          <span key={`choice-${c.field}-${idx}`} className="slider_label dot">
+          <span key={`choice-${c.field}-${idx}`} className="slider-label dot">
             ·
           </span>
         );
@@ -160,7 +160,7 @@ const Slider = ({
       {type === "page" && !fetching && titles?.length ? (
         <>
           <button
-            id="btn_first"
+            id="btn-first"
             onClick={(e) => {
               if (setSelectedPageIdx) {
                 globalThis.pageSliderPressed = false;
@@ -171,7 +171,7 @@ const Slider = ({
             {"<<"}
           </button>
           <button
-            id="btn_last"
+            id="btn-last"
             onClick={(e) => {
               if (setSelectedPageIdx) {
                 globalThis.pageSliderPressed = false;
@@ -210,8 +210,8 @@ const Label = ({
 }: PartSliderLabelType) => {
   return (
     <span
-      id={`slider_label_${type + idx}`}
-      className={`slider_label ${on ? "selected" : ""} ${
+      id={`slider-label-${type + idx}`}
+      className={`slider-label ${on ? "selected" : ""} ${
         type === "clear-filters" ? "clear-filters" : ""
       } ${type === "clear-filters" ? (filtersOn ? "" : "disabled") : ""}`}
       onClick={(e) => {

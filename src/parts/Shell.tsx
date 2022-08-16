@@ -642,7 +642,7 @@ const UniversalInfoDisplay = () => {
 
   return (
     <div
-      className="universal_info_display"
+      className="universal-info-display"
       onTouchStart={(e) => {
         e.stopPropagation();
         globalThis.contentSliderPressed = false;
