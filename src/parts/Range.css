@@ -161,7 +161,7 @@ input[type="range"]::-webkit-slider-thumb {
   position: relative;
   border: 1px solid rgba(252, 252, 252, 0.75);
   color: rgb(252, 252, 252);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   font-size: 4rem;
 }
 

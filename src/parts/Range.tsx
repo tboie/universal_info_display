@@ -13,6 +13,19 @@ type PartRangeType = {
 
 let thumbState: "pressed" | "changed" | "ready" = "ready";
 
+const getActiveWidth = (f: Filter) => {
+  const val = f.val as number;
+  const min = f.props[0] as number;
+  const max = f.props[1] as number;
+  let res = ((val - min) * 100) / (max - min);
+
+  if (f.op === ">") {
+    res = 100 - res;
+  }
+
+  return res;
+};
+
 const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
   const getThumbRight = () => {
     // this works, but wasn't meant for this.
@@ -23,19 +36,6 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
     if (!f.sort || f.sort === "asc") {
       res = 100 - res;
     }
-    return res;
-  };
-
-  const getActiveWidth = () => {
-    const val = f.val as number;
-    const min = f.props[0] as number;
-    const max = f.props[1] as number;
-    let res = ((val - min) * 100) / (max - min);
-
-    if (f.op === ">") {
-      res = 100 - res;
-    }
-
     return res;
   };
 
@@ -80,7 +80,7 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
         <div
           className="active"
           style={{
-            width: getActiveWidth() + "%",
+            width: getActiveWidth(f) + "%",
           }}
         />
 
@@ -162,19 +162,6 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
 };
 
 export const RangeStatus = ({ f }: { f?: Filter }) => {
-  const getActiveWidth = (f: Filter) => {
-    const val = f.val as number;
-    const min = f.props[0] as number;
-    const max = f.props[1] as number;
-    let res = ((val - min) * 100) / (max - min);
-
-    if (f.op === ">") {
-      res = 100 - res;
-    }
-
-    return res;
-  };
-
   const formatText = () => {
     let text = "";
     if (f) {
