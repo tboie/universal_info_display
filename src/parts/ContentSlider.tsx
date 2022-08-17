@@ -5,6 +5,8 @@ import { chunkArr, Filter, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 import { RangeStatus } from "./Range";
 
+const snapThreshold = 0.39;
+
 type PartContentSliderType = {
   items: UniversalInfoDisplayItem[];
   selectedGroup: string;
@@ -127,66 +129,48 @@ const Page = ({
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
-    const handleSnapLeft = (entries: any, observer: any) => {
-      entries.forEach((entry: any) => {
-        if (entry.isIntersecting) {
-          if (globalThis.contentSliderPressed) {
-            if (scrollDirection === "left") {
-              if (scrollSpeed < 0.39) {
-                const container = document.querySelector(
-                  "#content-slider"
-                ) as HTMLElement;
+    const snapPage = (target: HTMLElement) => {
+      const container = document.querySelector(
+        "#content-slider"
+      ) as HTMLElement;
 
-                container.style.overflowX = "hidden";
-                setTimeout(() => {
-                  entry.target.scrollIntoView({
-                    inline: "center",
-                  });
-                }, 10);
-                setTimeout(() => {
-                  container.style.overflowX = "scroll";
-                }, 100);
-              }
-            }
+      container.style.overflowX = "hidden";
+      setTimeout(() => {
+        target.scrollIntoView({
+          inline: "center",
+        });
+      }, 10);
+      setTimeout(() => {
+        container.style.overflowX = "scroll";
+      }, 50);
+    };
+
+    const handleSnapLeft = (entries: any) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting && globalThis.contentSliderPressed) {
+          if (scrollDirection === "left" && scrollSpeed < snapThreshold) {
+            snapPage(entry.target);
           }
         }
       });
     };
 
-    const handleSnapRight = (entries: any, observer: any) => {
+    const handleSnapRight = (entries: any) => {
       entries.forEach((entry: any) => {
-        if (entry.isIntersecting) {
-          if (globalThis.contentSliderPressed) {
-            if (scrollDirection === "right") {
-              if (scrollSpeed * -1 < 0.39) {
-                const container = document.querySelector(
-                  "#content-slider"
-                ) as HTMLElement;
-
-                container.style.overflowX = "hidden";
-                setTimeout(() => {
-                  entry.target.scrollIntoView({
-                    inline: "center",
-                  });
-                }, 10);
-                setTimeout(() => {
-                  container.style.overflowX = "scroll";
-                }, 100);
-              }
-            }
+        if (entry.isIntersecting && globalThis.contentSliderPressed) {
+          if (scrollDirection === "right" && scrollSpeed * -1 < snapThreshold) {
+            snapPage(entry.target);
           }
         }
       });
     };
 
-    const handlePageChange = (entries: any, observer: any) => {
+    const handlePageChange = (entries: any) => {
       entries.forEach((entry: any) => {
-        if (entry.isIntersecting) {
-          if (globalThis.contentSliderPressed) {
-            const id = entry.target.id;
-            const selected = parseInt(id.replace("content-page", ""));
-            setSelectedPageIdx(selected);
-          }
+        if (entry.isIntersecting && globalThis.contentSliderPressed) {
+          const id = entry.target.id;
+          const selected = parseInt(id.replace("content-page", ""));
+          setSelectedPageIdx(selected);
         }
       });
     };
@@ -220,6 +204,7 @@ const Page = ({
     );
 
     const elePage = document.querySelectorAll(".content-page")[num - 1];
+
     if (elePage) {
       obsPageChange.observe(elePage);
       obsSnapLeft.observe(elePage);
