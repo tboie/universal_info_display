@@ -35,14 +35,12 @@ const Item = ({
       />
       <ContentSlider
         type={"item"}
-        items={[]}
+        ItemComponent={<Template item={item} />}
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
         setSelectedPageIdx={setSelectedPageIdx}
       />
-
-      {/*<img src={"/media/flower.gif"} alt="item" /> */}
-      <button id="item_close" onClick={() => close(-1)}>
+      <button id="item-close" onClick={() => close(-1)}>
         X
       </button>
       <Slider
@@ -53,6 +51,16 @@ const Item = ({
         setSelectedPageIdx={setSelectedPageIdx}
         fetching={false}
       />
+    </div>
+  );
+};
+
+const Template = ({ item }: { item: UniversalInfoDisplayItem }) => {
+  return (
+    <div className={`template`}>
+      <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+      <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      <p className={`desc`}>{item.desc}</p>
     </div>
   );
 };

@@ -96,7 +96,6 @@
   max-height: 200%;
   margin: 0.25rem;
   opacity: 0.5;
-  object-fit: cover;
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;

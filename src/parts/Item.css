@@ -18,10 +18,38 @@
 }
 */
 
-#item_close {
+#item-close {
   height: 10vh;
   width: 100%;
   font-size: 3rem;
   color: red;
   opacity: 1;
+}
+
+#item .template {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#item .glow {
+  position: absolute;
+  width: 200%;
+  transform: translateX(-25%) translateY(-25%);
+  opacity: 0.5;
+  object-fit: cover;
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+#item .cover {
+  position: relative;
+  width: 100%;
+}
+
+#item .desc {
+  font-weight: 400;
+  margin: 0.5rem;
+  color: rgb(252, 252, 252);
 }

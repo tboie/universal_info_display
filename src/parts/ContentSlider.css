@@ -23,7 +23,8 @@
   border-right: 1px dashed rgba(255, 215, 0, 0.5);
 }
 
-.content-page-grid:last-of-type {
+.content-page-grid:last-of-type,
+.content-page-item:first-of-type {
   overflow: hidden;
 }
 

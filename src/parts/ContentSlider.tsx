@@ -11,6 +11,7 @@ type ContentSliderType = "grid" | "item";
 type PartContentSliderType = {
   type: ContentSliderType;
   items?: UniversalInfoDisplayItem[];
+  ItemComponent?: React.ReactElement;
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
@@ -24,6 +25,7 @@ type PartContentSliderType = {
 const ContentSlider = ({
   type,
   items,
+  ItemComponent,
   selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
@@ -75,13 +77,29 @@ const ContentSlider = ({
         globalThis.pageSliderPressed = false;
       }}
     >
-      {items?.length ? (
-        chunkArr(items, 6).map((items, idx) => (
+      {type === "grid" ? (
+        items?.length ? (
+          chunkArr(items, 6).map((items, idx) => (
+            <Page
+              type={"grid"}
+              key={"page" + idx}
+              num={idx + 1}
+              items={items}
+              selectedGroup={selectedGroup}
+              selectedPageIdx={selectedPageIdx}
+              setSelectedPageIdx={setSelectedPageIdx}
+              setSelectedItemIdx={setSelectedItemIdx}
+              getData={getData}
+              fetching={fetching}
+            />
+          ))
+        ) : (
           <Page
             type={"grid"}
-            key={idx}
-            num={idx + 1}
-            items={items}
+            text={"No Items Found"}
+            key={"page"}
+            num={1}
+            items={[]}
             selectedGroup={selectedGroup}
             selectedPageIdx={selectedPageIdx}
             setSelectedPageIdx={setSelectedPageIdx}
@@ -89,20 +107,19 @@ const ContentSlider = ({
             getData={getData}
             fetching={fetching}
           />
-        ))
-      ) : (
+        )
+      ) : null}
+
+      {type === "item" && (
         <Page
-          type={"grid"}
-          text={"No Items Found"}
-          key={0}
+          key={"page0"}
+          type={"item"}
+          ItemComponent={ItemComponent}
           num={1}
-          items={[]}
           selectedGroup={selectedGroup}
           selectedPageIdx={selectedPageIdx}
           setSelectedPageIdx={setSelectedPageIdx}
           setSelectedItemIdx={setSelectedItemIdx}
-          getData={getData}
-          fetching={fetching}
         />
       )}
 
@@ -115,6 +132,7 @@ const Page = ({
   type,
   text,
   items,
+  ItemComponent,
   num,
   selectedGroup,
   selectedPageIdx,
@@ -126,6 +144,7 @@ const Page = ({
   type: ContentSliderType;
   text?: string;
   items?: UniversalInfoDisplayItem[];
+  ItemComponent?: React.ReactElement;
   num: number;
   selectedGroup: string;
   selectedPageIdx: number;
@@ -250,18 +269,18 @@ const Page = ({
 
   return (
     <div id={`content-page-${type}-${num}`} className={`content-page-${type}`}>
-      {items?.length === 0 && !fetching && (
+      {type === "grid" && items?.length === 0 && !fetching && (
         <>
           <img className="page-bg" src="/media/bg.jpg" alt="bg" />
           <span className="no-items">{text}</span>
         </>
       )}
 
-      {(items?.length === 0 || !selectedGroup) && (
+      {((type === "grid" && items?.length === 0) || !selectedGroup) && (
         <img className="page-bg" src="/media/bg.jpg" alt="bg" />
       )}
 
-      {!fetching && items?.length && (
+      {type === "grid" && !fetching && items?.length && (
         <Grid
           // only render items in range of selectedPageIdx
           items={
@@ -274,6 +293,8 @@ const Page = ({
           getData={getData}
         />
       )}
+
+      {type === "item" && ItemComponent}
     </div>
   );
 };

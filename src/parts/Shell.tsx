@@ -534,7 +534,11 @@ const UniversalInfoDisplay = () => {
 
         // Set all items state
         setItems(
-          all_items.map((item: any, idx: number) => ({ idx: idx, ...item }))
+          all_items.map((item: any, idx: number) => ({
+            idx: idx,
+            desc: sampleText,
+            ...item,
+          }))
         );
 
         // set max min miles
@@ -811,3 +815,6 @@ const UniversalInfoDisplay = () => {
 };
 
 export default UniversalInfoDisplay;
+
+const sampleText =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu facilisis sed odio morbi quis. Duis tristique sollicitudin nibh sit amet commodo nulla. Suspendisse potenti nullam ac tortor vitae purus faucibus. Nisl rhoncus mattis rhoncus urna. Donec adipiscing tristique risus nec feugiat in. Massa vitae tortor condimentum lacinia. Mattis enim ut tellus elementum sagittis vitae. Non tellus orci ac auctor augue mauris augue neque. Tortor consequat id porta nibh venenatis. Porta lorem mollis aliquam ut porttitor leo a. Vel eros donec ac odio tempor orci. Egestas fringilla phasellus faucibus scelerisque eleifend.  Ac felis donec et odio pellentesque diam volutpat commodo. Eget velit aliquet sagittis id. Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt. Interdum varius sit amet mattis vulputate enim. At erat pellentesque adipiscing commodo elit. Tortor at risus viverra adipiscing at in tellus. Nec feugiat nisl pretium fusce id velit ut tortor. Vel fringilla est ullamcorper eget nulla facilisi etiam. Felis bibendum ut tristique et egestas. At volutpat diam ut venenatis tellus in metus vulputate eu. Velit ut tortor pretium viverra. Odio eu feugiat pretium nibh ipsum consequat nisl vel pretium. Sem integer vitae justo eget magna fermentum iaculis eu. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu feugiat. Amet consectetur adipiscing elit duis tristique. Tortor id aliquet lectus proin nibh nisl. Enim sit amet venenatis urna cursus eget nunc scelerisque. Ut aliquam purus sit amet luctus. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra.  Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Tristique senectus et netus et malesuada fames. Viverra orci sagittis eu volutpat. Sed odio morbi quis commodo odio aenean. Sit amet venenatis urna cursus eget nunc scelerisque viverra. Eget egestas purus viverra accumsan in. Arcu non sodales neque sodales ut. Sagittis aliquam malesuada bibendum arcu vitae. Fames ac turpis egestas sed tempus urna. Varius morbi enim nunc faucibus a pellentesque. Porta nibh venenatis cras sed felis eget velit aliquet sagittis. A diam maecenas sed enim ut sem viverra aliquet eget. Amet risus nullam eget felis eget nunc lobortis mattis. Nullam vehicula ipsum a arcu cursus. Faucibus purus in massa tempor nec feugiat nisl. In aliquam sem fringilla ut morbi tincidunt augue. Volutpat lacus laoreet non curabitur gravida arcu ac tortor.";
