@@ -7,19 +7,22 @@ import { RangeStatus } from "./Range";
 
 const snapThreshold = 0.39;
 
+type ContentSliderType = "grid" | "item";
 type PartContentSliderType = {
-  items: UniversalInfoDisplayItem[];
+  type: ContentSliderType;
+  items?: UniversalInfoDisplayItem[];
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
-  setSelectedItemIdx: (val: any) => any;
-  getData: (group: string) => void;
-  fetching: boolean;
-  rangeModal: boolean;
+  setSelectedItemIdx?: (val: any) => any;
+  getData?: (group: string) => void;
+  fetching?: boolean;
+  rangeModal?: boolean;
   selectedFilter?: Filter;
 };
 
 const ContentSlider = ({
+  type,
   items,
   selectedGroup,
   selectedPageIdx,
@@ -32,7 +35,7 @@ const ContentSlider = ({
 }: PartContentSliderType) => {
   const initScrollSpeedListener = () => {
     // scroll speed/direction
-    const container = document.getElementById("content-slider");
+    const container = document.getElementById(`content-slider-${type}`);
     if (container) {
       let lastOffset = container.scrollLeft;
       let lastDate = new Date().getTime();
@@ -64,7 +67,7 @@ const ContentSlider = ({
 
   return (
     <div
-      id="content-slider"
+      id={`content-slider-${type}`}
       className="content-slider"
       onTouchStart={(e) => {
         e.stopPropagation();
@@ -75,6 +78,7 @@ const ContentSlider = ({
       {items?.length ? (
         chunkArr(items, 6).map((items, idx) => (
           <Page
+            type={"grid"}
             key={idx}
             num={idx + 1}
             items={items}
@@ -88,6 +92,7 @@ const ContentSlider = ({
         ))
       ) : (
         <Page
+          type={"grid"}
           text={"No Items Found"}
           key={0}
           num={1}
@@ -107,6 +112,7 @@ const ContentSlider = ({
 };
 
 const Page = ({
+  type,
   text,
   items,
   num,
@@ -117,21 +123,22 @@ const Page = ({
   getData,
   fetching,
 }: {
+  type: ContentSliderType;
   text?: string;
   items?: UniversalInfoDisplayItem[];
   num: number;
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
-  setSelectedItemIdx: (val: number) => void;
-  getData: (group: string) => void;
-  fetching: boolean;
+  setSelectedItemIdx?: (val: number) => void;
+  getData?: (group: string) => void;
+  fetching?: boolean;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
     const snapPage = (target: HTMLElement) => {
       const container = document.querySelector(
-        "#content-slider"
+        `#content-slider-${type}`
       ) as HTMLElement;
 
       container.style.overflowX = "hidden";
@@ -169,13 +176,15 @@ const Page = ({
       entries.forEach((entry: any) => {
         if (entry.isIntersecting && globalThis.contentSliderPressed) {
           const id = entry.target.id;
-          const selected = parseInt(id.replace("content-page", ""));
+          const selected = parseInt(id.replace(`content-page-${type}-`, ""));
           setSelectedPageIdx(selected);
         }
       });
     };
 
-    const container = document.querySelector("#content-slider") as HTMLElement;
+    const container = document.querySelector(
+      `#content-slider-${type}`
+    ) as HTMLElement;
 
     const optSnapLeft = {
       root: container,
@@ -203,7 +212,7 @@ const Page = ({
       optSnapRight
     );
 
-    const elePage = document.querySelectorAll(".content-page")[num - 1];
+    const elePage = document.querySelectorAll(`.content-page-${type}`)[num - 1];
 
     if (elePage) {
       obsPageChange.observe(elePage);
@@ -222,13 +231,13 @@ const Page = ({
   useEffect(() => {
     if (!globalThis.contentSliderPressed) {
       const container = document.querySelector(
-        "#content-slider"
+        `#content-slider-${type}`
       ) as HTMLElement;
 
       container.style.overflowX = "hidden";
       setTimeout(() => {
         document
-          .querySelectorAll(".content-page")
+          .querySelectorAll(`.content-page-${type}`)
           [selectedPageIdx - 1]?.scrollIntoView({
             inline: "center",
           });
@@ -240,7 +249,7 @@ const Page = ({
   }, [selectedPageIdx]);
 
   return (
-    <div id={`content-page${num}`} className="content-page">
+    <div id={`content-page-${type}-${num}`} className={`content-page-${type}`}>
       {items?.length === 0 && !fetching && (
         <>
           <img className="page-bg" src="/media/bg.jpg" alt="bg" />

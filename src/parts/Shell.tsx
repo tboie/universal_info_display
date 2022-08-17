@@ -534,7 +534,7 @@ const UniversalInfoDisplay = () => {
 
         // Set all items state
         setItems(
-          all_items.map((item: any, idx: number) => ({ id: idx, ...item }))
+          all_items.map((item: any, idx: number) => ({ idx: idx, ...item }))
         );
 
         // set max min miles
@@ -674,11 +674,15 @@ const UniversalInfoDisplay = () => {
           setFilter4(undefined);
           setFilter5(undefined);
         }}
-        showCloseIcon={false}
       />
 
       {selectedItemIdx > -1 && (
-        <Item item={items[selectedItemIdx]} close={setSelectedItemIdx} />
+        <Item
+          selectedItemIdx={selectedItemIdx}
+          item={items[selectedItemIdx]}
+          close={setSelectedItemIdx}
+          selectedGroup={selectedGroup}
+        />
       )}
 
       {map ? (
@@ -696,6 +700,7 @@ const UniversalInfoDisplay = () => {
         />
       ) : (
         <ContentSlider
+          type={"grid"}
           items={
             selectedGroup
               ? filteredItems

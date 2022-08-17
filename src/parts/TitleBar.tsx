@@ -1,6 +1,6 @@
 import "./TitleBar.css";
 
-import { Store } from "./Shell";
+import { Store, UniversalInfoDisplayItem } from "./Shell";
 
 type PartTitleBarType = {
   selectedGroup: string;
@@ -11,7 +11,7 @@ type PartTitleBarType = {
   map: boolean;
   totalItems: number;
   close: () => void;
-  showCloseIcon: boolean;
+  selectedItem?: UniversalInfoDisplayItem;
 };
 
 const TitleBar = ({
@@ -23,32 +23,33 @@ const TitleBar = ({
   map,
   totalItems,
   close,
-  showCloseIcon,
+  selectedItem,
 }: PartTitleBarType) => {
+  const getTitle = (): string | JSX.Element => {
+    if (fetching) {
+      return "Fetching " + selectedGroup;
+    } else if (selectedStore) {
+      return selectedStore.n.replaceAll("-", " ");
+    } else if (selectedItem) {
+      return selectedItem.n;
+    } else if (selectedGroup) {
+      return (
+        <span className="group" onClick={(e) => close()}>
+          {selectedGroup}
+        </span>
+      );
+    } else {
+      return "Cannabis Items Near You";
+    }
+  };
+
   return (
     <div
       className={`titlebar ${
         !selectedGroup || fetching ? "no-pointer-events" : ""
       }`}
     >
-      <span className="title">
-        {selectedStore ? (
-          selectedStore?.n.replaceAll("-", " ")
-        ) : fetching ? (
-          "Fetching " + selectedGroup
-        ) : selectedGroup ? (
-          <span
-            className="group"
-            onClick={(e) => {
-              close && close();
-            }}
-          >
-            {selectedGroup}
-          </span>
-        ) : (
-          <span className="group">Cannabis Items Near You</span>
-        )}
-      </span>
+      <span className="title">{getTitle()}</span>
 
       {selectedGroup && !fetching && (
         <span className="total">
@@ -64,17 +65,6 @@ const TitleBar = ({
                 " items"}
             </span>
           )}
-        </span>
-      )}
-
-      {showCloseIcon && (
-        <span
-          className="close"
-          onClick={(e) => {
-            close();
-          }}
-        >
-          X
         </span>
       )}
     </div>

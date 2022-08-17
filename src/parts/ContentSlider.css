@@ -10,7 +10,8 @@
   border-top: 1px solid #2e2f41;
 }
 
-.content-page {
+.content-page-grid,
+.content-page-item {
   background-color: #1e1f33;
   color: #1e1f33;
   width: 100%;
@@ -22,11 +23,11 @@
   border-right: 1px dashed rgba(255, 215, 0, 0.5);
 }
 
-.content-page:last-of-type {
+.content-page-grid:last-of-type {
   overflow: hidden;
 }
 
-.content-page .no-items {
+.no-items {
   position: absolute;
   font-size: 1.5rem;
   color: rgba(252, 252, 252, 1);

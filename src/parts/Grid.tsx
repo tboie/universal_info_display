@@ -4,15 +4,15 @@ import { UniversalInfoDisplayItem } from "./Shell";
 
 type PartGridType = {
   items: UniversalInfoDisplayItem[];
-  setSelectedItemIdx: (val: number) => any;
   selectedGroup: string;
-  getData: (group: string) => void;
+  setSelectedItemIdx?: (val: number) => any;
+  getData?: (group: string) => void;
 };
 
 const Grid = ({
   items,
-  setSelectedItemIdx,
   selectedGroup,
+  setSelectedItemIdx,
   getData,
 }: PartGridType) => {
   return items.length ? (
@@ -26,7 +26,9 @@ const Grid = ({
           className={`item`}
           key={item.b + item.n + idx}
           onClick={(e) => {
-            selectedGroup ? setSelectedItemIdx(item.id) : getData(item.n);
+            selectedGroup
+              ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
+              : getData && getData(item.n);
           }}
         >
           <span className="title">{item.n}</span>
