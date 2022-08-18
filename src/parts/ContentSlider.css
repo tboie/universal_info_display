@@ -11,7 +11,7 @@
 }
 
 .content-page-grid,
-.content-page-item {
+.content-page-dynamic {
   background-color: #1e1f33;
   color: #1e1f33;
   width: 100%;
@@ -23,8 +23,12 @@
   border-right: 1px dashed rgba(255, 215, 0, 0.5);
 }
 
+.content-page-dynamic {
+  position: relative;
+}
+
 .content-page-grid:last-of-type,
-.content-page-item:first-of-type {
+.content-page-dynamic:first-of-type {
   overflow: hidden;
 }
 
@@ -47,4 +51,9 @@
   height: 100%;
   width: 100%;
   opacity: 0.8;
+}
+
+.overflow-wrapper {
+  position: relative;
+  width: 100%;
 }

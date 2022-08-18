@@ -21,6 +21,24 @@ const Item = ({
 }: PartItemType) => {
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
 
+  const itemContent = [
+    <img
+      key={"test1"}
+      className={`glow`}
+      src={`/media/glow.png`}
+      alt={`glow`}
+    />,
+    <img
+      key={"test2"}
+      className={`cover`}
+      src={`/media/flower.gif`}
+      alt={`item`}
+    />,
+    <p key={"test3"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+  ];
+
   return (
     <div id="item">
       <TitleBar
@@ -34,8 +52,8 @@ const Item = ({
         selectedItem={item}
       />
       <ContentSlider
-        type={"item"}
-        ItemComponent={<Template item={item} />}
+        type={"dynamic"}
+        ItemContent={itemContent}
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
         setSelectedPageIdx={setSelectedPageIdx}
@@ -51,16 +69,6 @@ const Item = ({
         setSelectedPageIdx={setSelectedPageIdx}
         fetching={false}
       />
-    </div>
-  );
-};
-
-const Template = ({ item }: { item: UniversalInfoDisplayItem }) => {
-  return (
-    <div className={`template`}>
-      <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
-      <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
-      <p className={`desc`}>{item.desc}</p>
     </div>
   );
 };

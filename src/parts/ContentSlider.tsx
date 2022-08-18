@@ -1,17 +1,17 @@
 import "./ContentSlider.css";
 
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { chunkArr, Filter, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 import { RangeStatus } from "./Range";
 
 const snapThreshold = 0.39;
 
-type ContentSliderType = "grid" | "item";
+type ContentSliderType = "grid" | "dynamic";
 type PartContentSliderType = {
   type: ContentSliderType;
   items?: UniversalInfoDisplayItem[];
-  ItemComponent?: React.ReactElement;
+  ItemContent?: React.ReactNode;
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
@@ -25,7 +25,7 @@ type PartContentSliderType = {
 const ContentSlider = ({
   type,
   items,
-  ItemComponent,
+  ItemContent,
   selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
@@ -110,16 +110,16 @@ const ContentSlider = ({
         )
       ) : null}
 
-      {type === "item" && (
+      {type === "dynamic" && ItemContent && (
         <Page
           key={"page0"}
-          type={"item"}
-          ItemComponent={ItemComponent}
+          type={type}
           num={1}
           selectedGroup={selectedGroup}
           selectedPageIdx={selectedPageIdx}
           setSelectedPageIdx={setSelectedPageIdx}
           setSelectedItemIdx={setSelectedItemIdx}
+          children={ItemContent}
         />
       )}
 
@@ -132,7 +132,8 @@ const Page = ({
   type,
   text,
   items,
-  ItemComponent,
+  ItemContent,
+  children,
   num,
   selectedGroup,
   selectedPageIdx,
@@ -144,7 +145,8 @@ const Page = ({
   type: ContentSliderType;
   text?: string;
   items?: UniversalInfoDisplayItem[];
-  ItemComponent?: React.ReactElement;
+  ItemContent?: React.ReactNode;
+  children?: React.ReactNode;
   num: number;
   selectedGroup: string;
   selectedPageIdx: number;
@@ -294,7 +296,11 @@ const Page = ({
         />
       )}
 
-      {type === "item" && ItemComponent}
+      {type === "dynamic" && (
+        <div id={`overflow-wrapper-${num}`} className={`overflow-wrapper`}>
+          {children}
+        </div>
+      )}
     </div>
   );
 };
