@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { chunkArr, Filter, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 import { RangeStatus } from "./Range";
+import DetectableOverflow from "react-detectable-overflow";
 
 const snapThreshold = 0.39;
 
@@ -67,6 +68,10 @@ const ContentSlider = ({
     initScrollSpeedListener();
   }, []);
 
+  const pageOverflowChanged = (num: number, overflowing: boolean) => {
+    console.log("overflow changed " + overflowing);
+  };
+
   return (
     <div
       id={`content-slider-${type}`}
@@ -120,6 +125,7 @@ const ContentSlider = ({
           setSelectedPageIdx={setSelectedPageIdx}
           setSelectedItemIdx={setSelectedItemIdx}
           children={ItemContent}
+          pageOverflowChanged={pageOverflowChanged}
         />
       )}
 
@@ -141,6 +147,7 @@ const Page = ({
   setSelectedItemIdx,
   getData,
   fetching,
+  pageOverflowChanged,
 }: {
   type: ContentSliderType;
   text?: string;
@@ -154,6 +161,7 @@ const Page = ({
   setSelectedItemIdx?: (val: number) => void;
   getData?: (group: string) => void;
   fetching?: boolean;
+  pageOverflowChanged?: (num: number, overflowing: boolean) => void;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -296,10 +304,17 @@ const Page = ({
         />
       )}
 
-      {type === "dynamic" && (
-        <div id={`overflow-wrapper-${num}`} className={`overflow-wrapper`}>
+      {type === "dynamic" && pageOverflowChanged && (
+        <DetectableOverflow
+          className={`overflow-wrapper`}
+          onChange={(overflowing) => pageOverflowChanged(num, overflowing)}
+          style={{
+            position: "relative",
+            width: "100%",
+          }}
+        >
           {children}
-        </div>
+        </DetectableOverflow>
       )}
     </div>
   );
