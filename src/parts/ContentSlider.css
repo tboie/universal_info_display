@@ -28,7 +28,7 @@
 }
 
 .content-page-grid:last-of-type,
-.content-page-dynamic:first-of-type {
+.content-page-dynamic:last-of-type {
   overflow: hidden;
 }
 
