@@ -11,7 +11,8 @@ type ContentSliderType = "grid" | "dynamic";
 type PartContentSliderType = {
   type: ContentSliderType;
   items?: UniversalInfoDisplayItem[];
-  ItemContent?: React.ReactNode[];
+  contentNodes?: React.ReactNode[];
+  setContentNodes?: (nodes: JSX.Element[]) => void;
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
@@ -25,7 +26,8 @@ type PartContentSliderType = {
 const ContentSlider = ({
   type,
   items,
-  ItemContent,
+  contentNodes,
+  setContentNodes,
   selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
@@ -35,7 +37,7 @@ const ContentSlider = ({
   rangeModal,
   selectedFilter,
 }: PartContentSliderType) => {
-  const [pageProcNum, setPageProcNum] = useState(ItemContent ? 1 : 0);
+  const [pageProcNum, setPageProcNum] = useState(contentNodes ? 1 : 0);
   const [pagesNodes, setPagesNodes] = useState<React.ReactNode[]>([[]]);
 
   const initScrollSpeedListener = () => {
@@ -116,7 +118,7 @@ const ContentSlider = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (ItemContent && pageProcNum) {
+      if (contentNodes && pageProcNum) {
         let overflowing = false;
 
         const container = document.querySelector(
@@ -125,12 +127,12 @@ const ContentSlider = ({
         if (container) {
           overflowing = checkOverflow(container);
 
-          // flatten pagesNodes arrays to sync with source ItemContent node array
+          // flatten pagesNodes arrays to sync with source contentNodes node array
           const nodeIdx = pagesNodes.flat().length;
-          const node = ItemContent[nodeIdx];
+          const node = contentNodes[nodeIdx];
           if (!overflowing) {
             if (node) {
-              addNodeToPage(pageProcNum, ItemContent[nodeIdx]);
+              addNodeToPage(pageProcNum, contentNodes[nodeIdx]);
             }
           } else {
             popLastNodeToNew(pageProcNum);
@@ -211,7 +213,7 @@ const Page = ({
   type,
   text,
   items,
-  ItemContent,
+  contentNodes,
   children,
   num,
   selectedGroup,
@@ -224,7 +226,7 @@ const Page = ({
   type: ContentSliderType;
   text?: string;
   items?: UniversalInfoDisplayItem[];
-  ItemContent?: React.ReactNode;
+  contentNodes?: React.ReactNode;
   children?: React.ReactNode;
   num: number;
   selectedGroup: string;
