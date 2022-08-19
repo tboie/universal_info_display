@@ -43,7 +43,7 @@ const Grid = ({
                   </span>
 
                   <span className="percent">
-                    {item["%"] ? item["%"] + "%" : ""}
+                    {item["%"] ? Math.round(item["%"]) + "%" : ""}
                   </span>
                   {/*
                   <span className="type">{item["t"]}</span>
