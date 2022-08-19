@@ -22,19 +22,91 @@ const Item = ({
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
 
   const itemContent = [
-    <img
+    /*<img
       key={"test1"}
       className={`glow`}
       src={`/media/glow.png`}
       alt={`glow`}
-    />,
+    />,*/
     <img
-      key={"test2"}
+      key={"test1"}
       className={`cover`}
       src={`/media/flower.gif`}
       alt={`item`}
     />,
+    <p key={"test2"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
     <p key={"test3"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test4"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test5"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <img
+      key={"test6"}
+      className={`cover`}
+      src={`/media/flower.gif`}
+      alt={`item`}
+    />,
+    <p key={"test7"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <img
+      key={"test8"}
+      className={`cover`}
+      src={`/media/flower.gif`}
+      alt={`item`}
+    />,
+    <p key={"test9"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test10"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test11"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <img
+      key={"test12"}
+      className={`cover`}
+      src={`/media/flower.gif`}
+      alt={`item`}
+    />,
+    <p key={"test13"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test14"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test15"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test16"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test17"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test18"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <img
+      key={"test19"}
+      className={`cover`}
+      src={`/media/flower.gif`}
+      alt={`item`}
+    />,
+    <p key={"test20"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test21"} className={`desc`}>
+      {item?.desc || "NO DESC"}
+    </p>,
+    <p key={"test22"} className={`desc`}>
       {item?.desc || "NO DESC"}
     </p>,
   ];

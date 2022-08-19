@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { chunkArr, Filter, UniversalInfoDisplayItem } from "./Shell";
 import Grid from "./Grid";
 import { RangeStatus } from "./Range";
-import DetectableOverflow from "react-detectable-overflow";
 
 const snapThreshold = 0.39;
 
@@ -12,7 +11,7 @@ type ContentSliderType = "grid" | "dynamic";
 type PartContentSliderType = {
   type: ContentSliderType;
   items?: UniversalInfoDisplayItem[];
-  ItemContent?: React.ReactNode;
+  ItemContent?: React.ReactNode[];
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
@@ -36,6 +35,9 @@ const ContentSlider = ({
   rangeModal,
   selectedFilter,
 }: PartContentSliderType) => {
+  const [pageProcNum, setPageProcNum] = useState(ItemContent ? 1 : 0);
+  const [pagesNodes, setPagesNodes] = useState<React.ReactNode[]>([[]]);
+
   const initScrollSpeedListener = () => {
     // scroll speed/direction
     const container = document.getElementById(`content-slider-${type}`);
@@ -68,9 +70,76 @@ const ContentSlider = ({
     initScrollSpeedListener();
   }, []);
 
-  const pageOverflowChanged = (num: number, overflowing: boolean) => {
-    console.log("overflow changed " + overflowing);
+  const addNodeToPage = (page: number, node: React.ReactNode) => {
+    const cPagesNodes = [...pagesNodes];
+    const cPageNodes = cPagesNodes[page - 1] as React.ReactNode[];
+
+    if (!cPageNodes?.length) {
+      const newPageNode = [];
+      newPageNode.push(node);
+      cPagesNodes[page - 1] = newPageNode;
+    } else if (cPagesNodes.length) {
+      cPageNodes.push(node);
+    }
+
+    setPagesNodes(cPagesNodes);
   };
+
+  const popLastNodeToNew = (page: number) => {
+    const cPagesNodes = [...pagesNodes];
+    let cPageNodes = cPagesNodes[page - 1] as React.ReactNode[];
+
+    if (cPageNodes?.length) {
+      const lastNode = cPageNodes.slice(-1)[0];
+      const numPageNodes = cPageNodes.length;
+
+      const newPageNodes = [];
+      newPageNodes.push(lastNode);
+      cPagesNodes.push(newPageNodes);
+
+      cPagesNodes[page - 1] = cPageNodes.filter(
+        (n, idx) => idx !== numPageNodes - 1
+      );
+    }
+
+    setPageProcNum(pageProcNum + 1);
+    setPagesNodes(cPagesNodes);
+  };
+
+  function checkOverflow(el: HTMLElement) {
+    const curOverflow = el.style.overflow;
+    if (!curOverflow || curOverflow === "visible") el.style.overflow = "hidden";
+    const isOverflowing = el.clientHeight < el.scrollHeight;
+    el.style.overflow = curOverflow;
+    return isOverflowing;
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (ItemContent && pageProcNum) {
+        let overflowing = false;
+
+        const container = document.querySelector(
+          `#overflow-wrapper-${pageProcNum}`
+        ) as HTMLElement;
+        if (container) {
+          overflowing = checkOverflow(container);
+
+          const compIdx = pagesNodes.flat().length;
+          const node = ItemContent[compIdx];
+          if (!overflowing) {
+            if (node) {
+              addNodeToPage(pageProcNum, ItemContent[compIdx]);
+            }
+          } else {
+            popLastNodeToNew(pageProcNum);
+          }
+        }
+      }
+    }, 10);
+
+    return () => clearTimeout(timer);
+  }, [pagesNodes]);
 
   return (
     <div
@@ -115,19 +184,22 @@ const ContentSlider = ({
         )
       ) : null}
 
-      {type === "dynamic" && ItemContent && (
-        <Page
-          key={"page0"}
-          type={type}
-          num={1}
-          selectedGroup={selectedGroup}
-          selectedPageIdx={selectedPageIdx}
-          setSelectedPageIdx={setSelectedPageIdx}
-          setSelectedItemIdx={setSelectedItemIdx}
-          children={ItemContent}
-          pageOverflowChanged={pageOverflowChanged}
-        />
-      )}
+      {type === "dynamic" &&
+        pagesNodes &&
+        pagesNodes.map((nodes, idx) => {
+          return (
+            <Page
+              key={"page" + idx}
+              type={type}
+              num={idx + 1}
+              selectedGroup={selectedGroup}
+              selectedPageIdx={selectedPageIdx}
+              setSelectedPageIdx={setSelectedPageIdx}
+              setSelectedItemIdx={setSelectedItemIdx}
+              children={nodes}
+            />
+          );
+        })}
 
       {rangeModal && <RangeStatus f={selectedFilter} />}
     </div>
@@ -147,7 +219,6 @@ const Page = ({
   setSelectedItemIdx,
   getData,
   fetching,
-  pageOverflowChanged,
 }: {
   type: ContentSliderType;
   text?: string;
@@ -161,7 +232,6 @@ const Page = ({
   setSelectedItemIdx?: (val: number) => void;
   getData?: (group: string) => void;
   fetching?: boolean;
-  pageOverflowChanged?: (num: number, overflowing: boolean) => void;
 }) => {
   // IntersectionObservers for page snaps and page changes
   useEffect(() => {
@@ -304,17 +374,10 @@ const Page = ({
         />
       )}
 
-      {type === "dynamic" && pageOverflowChanged && (
-        <DetectableOverflow
-          className={`overflow-wrapper`}
-          onChange={(overflowing) => pageOverflowChanged(num, overflowing)}
-          style={{
-            position: "relative",
-            width: "100%",
-          }}
-        >
+      {type === "dynamic" && (
+        <div id={`overflow-wrapper-${num}`} className={`overflow-wrapper`}>
           {children}
-        </DetectableOverflow>
+        </div>
       )}
     </div>
   );

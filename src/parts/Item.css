@@ -49,6 +49,7 @@
 }
 
 #item .desc {
+  width: 101%;
   font-weight: 400;
   margin: 0.5rem;
   color: rgb(252, 252, 252);

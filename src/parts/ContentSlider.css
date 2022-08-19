@@ -52,3 +52,10 @@
   width: 100%;
   opacity: 0.8;
 }
+
+.overflow-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
