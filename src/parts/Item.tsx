@@ -37,6 +37,7 @@ const Item = ({
     <p key={"test2"} className={`desc`}>
       {item?.desc || "NO DESC"}
     </p>,
+    /*
     <p key={"test3"} className={`desc`}>
       {item?.desc || "NO DESC"}
     </p>,
@@ -109,6 +110,7 @@ const Item = ({
     <p key={"test22"} className={`desc`}>
       {item?.desc || "NO DESC"}
     </p>,
+    */
   ];
 
   return (

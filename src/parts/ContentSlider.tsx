@@ -125,11 +125,12 @@ const ContentSlider = ({
         if (container) {
           overflowing = checkOverflow(container);
 
-          const compIdx = pagesNodes.flat().length;
-          const node = ItemContent[compIdx];
+          // flatten pagesNodes arrays to sync with source ItemContent node array
+          const nodeIdx = pagesNodes.flat().length;
+          const node = ItemContent[nodeIdx];
           if (!overflowing) {
             if (node) {
-              addNodeToPage(pageProcNum, ItemContent[compIdx]);
+              addNodeToPage(pageProcNum, ItemContent[nodeIdx]);
             }
           } else {
             popLastNodeToNew(pageProcNum);
