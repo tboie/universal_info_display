@@ -41,11 +41,11 @@ const Grid = ({
                   <span className="choice">
                     {item["g"] ? item["g"].join(",") + "g" : ""}
                   </span>
-                  {/*}
+
                   <span className="percent">
                     {item["%"] ? item["%"] + "%" : ""}
                   </span>
-
+                  {/*
                   <span className="type">{item["t"]}</span>
 
                   <span className="ppu">
