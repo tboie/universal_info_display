@@ -58,4 +58,12 @@
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.overflow-wrapper > div {
+  width: 50%;
+  position: relative;
 }
