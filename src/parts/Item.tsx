@@ -24,62 +24,34 @@ const Item = ({
 
   function getContentNodes() {
     return [
-      <img
-        key={"test1"}
-        className={`glow`}
-        src={`/media/glow.png`}
-        alt={`glow`}
-      />,
-      <img
-        key={"test2"}
-        className={`cover`}
-        src={`/media/flower.gif`}
-        alt={`item`}
-      />,
+      <div>
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      </div>,
       item.desc,
       item.desc,
       item.desc,
       item.desc,
-      <img
-        key={"test7"}
-        className={`glow`}
-        src={`/media/glow.png`}
-        alt={`glow`}
-      />,
-      <img
-        key={"test8"}
-        className={`cover`}
-        src={`/media/flower.gif`}
-        alt={`item`}
-      />,
+      <div>
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      </div>,
+      <div>
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      </div>,
       item.desc,
-      <img
-        key={"test10"}
-        className={`glow`}
-        src={`/media/glow.png`}
-        alt={`glow`}
-      />,
-      <img
-        key={"test11"}
-        className={`cover`}
-        src={`/media/flower.gif`}
-        alt={`item`}
-      />,
+      <div>
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      </div>,
       item.desc,
       item.desc,
       item.desc,
-      <img
-        key={"test15"}
-        className={`glow`}
-        src={`/media/glow.png`}
-        alt={`glow`}
-      />,
-      <img
-        key={"test16"}
-        className={`cover`}
-        src={`/media/flower.gif`}
-        alt={`item`}
-      />,
+      <div>
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      </div>,
       item.desc,
     ];
   }

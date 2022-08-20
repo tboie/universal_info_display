@@ -379,7 +379,7 @@ const Page = ({
 
       {type === "dynamic" && (
         <div id={`overflow-wrapper-${num}`} className={`overflow-wrapper`}>
-          {React.Children.map(children, (child) => {
+          {React.Children.map(children, (child, idx) => {
             if (typeof child === "string") {
               return <p className={`desc`}>{child}</p>;
             }
