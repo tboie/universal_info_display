@@ -19,9 +19,9 @@
 */
 
 #item-close {
-  height: 10vh;
+  height: 2.5rem;
   width: 100%;
-  font-size: 3rem;
+  font-size: 1rem;
   color: red;
   opacity: 1;
 }
@@ -49,7 +49,7 @@
 }
 
 #item .desc {
-  width: 101%;
+  width: 100%;
   font-weight: 400;
   margin: 0.5rem;
   color: rgb(252, 252, 252);
