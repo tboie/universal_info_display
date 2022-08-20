@@ -139,7 +139,7 @@ const ContentSlider = ({
           }
         }
       }
-    }, 350);
+    }, 10);
 
     return () => clearTimeout(timer);
   }, [pagesNodes]);
