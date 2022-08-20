@@ -118,21 +118,16 @@ const ContentSlider = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (contentNodes && pageProcNum) {
-        let overflowing = false;
+      const containerId = `#overflow-wrapper-${pageProcNum}`;
+      const container = document.querySelector(containerId) as HTMLElement;
 
-        const container = document.querySelector(
-          `#overflow-wrapper-${pageProcNum}`
-        ) as HTMLElement;
-        if (container) {
-          overflowing = checkOverflow(container);
-
-          // flatten pagesNodes arrays to sync with source contentNodes node array
-          const nodeIdx = pagesNodes.flat().length;
-          const node = contentNodes[nodeIdx];
-          if (!overflowing) {
+      if (container) {
+        if (contentNodes && pageProcNum) {
+          if (!checkOverflow(container)) {
+            // flatten pagesNodes arrays to sync with source contentNodes node array
+            const node = contentNodes[pagesNodes.flat().length];
             if (node) {
-              addNodeToPage(pageProcNum, contentNodes[nodeIdx]);
+              addNodeToPage(pageProcNum, node);
             }
           } else {
             popLastNodeToNew(pageProcNum);
