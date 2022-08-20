@@ -36,18 +36,10 @@ const Item = ({
         src={`/media/flower.gif`}
         alt={`item`}
       />,
-      <p key={"test3"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
-      <p key={"test4"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
-      <p key={"test5"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
-      <p key={"test6"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
       <img
         key={"test7"}
         className={`glow`}
@@ -60,10 +52,7 @@ const Item = ({
         src={`/media/flower.gif`}
         alt={`item`}
       />,
-
-      <p key={"test9"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
+      item.desc,
       <img
         key={"test10"}
         className={`glow`}
@@ -76,15 +65,9 @@ const Item = ({
         src={`/media/flower.gif`}
         alt={`item`}
       />,
-      <p key={"test12"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
-      <p key={"test13"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
-      <p key={"test14"} className={`desc`}>
-        {item?.desc || "NO DESC"}
-      </p>,
+      item.desc,
+      item.desc,
+      item.desc,
       <img
         key={"test15"}
         className={`glow`}
@@ -97,6 +80,7 @@ const Item = ({
         src={`/media/flower.gif`}
         alt={`item`}
       />,
+      item.desc,
     ];
   }
 
