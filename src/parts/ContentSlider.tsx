@@ -214,7 +214,8 @@ const ContentSlider = ({
             }
           }
         }
-      }, 15);
+        // image components dont get added for faster speeds?
+      }, 5);
     }
 
     return () => clearTimeout(timer);

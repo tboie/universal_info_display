@@ -62,9 +62,3 @@
   align-items: center;
   flex-direction: column;
 }
-
-.overflow-wrapper > div {
-  width: 80%;
-  position: relative;
-  margin-top: 1rem;
-}

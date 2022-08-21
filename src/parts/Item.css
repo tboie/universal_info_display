@@ -32,6 +32,12 @@
   height: 100%;
 }
 
+#item .image-wrapper {
+  position: relative;
+  width: 75%;
+  margin-top: 1rem;
+}
+
 #item .glow {
   position: absolute;
   width: 200%;
@@ -54,4 +60,18 @@
   padding: 0.25rem;
   margin-bottom: 0;
   color: rgb(252, 252, 252);
+}
+
+#item .component {
+  position: relative;
+  width: 90%;
+  height: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
+  margin-top: 1rem;
+  color: #80f077;
+  border: 1px solid #80f077;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
