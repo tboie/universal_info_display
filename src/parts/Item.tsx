@@ -38,7 +38,7 @@ const Item = ({
           loading="lazy"
         />
       </div>,
-      item.desc,
+      <div className={`component`}>COMPONENT</div>,
       item.desc,
       item.desc,
       <div className={`component`}>COMPONENT</div>,
@@ -48,24 +48,25 @@ const Item = ({
       item.desc,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
       item.desc,
       item.desc,
-      <div className="image-wrapper">
-        <img
-          className={`glow`}
-          src={`/media/glow.png`}
-          alt={`glow`}
-          loading="lazy"
-        />
-        <img
-          className={`cover`}
-          src={`/media/flower.gif`}
-          alt={`item`}
-          loading="lazy"
-        />
-      </div>,
+      <div className={`component`}>COMPONENT</div>,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
       item.desc,
       item.desc,
       item.desc,
