@@ -32,21 +32,11 @@ const Item = ({
       item.desc,
       item.desc,
       item.desc,
-      <div>
-        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
-        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
-      </div>,
       item.desc,
       item.desc,
-      <div>
-        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
-        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
-      </div>,
       item.desc,
-      <div>
-        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
-        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
-      </div>,
+      item.desc,
+      item.desc,
       item.desc,
       item.desc,
       item.desc,
@@ -55,6 +45,16 @@ const Item = ({
         <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
       </div>,
       item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      item.desc,
+      <div>
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+      </div>,
     ];
   }
 

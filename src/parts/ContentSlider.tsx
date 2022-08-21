@@ -23,6 +23,8 @@ type PartContentSliderType = {
   selectedFilter?: Filter;
 };
 
+let newStringNode = true;
+
 const ContentSlider = ({
   type,
   items,
@@ -37,7 +39,7 @@ const ContentSlider = ({
   rangeModal,
   selectedFilter,
 }: PartContentSliderType) => {
-  const [pageProcNum, setPageProcNum] = useState(contentNodes ? 1 : 0);
+  const [pageProcNum, setPageProcNum] = useState(() => (contentNodes ? 1 : 0));
   const [pagesNodes, setPagesNodes] = useState<React.ReactNode[]>([[]]);
 
   const initScrollSpeedListener = () => {
@@ -87,6 +89,53 @@ const ContentSlider = ({
     setPagesNodes(cPagesNodes);
   };
 
+  const moveLastWord = (nodeIdx: number, page: number, newNode: boolean) => {
+    if (contentNodes) {
+      const cContentNodes = [...contentNodes] as React.ReactNode[];
+      const text = cContentNodes[nodeIdx] as string;
+
+      // remove from string
+      const lastIndex = text.lastIndexOf(" ");
+      const noLastWord = text.substring(0, lastIndex);
+
+      // get last word
+      const words = text.split(" ");
+      const lastWord = " " + words[words.length - 1];
+
+      cContentNodes[nodeIdx] = noLastWord;
+      if (newNode) {
+        cContentNodes.splice(nodeIdx + 1, 0, lastWord);
+      } else {
+        cContentNodes[nodeIdx] = noLastWord;
+      }
+
+      setContentNodes && setContentNodes(cContentNodes as JSX.Element[]);
+
+      const cPagesNodes = [...pagesNodes];
+      const cPageNodes = cPagesNodes[page - 1] as React.ReactNode[];
+
+      if (newNode) {
+        const newPageNode = [];
+        newPageNode.push(lastWord);
+        cPagesNodes[page - 1] = newPageNode;
+      } else {
+        cPageNodes[0] = lastWord + cPageNodes[0];
+      }
+
+      const prevPage = cPagesNodes[page - 2] as React.ReactNode[];
+      if (prevPage) {
+        const prevPageLastNodeIdx = prevPage.length - 1;
+
+        if (prevPageLastNodeIdx) {
+          prevPage[prevPageLastNodeIdx] = noLastWord;
+        }
+      }
+      cPagesNodes[page - 2] = prevPage;
+
+      setPagesNodes(cPagesNodes);
+    }
+  };
+
   const popLastNodeToNew = (page: number) => {
     const cPagesNodes = [...pagesNodes];
     let cPageNodes = cPagesNodes[page - 1] as React.ReactNode[];
@@ -117,24 +166,44 @@ const ContentSlider = ({
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const containerId = `#overflow-wrapper-${pageProcNum}`;
-      const container = document.querySelector(containerId) as HTMLElement;
+    let timer: NodeJS.Timeout;
 
-      if (container) {
-        if (contentNodes && pageProcNum) {
+    if (contentNodes && pageProcNum) {
+      timer = setTimeout(() => {
+        const containerId = `#overflow-wrapper-${pageProcNum}`;
+        const container = document.querySelector(containerId) as HTMLElement;
+
+        if (container) {
+          const nodeIdx = pagesNodes.flat().length;
+
           if (!checkOverflow(container)) {
             // flatten pagesNodes arrays to sync with source contentNodes node array
-            const node = contentNodes[pagesNodes.flat().length];
+            const node = contentNodes[nodeIdx];
             if (node) {
-              addNodeToPage(pageProcNum, node);
+              if (!newStringNode) {
+                newStringNode = true;
+                setPageProcNum(pageProcNum + 1);
+                addNodeToPage(pageProcNum + 1, node);
+              } else {
+                addNodeToPage(pageProcNum, node);
+              }
             }
           } else {
-            popLastNodeToNew(pageProcNum);
+            const node = contentNodes[nodeIdx - 1];
+            if (typeof node === "string") {
+              if (newStringNode) {
+                newStringNode = false;
+                moveLastWord(nodeIdx - 1, pageProcNum + 1, true);
+              } else {
+                moveLastWord(nodeIdx - 2, pageProcNum + 1, false);
+              }
+            } else {
+              popLastNodeToNew(pageProcNum);
+            }
           }
         }
-      }
-    }, 10);
+      }, 10);
+    }
 
     return () => clearTimeout(timer);
   }, [pagesNodes]);
