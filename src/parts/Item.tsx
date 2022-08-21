@@ -25,18 +25,8 @@ const Item = ({
   function getContentNodes() {
     return [
       <div className="image-wrapper">
-        <img
-          className={`glow`}
-          src={`/media/glow.png`}
-          alt={`glow`}
-          loading="lazy"
-        />
-        <img
-          className={`cover`}
-          src={`/media/flower.gif`}
-          alt={`item`}
-          loading="lazy"
-        />
+        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
+        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
       </div>,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
