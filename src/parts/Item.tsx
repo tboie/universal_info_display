@@ -19,6 +19,7 @@ const Item = ({
   close,
   selectedGroup,
 }: PartItemType) => {
+  const [pages, setPages] = useState<number[]>([]);
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
   const [contentNodes, setContentNodes] = useState(getContentNodes());
 
@@ -83,13 +84,14 @@ const Item = ({
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
         setSelectedPageIdx={setSelectedPageIdx}
+        setPages={setPages}
       />
       <button id="item-close" onClick={() => close(-1)}>
         X
       </button>
       <Slider
         type={"page"}
-        titles={["0", "1"]}
+        titles={pages.map((n) => n.toString())}
         selected={[selectedPageIdx.toString()]}
         select={() => {}}
         setSelectedPageIdx={setSelectedPageIdx}

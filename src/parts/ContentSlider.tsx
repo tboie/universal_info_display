@@ -21,6 +21,7 @@ type PartContentSliderType = {
   fetching?: boolean;
   rangeModal?: boolean;
   selectedFilter?: Filter;
+  setPages?: (pages: number[]) => void;
 };
 
 let newStringNode = true;
@@ -38,6 +39,7 @@ const ContentSlider = ({
   fetching,
   rangeModal,
   selectedFilter,
+  setPages,
 }: PartContentSliderType) => {
   const [pageProcNum, setPageProcNum] = useState(() => (contentNodes ? 1 : 0));
   const [pagesNodes, setPagesNodes] = useState<React.ReactNode[]>([[]]);
@@ -86,6 +88,8 @@ const ContentSlider = ({
       cPageNodes.push(node);
     }
 
+    setPages &&
+      setPages(new Array(cPagesNodes.length).fill(0).map((n, idx) => idx + 1));
     setPagesNodes(cPagesNodes);
   };
 
@@ -144,6 +148,10 @@ const ContentSlider = ({
       }
       cPagesNodes[page - 2] = prevPage;
 
+      setPages &&
+        setPages(
+          new Array(cPagesNodes.length).fill(0).map((n, idx) => idx + 1)
+        );
       setPagesNodes(cPagesNodes);
     }
   };
@@ -166,6 +174,8 @@ const ContentSlider = ({
     }
 
     setPageProcNum(pageProcNum + 1);
+    setPages &&
+      setPages(new Array(cPagesNodes.length).fill(0).map((n, idx) => idx + 1));
     setPagesNodes(cPagesNodes);
   };
 
