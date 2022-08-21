@@ -181,42 +181,50 @@ const ContentSlider = ({
     let timer: NodeJS.Timeout;
 
     if (contentNodes && pageProcNum) {
-      timer = setTimeout(() => {
-        const containerId = `#overflow-wrapper-${pageProcNum}`;
-        const container = document.querySelector(containerId) as HTMLElement;
+      const nodeIdx = pagesNodes.flat().length;
+      const currNode = contentNodes[nodeIdx];
+      const prevNode = contentNodes[nodeIdx - 1];
 
-        if (container) {
-          const nodeIdx = pagesNodes.flat().length;
+      let delay = 1;
 
-          if (!checkOverflow(container)) {
-            // flatten pagesNodes arrays to sync with source contentNodes node array
-            const node = contentNodes[nodeIdx];
-            if (node) {
+      if (prevNode) {
+        if ((prevNode as React.ReactElement).type === "img") {
+          delay = 5;
+        }
+      }
+
+      if (currNode) {
+        timer = setTimeout(() => {
+          const containerId = `#overflow-wrapper-${pageProcNum}`;
+          const container = document.querySelector(containerId) as HTMLElement;
+
+          if (container) {
+            if (!checkOverflow(container)) {
+              // flatten pagesNodes arrays to sync with source contentNodes node array
               if (!newStringNode) {
                 newStringNode = true;
                 setPageProcNum(pageProcNum + 1);
-                addNodeToPage(pageProcNum + 1, node);
+                addNodeToPage(pageProcNum + 1, currNode);
               } else {
-                addNodeToPage(pageProcNum, node);
-              }
-            }
-          } else {
-            const node = contentNodes[nodeIdx - 1];
-            if (typeof node === "string") {
-              if (newStringNode) {
-                newStringNode = false;
-                moveLastWord(nodeIdx - 1, pageProcNum + 1, true);
-              } else {
-                moveLastWord(nodeIdx - 2, pageProcNum + 1, false);
+                addNodeToPage(pageProcNum, currNode);
               }
             } else {
-              popLastNodeToNew(pageProcNum);
+              if (typeof prevNode === "string") {
+                if (newStringNode) {
+                  newStringNode = false;
+                  moveLastWord(nodeIdx - 1, pageProcNum + 1, true);
+                } else {
+                  moveLastWord(nodeIdx - 2, pageProcNum + 1, false);
+                }
+              } else {
+                popLastNodeToNew(pageProcNum);
+              }
             }
           }
-        }
-        // image components dont get added for faster speeds?
-        // why? large image file?
-      }, 1);
+          // image components dont get added for faster speeds?
+          // why? large image file?
+        }, delay);
+      }
     }
 
     return () => clearTimeout(timer);
