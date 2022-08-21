@@ -66,4 +66,5 @@
 .overflow-wrapper > div {
   width: 80%;
   position: relative;
+  margin-top: 1rem;
 }
