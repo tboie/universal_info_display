@@ -24,8 +24,10 @@ const Item = ({
 
   function getContentNodes() {
     return [
+      /*
       <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />,
       <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />,
+      */
       <div className={`component`}>COMPONENT</div>,
       item.desc,
       item.desc,
