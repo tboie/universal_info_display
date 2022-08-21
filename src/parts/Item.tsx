@@ -25,8 +25,18 @@ const Item = ({
   function getContentNodes() {
     return [
       <div className="image-wrapper">
-        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
-        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+        <img
+          className={`glow`}
+          src={`/media/glow.png`}
+          alt={`glow`}
+          loading="lazy"
+        />
+        <img
+          className={`cover`}
+          src={`/media/flower.gif`}
+          alt={`item`}
+          loading="lazy"
+        />
       </div>,
       item.desc,
       item.desc,
@@ -43,8 +53,18 @@ const Item = ({
       item.desc,
       item.desc,
       <div className="image-wrapper">
-        <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />
-        <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />
+        <img
+          className={`glow`}
+          src={`/media/glow.png`}
+          alt={`glow`}
+          loading="lazy"
+        />
+        <img
+          className={`cover`}
+          src={`/media/flower.gif`}
+          alt={`item`}
+          loading="lazy"
+        />
       </div>,
       item.desc,
       item.desc,

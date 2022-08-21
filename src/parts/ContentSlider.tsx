@@ -215,6 +215,7 @@ const ContentSlider = ({
           }
         }
         // image components dont get added for faster speeds?
+        // why? large image file?
       }, 5);
     }
 
