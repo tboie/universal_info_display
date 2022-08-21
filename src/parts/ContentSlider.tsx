@@ -185,11 +185,11 @@ const ContentSlider = ({
       const currNode = contentNodes[nodeIdx];
       const prevNode = contentNodes[nodeIdx - 1];
 
-      let delay = 1;
+      let delay = 5;
 
       if (prevNode) {
-        if ((prevNode as React.ReactElement).type === "img") {
-          delay = 5;
+        if ((prevNode as React.ReactElement).type !== "string") {
+          delay = 10;
         }
       }
 
