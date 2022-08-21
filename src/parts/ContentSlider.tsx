@@ -106,7 +106,13 @@ const ContentSlider = ({
       if (newNode) {
         cContentNodes.splice(nodeIdx + 1, 0, lastWord);
       } else {
-        cContentNodes[nodeIdx] = noLastWord;
+        // entire string moved to next page and still overflowing,
+        // remove empty ele from array
+        if (noLastWord) {
+          cContentNodes[nodeIdx] = noLastWord;
+        } else {
+          cContentNodes.splice(nodeIdx - 1, 1);
+        }
       }
 
       setContentNodes && setContentNodes(cContentNodes as JSX.Element[]);
@@ -127,7 +133,13 @@ const ContentSlider = ({
         const prevPageLastNodeIdx = prevPage.length - 1;
 
         if (prevPageLastNodeIdx) {
-          prevPage[prevPageLastNodeIdx] = noLastWord;
+          // entire string moved to next page and still overflowing,
+          // remove empty ele from array
+          if (noLastWord) {
+            prevPage[prevPageLastNodeIdx] = noLastWord;
+          } else {
+            prevPage.pop();
+          }
         }
       }
       cPagesNodes[page - 2] = prevPage;
@@ -202,7 +214,7 @@ const ContentSlider = ({
             }
           }
         }
-      }, 10);
+      }, 15);
     }
 
     return () => clearTimeout(timer);
