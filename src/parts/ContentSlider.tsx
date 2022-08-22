@@ -24,6 +24,7 @@ type PartContentSliderType = {
   setPages?: (pages: number[]) => void;
 };
 
+// paginator flag to create new string node when proccing text
 let newStringNode = true;
 
 const ContentSlider = ({
@@ -74,9 +75,17 @@ const ContentSlider = ({
 
   useEffect(() => {
     initScrollSpeedListener();
+
+    return () => {
+      newStringNode = true;
+    };
   }, []);
 
-  const addNodeToPage = (page: number, node: React.ReactNode) => {
+  const addNodeToPage = (
+    page: number,
+    node: React.ReactNode,
+    procNextPage?: boolean
+  ) => {
     const cPagesNodes = [...pagesNodes];
     const cPageNodes = cPagesNodes[page - 1] as React.ReactNode[];
 
@@ -88,6 +97,7 @@ const ContentSlider = ({
       cPageNodes.push(node);
     }
 
+    procNextPage && setPageProcNum(pageProcNum + 1);
     setPages &&
       setPages(new Array(cPagesNodes.length).fill(0).map((n, idx) => idx + 1));
     setPagesNodes(cPagesNodes);
@@ -191,6 +201,7 @@ const ContentSlider = ({
     let timer: NodeJS.Timeout;
 
     if (contentNodes && pageProcNum) {
+      // flatten pagesNodes arrays to sync with source contentNodes node array
       const nodeIdx = pagesNodes.flat().length;
       const currNode = contentNodes[nodeIdx];
       const prevNode = contentNodes[nodeIdx - 1];
@@ -212,11 +223,11 @@ const ContentSlider = ({
 
           if (container) {
             if (!checkOverflow(container)) {
-              // flatten pagesNodes arrays to sync with source contentNodes node array
+              // prev p node finished splitting to next page
+              // add next element and proc next page
               if (!newStringNode) {
                 newStringNode = true;
-                setPageProcNum(pageProcNum + 1);
-                addNodeToPage(pageProcNum + 1, currNode);
+                addNodeToPage(pageProcNum + 1, currNode, true);
               } else {
                 addNodeToPage(pageProcNum, currNode);
               }
