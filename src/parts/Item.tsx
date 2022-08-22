@@ -70,7 +70,7 @@ const Item = ({
       <TitleBar
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
-        totalPages={2}
+        totalPages={pages.length}
         fetching={false}
         map={false}
         totalItems={1}
