@@ -91,7 +91,7 @@ const Item = ({
         type={"page"}
         titles={pages.map((n) => n.toString())}
         selected={[selectedPageIdx.toString()]}
-        select={() => {}}
+        select={(type, title) => setSelectedPageIdx(parseInt(title))}
         setSelectedPageIdx={setSelectedPageIdx}
         fetching={false}
       />
