@@ -189,122 +189,148 @@ const UniversalInfoDisplay = () => {
   const filterItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
-    // store
-    if (selectedStore) {
-      filteredItems = filteredItems.filter(
-        (item) => item.s === selectedStore.n
-      );
-    }
+    if (searchStr) {
+      const options = {
+        // isCaseSensitive: false,
+        // includeScore: false,
+        // shouldSort: true,
+        // includeMatches: false,
+        // findAllMatches: false,
+        // minMatchCharLength: 1,
+        // location: 0,
+        // threshold: 0.6,
+        // distance: 100,
+        // useExtendedSearch: false,
+        // ignoreLocation: false,
+        // ignoreFieldNorm: false,
+        // fieldNormWeight: 1,
+        keys: ["n"],
+      };
 
-    // distance
-    filteredItems = filteredItems.filter((item) => item.dist < miles);
+      const fuse = new Fuse(filteredItems, options);
 
-    // choice
-    [filter1, filter2, filter3, filter4, filter5]
-      .filter((f) => f?.type === "choice")
-      .forEach((f) => {
-        if (f) {
-          (f.val as FilterChoice[]).forEach((c) => {
-            const choiceItems: UniversalInfoDisplayItem = [];
-            let choiceOn = false;
+      // Change the pattern
+      const pattern = searchStr;
 
-            const cVals = c.values;
-            cVals.forEach((val) => {
-              choiceOn = true;
-              choiceItems.push(
-                ...filteredItems.filter(
-                  (item) => c.field && item[c.field].includes(val)
-                )
-              );
+      filteredItems = fuse.search(pattern).map((obj) => obj.item);
+    } else {
+      // store
+      if (selectedStore) {
+        filteredItems = filteredItems.filter(
+          (item) => item.s === selectedStore.n
+        );
+      }
+
+      // distance
+      filteredItems = filteredItems.filter((item) => item.dist < miles);
+
+      // choice
+      [filter1, filter2, filter3, filter4, filter5]
+        .filter((f) => f?.type === "choice")
+        .forEach((f) => {
+          if (f) {
+            (f.val as FilterChoice[]).forEach((c) => {
+              const choiceItems: UniversalInfoDisplayItem = [];
+              let choiceOn = false;
+
+              const cVals = c.values;
+              cVals.forEach((val) => {
+                choiceOn = true;
+                choiceItems.push(
+                  ...filteredItems.filter(
+                    (item) => c.field && item[c.field].includes(val)
+                  )
+                );
+              });
+
+              if (choiceOn) {
+                filteredItems = [...choiceItems];
+              }
             });
+          }
+        });
 
-            if (choiceOn) {
-              filteredItems = [...choiceItems];
-            }
-          });
-        }
-      });
+      // range filters
+      let rF = [filter1, filter2, filter3, filter4, filter5].filter(
+        (f) => f && f.type === "range" && f.name !== "mi"
+      ) as Filter[];
 
-    // range filters
-    let rF = [filter1, filter2, filter3, filter4, filter5].filter(
-      (f) => f && f.type === "range" && f.name !== "mi"
-    ) as Filter[];
+      // filter items by range value
+      rF.forEach(
+        (f) =>
+          (filteredItems = filteredItems.filter((item) =>
+            f.op === ">" ? item[f.name] > f.val : item[f.name] < f.val
+          ))
+      );
 
-    // filter items by range value
-    rF.forEach(
-      (f) =>
-        (filteredItems = filteredItems.filter((item) =>
-          f.op === ">" ? item[f.name] > f.val : item[f.name] < f.val
-        ))
-    );
-
-    // multi column range sort
-    // more dependable than any algs tried
-    rF = rF.filter((f) => f.sort);
-    if (rF.length === 1) {
-      filteredItems.sort((a, b) =>
-        rF[0].sort === "asc"
-          ? a[rF[0].name] - b[rF[0].name]
-          : b[rF[0].name] - a[rF[0].name]
-      );
-    } else if (rF.length === 2) {
-      filteredItems.sort(
-        (a, b) =>
-          (rF[0].sort === "asc"
+      // multi column range sort
+      // more dependable than any algs tried
+      rF = rF.filter((f) => f.sort);
+      if (rF.length === 1) {
+        filteredItems.sort((a, b) =>
+          rF[0].sort === "asc"
             ? a[rF[0].name] - b[rF[0].name]
-            : b[rF[0].name] - a[rF[0].name]) ||
-          (rF[1].sort === "asc"
-            ? a[rF[1].name] - b[rF[1].name]
-            : b[rF[1].name] - a[rF[1].name])
-      );
-    } else if (rF.length === 3) {
-      filteredItems.sort(
-        (a, b) =>
-          (rF[0].sort === "asc"
-            ? a[rF[0].name] - b[rF[0].name]
-            : b[rF[0].name] - a[rF[0].name]) ||
-          (rF[1].sort === "asc"
-            ? a[rF[1].name] - b[rF[1].name]
-            : b[rF[1].name] - a[rF[1].name]) ||
-          (rF[2].sort === "asc"
-            ? a[rF[2].name] - b[rF[2].name]
-            : b[rF[2].name] - a[rF[2].name])
-      );
-    } else if (rF.length === 4) {
-      filteredItems.sort(
-        (a, b) =>
-          (rF[0].sort === "asc"
-            ? a[rF[0].name] - b[rF[0].name]
-            : b[rF[0].name] - a[rF[0].name]) ||
-          (rF[1].sort === "asc"
-            ? a[rF[1].name] - b[rF[1].name]
-            : b[rF[1].name] - a[rF[1].name]) ||
-          (rF[2].sort === "asc"
-            ? a[rF[2].name] - b[rF[2].name]
-            : b[rF[2].name] - a[rF[2].name]) ||
-          (rF[3].sort === "asc"
-            ? a[rF[3].name] - b[rF[3].name]
-            : b[rF[3].name] - a[rF[3].name])
-      );
-    } else if (rF.length === 5) {
-      filteredItems.sort(
-        (a, b) =>
-          (rF[0].sort === "asc"
-            ? a[rF[0].name] - b[rF[0].name]
-            : b[rF[0].name] - a[rF[0].name]) ||
-          (rF[1].sort === "asc"
-            ? a[rF[1].name] - b[rF[1].name]
-            : b[rF[1].name] - a[rF[1].name]) ||
-          (rF[2].sort === "asc"
-            ? a[rF[2].name] - b[rF[2].name]
-            : b[rF[2].name] - a[rF[2].name]) ||
-          (rF[3].sort === "asc"
-            ? a[rF[3].name] - b[rF[3].name]
-            : b[rF[3].name] - a[rF[3].name]) ||
-          (rF[4].sort === "asc"
-            ? a[rF[4].name] - b[rF[4].name]
-            : b[rF[4].name] - a[rF[4].name])
-      );
+            : b[rF[0].name] - a[rF[0].name]
+        );
+      } else if (rF.length === 2) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name])
+        );
+      } else if (rF.length === 3) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name]) ||
+            (rF[2].sort === "asc"
+              ? a[rF[2].name] - b[rF[2].name]
+              : b[rF[2].name] - a[rF[2].name])
+        );
+      } else if (rF.length === 4) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name]) ||
+            (rF[2].sort === "asc"
+              ? a[rF[2].name] - b[rF[2].name]
+              : b[rF[2].name] - a[rF[2].name]) ||
+            (rF[3].sort === "asc"
+              ? a[rF[3].name] - b[rF[3].name]
+              : b[rF[3].name] - a[rF[3].name])
+        );
+      } else if (rF.length === 5) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name]) ||
+            (rF[2].sort === "asc"
+              ? a[rF[2].name] - b[rF[2].name]
+              : b[rF[2].name] - a[rF[2].name]) ||
+            (rF[3].sort === "asc"
+              ? a[rF[3].name] - b[rF[3].name]
+              : b[rF[3].name] - a[rF[3].name]) ||
+            (rF[4].sort === "asc"
+              ? a[rF[4].name] - b[rF[4].name]
+              : b[rF[4].name] - a[rF[4].name])
+        );
+      }
     }
 
     return filteredItems;
@@ -408,6 +434,7 @@ const UniversalInfoDisplay = () => {
     filter5,
     selectedStore,
     miles,
+    searchStr,
   ]);
 
   // filter_defaults.json vals not applied, all filters cleared

@@ -181,7 +181,14 @@ const FilterBar = ({
 
       {!search && searchStr && (
         <span className={`filters`}>
-          <span className={`filter-vals on`}>{searchStr}</span>
+          <span
+            className={`filter-vals on`}
+            onClick={() => {
+              setSearch && setSearch(true);
+            }}
+          >
+            {searchStr}
+          </span>
         </span>
       )}
 
