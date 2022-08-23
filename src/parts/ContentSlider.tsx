@@ -212,7 +212,7 @@ const ContentSlider = ({
         // may be better to check if heavy img node exists on page
         // then slow everything down
         if ((prevNode as React.ReactElement).type === "img") {
-          delay = 5;
+          delay = 1;
         }
       }
 
