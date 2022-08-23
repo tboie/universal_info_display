@@ -23,9 +23,13 @@
 }
 
 .filterbar img {
+  position: absolute;
   height: 1rem;
   width: 1rem;
   opacity: 0.8;
+  z-index: 1;
+  transform: translateX(50%);
+  pointer-events: none;
 }
 
 .filterbar .filters {
@@ -70,4 +74,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#search-input {
+  background-color: #1b1a26;
+  display: flex;
+  color: white;
+  height: 100%;
+  width: 33px;
+  user-select: auto;
+  font-size: 1rem;
+  border-top: 0;
+  border-right: 1px solid #2e2f41;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+#search-input.on {
+  flex: 1;
+  width: auto;
 }

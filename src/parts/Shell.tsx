@@ -18,6 +18,8 @@ import groupFilterData from "./config/groups.json";
 import itemAliasData from "./config/item_aliases.json";
 import filterDefaultData from "./config/filter_defaults.json";
 
+import Fuse from "fuse.js";
+
 // page change and page snap utils
 declare global {
   var contentSliderPressed: boolean;
@@ -443,6 +445,9 @@ const UniversalInfoDisplay = () => {
         });
       }
     });
+
+    setSearchStr("");
+    setSearch(false);
   };
 
   useEffect(() => {
@@ -647,6 +652,23 @@ const UniversalInfoDisplay = () => {
     */
   };
 
+  useEffect(() => {
+    if (search) {
+      const searchEle = document.querySelector(
+        "#search-input"
+      ) as HTMLInputElement;
+
+      if (searchEle) {
+        searchEle.setAttribute("tabindex", "0");
+        searchEle.focus();
+
+        searchEle.addEventListener("blur", (e) => {
+          setSearch(false);
+        });
+      }
+    }
+  }, [search]);
+
   return (
     <div
       className="universal-info-display"
@@ -726,9 +748,19 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {search && <input id={`search-input`} type={`text`} />}
+      {/*search && (
+        <input
+          id={`search-input`}
+          type={`text`}
+          onChange={(e) => {
+            console.log(e.currentTarget.value);
+            setSearchStr(e.currentTarget.value);
+          }}
+          value={searchStr}
+        />
+        )*/}
 
-      {!search && selectedGroup && !fetching && (
+      {selectedGroup && !fetching && (
         <FilterBar
           selectedGroup={selectedGroup}
           selectedFilterIdx={selectedFilterIdx}
@@ -751,6 +783,8 @@ const UniversalInfoDisplay = () => {
           clearFilters={() => clearFilters()}
           search={search}
           setSearch={setSearch}
+          searchStr={searchStr}
+          setSearchStr={setSearchStr}
         />
       )}
 
@@ -803,7 +837,7 @@ const UniversalInfoDisplay = () => {
           return null;
         })}
 
-      {!map && !search && selectedGroup && !fetching && (
+      {!map && selectedGroup && !fetching && (
         <Slider
           type={"page"}
           titles={

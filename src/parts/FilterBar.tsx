@@ -20,6 +20,8 @@ type PartFilterBarType = {
   clearFilters: () => void;
   search?: boolean;
   setSearch?: (on: boolean) => void;
+  searchStr?: string;
+  setSearchStr?: (val: string) => void;
 };
 
 const FilterBar = ({
@@ -40,6 +42,8 @@ const FilterBar = ({
   clearFilters,
   search,
   setSearch,
+  searchStr,
+  setSearchStr,
 }: PartFilterBarType) => {
   const filterOn = (f?: Filter) => {
     if (f) {
@@ -157,18 +161,23 @@ const FilterBar = ({
 
   return (
     <div className={"filterbar"}>
-      {!fetching && selectedGroup && (
-        <div
-          className={"search"}
-          onClick={() => {
-            setSearch && setSearch(true);
-          }}
-        >
-          <img src="/media/search.svg" alt="search" />
-        </div>
-      )}
+      {!search && <img src="/media/search.svg" alt="search" />}
 
-      {!fetching && selectedGroup && (
+      <input
+        id={`search-input`}
+        className={`${search ? "on" : ""}`}
+        type={`text`}
+        onClick={(e) => {
+          setSearch && setSearch(true);
+        }}
+        onChange={(e) => {
+          setSearchStr && setSearchStr(e.currentTarget.value);
+        }}
+        value={search ? searchStr : ""}
+        placeholder={search ? "Search" : ""}
+      />
+
+      {!search && (
         <span className="filters">
           {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
             idx++;
@@ -220,17 +229,16 @@ const FilterBar = ({
         </span>
       )}
 
-      {selectedGroup &&
-        filtersOn([filter1, filter2, filter3, filter4, filter5]) && (
-          <button
-            className={"clear-filters"}
-            onClick={(e) => {
-              clearFilters();
-            }}
-          >
-            X
-          </button>
-        )}
+      {filtersOn([filter1, filter2, filter3, filter4, filter5]) && (
+        <button
+          className={"clear-filters"}
+          onClick={(e) => {
+            clearFilters();
+          }}
+        >
+          X
+        </button>
+      )}
     </div>
   );
 };
