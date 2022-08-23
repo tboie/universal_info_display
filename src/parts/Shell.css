@@ -14,3 +14,9 @@
 .no-pointer-events {
   pointer-events: none;
 }
+
+#search-input {
+  background-color: white;
+  color: black;
+  width: 100%;
+}

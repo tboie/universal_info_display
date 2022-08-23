@@ -726,7 +726,9 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {selectedGroup && !fetching && (
+      {search && <input id={`search-input`} type={`text`} />}
+
+      {!search && selectedGroup && !fetching && (
         <FilterBar
           selectedGroup={selectedGroup}
           selectedFilterIdx={selectedFilterIdx}
@@ -747,6 +749,8 @@ const UniversalInfoDisplay = () => {
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
           clearFilters={() => clearFilters()}
+          search={search}
+          setSearch={setSearch}
         />
       )}
 
@@ -799,7 +803,7 @@ const UniversalInfoDisplay = () => {
           return null;
         })}
 
-      {!map && selectedGroup && !fetching && (
+      {!map && !search && selectedGroup && !fetching && (
         <Slider
           type={"page"}
           titles={

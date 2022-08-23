@@ -18,8 +18,8 @@ type PartFilterBarType = {
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
   clearFilters: () => void;
-  search?: string;
-  setSearch?: (str?: string) => void;
+  search?: boolean;
+  setSearch?: (on: boolean) => void;
 };
 
 const FilterBar = ({
@@ -158,7 +158,12 @@ const FilterBar = ({
   return (
     <div className={"filterbar"}>
       {!fetching && selectedGroup && (
-        <div className={"search"}>
+        <div
+          className={"search"}
+          onClick={() => {
+            setSearch && setSearch(true);
+          }}
+        >
           <img src="/media/search.svg" alt="search" />
         </div>
       )}
