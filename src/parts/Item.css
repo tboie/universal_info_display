@@ -34,7 +34,6 @@
 
 #item .glow {
   position: absolute;
-  width: 150%;
   transform: translateY(-25%);
   opacity: 0.5;
   object-fit: cover;
@@ -45,7 +44,6 @@
 
 #item .cover {
   position: relative;
-  width: 75%;
 }
 
 #item .desc {

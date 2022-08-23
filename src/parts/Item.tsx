@@ -25,8 +25,20 @@ const Item = ({
 
   function getContentNodes() {
     return [
-      <img className={`glow`} src={`/media/glow.png`} alt={`glow`} />,
-      <img className={`cover`} src={`/media/flower.gif`} alt={`item`} />,
+      <img
+        className={`glow`}
+        src={`/media/glow.png`}
+        alt={`glow`}
+        width={"600px"}
+        height={"600px"}
+      />,
+      <img
+        className={`cover`}
+        src={`/media/flower.gif`}
+        alt={`item`}
+        width={"300px"}
+        height={"300px"}
+      />,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
       item.desc,
