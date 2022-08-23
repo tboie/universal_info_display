@@ -198,59 +198,41 @@ const ContentSlider = ({
   }
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
     if (contentNodes && pageProcNum) {
       // flatten pagesNodes arrays to sync with source contentNodes node array
       const nodeIdx = pagesNodes.flat().length;
       const currNode = contentNodes[nodeIdx];
       const prevNode = contentNodes[nodeIdx - 1];
 
-      let delay = 1;
-
-      if (prevNode) {
-        // may be better to check if heavy img node exists on page
-        // then slow everything down
-        if ((prevNode as React.ReactElement).type === "img") {
-          delay = 1;
-        }
-      }
-
       if (currNode) {
-        timer = setTimeout(() => {
-          const containerId = `#overflow-wrapper-${pageProcNum}`;
-          const container = document.querySelector(containerId) as HTMLElement;
+        const containerId = `#overflow-wrapper-${pageProcNum}`;
+        const container = document.querySelector(containerId) as HTMLElement;
 
-          if (container) {
-            if (!checkOverflow(container)) {
-              // prev p node finished splitting to next page
-              // add next element and proc next page
-              if (!newStringNode) {
-                newStringNode = true;
-                addNodeToPage(pageProcNum + 1, currNode, true);
+        if (container) {
+          if (!checkOverflow(container)) {
+            // prev p node finished splitting to next page
+            // add next element and proc next page
+            if (!newStringNode) {
+              newStringNode = true;
+              addNodeToPage(pageProcNum + 1, currNode, true);
+            } else {
+              addNodeToPage(pageProcNum, currNode);
+            }
+          } else {
+            if (typeof prevNode === "string") {
+              if (newStringNode) {
+                newStringNode = false;
+                moveLastWord(nodeIdx - 1, pageProcNum + 1, true);
               } else {
-                addNodeToPage(pageProcNum, currNode);
+                moveLastWord(nodeIdx - 2, pageProcNum + 1, false);
               }
             } else {
-              if (typeof prevNode === "string") {
-                if (newStringNode) {
-                  newStringNode = false;
-                  moveLastWord(nodeIdx - 1, pageProcNum + 1, true);
-                } else {
-                  moveLastWord(nodeIdx - 2, pageProcNum + 1, false);
-                }
-              } else {
-                popLastNodeToNew(pageProcNum);
-              }
+              popLastNodeToNew(pageProcNum);
             }
           }
-          // image components dont get added for faster speeds?
-          // why? large image file?
-        }, delay);
+        }
       }
     }
-
-    return () => clearTimeout(timer);
   }, [pagesNodes]);
 
   return (
