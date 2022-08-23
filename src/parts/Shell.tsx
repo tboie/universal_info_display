@@ -7,7 +7,7 @@ import "./Shell.css";
 
 import { useState, useEffect, useMemo } from "react";
 import ContentSlider from "./ContentSlider";
-import StatusBar from "./FilterBar";
+import FilterBar from "./FilterBar";
 import MapWrapper from "./Map";
 import Range from "./Range";
 import Item from "./Item";
@@ -88,6 +88,9 @@ const UniversalInfoDisplay = () => {
   const [filter4, setFilter4] = useState<Filter>();
   const [filter5, setFilter5] = useState<Filter>();
   const [rangeModal, setRangeModal] = useState(false);
+
+  const [search, setSearch] = useState(false);
+  const [searchStr, setSearchStr] = useState<string>("");
 
   const [stores, setStores] = useState<Store[]>([]);
   const [selectedStore, setSelectedStore] = useState<Store | undefined>();
@@ -689,7 +692,7 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {map ? (
+      {map && (
         <MapWrapper
           lng={lng}
           lat={lat}
@@ -702,7 +705,9 @@ const UniversalInfoDisplay = () => {
           map={map}
           toggleMap={() => toggleMap(!map)}
         />
-      ) : (
+      )}
+
+      {!map && (
         <ContentSlider
           type={"grid"}
           items={
@@ -722,7 +727,7 @@ const UniversalInfoDisplay = () => {
       )}
 
       {selectedGroup && !fetching && (
-        <StatusBar
+        <FilterBar
           selectedGroup={selectedGroup}
           selectedFilterIdx={selectedFilterIdx}
           setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}

@@ -18,6 +18,8 @@ type PartFilterBarType = {
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
   clearFilters: () => void;
+  search?: string;
+  setSearch?: (str?: string) => void;
 };
 
 const FilterBar = ({
@@ -36,6 +38,8 @@ const FilterBar = ({
   selectedStore,
   setSelectedStore,
   clearFilters,
+  search,
+  setSearch,
 }: PartFilterBarType) => {
   const filterOn = (f?: Filter) => {
     if (f) {
