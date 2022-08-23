@@ -79,7 +79,6 @@
 #search-input {
   background-color: #1b1a26;
   display: flex;
-  color: white;
   height: 100%;
   width: 33px;
   user-select: auto;
@@ -88,6 +87,12 @@
   border-right: 1px solid #2e2f41;
   border-bottom: 0;
   border-left: 0;
+  border-radius: 0;
+  color: gold;
+}
+
+#search-input::placeholder {
+  text-transform: capitalize;
 }
 
 #search-input.on {

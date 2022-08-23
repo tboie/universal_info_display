@@ -168,16 +168,24 @@ const FilterBar = ({
         className={`${search ? "on" : ""}`}
         type={`text`}
         onClick={(e) => {
+          setSelectedFilterIdx(0);
+          clearFilters();
           setSearch && setSearch(true);
         }}
         onChange={(e) => {
           setSearchStr && setSearchStr(e.currentTarget.value);
         }}
         value={search ? searchStr : ""}
-        placeholder={search ? "Search" : ""}
+        placeholder={search ? `Search All ${selectedGroup}` : ""}
       />
 
-      {!search && (
+      {!search && searchStr && (
+        <span className={`filters`}>
+          <span className={`filter-vals on`}>{searchStr}</span>
+        </span>
+      )}
+
+      {!search && !searchStr && (
         <span className="filters">
           {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
             idx++;
