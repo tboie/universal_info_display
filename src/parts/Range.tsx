@@ -1,6 +1,6 @@
 import "./Range.css";
 
-import { Filter, FilterOp, FilterType } from "./Shell";
+import { Filter } from "./Shell";
 import { throttle } from "throttle-debounce-ts";
 
 type PartRangeType = {
