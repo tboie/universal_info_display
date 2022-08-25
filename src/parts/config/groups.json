@@ -1,6 +1,9 @@
 [
     {
         "group": "flower",
+         "mi": {
+            "type": "range"
+        },
         "m,t": {
             "alias": "type",
             "type": "choice"
@@ -14,8 +17,9 @@
         "%": {
             "type": "range"
         },
-        "mi": {
-            "type": "range"
+        "b":{
+            "alias": "brand",
+            "type": "choice"
         }
     },
     {
