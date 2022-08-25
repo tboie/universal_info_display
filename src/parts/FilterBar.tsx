@@ -6,6 +6,7 @@ type PartFilterBarType = {
   selectedGroup: string;
   selectedFilterIdx: number;
   setSelectedFilterIdx: (idx: number) => void;
+  filter0?: Filter;
   filter1?: Filter;
   filter2?: Filter;
   filter3?: Filter;
@@ -28,6 +29,7 @@ const FilterBar = ({
   selectedGroup,
   selectedFilterIdx,
   setSelectedFilterIdx,
+  filter0,
   filter1,
   filter2,
   filter3,
@@ -149,13 +151,13 @@ const FilterBar = ({
           setSelectedStore(undefined);
         } else {
           toggleMap(false);
-          setSelectedFilterIdx(0);
+          setSelectedFilterIdx(-1);
         }
       } else if (selectedFilterIdx !== idx && map) {
         setSelectedFilterIdx(idx);
       }
     } else if (type === "choice" || "range") {
-      setSelectedFilterIdx(selectedFilterIdx === idx ? 0 : idx);
+      setSelectedFilterIdx(selectedFilterIdx === idx ? -1 : idx);
     }
   };
 
@@ -168,7 +170,7 @@ const FilterBar = ({
         className={`${search ? "on" : ""}`}
         type={`text`}
         onClick={(e) => {
-          setSelectedFilterIdx(0);
+          setSelectedFilterIdx(-1);
           clearFilters();
           setSearch && setSearch(true);
         }}
@@ -194,57 +196,58 @@ const FilterBar = ({
 
       {!search && !searchStr && (
         <span className="filters">
-          {[filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
-            idx++;
-            if (f) {
-              if (f.type === "choice") {
-                return (
-                  <span
-                    key={`status-${f.name}`}
-                    className={`filter-vals ${
-                      selectedFilterIdx === idx ? "sel" : ""
-                    } ${filterOn(f) ? "on" : ""}`}
-                    onClick={(e) => {
-                      setSelectedFilter(
-                        idx,
-                        f.type,
-                        selectedFilterIdx === idx,
-                        f.name
-                      );
-                    }}
-                  >
-                    {getChoiceText(f.val as FilterChoice[]) ||
-                      f.alias ||
-                      f.name}
-                  </span>
-                );
-              } else if (f.type === "range") {
-                return (
-                  <span
-                    key={`status-${f.name}`}
-                    className={`filter-vals ${
-                      selectedFilterIdx === idx ? "sel" : ""
-                    } ${filterOn(f) ? "on" : ""} ${f?.sort ? "sort" : ""}`}
-                    onClick={(e) => {
-                      setSelectedFilter(
-                        idx,
-                        f.type,
-                        selectedFilterIdx === idx,
-                        f.name
-                      );
-                    }}
-                  >
-                    {formatRangeText(f)}
-                  </span>
-                );
+          {[filter0, filter1, filter2, filter3, filter4, filter5].map(
+            (f, idx) => {
+              if (f) {
+                if (f.type === "choice") {
+                  return (
+                    <span
+                      key={`status-${f.name}`}
+                      className={`filter-vals ${
+                        selectedFilterIdx === idx ? "sel" : ""
+                      } ${filterOn(f) ? "on" : ""}`}
+                      onClick={(e) => {
+                        setSelectedFilter(
+                          idx,
+                          f.type,
+                          selectedFilterIdx === idx,
+                          f.name
+                        );
+                      }}
+                    >
+                      {getChoiceText(f.val as FilterChoice[]) ||
+                        f.alias ||
+                        f.name}
+                    </span>
+                  );
+                } else if (f.type === "range") {
+                  return (
+                    <span
+                      key={`status-${f.name}`}
+                      className={`filter-vals ${
+                        selectedFilterIdx === idx ? "sel" : ""
+                      } ${filterOn(f) ? "on" : ""} ${f?.sort ? "sort" : ""}`}
+                      onClick={(e) => {
+                        setSelectedFilter(
+                          idx,
+                          f.type,
+                          selectedFilterIdx === idx,
+                          f.name
+                        );
+                      }}
+                    >
+                      {formatRangeText(f)}
+                    </span>
+                  );
+                }
               }
+              return null;
             }
-            return null;
-          })}
+          )}
         </span>
       )}
 
-      {filtersOn([filter1, filter2, filter3, filter4, filter5]) && (
+      {filtersOn([filter0, filter1, filter2, filter3, filter4, filter5]) && (
         <button
           className={"clear-filters"}
           onClick={(e) => {

@@ -83,7 +83,8 @@ const UniversalInfoDisplay = () => {
   const [groupFilters] = useState<any>(groupFilterData);
 
   const [filterDefaults] = useState<any>(filterDefaultData);
-  const [selectedFilterIdx, setSelectedFilterIdx] = useState(0);
+  const [selectedFilterIdx, setSelectedFilterIdx] = useState(-1);
+  const [filter0, setFilter0] = useState<Filter>();
   const [filter1, setFilter1] = useState<Filter>();
   const [filter2, setFilter2] = useState<Filter>();
   const [filter3, setFilter3] = useState<Filter>();
@@ -161,6 +162,7 @@ const UniversalInfoDisplay = () => {
 
   const getFilterByIdx = (idx: number) =>
     [
+      { f: filter0, set: setFilter0 },
       { f: filter1, set: setFilter1 },
       { f: filter2, set: setFilter2 },
       { f: filter3, set: setFilter3 },
@@ -169,6 +171,7 @@ const UniversalInfoDisplay = () => {
     ].find((obj) => obj.f?.i === idx);
 
   const getFilters = () => [
+    { f: filter0, set: setFilter0 },
     { f: filter1, set: setFilter1 },
     { f: filter2, set: setFilter2 },
     { f: filter3, set: setFilter3 },
@@ -343,6 +346,28 @@ const UniversalInfoDisplay = () => {
               ? a[rF[4].name] - b[rF[4].name]
               : b[rF[4].name] - a[rF[4].name])
         );
+      } else if (rF.length === 6) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name]) ||
+            (rF[2].sort === "asc"
+              ? a[rF[2].name] - b[rF[2].name]
+              : b[rF[2].name] - a[rF[2].name]) ||
+            (rF[3].sort === "asc"
+              ? a[rF[3].name] - b[rF[3].name]
+              : b[rF[3].name] - a[rF[3].name]) ||
+            (rF[4].sort === "asc"
+              ? a[rF[4].name] - b[rF[4].name]
+              : b[rF[4].name] - a[rF[4].name]) ||
+            (rF[5].sort === "asc"
+              ? a[rF[5].name] - b[rF[5].name]
+              : b[rF[5].name] - a[rF[5].name])
+        );
       }
     }
 
@@ -384,6 +409,7 @@ const UniversalInfoDisplay = () => {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
       if (title !== selectedGroup) {
+        setFilter0(undefined);
         setFilter1(undefined);
         setFilter2(undefined);
         setFilter3(undefined);
@@ -418,6 +444,7 @@ const UniversalInfoDisplay = () => {
   };
 
   const filteredItems = useMemo(filterItems, [
+    filter0,
     filter1,
     filter2,
     filter3,
@@ -613,7 +640,7 @@ const UniversalInfoDisplay = () => {
               // range
 
               const fObj: Filter = {
-                i: idx + 1,
+                i: idx,
                 name: key,
                 alias: obj.alias,
                 type: obj.type as FilterType,
@@ -631,14 +658,16 @@ const UniversalInfoDisplay = () => {
               };
 
               if (idx === 0) {
-                setFilter1(fObj);
+                setFilter0(fObj);
               } else if (idx === 1) {
-                setFilter2(fObj);
+                setFilter1(fObj);
               } else if (idx === 2) {
-                setFilter3(fObj);
+                setFilter2(fObj);
               } else if (idx === 3) {
-                setFilter4(fObj);
+                setFilter3(fObj);
               } else if (idx === 4) {
+                setFilter4(fObj);
+              } else if (idx === 5) {
                 setFilter5(fObj);
               }
             });
@@ -709,6 +738,7 @@ const UniversalInfoDisplay = () => {
           setStores([]);
           setKey([]);
           toggleMap(false);
+          setFilter0(undefined);
           setFilter1(undefined);
           setFilter2(undefined);
           setFilter3(undefined);
@@ -777,6 +807,7 @@ const UniversalInfoDisplay = () => {
           selectedGroup={selectedGroup}
           selectedFilterIdx={selectedFilterIdx}
           setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
+          filter0={filter0}
           filter1={filter1}
           filter2={filter2}
           filter3={filter3}
@@ -800,21 +831,21 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {selectedFilterIdx !== 0 &&
+      {selectedFilterIdx > -1 &&
         getFilters().map((obj, idx) => {
           const f = obj.f;
           if (
             f &&
-            (selectedFilterIdx === idx + 1 ||
+            (selectedFilterIdx === idx ||
               (f.name === "mi" &&
                 (map || selectedStore) &&
-                (selectedFilterIdx === idx + 1 || selectedFilterIdx === 0)))
+                (selectedFilterIdx === idx || selectedFilterIdx > -1)))
           ) {
             if (f.type === "range") {
               return (
                 <Range
                   key={idx}
-                  idx={idx + 1}
+                  idx={idx}
                   f={f}
                   setF={obj.set}
                   set={rangeSelect}

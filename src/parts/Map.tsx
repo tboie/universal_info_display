@@ -128,7 +128,7 @@ export default function Overlays({
                   setTimeout(() => {
                     // show store items
                     if (!selectedStore || selectedStore !== store) {
-                      setSelectedFilterIdx(0);
+                      setSelectedFilterIdx(-1);
                       toggleMap();
                     }
 
