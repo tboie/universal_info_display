@@ -834,13 +834,7 @@ const UniversalInfoDisplay = () => {
       {selectedFilterIdx > -1 &&
         getFilters().map((obj, idx) => {
           const f = obj.f;
-          if (
-            f &&
-            (selectedFilterIdx === idx ||
-              (f.name === "mi" &&
-                (map || selectedStore) &&
-                (selectedFilterIdx === idx || selectedFilterIdx > -1)))
-          ) {
+          if (f && selectedFilterIdx === idx) {
             if (f.type === "range") {
               return (
                 <Range
