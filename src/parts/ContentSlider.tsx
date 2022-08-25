@@ -451,7 +451,11 @@ const Page = ({
       )}
 
       {((type === "grid" && items?.length === 0) || !selectedGroup) && (
-        <img className="page-bg" src="/media/bg.jpg" alt="bg" />
+        <img
+          className="page-bg"
+          src={`/media/bg_${fetching ? "animated" : "static"}.gif`}
+          alt="bg"
+        />
       )}
 
       {type === "grid" && !fetching && items?.length && (
