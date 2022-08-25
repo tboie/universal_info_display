@@ -51,6 +51,17 @@ const FilterBar = ({
   searchStr,
   setSearchStr,
 }: PartFilterBarType) => {
+  const filters = [
+    filter0,
+    filter1,
+    filter2,
+    filter3,
+    filter4,
+    filter5,
+    filter6,
+    filter7,
+  ];
+
   const filterOn = (f?: Filter) => {
     if (f) {
       if (f.type === "choice") {
@@ -200,16 +211,7 @@ const FilterBar = ({
 
       {!search && !searchStr && (
         <span className="filters">
-          {[
-            filter0,
-            filter1,
-            filter2,
-            filter3,
-            filter4,
-            filter5,
-            filter6,
-            filter7,
-          ].map((f, idx) => {
+          {filters.map((f, idx) => {
             if (f) {
               if (f.type === "choice") {
                 return (
@@ -258,16 +260,7 @@ const FilterBar = ({
         </span>
       )}
 
-      {filtersOn([
-        filter0,
-        filter1,
-        filter2,
-        filter3,
-        filter4,
-        filter5,
-        filter6,
-        filter7,
-      ]) && (
+      {filtersOn(filters) && (
         <button
           className={"clear-filters"}
           onClick={(e) => {
