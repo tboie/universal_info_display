@@ -365,6 +365,9 @@ const UniversalInfoDisplay = () => {
               ? a[rF[5].name] - b[rF[5].name]
               : b[rF[5].name] - a[rF[5].name])
         );
+      } else {
+        // sort by ppu asc by default
+        filteredItems = filteredItems.sort((a, b) => a.ppu - b.ppu);
       }
     }
 
