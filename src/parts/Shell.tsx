@@ -47,7 +47,7 @@ export type Store = {
   a: string; // address
   n: string; // name
   l: [number, number]; // location
-  dist: number;
+  mi: number;
   numItems: number;
 };
 
@@ -236,9 +236,6 @@ const UniversalInfoDisplay = () => {
         );
       }
 
-      // distance
-      filteredItems = filteredItems.filter((item) => item.dist < miles);
-
       // choice
       getFilters()
         .map((obj) => obj.f)
@@ -269,7 +266,7 @@ const UniversalInfoDisplay = () => {
       // range filters
       let rF = getFilters()
         .map((obj) => obj.f)
-        .filter((f) => f?.type === "range" && f?.name !== "mi") as Filter[];
+        .filter((f) => f?.type === "range") as Filter[];
 
       // filter items by range value
       rF.forEach(
@@ -509,12 +506,12 @@ const UniversalInfoDisplay = () => {
               }
             );
             dist = dist / 1609.34;
-            return { ...k, dist: dist.toFixed(3) };
+            return { ...k, mi: dist.toFixed(3) };
           }
-          return { ...k, dist: 0 };
+          return { ...k, mi: 0 };
         })
-        .sort((a, b) => a.dist - b.dist)
-        .filter((i) => i.dist && i.dist < miles);
+        .filter((i) => i.mi && i.mi < miles)
+        .sort((a, b) => a.mi - b.mi);
 
       // all fetches
       const reqs: any = [];
@@ -534,11 +531,10 @@ const UniversalInfoDisplay = () => {
               // TODO: re-think dealing with menu
               items: store_items,
               total: 0,
-              dist: loc_distance.filter((l) => l?.a === store_items[0]?.a)[0]
-                ?.dist,
+              mi: loc_distance.filter((l) => l?.a === store_items[0]?.a)[0].mi,
             };
           })
-          .sort((a, b) => a.dist - b.dist);
+          .sort((a, b) => a.mi - b.mi);
 
         // set total items property
         stores_all.forEach((store, idx) => {
@@ -561,7 +557,7 @@ const UniversalInfoDisplay = () => {
                 g: [cut.g],
                 $: cut.$.toFixed(0),
                 ppu: (cut.$ / cut.g).toFixed(1),
-                dist: store.dist,
+                mi: store.mi,
               });
             });
           });
@@ -574,7 +570,7 @@ const UniversalInfoDisplay = () => {
           a: store.items[0].a,
           n: store.items[0].s,
           l: loc_distance.filter((l) => l?.a === store.items[0]?.a)[0]?.l,
-          dist: store.dist,
+          mi: store.mi,
           numItems: store.total,
         }));
         setStores(stores_final);
@@ -590,7 +586,7 @@ const UniversalInfoDisplay = () => {
 
         // set max min miles
         const maxMiles = miles;
-        const minMiles = Math.floor(all_items[0].dist) + 1;
+        const minMiles = Math.floor(all_items[0].mi) + 1;
         setMiles(maxMiles);
 
         // set filters with groups.json data
@@ -761,7 +757,7 @@ const UniversalInfoDisplay = () => {
           lng={lng}
           lat={lat}
           items={filteredItems}
-          stores={stores.filter((store) => store.dist < miles)}
+          stores={stores.filter((store) => store.mi < miles)}
           miles={miles}
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
