@@ -20,7 +20,7 @@ type PartFilterBarType = {
   aliases: any;
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
-  clearFilters: () => void;
+  clearFilters: (idx?: number) => void;
   search?: boolean;
   setSearch?: (on: boolean) => void;
   searchStr?: string;
@@ -264,7 +264,11 @@ const FilterBar = ({
         <button
           className={"clear-filters"}
           onClick={(e) => {
-            clearFilters();
+            if (selectedFilterIdx > -1) {
+              clearFilters(selectedFilterIdx);
+            } else {
+              clearFilters();
+            }
           }}
         >
           X

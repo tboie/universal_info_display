@@ -510,7 +510,7 @@ const UniversalInfoDisplay = () => {
   ]);
 
   // filter_defaults.json vals not applied, all filters cleared
-  const clearFilters = () => {
+  const clearFilters = (idx?: number) => {
     const clearChoiceVal = (f: Filter) => {
       return (f.val as FilterChoice[]).map((c) => ({
         ...c,
@@ -530,12 +530,14 @@ const UniversalInfoDisplay = () => {
 
     getFilters().forEach((obj) => {
       if (obj && obj.f) {
-        obj.set({
-          ...obj.f,
-          val: clearVal(obj.f),
-          sort: undefined,
-          op: getDefaultFilterOp(obj.f.type, obj.f.name),
-        });
+        if (idx === selectedFilterIdx || typeof idx === "undefined") {
+          obj.set({
+            ...obj.f,
+            val: clearVal(obj.f),
+            sort: undefined,
+            op: getDefaultFilterOp(obj.f.type, obj.f.name),
+          });
+        }
       }
     });
 
@@ -873,7 +875,7 @@ const UniversalInfoDisplay = () => {
           }
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
-          clearFilters={() => clearFilters()}
+          clearFilters={(idx) => clearFilters(idx)}
           search={search}
           setSearch={setSearch}
           searchStr={searchStr}
