@@ -90,6 +90,8 @@ const UniversalInfoDisplay = () => {
   const [filter3, setFilter3] = useState<Filter>();
   const [filter4, setFilter4] = useState<Filter>();
   const [filter5, setFilter5] = useState<Filter>();
+  const [filter6, setFilter6] = useState<Filter>();
+  const [filter7, setFilter7] = useState<Filter>();
   const [rangeModal, setRangeModal] = useState(false);
 
   const [search, setSearch] = useState(false);
@@ -160,16 +162,6 @@ const UniversalInfoDisplay = () => {
     return getDefaultFilterOp("range", name) === "<" ? range[1] : range[0];
   };
 
-  const getFilterByIdx = (idx: number) =>
-    [
-      { f: filter0, set: setFilter0 },
-      { f: filter1, set: setFilter1 },
-      { f: filter2, set: setFilter2 },
-      { f: filter3, set: setFilter3 },
-      { f: filter4, set: setFilter4 },
-      { f: filter5, set: setFilter5 },
-    ].find((obj) => obj.f?.i === idx);
-
   const getFilters = () => [
     { f: filter0, set: setFilter0 },
     { f: filter1, set: setFilter1 },
@@ -177,7 +169,12 @@ const UniversalInfoDisplay = () => {
     { f: filter3, set: setFilter3 },
     { f: filter4, set: setFilter4 },
     { f: filter5, set: setFilter5 },
+    { f: filter6, set: setFilter6 },
+    { f: filter7, set: setFilter7 },
   ];
+
+  const getFilterByIdx = (idx: number) =>
+    getFilters().find((obj) => obj.f?.i === idx);
 
   // TODO: Design
   const keyPath = "/data/keys";
@@ -365,6 +362,59 @@ const UniversalInfoDisplay = () => {
               ? a[rF[5].name] - b[rF[5].name]
               : b[rF[5].name] - a[rF[5].name])
         );
+      } else if (rF.length === 7) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name]) ||
+            (rF[2].sort === "asc"
+              ? a[rF[2].name] - b[rF[2].name]
+              : b[rF[2].name] - a[rF[2].name]) ||
+            (rF[3].sort === "asc"
+              ? a[rF[3].name] - b[rF[3].name]
+              : b[rF[3].name] - a[rF[3].name]) ||
+            (rF[4].sort === "asc"
+              ? a[rF[4].name] - b[rF[4].name]
+              : b[rF[4].name] - a[rF[4].name]) ||
+            (rF[5].sort === "asc"
+              ? a[rF[5].name] - b[rF[5].name]
+              : b[rF[5].name] - a[rF[5].name]) ||
+            (rF[6].sort === "asc"
+              ? a[rF[6].name] - b[rF[6].name]
+              : b[rF[6].name] - a[rF[6].name])
+        );
+      } else if (rF.length === 8) {
+        filteredItems.sort(
+          (a, b) =>
+            (rF[0].sort === "asc"
+              ? a[rF[0].name] - b[rF[0].name]
+              : b[rF[0].name] - a[rF[0].name]) ||
+            (rF[1].sort === "asc"
+              ? a[rF[1].name] - b[rF[1].name]
+              : b[rF[1].name] - a[rF[1].name]) ||
+            (rF[2].sort === "asc"
+              ? a[rF[2].name] - b[rF[2].name]
+              : b[rF[2].name] - a[rF[2].name]) ||
+            (rF[3].sort === "asc"
+              ? a[rF[3].name] - b[rF[3].name]
+              : b[rF[3].name] - a[rF[3].name]) ||
+            (rF[4].sort === "asc"
+              ? a[rF[4].name] - b[rF[4].name]
+              : b[rF[4].name] - a[rF[4].name]) ||
+            (rF[5].sort === "asc"
+              ? a[rF[5].name] - b[rF[5].name]
+              : b[rF[5].name] - a[rF[5].name]) ||
+            (rF[6].sort === "asc"
+              ? a[rF[6].name] - b[rF[6].name]
+              : b[rF[6].name] - a[rF[6].name]) ||
+            (rF[7].sort === "asc"
+              ? a[rF[7].name] - b[rF[7].name]
+              : b[rF[7].name] - a[rF[7].name])
+        );
       } else {
         // sort by ppu asc by default
         filteredItems = filteredItems.sort((a, b) => a.ppu - b.ppu);
@@ -415,6 +465,8 @@ const UniversalInfoDisplay = () => {
         setFilter3(undefined);
         setFilter4(undefined);
         setFilter5(undefined);
+        setFilter6(undefined);
+        setFilter7(undefined);
         setSelectedPageIdx(1);
         setSelectedGroup(title);
       }
@@ -450,6 +502,8 @@ const UniversalInfoDisplay = () => {
     filter3,
     filter4,
     filter5,
+    filter6,
+    filter7,
     selectedStore,
     miles,
     searchStr,
@@ -668,6 +722,10 @@ const UniversalInfoDisplay = () => {
                 setFilter4(fObj);
               } else if (idx === 5) {
                 setFilter5(fObj);
+              } else if (idx === 6) {
+                setFilter6(fObj);
+              } else if (idx === 7) {
+                setFilter7(fObj);
               }
             });
         }
@@ -743,6 +801,8 @@ const UniversalInfoDisplay = () => {
           setFilter3(undefined);
           setFilter4(undefined);
           setFilter5(undefined);
+          setFilter6(undefined);
+          setFilter7(undefined);
         }}
       />
 
@@ -800,6 +860,8 @@ const UniversalInfoDisplay = () => {
           filter3={filter3}
           filter4={filter4}
           filter5={filter5}
+          filter6={filter6}
+          filter7={filter7}
           fetching={fetching}
           map={map}
           toggleMap={(val) => toggleMap(val)}

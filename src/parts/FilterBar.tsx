@@ -12,6 +12,8 @@ type PartFilterBarType = {
   filter3?: Filter;
   filter4?: Filter;
   filter5?: Filter;
+  filter6?: Filter;
+  filter7?: Filter;
   fetching: boolean;
   map: boolean;
   toggleMap: (val: boolean) => void;
@@ -35,6 +37,8 @@ const FilterBar = ({
   filter3,
   filter4,
   filter5,
+  filter6,
+  filter7,
   fetching,
   map,
   toggleMap,
@@ -196,58 +200,74 @@ const FilterBar = ({
 
       {!search && !searchStr && (
         <span className="filters">
-          {[filter0, filter1, filter2, filter3, filter4, filter5].map(
-            (f, idx) => {
-              if (f) {
-                if (f.type === "choice") {
-                  return (
-                    <span
-                      key={`status-${f.name}`}
-                      className={`filter-vals ${
-                        selectedFilterIdx === idx ? "sel" : ""
-                      } ${filterOn(f) ? "on" : ""}`}
-                      onClick={(e) => {
-                        setSelectedFilter(
-                          idx,
-                          f.type,
-                          selectedFilterIdx === idx,
-                          f.name
-                        );
-                      }}
-                    >
-                      {getChoiceText(f.val as FilterChoice[]) ||
-                        f.alias ||
-                        f.name}
-                    </span>
-                  );
-                } else if (f.type === "range") {
-                  return (
-                    <span
-                      key={`status-${f.name}`}
-                      className={`filter-vals ${
-                        selectedFilterIdx === idx ? "sel" : ""
-                      } ${filterOn(f) ? "on" : ""} ${f?.sort ? "sort" : ""}`}
-                      onClick={(e) => {
-                        setSelectedFilter(
-                          idx,
-                          f.type,
-                          selectedFilterIdx === idx,
-                          f.name
-                        );
-                      }}
-                    >
-                      {formatRangeText(f)}
-                    </span>
-                  );
-                }
+          {[
+            filter0,
+            filter1,
+            filter2,
+            filter3,
+            filter4,
+            filter5,
+            filter6,
+            filter7,
+          ].map((f, idx) => {
+            if (f) {
+              if (f.type === "choice") {
+                return (
+                  <span
+                    key={`status-${f.name}`}
+                    className={`filter-vals ${
+                      selectedFilterIdx === idx ? "sel" : ""
+                    } ${filterOn(f) ? "on" : ""}`}
+                    onClick={(e) => {
+                      setSelectedFilter(
+                        idx,
+                        f.type,
+                        selectedFilterIdx === idx,
+                        f.name
+                      );
+                    }}
+                  >
+                    {getChoiceText(f.val as FilterChoice[]) ||
+                      f.alias ||
+                      f.name}
+                  </span>
+                );
+              } else if (f.type === "range") {
+                return (
+                  <span
+                    key={`status-${f.name}`}
+                    className={`filter-vals ${
+                      selectedFilterIdx === idx ? "sel" : ""
+                    } ${filterOn(f) ? "on" : ""} ${f?.sort ? "sort" : ""}`}
+                    onClick={(e) => {
+                      setSelectedFilter(
+                        idx,
+                        f.type,
+                        selectedFilterIdx === idx,
+                        f.name
+                      );
+                    }}
+                  >
+                    {formatRangeText(f)}
+                  </span>
+                );
               }
-              return null;
             }
-          )}
+            return null;
+          })}
         </span>
       )}
 
-      {filtersOn([filter0, filter1, filter2, filter3, filter4, filter5]) && (
+      {filtersOn([
+        filter0,
+        filter1,
+        filter2,
+        filter3,
+        filter4,
+        filter5,
+        filter6,
+        filter7,
+      ]) && (
         <button
           className={"clear-filters"}
           onClick={(e) => {
