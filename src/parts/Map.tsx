@@ -45,26 +45,21 @@ export default function Overlays({
     }
   }, [selectedStore]);
 
-  const getLabelText = (store: Store) => {
+  const getLabelText = (store: Store, numItems: number) => {
     let text = "";
     if (view.zoom > 12) {
       text = store.n.replaceAll("-", " ");
 
       if (selectedStore) {
         if (selectedStore === store) {
-          text =
-            text +
-            " (" +
-            items.filter((item) => item.s === store.n).length +
-            ")";
+          text = text + " (" + numItems + ")";
         }
       } else {
-        text =
-          text + " (" + items.filter((item) => item.s === store.n).length + ")";
+        text = text + " (" + numItems + ")";
       }
     } else {
       if (!selectedStore || selectedStore === store) {
-        text = items.filter((item) => item.s === store.n).length.toString();
+        text = numItems.toString();
       }
     }
 
@@ -114,7 +109,8 @@ export default function Overlays({
         </RFeature>
 
         {stores.map((store) => {
-          return (
+          const numItems = items.filter((item) => item.s === store.n).length;
+          return numItems ? (
             <>
               <RFeature
                 geometry={new Point(fromLonLat([store.l[1], store.l[0]]))}
@@ -147,11 +143,11 @@ export default function Overlays({
                     selectedStore === store ? " selected" : ""
                   }`}
                 >
-                  {getLabelText(store)}
+                  {getLabelText(store, numItems)}
                 </ROverlay>
               </RFeature>
             </>
-          );
+          ) : null;
         })}
       </RLayerVector>
     </RMap>
