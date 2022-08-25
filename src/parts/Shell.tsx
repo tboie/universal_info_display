@@ -154,15 +154,27 @@ const UniversalInfoDisplay = () => {
       type: type,
     }));
   };
+
   const getDefaultFilterRangeVal = (name: string, range: FilterRange) => {
     return getDefaultFilterOp("range", name) === "<" ? range[1] : range[0];
   };
 
-  const getFilterByIdx = (idx: number) => {
-    return [filter1, filter2, filter3, filter4, filter5].find(
-      (f) => f && f.i === idx
-    );
-  };
+  const getFilterByIdx = (idx: number) =>
+    [
+      { f: filter1, set: setFilter1 },
+      { f: filter2, set: setFilter2 },
+      { f: filter3, set: setFilter3 },
+      { f: filter4, set: setFilter4 },
+      { f: filter5, set: setFilter5 },
+    ].find((obj) => obj.f?.i === idx);
+
+  const getFilters = () => [
+    { f: filter1, set: setFilter1 },
+    { f: filter2, set: setFilter2 },
+    { f: filter3, set: setFilter3 },
+    { f: filter4, set: setFilter4 },
+    { f: filter5, set: setFilter5 },
+  ];
 
   // TODO: Design
   const keyPath = "/data/keys";
@@ -225,7 +237,8 @@ const UniversalInfoDisplay = () => {
       filteredItems = filteredItems.filter((item) => item.dist < miles);
 
       // choice
-      [filter1, filter2, filter3, filter4, filter5]
+      getFilters()
+        .map((obj) => obj.f)
         .filter((f) => f?.type === "choice")
         .forEach((f) => {
           if (f) {
@@ -251,9 +264,9 @@ const UniversalInfoDisplay = () => {
         });
 
       // range filters
-      let rF = [filter1, filter2, filter3, filter4, filter5].filter(
-        (f) => f && f.type === "range" && f.name !== "mi"
-      ) as Filter[];
+      let rF = getFilters()
+        .map((obj) => obj.f)
+        .filter((f) => f?.type === "range" && f?.name !== "mi") as Filter[];
 
       // filter items by range value
       rF.forEach(
@@ -381,45 +394,23 @@ const UniversalInfoDisplay = () => {
       }
     } else if (type === "choice" && field) {
       setSelectedPageIdx(1);
-      [
-        { f: filter1, s: setFilter1 },
-        { f: filter2, s: setFilter2 },
-        { f: filter3, s: setFilter3 },
-        { f: filter4, s: setFilter4 },
-        { f: filter5, s: setFilter5 },
-      ].some((fObj, idx) => {
-        if (fObj.f) {
-          if (idx + 1 === selectedFilterIdx) {
-            fObj.s({
-              ...fObj.f,
-              val: toggleChoice(fObj.f.val as FilterChoice[], field, title),
-            });
-            return true;
-          }
-        }
-        return false;
-      });
+      const obj = getFilterByIdx(selectedFilterIdx);
+      if (obj && obj.f) {
+        obj.set({
+          ...obj.f,
+          val: toggleChoice(obj.f.val as FilterChoice[], field, title),
+        });
+      }
     } else if (type === "clear-filters") {
       clearFilters();
     }
   };
 
   const rangeSelect = (idx: number, unit: string, val: number) => {
-    [
-      [filter1, setFilter1],
-      [filter2, setFilter2],
-      [filter3, setFilter3],
-      [filter4, setFilter4],
-      [filter5, setFilter5],
-    ].some((fArr: any, i: number) => {
-      if (i + 1 === idx) {
-        if (fArr[0] && fArr[1]) {
-          fArr[1]({ ...fArr[0], val: val });
-          return true;
-        }
-      }
-      return false;
-    });
+    const obj = getFilterByIdx(idx);
+    if (obj && obj.f) {
+      obj.set({ ...obj.f, val: val });
+    }
 
     if (unit === "mi") {
       setMiles(val);
@@ -456,19 +447,13 @@ const UniversalInfoDisplay = () => {
 
     setSelectedPageIdx(1);
 
-    [
-      [filter1, setFilter1],
-      [filter2, setFilter2],
-      [filter3, setFilter3],
-      [filter4, setFilter4],
-      [filter5, setFilter5],
-    ].forEach((fArr: any) => {
-      if (fArr[0] && fArr[1]) {
-        fArr[1]({
-          ...fArr[0],
-          val: clearVal(fArr[0]),
+    getFilters().forEach((obj) => {
+      if (obj && obj.f) {
+        obj.set({
+          ...obj.f,
+          val: clearVal(obj.f),
           sort: undefined,
-          op: getDefaultFilterOp(fArr[0].type, fArr[0].name),
+          op: getDefaultFilterOp(obj.f.type, obj.f.name),
         });
       }
     });
@@ -771,7 +756,7 @@ const UniversalInfoDisplay = () => {
           getData={(group) => getData(group)}
           fetching={fetching}
           rangeModal={rangeModal}
-          selectedFilter={getFilterByIdx(selectedFilterIdx)}
+          selectedFilter={getFilterByIdx(selectedFilterIdx)?.f}
         />
       )}
 
@@ -816,7 +801,8 @@ const UniversalInfoDisplay = () => {
       )}
 
       {selectedFilterIdx !== 0 &&
-        [filter1, filter2, filter3, filter4, filter5].map((f, idx) => {
+        getFilters().map((obj, idx) => {
+          const f = obj.f;
           if (
             f &&
             (selectedFilterIdx === idx + 1 ||
@@ -830,13 +816,7 @@ const UniversalInfoDisplay = () => {
                   key={idx}
                   idx={idx + 1}
                   f={f}
-                  setF={[
-                    setFilter1,
-                    setFilter2,
-                    setFilter3,
-                    setFilter4,
-                    setFilter5,
-                  ].find((sF, i) => i === idx)}
+                  setF={obj.set}
                   set={rangeSelect}
                   setRangeModal={setRangeModal}
                 />
