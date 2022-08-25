@@ -37,7 +37,6 @@ const Grid = ({
             <div className="container-text">
               {selectedGroup && (
                 <>
-                  <span className="price">{"$" + item["$"]}</span>
                   <span className="choice">
                     {item["g"] ? item["g"].join(",") + "g" : ""}
                   </span>
@@ -45,6 +44,7 @@ const Grid = ({
                   <span className="percent">
                     {item["%"] ? Math.round(item["%"]) + "%" : ""}
                   </span>
+                  <span className="price">{"$" + item["$"]}</span>
                   {/*
                   <span className="type">{item["t"]}</span>
 
