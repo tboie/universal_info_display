@@ -790,18 +790,6 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {/*search && (
-        <input
-          id={`search-input`}
-          type={`text`}
-          onChange={(e) => {
-            console.log(e.currentTarget.value);
-            setSearchStr(e.currentTarget.value);
-          }}
-          value={searchStr}
-        />
-        )*/}
-
       {selectedGroup && !fetching && (
         <FilterBar
           selectedGroup={selectedGroup}
