@@ -47,7 +47,8 @@
   overflow-x: scroll;
   white-space: nowrap;
   max-width: 100%;
-  padding-bottom: 0.1rem;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
 }
 
 .item-grid .item .title {
