@@ -827,6 +827,7 @@ const UniversalInfoDisplay = () => {
           setSelectedFilterIdx={setSelectedFilterIdx}
           map={map}
           toggleMap={() => toggleMap(!map)}
+          setSelectedPageIdx={setSelectedPageIdx}
         />
       )}
 
