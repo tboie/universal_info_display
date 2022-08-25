@@ -4,9 +4,6 @@
          "mi": {
             "type": "range"
         },
-        "ppu":{
-            "type": "range"
-        },
         "m,t": {
             "alias": "type",
             "type": "choice"
