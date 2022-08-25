@@ -219,7 +219,7 @@ const UniversalInfoDisplay = () => {
         // ignoreLocation: false,
         // ignoreFieldNorm: false,
         // fieldNormWeight: 1,
-        keys: ["n", "b", "s"],
+        keys: ["n"],
       };
 
       const fuse = new Fuse(filteredItems, options);
