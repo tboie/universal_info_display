@@ -75,14 +75,16 @@ export type Filter = {
   op: FilterOp;
 };
 
+// config
+export const groupFilters: any = groupFilterData;
+export const itemAliases: any = itemAliasData;
+export const filterDefaults: any = filterDefaultData;
+
 // main
 const UniversalInfoDisplay = () => {
+  const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
 
-  const [selectedGroup, setSelectedGroup] = useState("");
-  const [groupFilters] = useState<any>(groupFilterData);
-
-  const [filterDefaults] = useState<any>(filterDefaultData);
   const [selectedFilterIdx, setSelectedFilterIdx] = useState(-1);
   const [filter0, setFilter0] = useState<Filter>();
   const [filter1, setFilter1] = useState<Filter>();
@@ -102,7 +104,6 @@ const UniversalInfoDisplay = () => {
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
-  const [itemAliases] = useState<any>(itemAliasData);
 
   const [map, toggleMap] = useState(false);
   const [miles, setMiles] = useState(50);
