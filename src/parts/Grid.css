@@ -90,6 +90,15 @@
   border-radius: 1px;
 }
 
+.item-grid .item .container-text.more span {
+  color: white;
+}
+
+.item-grid .item .container-text.more .mi {
+  color: gold;
+  padding-top: 0.25rem;
+}
+
 .item-grid .item .container-img {
   position: relative;
   display: flex;

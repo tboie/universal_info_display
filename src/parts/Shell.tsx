@@ -609,6 +609,29 @@ const UniversalInfoDisplay = () => {
         const all_items: any = [];
         stores_all = stores_all.filter((store) => store.items.length > 0);
 
+        const getMoods = () => {
+          // Set all items state
+          const moods = [
+            "Blessed",
+            "Creative",
+            "Bliss",
+            "Froggy",
+            "Slow",
+            "Sleepy",
+            "Focused",
+            "Zoned",
+            "Energetic",
+            "Lovely",
+            "Boosted",
+            "Calm",
+          ];
+
+          return new Array(3)
+            .fill(0)
+            .map((n) => moods[Math.round(Math.random() * 11)]);
+        };
+
+        // create new item for each cut
         stores_all = stores_all.filter((store) => {
           store.items.forEach((item: any) => {
             item.c.forEach((cut: any) => {
@@ -618,6 +641,7 @@ const UniversalInfoDisplay = () => {
                 $: cut.$.toFixed(0),
                 ppu: (cut.$ / cut.g).toFixed(1),
                 mi: store.mi,
+                mood: getMoods(),
               });
             });
           });
@@ -638,9 +662,9 @@ const UniversalInfoDisplay = () => {
         // Set all items state
         setItems(
           all_items.map((item: any, idx: number) => ({
+            ...item,
             idx: idx,
             desc: sampleText,
-            ...item,
             "%": Math.round(item["%"]),
           }))
         );

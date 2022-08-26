@@ -85,20 +85,26 @@ const ItemSquare = ({
 
   const getFieldText = (f: string) => {
     const val = item[f];
+    let out = "";
 
     if (f === "$") {
-      return f + val;
-    } else if (f === "mi") {
-      return val + f;
-    } else if (selectedTemplateIdx === 0) {
-      return val + f;
+      out = f + val;
+    } else if (f === "mi" || selectedTemplateIdx === 0) {
+      out = val + f;
     } else {
       if (itemAliases[groupIdx] && itemAliases[groupIdx][f]) {
-        return itemAliases[groupIdx][f][val];
+        out = itemAliases[groupIdx][f][val];
       } else {
-        return val;
+        // array
+        if (typeof val === "object") {
+          out = val.join(", ");
+        } else {
+          out = val;
+        }
       }
     }
+
+    return out;
   };
 
   return (
@@ -130,7 +136,7 @@ const ItemSquare = ({
                 return (
                   <span
                     key={f}
-                    className={``}
+                    className={`${f === "mi" ? "mi" : "'"}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
