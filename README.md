@@ -30,14 +30,13 @@ npm start
 ### Components/Parts
 
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
-- [ButtonBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterButtonBar.tsx): Displays UI data filter buttons
-- [Range](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterRange.tsx): A data asc/desc range control with the min/max auto-populated from data
+- [FilterBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterBar.tsx): Displays UI data filter buttons
 - [Grid](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Grid.tsx): A 9 unit flex grid displaying items
 - [Item](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Item.tsx): A modal of the selected item
 - [Map](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Map.tsx): An openstreetmap called rlayers to display item locations
+- [Range](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Range.tsx): A data asc/desc range control with the min/max auto-populated from data
 - [Shell](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Shell.tsx): High-level application shell containing UI components
 - [Slider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/Slider.tsx): A horizontally scrolled data-driven choice component
-- [StatusBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/StatusBar.tsx): A horizontally scrolled filter tab bar
 - [TitleBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/TitleBar.tsx): Status bar at the top displaying status info
 
 ### UX Flow
@@ -112,17 +111,10 @@ Have the item "float" by displaying a slice of a full rotation.
 
 ### TODO/THINK/(RE)DESIGN
 
-- Secondary/Tertiary item property values in item grid when pressed?
-- Selected Item Template Page (item is clicked from grid)
-- Allow more filters and scroll (filters scroll horizontally too)
-- Re-design range sort asc/desc toggle?
-- Search
 - Themes
-- Extend map features?
-- Online shopping?
+- Extend map features? Directions?
 - Live customer support video stream lol
 - Custom ranking systems/designs...
 - Social Features
-- Don't forget PPU field (price, _points_ per unit aka weight)
+- Don't forget PPU field (_points_ per unit)
 - GAMIFICATIONs
-- Scrolling grid titles when overflowing
