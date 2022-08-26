@@ -202,7 +202,7 @@ const UniversalInfoDisplay = () => {
   const filterItems = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
-    if (searchStr) {
+    if (search) {
       const options = {
         // isCaseSensitive: false,
         // includeScore: false,
@@ -752,23 +752,6 @@ const UniversalInfoDisplay = () => {
     });
     */
   };
-
-  useEffect(() => {
-    if (search) {
-      const searchEle = document.querySelector(
-        "#search-input"
-      ) as HTMLInputElement;
-
-      if (searchEle) {
-        searchEle.setAttribute("tabindex", "0");
-        searchEle.focus();
-
-        searchEle.addEventListener("blur", (e) => {
-          setSearch(false);
-        });
-      }
-    }
-  }, [search]);
 
   return (
     <div

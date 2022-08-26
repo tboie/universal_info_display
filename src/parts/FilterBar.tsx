@@ -21,10 +21,10 @@ type PartFilterBarType = {
   selectedStore?: Store;
   setSelectedStore: (store?: Store) => any;
   clearFilters: (idx?: number) => void;
-  search?: boolean;
-  setSearch?: (on: boolean) => void;
-  searchStr?: string;
-  setSearchStr?: (val: string) => void;
+  search: boolean;
+  setSearch: (on: boolean) => void;
+  searchStr: string;
+  setSearchStr: (val: string) => void;
 };
 
 const FilterBar = ({
@@ -186,7 +186,6 @@ const FilterBar = ({
         type={`text`}
         onClick={(e) => {
           setSelectedFilterIdx(-1);
-          clearFilters();
           setSearch && setSearch(true);
         }}
         onChange={(e) => {
@@ -260,20 +259,23 @@ const FilterBar = ({
         </span>
       )}
 
-      {filtersOn(filters) && (
-        <button
-          className={"clear-filters"}
-          onClick={(e) => {
+      <button
+        className={"clear-filters"}
+        onClick={(e) => {
+          if (search) {
+            setSearch && setSearch(false);
+            setSearchStr && setSearchStr("");
+          } else {
             if (selectedFilterIdx > -1) {
               clearFilters(selectedFilterIdx);
             } else {
               clearFilters();
             }
-          }}
-        >
-          X
-        </button>
-      )}
+          }
+        }}
+      >
+        X
+      </button>
     </div>
   );
 };
