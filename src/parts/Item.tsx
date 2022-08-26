@@ -11,6 +11,7 @@ type PartItemType = {
   item: UniversalInfoDisplayItem;
   close: (val: number) => any;
   selectedGroup: string;
+  getData: (group: string) => void;
 };
 
 const Item = ({
@@ -18,6 +19,7 @@ const Item = ({
   item,
   close,
   selectedGroup,
+  getData,
 }: PartItemType) => {
   const [pages, setPages] = useState<number[]>([]);
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
@@ -95,6 +97,8 @@ const Item = ({
         selectedPageIdx={selectedPageIdx}
         setSelectedPageIdx={setSelectedPageIdx}
         setPages={setPages}
+        selectedItemIdx={selectedItemIdx}
+        getData={getData}
       />
       <button id="item-close" onClick={() => close(-1)}>
         X

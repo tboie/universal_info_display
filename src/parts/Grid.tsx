@@ -1,17 +1,24 @@
 import "./Grid.css";
 
 import { UniversalInfoDisplayItem } from "./Shell";
+import { useState } from "react";
+import { groupFilters } from "./Shell";
+import groupTemplate from "./config/template_group.json";
+import itemTemplate from "./config/template_item.json";
+import { itemAliases } from "./Shell";
 
 type PartGridType = {
   items: UniversalInfoDisplayItem[];
   selectedGroup: string;
+  selectedItemIdx: number;
   setSelectedItemIdx?: (val: number) => any;
-  getData?: (group: string) => void;
+  getData: (group: string) => void;
 };
 
 const Grid = ({
   items,
   selectedGroup,
+  selectedItemIdx,
   setSelectedItemIdx,
   getData,
 }: PartGridType) => {
@@ -22,56 +29,135 @@ const Grid = ({
       }`}
     >
       {items.map((item, idx) => (
+        <ItemSquare
+          key={`square${idx}`}
+          idx={idx}
+          item={item}
+          selectedGroup={selectedGroup}
+          selectedItemIdx={selectedItemIdx}
+          setSelectedItemIdx={setSelectedItemIdx}
+          getData={getData}
+        />
+      ))}
+    </div>
+  ) : null;
+};
+
+type PartItemType = {
+  idx: number;
+  item: any;
+  selectedGroup: string;
+  selectedItemIdx: number;
+  setSelectedItemIdx?: (val: number) => any;
+  getData: (group: string) => void;
+};
+
+const ItemSquare = ({
+  idx,
+  item,
+  selectedGroup,
+  selectedItemIdx,
+  setSelectedItemIdx,
+  getData,
+}: PartItemType) => {
+  const [selectedTemplateIdx, setSelectedTemplateIdx] = useState(0);
+
+  const groupIdx = groupFilters.findIndex(
+    (g: any) => g.group === selectedGroup
+  );
+  const template = selectedGroup ? itemTemplate[groupIdx] : groupTemplate;
+  const all_fields = template.fields;
+
+  let fields;
+  if (selectedGroup) {
+    fields = all_fields[selectedTemplateIdx];
+  }
+
+  const toggleTemplate = () => {
+    const total = template.fields.length;
+
+    if (selectedTemplateIdx === total - 1) {
+      setSelectedTemplateIdx(0);
+    } else {
+      setSelectedTemplateIdx(selectedTemplateIdx + 1);
+    }
+  };
+
+  const getFieldText = (f: string) => {
+    const val = item[f];
+
+    if (f === "$") {
+      return f + val;
+    } else if (f === "mi") {
+      return val + f;
+    } else if (selectedTemplateIdx === 0) {
+      return val + f;
+    } else {
+      if (itemAliases[groupIdx] && itemAliases[groupIdx][f]) {
+        return itemAliases[groupIdx][f][val];
+      } else {
+        return val;
+      }
+    }
+  };
+
+  return (
+    <div
+      className={`item`}
+      key={item.b + item.n + idx}
+      onClick={(e) => {
+        selectedGroup
+          ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
+          : getData && getData(item.n);
+      }}
+    >
+      <span className="title">{item[template.title]}</span>
+
+      <div className="container">
         <div
-          className={`item`}
-          key={item.b + item.n + idx}
+          className={`container-text ${selectedTemplateIdx ? "more" : ""}`}
           onClick={(e) => {
-            selectedGroup
-              ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
-              : getData && getData(item.n);
+            if (selectedTemplateIdx > 0) {
+              e.stopPropagation();
+              e.preventDefault();
+              toggleTemplate();
+            }
           }}
         >
-          <span className="title">{item.n}</span>
-
-          <div className="container">
-            <div className="container-text">
-              {selectedGroup && (
-                <>
-                  <span className="choice">
-                    {item["g"] ? item["g"].join(",") + "g" : ""}
+          {selectedGroup && (
+            <>
+              {fields?.map((f) => {
+                return (
+                  <span
+                    key={f}
+                    className={``}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      toggleTemplate();
+                    }}
+                  >
+                    {getFieldText(f)}
                   </span>
+                );
+              })}
+            </>
+          )}
+        </div>
 
-                  <span className="percent">
-                    {item["%"] ? Math.round(item["%"]) + "%" : ""}
-                  </span>
-                  <span className="price">{"$" + item["$"]}</span>
-                  {/*
-                  <span className="type">{item["t"]}</span>
-
-                  <span className="ppu">
-                    {item["ppu"] ? "$" + item["ppu"] + "/g" : ""}
-                  </span>
-
-                  <span className="mi">
-                    {item["dist"] ? Math.round(item["dist"]) + "mi" : ""}
-                  </span>
-                  */}
-                </>
-              )}
-            </div>
-            <div className="container-img">
-              {
-                // only glow flower for now
-                (item.n === "flower" || selectedGroup === "flower") && (
-                  <img className="glow" src="/media/glow.png" alt="glow" />
-                )
-              }
-              <img
-                className="media"
-                src={
-                  selectedGroup
-                    ? `/media/${selectedGroup}.gif`
-                    : `/media/${item.n}.gif` /*`${
+        <div className="container-img">
+          {
+            // only glow flower for now
+            (item.n === "flower" || selectedGroup === "flower") && (
+              <img className="glow" src="/media/glow.png" alt="glow" />
+            )
+          }
+          <img
+            className="media"
+            src={
+              selectedGroup
+                ? `/media/${selectedGroup}.gif`
+                : `/media/${item.n}.gif` /*`${
                   item.w === "D"
                     ? "https://images.dutchie.com/" +
                       item["p"] +
@@ -80,16 +166,14 @@ const Grid = ({
                       "&__typename=ImgixSettings&ixlib=react-9.0.2&h=200&w=200"
                     : item["p"]
                 }`*/
-                }
-                loading="lazy"
-                alt="thumb"
-              ></img>
-            </div>
-          </div>
+            }
+            loading="lazy"
+            alt="thumb"
+          ></img>
         </div>
-      ))}
+      </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Grid;

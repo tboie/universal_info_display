@@ -82,12 +82,6 @@ const FilterBar = ({
     return false;
   };
 
-  const filtersOn = (filters: (Filter | undefined)[]) => {
-    return filters.some((f) => {
-      return filterOn(f);
-    });
-  };
-
   const getChoiceText = (choices: FilterChoice[]) => {
     const allChoices: string[] = [];
     choices.forEach((c) => {

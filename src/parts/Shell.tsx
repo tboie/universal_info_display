@@ -566,7 +566,7 @@ const UniversalInfoDisplay = () => {
               }
             );
             dist = dist / 1609.34;
-            return { ...k, mi: dist.toFixed(3) };
+            return { ...k, mi: dist.toFixed(1) };
           }
           return { ...k, mi: 0 };
         })
@@ -641,6 +641,7 @@ const UniversalInfoDisplay = () => {
             idx: idx,
             desc: sampleText,
             ...item,
+            "%": Math.round(item["%"]),
           }))
         );
 
@@ -798,6 +799,7 @@ const UniversalInfoDisplay = () => {
           item={items[selectedItemIdx]}
           close={setSelectedItemIdx}
           selectedGroup={selectedGroup}
+          getData={getData}
         />
       )}
 
@@ -828,6 +830,7 @@ const UniversalInfoDisplay = () => {
           selectedGroup={selectedGroup}
           setSelectedPageIdx={setSelectedPageIdx}
           selectedPageIdx={selectedPageIdx}
+          selectedItemIdx={selectedItemIdx}
           setSelectedItemIdx={setSelectedItemIdx}
           getData={(group) => getData(group)}
           fetching={fetching}

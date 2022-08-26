@@ -16,8 +16,9 @@ type PartContentSliderType = {
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => any;
+  selectedItemIdx: number;
   setSelectedItemIdx?: (val: any) => any;
-  getData?: (group: string) => void;
+  getData: (group: string) => void;
   fetching?: boolean;
   rangeModal?: boolean;
   selectedFilter?: Filter;
@@ -35,6 +36,7 @@ const ContentSlider = ({
   selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
+  selectedItemIdx,
   setSelectedItemIdx,
   getData,
   fetching,
@@ -256,6 +258,7 @@ const ContentSlider = ({
               selectedGroup={selectedGroup}
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
+              selectedItemIdx={selectedItemIdx}
               setSelectedItemIdx={setSelectedItemIdx}
               getData={getData}
               fetching={fetching}
@@ -271,6 +274,7 @@ const ContentSlider = ({
             selectedGroup={selectedGroup}
             selectedPageIdx={selectedPageIdx}
             setSelectedPageIdx={setSelectedPageIdx}
+            selectedItemIdx={selectedItemIdx}
             setSelectedItemIdx={setSelectedItemIdx}
             getData={getData}
             fetching={fetching}
@@ -289,8 +293,10 @@ const ContentSlider = ({
               selectedGroup={selectedGroup}
               selectedPageIdx={selectedPageIdx}
               setSelectedPageIdx={setSelectedPageIdx}
+              selectedItemIdx={selectedItemIdx}
               setSelectedItemIdx={setSelectedItemIdx}
               children={nodes}
+              getData={getData}
             />
           );
         })}
@@ -310,6 +316,7 @@ const Page = ({
   selectedGroup,
   selectedPageIdx,
   setSelectedPageIdx,
+  selectedItemIdx,
   setSelectedItemIdx,
   getData,
   fetching,
@@ -323,8 +330,9 @@ const Page = ({
   selectedGroup: string;
   selectedPageIdx: number;
   setSelectedPageIdx: (val: number) => void;
+  selectedItemIdx: number;
   setSelectedItemIdx?: (val: number) => void;
-  getData?: (group: string) => void;
+  getData: (group: string) => void;
   fetching?: boolean;
 }) => {
   // IntersectionObservers for page snaps and page changes
@@ -469,6 +477,7 @@ const Page = ({
           setSelectedItemIdx={setSelectedItemIdx}
           selectedGroup={selectedGroup}
           getData={getData}
+          selectedItemIdx={selectedItemIdx}
         />
       )}
 
