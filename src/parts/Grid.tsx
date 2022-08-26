@@ -117,7 +117,16 @@ const ItemSquare = ({
           : getData && getData(item.n);
       }}
     >
-      <span className="title">{item[template.title]}</span>
+      <span
+        className="title"
+        onClick={(e) => {
+          selectedGroup
+            ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
+            : getData && getData(item.n);
+        }}
+      >
+        {item[template.title]}
+      </span>
 
       <div className="container">
         <div
