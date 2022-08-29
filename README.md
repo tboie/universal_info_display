@@ -1,4 +1,4 @@
-# UNIVERSAL INFO DISPLAY PROTOTYPE (ITEMS)
+# UNIVERSAL INFO DISPLAY PROTOTYPE
 
 <img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
 
@@ -111,10 +111,12 @@ Have the item "float" by displaying a slice of a full rotation.
 
 ### TODO/THINK/(RE)DESIGN
 
-- Themes
 - Extend map features? Directions?
-- Live customer support video stream lol
 - Custom ranking systems/designs...
 - Social Features
 - Don't forget PPU field (_points_ per unit)
-- GAMIFICATIONs
+- Gamifications (badges, awards, etc)
+- OnlInE ShoPPing aka e-commerce
+- community involvement?
+
+- - Design and Port to new framework \*
