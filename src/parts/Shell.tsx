@@ -18,6 +18,7 @@ import groupFilterData from "./config/groups.json";
 import itemAliasData from "./config/item_aliases.json";
 import filterDefaultData from "./config/filter_defaults.json";
 
+import searchConfig from "./config/search.json";
 import Fuse from "fuse.js";
 
 // page change and page snap utils
@@ -204,23 +205,20 @@ const UniversalInfoDisplay = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     if (search) {
-      const options = {
-        // isCaseSensitive: false,
-        // includeScore: false,
-        // shouldSort: true,
-        // includeMatches: false,
-        // findAllMatches: false,
-        // minMatchCharLength: 1,
-        // location: 0,
-        // threshold: 0.6,
-        // distance: 100,
-        // useExtendedSearch: false,
-        // ignoreLocation: false,
-        // ignoreFieldNorm: false,
-        // fieldNormWeight: 1,
-        keys: ["n"],
-      };
-
+      // isCaseSensitive: false,
+      // includeScore: false,
+      // shouldSort: true,
+      // includeMatches: false,
+      // findAllMatches: false,
+      // minMatchCharLength: 1,
+      // location: 0,
+      // threshold: 0.6,
+      // distance: 100,
+      // useExtendedSearch: false,
+      // ignoreLocation: false,
+      // ignoreFieldNorm: false,
+      // fieldNormWeight: 1,
+      const options = searchConfig;
       const fuse = new Fuse(filteredItems, options);
 
       // Change the pattern
@@ -275,7 +273,7 @@ const UniversalInfoDisplay = () => {
           ))
       );
 
-      // multi column range sort
+      // multi column range sort from first -> last
       // more dependable than any algs tried
       rF = rF.filter((f) => f.sort);
       if (rF.length === 1) {
