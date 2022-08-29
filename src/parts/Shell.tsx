@@ -480,8 +480,6 @@ const UniversalInfoDisplay = () => {
           val: toggleChoice(obj.f.val as FilterChoice[], field, title),
         });
       }
-    } else if (type === "clear-filters") {
-      clearFilters();
     }
   };
 
