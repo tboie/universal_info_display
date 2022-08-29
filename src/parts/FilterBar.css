@@ -57,12 +57,12 @@
   color: gold;
 }
 
-.filterbar .filters .filter-vals.sel {
-  border: 1px solid rgba(255, 212, 0, 0.8);
+.filterbar .filters .filter-vals.map {
+  border: 1px dotted #80f077;
 }
 
-.filterbar .filters .filter-vals.sel.map {
-  border: 1px dotted rgba(255, 212, 0, 0.8);
+.filterbar .filters .filter-vals.sel {
+  border: 1px solid rgba(255, 212, 0, 0.8);
 }
 
 .filterbar .clear-filters {
