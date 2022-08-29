@@ -76,6 +76,7 @@ export type Filter = {
 };
 
 // config
+// data structure prob going to change on port
 export const groupFilters: any = groupFilterData;
 export const itemAliases: any = itemAliasData;
 export const filterDefaults: any = filterDefaultData;
@@ -607,28 +608,6 @@ const UniversalInfoDisplay = () => {
         const all_items: any = [];
         stores_all = stores_all.filter((store) => store.items.length > 0);
 
-        const getMoods = () => {
-          // Set all items state
-          const moods = [
-            "Blessed",
-            "Creative",
-            "Bliss",
-            "Froggy",
-            "Slow",
-            "Sleepy",
-            "Focused",
-            "Zoned",
-            "Energetic",
-            "Lovely",
-            "Boosted",
-            "Calm",
-          ];
-
-          return new Array(3)
-            .fill(0)
-            .map((n) => moods[Math.round(Math.random() * 11)]);
-        };
-
         // create new item for each cut
         stores_all = stores_all.filter((store) => {
           store.items.forEach((item: any) => {
@@ -663,6 +642,7 @@ const UniversalInfoDisplay = () => {
             ...item,
             idx: idx,
             desc: sampleText,
+            // TODO: dont do this here
             "%": Math.round(item["%"]),
           }))
         );
@@ -952,5 +932,25 @@ const UniversalInfoDisplay = () => {
 
 export default UniversalInfoDisplay;
 
+/*** Test Data not present in files ***/
 const sampleText =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+const getMoods = () => {
+  const moods = [
+    "Blessed",
+    "Creative",
+    "Bliss",
+    "Froggy",
+    "Slow",
+    "Sleepy",
+    "Focused",
+    "Zoned",
+    "Energetic",
+    "Lovely",
+    "Boosted",
+    "Calm",
+  ];
+
+  return new Array(3).fill(0).map((n) => moods[Math.round(Math.random() * 11)]);
+};
