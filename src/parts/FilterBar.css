@@ -61,6 +61,10 @@
   border: 1px solid rgba(255, 212, 0, 0.8);
 }
 
+.filterbar .filters .filter-vals.sel.map {
+  border: 1px dotted rgba(255, 212, 0, 0.8);
+}
+
 .filterbar .clear-filters {
   margin-left: auto;
   color: rgb(194, 49, 49);

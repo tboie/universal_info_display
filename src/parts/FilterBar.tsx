@@ -171,7 +171,7 @@ const FilterBar = ({
   };
 
   return (
-    <div className={"filterbar"}>
+    <div className={`filterbar`}>
       {!search && <img src="/media/search.svg" alt="search" />}
 
       <input
@@ -233,7 +233,9 @@ const FilterBar = ({
                     key={`status-${f.name}`}
                     className={`filter-vals ${
                       selectedFilterIdx === idx ? "sel" : ""
-                    } ${filterOn(f) ? "on" : ""} ${f?.sort ? "sort" : ""}`}
+                    } ${filterOn(f) ? "on" : ""} ${f.sort ? "sort" : ""} ${
+                      f.name === "mi" && map ? "map" : ""
+                    }`}
                     onClick={(e) => {
                       setSelectedFilter(
                         idx,
