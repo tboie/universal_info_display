@@ -241,7 +241,7 @@ const ContentSlider = ({
     <div
       id={`content-slider-${type}`}
       className="content-slider"
-      onTouchStart={(e) => {
+      onPointerDown={(e) => {
         e.stopPropagation();
         globalThis.contentSliderPressed = true;
         globalThis.pageSliderPressed = false;

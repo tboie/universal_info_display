@@ -132,7 +132,7 @@ const Slider = ({
       className={`slider ${type} ${
         type === "page" && titles?.length ? "tick" : ""
       }`}
-      onTouchStart={(e) => {
+      onPointerDown={(e) => {
         e.stopPropagation();
         globalThis.contentSliderPressed = false;
         if (type === "page") {
