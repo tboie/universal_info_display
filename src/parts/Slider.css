@@ -25,6 +25,7 @@
   color: #80f077;
   border: 0;
   text-transform: capitalize;
+  white-space: nowrap;
 }
 
 .slider-label:first-of-type {
