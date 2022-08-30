@@ -50,10 +50,13 @@ group key --> group items
 - items are stored by address(store) in arrays `[location store address].json` in [public/data/groups](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups)
 - a group is a dataset of items [(flower example in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
 - [/public/data/keys](https://github.com/tboie/universal_info_display/tree/groups/public/data/keys) are used to link location to item files
+
 - [/src/parts/config](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config) directory used for item field UI configuration
 - [groups.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/groups.json) - group UI filter name/field/alias config
 - [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/filter_defaults.json) - default group filter values
 - [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/item_aliases.json) - item field aliases
+- [template_group.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/template_group.json) - grid group template (1st screen)
+- [template_item.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/template_item.json) - grid item template
 
 ### Performance
 
@@ -119,4 +122,4 @@ Have the item "float" by displaying a slice of a full rotation.
 - OnlInE ShoPPing aka e-commerce
 - community involvement?
 
-- - Design and Port to new framework \*
+- Design and Port to new framework
