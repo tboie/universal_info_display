@@ -214,12 +214,35 @@ const FilterBar = ({
                       selectedFilterIdx === idx ? "sel" : ""
                     } ${filterOn(f) ? "on" : ""}`}
                     onClick={(e) => {
+                      if (selectedFilterIdx === idx) {
+                        const ctrlContainer = document.querySelector(
+                          ".filter-controls"
+                        ) as HTMLDivElement;
+
+                        if (ctrlContainer) {
+                          ctrlContainer.style.height = "";
+                        }
+                      }
                       setSelectedFilter(
                         idx,
                         f.type,
                         selectedFilterIdx === idx,
                         f.name
                       );
+                    }}
+                    onPointerDown={(e) => {
+                      e.stopPropagation();
+                      globalThis.filterTabPressed = true;
+                    }}
+                    onTouchMove={(e) => {
+                      if (selectedFilterIdx === -1) {
+                        setSelectedFilter(
+                          idx,
+                          f.type,
+                          selectedFilterIdx === idx,
+                          f.name
+                        );
+                      }
                     }}
                   >
                     {getChoiceText(f.val as FilterChoice[]) ||
@@ -237,12 +260,36 @@ const FilterBar = ({
                       f.name === "mi" && map ? "map" : ""
                     }`}
                     onClick={(e) => {
+                      if (selectedFilterIdx === idx) {
+                        const ctrlContainer = document.querySelector(
+                          ".filter-controls"
+                        ) as HTMLDivElement;
+
+                        if (ctrlContainer) {
+                          ctrlContainer.style.height = "";
+                        }
+                      }
+
                       setSelectedFilter(
                         idx,
                         f.type,
                         selectedFilterIdx === idx,
                         f.name
                       );
+                    }}
+                    onTouchMove={(e) => {
+                      if (selectedFilterIdx === -1) {
+                        setSelectedFilter(
+                          idx,
+                          f.type,
+                          selectedFilterIdx === idx,
+                          f.name
+                        );
+                      }
+                    }}
+                    onPointerDown={(e) => {
+                      e.stopPropagation();
+                      globalThis.filterTabPressed = true;
                     }}
                   >
                     {formatRangeText(f)}

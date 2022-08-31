@@ -375,7 +375,10 @@ const Page = ({
 
     const handlePageChange = (entries: any) => {
       entries.forEach((entry: any) => {
-        if (entry.isIntersecting && globalThis.contentSliderPressed) {
+        if (
+          entry.isIntersecting &&
+          (globalThis.contentSliderPressed || globalThis.filterTabPressed)
+        ) {
           const id = entry.target.id;
           const selected = parseInt(id.replace(`content-page-${type}-`, ""));
           setSelectedPageIdx(selected);
@@ -430,7 +433,7 @@ const Page = ({
 
   // Center page when changed
   useEffect(() => {
-    if (!globalThis.contentSliderPressed) {
+    if (!globalThis.contentSliderPressed && !globalThis.filterTabPressed) {
       const container = document.querySelector(
         `#content-slider-${type}`
       ) as HTMLElement;

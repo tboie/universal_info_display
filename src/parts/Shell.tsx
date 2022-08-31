@@ -23,14 +23,18 @@ import Fuse from "fuse.js";
 
 // page change and page snap utils
 declare global {
+  var pointerPos: undefined | [number, number];
+  var filterTabPressed: boolean;
   var contentSliderPressed: boolean;
   var pageSliderPressed: boolean;
   var scrollSpeed: number;
   var scrollDirection: "left" | "right" | "stopped";
 }
 
+globalThis.pointerPos = undefined;
 globalThis.contentSliderPressed = false;
 globalThis.pageSliderPressed = false;
+globalThis.filterTabPressed = false;
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
@@ -761,6 +765,57 @@ const UniversalInfoDisplay = () => {
         globalThis.contentSliderPressed = false;
         globalThis.pageSliderPressed = false;
       }}
+      onTouchMove={(e) => {
+        if (globalThis.filterTabPressed) {
+          const pos = globalThis.pointerPos;
+          if (pos) {
+            const dist = pos[1] - e.touches[0].pageY;
+
+            const container = document.querySelector(
+              ".filter-controls"
+            ) as HTMLDivElement;
+
+            if (container) {
+              const eleHeight = container.getBoundingClientRect().height;
+              const minHeight = parseFloat(
+                window
+                  .getComputedStyle(container, null)
+                  .getPropertyValue("min-height")
+                  .replace("px", "")
+              );
+              const maxHeight = parseFloat(
+                window
+                  .getComputedStyle(container, null)
+                  .getPropertyValue("max-height")
+                  .replace("px", "")
+              );
+
+              const selFilter = getFilterByIdx(selectedFilterIdx)?.f;
+
+              if (selFilter) {
+                if (eleHeight + dist > minHeight) {
+                  if (!container.classList.contains("column")) {
+                    container.classList.add("column");
+                  }
+                  container.style.height = eleHeight + dist + "px";
+                } else if (eleHeight + dist < minHeight) {
+                  if (container.classList.contains("column")) {
+                    container.classList.remove("column");
+                  }
+                  container.style.height = minHeight + "px";
+                } else if (eleHeight + dist > maxHeight) {
+                  container.style.height = maxHeight + "px";
+                }
+              }
+            }
+          }
+          globalThis.pointerPos = [e.touches[0].pageX, e.touches[0].pageY];
+        }
+      }}
+      onTouchEnd={(e) => {
+        globalThis.filterTabPressed = false;
+        globalThis.pointerPos = undefined;
+      }}
     >
       <TitleBar
         selectedGroup={selectedGroup}
@@ -838,39 +893,41 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {selectedGroup && !fetching && (
-        <FilterBar
-          selectedGroup={selectedGroup}
-          selectedFilterIdx={selectedFilterIdx}
-          setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
-          filter0={filter0}
-          filter1={filter1}
-          filter2={filter2}
-          filter3={filter3}
-          filter4={filter4}
-          filter5={filter5}
-          filter6={filter6}
-          filter7={filter7}
-          fetching={fetching}
-          map={map}
-          toggleMap={(val) => toggleMap(val)}
-          aliases={
-            itemAliases[
-              groupFilters.findIndex((g: any) => g.group === selectedGroup)
-            ]
-          }
-          selectedStore={selectedStore}
-          setSelectedStore={setSelectedStore}
-          clearFilters={(idx) => clearFilters(idx)}
-          search={search}
-          setSearch={setSearch}
-          searchStr={searchStr}
-          setSearchStr={setSearchStr}
-        />
-      )}
+      <div
+        className={`filter-controls ${selectedFilterIdx > -1 ? "sel" : "off"}`}
+      >
+        {selectedGroup && !fetching && (
+          <FilterBar
+            selectedGroup={selectedGroup}
+            selectedFilterIdx={selectedFilterIdx}
+            setSelectedFilterIdx={(idx) => setSelectedFilterIdx(idx)}
+            filter0={filter0}
+            filter1={filter1}
+            filter2={filter2}
+            filter3={filter3}
+            filter4={filter4}
+            filter5={filter5}
+            filter6={filter6}
+            filter7={filter7}
+            fetching={fetching}
+            map={map}
+            toggleMap={(val) => toggleMap(val)}
+            aliases={
+              itemAliases[
+                groupFilters.findIndex((g: any) => g.group === selectedGroup)
+              ]
+            }
+            selectedStore={selectedStore}
+            setSelectedStore={setSelectedStore}
+            clearFilters={(idx) => clearFilters(idx)}
+            search={search}
+            setSearch={setSearch}
+            searchStr={searchStr}
+            setSearchStr={setSearchStr}
+          />
+        )}
 
-      {selectedFilterIdx > -1 &&
-        getFilters().map((obj, idx) => {
+        {getFilters().map((obj, idx) => {
           const f = obj.f;
           if (f && selectedFilterIdx === idx) {
             if (f.type === "range") {
@@ -906,6 +963,7 @@ const UniversalInfoDisplay = () => {
           }
           return null;
         })}
+      </div>
 
       {!map && selectedGroup && !fetching && (
         <Slider

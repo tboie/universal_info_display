@@ -10,10 +10,12 @@
   text-shadow: 1px 1px green;
   border-top: 1px solid #2e2f41;
   font-size: 0.9rem;
-  height: 2.8rem;
 }
 
 .slider.page {
+  height: 2.8rem;
+  min-height: 2.8rem;
+  max-height: 2.8rem;
   border-bottom: 1px solid #2e2f41;
 }
 
@@ -21,7 +23,9 @@
   position: relative;
   height: 100%;
   padding: 0.75rem 0.8rem;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #80f077;
   border: 0;
   text-transform: capitalize;
