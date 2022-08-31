@@ -893,10 +893,12 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      <div
-        className={`filter-controls ${selectedFilterIdx > -1 ? "sel" : "off"}`}
-      >
-        {selectedGroup && !fetching && (
+      {selectedGroup && !fetching && (
+        <div
+          className={`filter-controls ${
+            selectedFilterIdx > -1 ? "sel" : "off"
+          }`}
+        >
           <FilterBar
             selectedGroup={selectedGroup}
             selectedFilterIdx={selectedFilterIdx}
@@ -925,45 +927,45 @@ const UniversalInfoDisplay = () => {
             searchStr={searchStr}
             setSearchStr={setSearchStr}
           />
-        )}
 
-        {getFilters().map((obj, idx) => {
-          const f = obj.f;
-          if (f && selectedFilterIdx === idx) {
-            if (f.type === "range") {
-              return (
-                <Range
-                  key={idx}
-                  idx={idx}
-                  f={f}
-                  setF={obj.set}
-                  set={rangeSelect}
-                  setRangeModal={setRangeModal}
-                />
-              );
-            } else if (f.type === "choice") {
-              return (
-                <Slider
-                  key={idx}
-                  type={"choice"}
-                  choices={f.props as FilterChoice[]}
-                  selected={f.val as FilterChoice[]}
-                  select={sliderSelect}
-                  fetching={fetching}
-                  aliases={
-                    itemAliases[
-                      groupFilters.findIndex(
-                        (g: any) => g.group === selectedGroup
-                      )
-                    ]
-                  }
-                />
-              );
+          {getFilters().map((obj, idx) => {
+            const f = obj.f;
+            if (f && selectedFilterIdx === idx) {
+              if (f.type === "range") {
+                return (
+                  <Range
+                    key={idx}
+                    idx={idx}
+                    f={f}
+                    setF={obj.set}
+                    set={rangeSelect}
+                    setRangeModal={setRangeModal}
+                  />
+                );
+              } else if (f.type === "choice") {
+                return (
+                  <Slider
+                    key={idx}
+                    type={"choice"}
+                    choices={f.props as FilterChoice[]}
+                    selected={f.val as FilterChoice[]}
+                    select={sliderSelect}
+                    fetching={fetching}
+                    aliases={
+                      itemAliases[
+                        groupFilters.findIndex(
+                          (g: any) => g.group === selectedGroup
+                        )
+                      ]
+                    }
+                  />
+                );
+              }
             }
-          }
-          return null;
-        })}
-      </div>
+            return null;
+          })}
+        </div>
+      )}
 
       {!map && selectedGroup && !fetching && (
         <Slider
