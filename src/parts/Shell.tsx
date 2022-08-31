@@ -23,6 +23,8 @@ import Fuse from "fuse.js";
 
 // page change and page snap utils
 declare global {
+  var pointerActivated: boolean;
+  var pointerPosDown: undefined | [number, number];
   var pointerPos: undefined | [number, number];
   var filterTabPressed: boolean;
   var contentSliderPressed: boolean;
@@ -31,10 +33,13 @@ declare global {
   var scrollDirection: "left" | "right" | "stopped";
 }
 
+globalThis.pointerActivated = false;
+globalThis.pointerPosDown = undefined;
 globalThis.pointerPos = undefined;
 globalThis.contentSliderPressed = false;
 globalThis.pageSliderPressed = false;
 globalThis.filterTabPressed = false;
+
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
 
@@ -768,43 +773,49 @@ const UniversalInfoDisplay = () => {
       onTouchMove={(e) => {
         if (globalThis.filterTabPressed) {
           const pos = globalThis.pointerPos;
-          if (pos) {
-            const dist = pos[1] - e.touches[0].pageY;
+          const posDown = globalThis.pointerPosDown;
 
-            const container = document.querySelector(
-              ".filter-controls"
-            ) as HTMLDivElement;
+          if (pos && posDown) {
+            const yDist = posDown[1] - pos[1];
 
-            if (container) {
-              const eleHeight = container.getBoundingClientRect().height;
-              const minHeight = parseFloat(
-                window
-                  .getComputedStyle(container, null)
-                  .getPropertyValue("min-height")
-                  .replace("px", "")
-              );
-              const maxHeight = parseFloat(
-                window
-                  .getComputedStyle(container, null)
-                  .getPropertyValue("max-height")
-                  .replace("px", "")
-              );
+            if (yDist > 24 || yDist < -24 || globalThis.pointerActivated) {
+              globalThis.pointerActivated = true;
 
-              const selFilter = getFilterByIdx(selectedFilterIdx)?.f;
+              const dist = pos[1] - e.touches[0].pageY;
+              const container = document.querySelector(
+                ".filter-controls"
+              ) as HTMLDivElement;
 
-              if (selFilter) {
-                if (eleHeight + dist > minHeight) {
-                  if (!container.classList.contains("column")) {
-                    container.classList.add("column");
+              if (container) {
+                const eleHeight = container.getBoundingClientRect().height;
+                const minHeight = parseFloat(
+                  window
+                    .getComputedStyle(container, null)
+                    .getPropertyValue("min-height")
+                    .replace("px", "")
+                );
+                const maxHeight = parseFloat(
+                  window
+                    .getComputedStyle(container, null)
+                    .getPropertyValue("max-height")
+                    .replace("px", "")
+                );
+
+                const selFilter = getFilterByIdx(selectedFilterIdx)?.f;
+                if (selFilter) {
+                  if (eleHeight + dist > minHeight) {
+                    if (!container.classList.contains("column")) {
+                      container.classList.add("column");
+                    }
+                    container.style.height = eleHeight + dist + "px";
+                  } else if (eleHeight + dist < minHeight) {
+                    if (container.classList.contains("column")) {
+                      container.classList.remove("column");
+                    }
+                    container.style.height = minHeight + "px";
+                  } else if (eleHeight + dist > maxHeight) {
+                    container.style.height = maxHeight + "px";
                   }
-                  container.style.height = eleHeight + dist + "px";
-                } else if (eleHeight + dist < minHeight) {
-                  if (container.classList.contains("column")) {
-                    container.classList.remove("column");
-                  }
-                  container.style.height = minHeight + "px";
-                } else if (eleHeight + dist > maxHeight) {
-                  container.style.height = maxHeight + "px";
                 }
               }
             }
@@ -814,7 +825,9 @@ const UniversalInfoDisplay = () => {
       }}
       onTouchEnd={(e) => {
         globalThis.filterTabPressed = false;
+        globalThis.pointerPosDown = undefined;
         globalThis.pointerPos = undefined;
+        globalThis.pointerActivated = false;
       }}
     >
       <TitleBar

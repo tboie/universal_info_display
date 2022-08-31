@@ -232,10 +232,14 @@ const FilterBar = ({
                     }}
                     onPointerDown={(e) => {
                       e.stopPropagation();
+                      globalThis.pointerPosDown = [e.pageX, e.pageY];
                       globalThis.filterTabPressed = true;
                     }}
                     onTouchMove={(e) => {
-                      if (selectedFilterIdx === -1) {
+                      if (
+                        globalThis.pointerActivated &&
+                        selectedFilterIdx === -1
+                      ) {
                         setSelectedFilter(
                           idx,
                           f.type,
@@ -278,7 +282,10 @@ const FilterBar = ({
                       );
                     }}
                     onTouchMove={(e) => {
-                      if (selectedFilterIdx === -1) {
+                      if (
+                        globalThis.pointerActivated &&
+                        selectedFilterIdx === -1
+                      ) {
                         setSelectedFilter(
                           idx,
                           f.type,
@@ -289,6 +296,7 @@ const FilterBar = ({
                     }}
                     onPointerDown={(e) => {
                       e.stopPropagation();
+                      globalThis.pointerPosDown = [e.pageX, e.pageY];
                       globalThis.filterTabPressed = true;
                     }}
                   >
