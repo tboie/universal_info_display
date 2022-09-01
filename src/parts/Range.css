@@ -83,11 +83,13 @@
 .range-control.asc .min,
 .range-control.desc .max {
   align-items: flex-end;
+  padding-bottom: 0.25rem;
 }
 
 .range-control.asc .max,
 .range-control.desc .min {
   align-items: flex-start;
+  padding-top: 0.25rem;
 }
 
 .range-control .thumb {
