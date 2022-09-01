@@ -10,6 +10,7 @@
   text-shadow: 1px 1px green;
   border-top: 1px solid #2e2f41;
   font-size: 0.9rem;
+  height: 100%;
 }
 
 .slider.page {

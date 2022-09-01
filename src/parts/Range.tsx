@@ -140,7 +140,7 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
           className="thumb"
           style={{
             right: getThumbRight() + "%",
-            transform: "translateX(" + getThumbRight() + "%)",
+            transform: "translateX(" + getThumbRight() + "%) translateY(-25%)",
           }}
         >
           {f.op}
