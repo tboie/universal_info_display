@@ -184,6 +184,15 @@ const FilterBar = ({
   };
 
   const filterDrag = (f: Filter) => {
+    const ctrlContainer = document.querySelector(
+      ".filter-controls"
+    ) as HTMLDivElement;
+
+    if (ctrlContainer) {
+      if (!ctrlContainer.classList.contains("dragging")) {
+        ctrlContainer.classList.add("dragging");
+      }
+    }
     if (globalThis.pointerActivated && selectedFilterIdx === -1) {
       setSelectedFilter(f.i, f.type, f.i === selectedFilterIdx, f.name);
     }

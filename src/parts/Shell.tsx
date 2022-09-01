@@ -912,6 +912,15 @@ const UniversalInfoDisplay = () => {
             globalThis.pageSliderPressed = false;
             globalThis.contentSliderPressed = false;
           }}
+          onTouchEnd={(e) => {
+            const ctrlContainer = document.querySelector(
+              ".filter-controls"
+            ) as HTMLDivElement;
+
+            if (ctrlContainer) {
+              ctrlContainer.classList.remove("dragging");
+            }
+          }}
         >
           <FilterBar
             selectedGroup={selectedGroup}

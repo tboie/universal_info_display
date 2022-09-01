@@ -22,17 +22,22 @@
   max-height: 16rem;
   display: flex;
   flex-direction: column;
+  transition: all 250ms ease;
+  transition-property: height, min-height, max-height;
 }
 
 .filter-controls.sel {
   min-height: calc(2rem + 2.8rem);
 }
 
+.filter-controls.dragging {
+  transition: none;
+}
+
 .filter-controls.off {
   max-height: 2rem;
   min-height: 2rem;
   height: 2rem;
-  transition: all ease 250ms;
 }
 
 .filter-controls.column .slider {
