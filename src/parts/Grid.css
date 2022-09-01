@@ -31,7 +31,7 @@
   padding: 0.2rem 0 0 0.2rem;
 }
 
-.item-grid .item span {
+.item-grid .item .field {
   font-size: 1rem;
   z-index: 1;
   padding: 0.1rem 0.2rem;
@@ -89,6 +89,7 @@
   background: rgba(0, 0, 0, 0.58);
   border: 1px dotted rgba(255, 212, 0, 0.5);
   border-radius: 1px;
+  overflow-y: scroll;
 }
 
 .item-grid .item .container-text.more span {

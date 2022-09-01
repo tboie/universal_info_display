@@ -118,7 +118,7 @@ const ItemSquare = ({
       }}
     >
       <span
-        className="title"
+        className={`field title`}
         onClick={(e) => {
           selectedGroup
             ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
@@ -139,25 +139,22 @@ const ItemSquare = ({
             }
           }}
         >
-          {selectedGroup && (
-            <>
-              {fields?.map((f) => {
-                return (
-                  <span
-                    key={f}
-                    className={`${f === "mi" ? "mi" : ""}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      toggleTemplate();
-                    }}
-                  >
-                    {getFieldText(f)}
-                  </span>
-                );
-              })}
-            </>
-          )}
+          {selectedGroup &&
+            fields?.map((f) => {
+              return (
+                <span
+                  key={f}
+                  className={`field ${f === "mi" ? "mi" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleTemplate();
+                  }}
+                >
+                  {getFieldText(f)}
+                </span>
+              );
+            })}
         </div>
 
         <div className="container-img">
