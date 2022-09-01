@@ -48,6 +48,12 @@ const TitleBar = ({
       className={`titlebar ${
         !selectedGroup || fetching ? "no-pointer-events" : ""
       }`}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        globalThis.contentSliderPressed = false;
+        globalThis.filterControlPressed = false;
+        globalThis.pageSliderPressed = false;
+      }}
     >
       <span className="title">{getTitle()}</span>
 

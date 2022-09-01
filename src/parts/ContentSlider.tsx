@@ -244,6 +244,7 @@ const ContentSlider = ({
       onPointerDown={(e) => {
         e.stopPropagation();
         globalThis.contentSliderPressed = true;
+        globalThis.filterControlPressed = false;
         globalThis.pageSliderPressed = false;
       }}
     >
@@ -377,7 +378,7 @@ const Page = ({
       entries.forEach((entry: any) => {
         if (
           entry.isIntersecting &&
-          (globalThis.contentSliderPressed || globalThis.filterTabPressed)
+          (globalThis.contentSliderPressed || globalThis.filterControlPressed)
         ) {
           const id = entry.target.id;
           const selected = parseInt(id.replace(`content-page-${type}-`, ""));
@@ -433,7 +434,7 @@ const Page = ({
 
   // Center page when changed
   useEffect(() => {
-    if (!globalThis.contentSliderPressed && !globalThis.filterTabPressed) {
+    if (!globalThis.contentSliderPressed && !globalThis.filterControlPressed) {
       const container = document.querySelector(
         `#content-slider-${type}`
       ) as HTMLElement;

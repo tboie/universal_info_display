@@ -190,9 +190,7 @@ const FilterBar = ({
   };
 
   const filterDown = (e: any, f: Filter) => {
-    e.stopPropagation();
     globalThis.pointerPosDown = [e.pageX, e.pageY];
-    globalThis.filterTabPressed = true;
   };
 
   return (

@@ -26,7 +26,7 @@ declare global {
   var pointerActivated: boolean;
   var pointerPosDown: undefined | [number, number];
   var pointerPos: undefined | [number, number];
-  var filterTabPressed: boolean;
+  var filterControlPressed: boolean;
   var contentSliderPressed: boolean;
   var pageSliderPressed: boolean;
   var scrollSpeed: number;
@@ -38,7 +38,7 @@ globalThis.pointerPosDown = undefined;
 globalThis.pointerPos = undefined;
 globalThis.contentSliderPressed = false;
 globalThis.pageSliderPressed = false;
-globalThis.filterTabPressed = false;
+globalThis.filterControlPressed = false;
 
 globalThis.scrollSpeed = 0;
 globalThis.scrollDirection = "stopped";
@@ -766,13 +766,8 @@ const UniversalInfoDisplay = () => {
   return (
     <div
       className="universal-info-display"
-      onPointerDown={(e) => {
-        globalThis.contentSliderPressed = false;
-        globalThis.pageSliderPressed = false;
-        globalThis.filterTabPressed = false;
-      }}
       onTouchMove={(e) => {
-        if (globalThis.filterTabPressed) {
+        if (globalThis.filterControlPressed) {
           const pos = globalThis.pointerPos;
           const posDown = globalThis.pointerPosDown;
 
@@ -825,7 +820,6 @@ const UniversalInfoDisplay = () => {
         }
       }}
       onTouchEnd={(e) => {
-        globalThis.filterTabPressed = false;
         globalThis.pointerPosDown = undefined;
         globalThis.pointerPos = undefined;
         globalThis.pointerActivated = false;
@@ -912,6 +906,12 @@ const UniversalInfoDisplay = () => {
           className={`filter-controls ${
             selectedFilterIdx > -1 ? "sel" : "off"
           }`}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            globalThis.filterControlPressed = true;
+            globalThis.pageSliderPressed = false;
+            globalThis.contentSliderPressed = false;
+          }}
         >
           <FilterBar
             selectedGroup={selectedGroup}

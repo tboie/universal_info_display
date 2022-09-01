@@ -136,6 +136,7 @@ const Slider = ({
         if (type === "page") {
           e.stopPropagation();
           globalThis.contentSliderPressed = false;
+          globalThis.filterControlPressed = false;
           globalThis.pageSliderPressed = true;
         }
       }}
@@ -202,11 +203,12 @@ const Label = ({
       id={`slider-label-${type + idx}`}
       className={`slider-label ${on ? "selected" : ""}`}
       onClick={(e) => {
-        if (type === "page") {
-          e.stopPropagation();
-          globalThis.contentSliderPressed = false;
-          globalThis.pageSliderPressed = false;
-        }
+        e.stopPropagation();
+
+        globalThis.contentSliderPressed = false;
+        globalThis.filterControlPressed = false;
+        globalThis.pageSliderPressed = false;
+
         click(type, title, field);
       }}
     >
