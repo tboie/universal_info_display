@@ -50,7 +50,7 @@
 }
 
 .filter-controls.column .slider .slider-label:last-of-type {
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
 }
 
 .filter-controls.column .slider .slider-label.selected {
