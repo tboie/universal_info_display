@@ -769,6 +769,7 @@ const UniversalInfoDisplay = () => {
       onPointerDown={(e) => {
         globalThis.contentSliderPressed = false;
         globalThis.pageSliderPressed = false;
+        globalThis.filterTabPressed = false;
       }}
       onTouchMove={(e) => {
         if (globalThis.filterTabPressed) {

@@ -133,9 +133,9 @@ const Slider = ({
         type === "page" && titles?.length ? "tick" : ""
       }`}
       onPointerDown={(e) => {
-        e.stopPropagation();
-        globalThis.contentSliderPressed = false;
         if (type === "page") {
+          e.stopPropagation();
+          globalThis.contentSliderPressed = false;
           globalThis.pageSliderPressed = true;
         }
       }}
@@ -202,8 +202,8 @@ const Label = ({
       id={`slider-label-${type + idx}`}
       className={`slider-label ${on ? "selected" : ""}`}
       onClick={(e) => {
-        e.stopPropagation();
         if (type === "page") {
+          e.stopPropagation();
           globalThis.contentSliderPressed = false;
           globalThis.pageSliderPressed = false;
         }
