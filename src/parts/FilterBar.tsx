@@ -165,7 +165,7 @@ const FilterBar = ({
       } else if (selectedFilterIdx !== idx && map) {
         setSelectedFilterIdx(idx);
       }
-    } else if (type === "choice" || "range") {
+    } else if (type === "choice" || type === "range") {
       setSelectedFilterIdx(selectedFilterIdx === idx ? -1 : idx);
     }
   };
