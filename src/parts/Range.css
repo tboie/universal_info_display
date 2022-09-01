@@ -64,7 +64,6 @@
   top: 0;
   height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   font-size: 0.8rem;
 }
@@ -83,12 +82,12 @@
 
 .range-control.asc .min,
 .range-control.desc .max {
-  padding-top: 1.25rem;
+  align-items: flex-end;
 }
 
 .range-control.asc .max,
 .range-control.desc .min {
-  padding-bottom: 1.25rem;
+  align-items: flex-start;
 }
 
 .range-control .thumb {
