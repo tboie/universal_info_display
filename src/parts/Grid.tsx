@@ -145,7 +145,7 @@ const ItemSquare = ({
                 return (
                   <span
                     key={f}
-                    className={`${f === "mi" ? "mi" : "'"}`}
+                    className={`${f === "mi" ? "mi" : ""}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
