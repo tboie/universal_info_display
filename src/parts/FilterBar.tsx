@@ -170,6 +170,31 @@ const FilterBar = ({
     }
   };
 
+  const filterClick = (f: Filter) => {
+    if (f.i === selectedFilterIdx) {
+      const ctrlContainer = document.querySelector(
+        ".filter-controls"
+      ) as HTMLDivElement;
+
+      if (ctrlContainer) {
+        ctrlContainer.style.height = "";
+      }
+    }
+    setSelectedFilter(f.i, f.type, f.i === selectedFilterIdx, f.name);
+  };
+
+  const filterDrag = (f: Filter) => {
+    if (globalThis.pointerActivated && selectedFilterIdx === -1) {
+      setSelectedFilter(f.i, f.type, f.i === selectedFilterIdx, f.name);
+    }
+  };
+
+  const filterDown = (e: any, f: Filter) => {
+    e.stopPropagation();
+    globalThis.pointerPosDown = [e.pageX, e.pageY];
+    globalThis.filterTabPressed = true;
+  };
+
   return (
     <div className={`filterbar`}>
       {!search && <img src="/media/search.svg" alt="search" />}
@@ -204,50 +229,18 @@ const FilterBar = ({
 
       {!search && !searchStr && (
         <span className="filters">
-          {filters.map((f, idx) => {
+          {filters.map((f) => {
             if (f) {
               if (f.type === "choice") {
                 return (
                   <span
                     key={`status-${f.name}`}
                     className={`filter-vals ${
-                      selectedFilterIdx === idx ? "sel" : ""
+                      selectedFilterIdx === f.i ? "sel" : ""
                     } ${filterOn(f) ? "on" : ""}`}
-                    onClick={(e) => {
-                      if (selectedFilterIdx === idx) {
-                        const ctrlContainer = document.querySelector(
-                          ".filter-controls"
-                        ) as HTMLDivElement;
-
-                        if (ctrlContainer) {
-                          ctrlContainer.style.height = "";
-                        }
-                      }
-                      setSelectedFilter(
-                        idx,
-                        f.type,
-                        selectedFilterIdx === idx,
-                        f.name
-                      );
-                    }}
-                    onPointerDown={(e) => {
-                      e.stopPropagation();
-                      globalThis.pointerPosDown = [e.pageX, e.pageY];
-                      globalThis.filterTabPressed = true;
-                    }}
-                    onTouchMove={(e) => {
-                      if (
-                        globalThis.pointerActivated &&
-                        selectedFilterIdx === -1
-                      ) {
-                        setSelectedFilter(
-                          idx,
-                          f.type,
-                          selectedFilterIdx === idx,
-                          f.name
-                        );
-                      }
-                    }}
+                    onClick={(e) => filterClick(f)}
+                    onPointerDown={(e) => filterDown(e, f)}
+                    onTouchMove={(e) => filterDrag(f)}
                   >
                     {getChoiceText(f.val as FilterChoice[]) ||
                       f.alias ||
@@ -259,46 +252,13 @@ const FilterBar = ({
                   <span
                     key={`status-${f.name}`}
                     className={`filter-vals ${
-                      selectedFilterIdx === idx ? "sel" : ""
+                      selectedFilterIdx === f.i ? "sel" : ""
                     } ${filterOn(f) ? "on" : ""} ${f.sort ? "sort" : ""} ${
                       f.name === "mi" && map ? "map" : ""
                     }`}
-                    onClick={(e) => {
-                      if (selectedFilterIdx === idx) {
-                        const ctrlContainer = document.querySelector(
-                          ".filter-controls"
-                        ) as HTMLDivElement;
-
-                        if (ctrlContainer) {
-                          ctrlContainer.style.height = "";
-                        }
-                      }
-
-                      setSelectedFilter(
-                        idx,
-                        f.type,
-                        selectedFilterIdx === idx,
-                        f.name
-                      );
-                    }}
-                    onTouchMove={(e) => {
-                      if (
-                        globalThis.pointerActivated &&
-                        selectedFilterIdx === -1
-                      ) {
-                        setSelectedFilter(
-                          idx,
-                          f.type,
-                          selectedFilterIdx === idx,
-                          f.name
-                        );
-                      }
-                    }}
-                    onPointerDown={(e) => {
-                      e.stopPropagation();
-                      globalThis.pointerPosDown = [e.pageX, e.pageY];
-                      globalThis.filterTabPressed = true;
-                    }}
+                    onClick={(e) => filterClick(f)}
+                    onTouchMove={(e) => filterDrag(f)}
+                    onPointerDown={(e) => filterDown(e, f)}
                   >
                     {formatRangeText(f)}
                   </span>
