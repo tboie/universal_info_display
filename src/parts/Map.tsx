@@ -113,43 +113,40 @@ export default function Overlays({
         {stores.map((store) => {
           const numItems = items.filter((item) => item.s === store.n).length;
           return numItems ? (
-            <>
-              <RFeature
-                geometry={new Point(fromLonLat([store.l[1], store.l[0]]))}
-                onClick={(e) => {
-                  // @ts-ignore
-                  e.map.getView().fit(e.target?.getGeometry().getExtent(), {
-                    duration: 250,
-                    maxZoom: store === selectedStore ? 8 : 13,
-                  });
+            <RFeature
+              geometry={new Point(fromLonLat([store.l[1], store.l[0]]))}
+              onClick={(e) => {
+                // @ts-ignore
+                e.map.getView().fit(e.target?.getGeometry().getExtent(), {
+                  duration: 250,
+                  maxZoom: store === selectedStore ? 8 : 13,
+                });
 
-                  setTimeout(() => {
-                    // show store items
-                    if (!selectedStore || selectedStore !== store) {
-                      setSelectedFilterIdx(-1);
-                      setSelectedPageIdx(1);
-                      toggleMap();
-                    }
+                setTimeout(() => {
+                  // show store items
+                  if (!selectedStore || selectedStore !== store) {
+                    setSelectedFilterIdx(-1);
+                    setSelectedPageIdx(1);
+                    toggleMap();
+                  }
 
-                    setSelectedStore(
-                      selectedStore === store ? undefined : store
-                    );
-                  }, 1000);
-                }}
+                  setSelectedStore(selectedStore === store ? undefined : store);
+                }, 500);
+              }}
+            >
+              <RStyle.RStyle>
+                <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
+              </RStyle.RStyle>
+
+              <ROverlay
+                className={`map-loc${
+                  selectedStore === store ? " selected" : ""
+                }`}
               >
-                <RStyle.RStyle>
-                  <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
-                </RStyle.RStyle>
-
-                <ROverlay
-                  className={`map-loc${
-                    selectedStore === store ? " selected" : ""
-                  }`}
-                >
-                  {getLabelText(store, numItems)}
-                </ROverlay>
-              </RFeature>
-            </>
+                {getLabelText(store, numItems)}
+                {selectedStore === store ? "(Click Pin to Leave)" : ""}
+              </ROverlay>
+            </RFeature>
           ) : null;
         })}
       </RLayerVector>
