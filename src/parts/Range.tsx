@@ -176,11 +176,9 @@ export const RangeStatus = ({ f }: { f?: Filter }) => {
 
   return (
     <div
-      className={`range-status 
-      ${f?.sort === "asc" ? "asc" : ""} 
-      ${f?.sort === "desc" ? "desc" : ""} 
-      ${f?.op === ">" ? "gt" : ""} 
-      ${f?.op === "<" ? "lt" : ""}`}
+      className={`range-status ${f?.sort === "asc" ? "asc" : ""} ${
+        f?.sort === "desc" ? "desc" : ""
+      } ${f?.op === ">" ? "gt" : ""} ${f?.op === "<" ? "lt" : ""}`}
     >
       <div className={`container`}>
         <div
