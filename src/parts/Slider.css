@@ -44,7 +44,7 @@
 .slider-label.selected {
   color: gold;
   font-size: 1rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.1rem;
 }
 
 .slider-label.dot {
