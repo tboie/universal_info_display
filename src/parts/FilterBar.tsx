@@ -25,6 +25,7 @@ type PartFilterBarType = {
   setSearch: (on: boolean) => void;
   searchStr: string;
   setSearchStr: (val: string) => void;
+  searchResultsLen?: number;
 };
 
 const FilterBar = ({
@@ -50,6 +51,7 @@ const FilterBar = ({
   setSearch,
   searchStr,
   setSearchStr,
+  searchResultsLen,
 }: PartFilterBarType) => {
   const filters = [
     filter0,
@@ -220,6 +222,13 @@ const FilterBar = ({
         value={search ? searchStr : ""}
         placeholder={search ? `Search All ${selectedGroup}` : ""}
       />
+
+      {searchResultsLen && (
+        <span className={`search-results`}>
+          {searchResultsLen.toLocaleString("en", { useGrouping: true }) +
+            " items"}
+        </span>
+      )}
 
       {!search && searchStr && (
         <span className={`filters`}>

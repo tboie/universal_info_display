@@ -949,6 +949,9 @@ const UniversalInfoDisplay = () => {
             setSearch={setSearch}
             searchStr={searchStr}
             setSearchStr={setSearchStr}
+            searchResultsLen={
+              search && searchStr ? filteredItems.length : undefined
+            }
           />
 
           {getFilters().map((obj, idx) => {

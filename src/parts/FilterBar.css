@@ -24,6 +24,11 @@
   opacity: 0.8;
 }
 
+.filterbar .search-results {
+  color: lightgray;
+  padding: 0 0.5rem;
+}
+
 .filterbar img {
   position: absolute;
   height: 1rem;
