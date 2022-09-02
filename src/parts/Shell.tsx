@@ -753,7 +753,7 @@ const UniversalInfoDisplay = () => {
       console.log("setting location to boston");
       setLat(42.364506);
       setLng(-71.038887);
-    }, 250);
+    }, 500);
 
     /*
     navigator.geolocation.getCurrentPosition((position) => {
