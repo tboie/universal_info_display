@@ -4,7 +4,15 @@ import { fromLonLat } from "ol/proj";
 import { Point, Circle } from "ol/geom";
 import "ol/ol.css";
 
-import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
+import {
+  RMap,
+  ROSM,
+  RLayerVector,
+  RFeature,
+  ROverlay,
+  RStyle,
+  RControl,
+} from "rlayers";
 import { Store, UniversalInfoDisplayItem } from "./Shell";
 import locationIcon from "./marker.svg";
 import { useEffect, useState } from "react";
@@ -69,6 +77,7 @@ export default function Overlays({
   return (
     <RMap
       className="map"
+      noDefaultControls={true}
       initial={{
         center: selectedStore
           ? fromLonLat([selectedStore.l[1], selectedStore.l[0]])
@@ -78,6 +87,8 @@ export default function Overlays({
       view={[view, setView]}
     >
       <ROSM />
+      <RControl.RZoom className="zoom" />
+
       <RLayerVector zIndex={10}>
         <RFeature
           // add extra distance to circle to compensate precision
@@ -139,7 +150,7 @@ export default function Overlays({
               <ROverlay
                 className={`map-loc ${
                   selectedStore === store ? "selected" : ""
-                } ${view.zoom <= 12 && !selectedStore ? "hide" : ""}`}
+                } ${view.zoom <= 10 && !selectedStore ? "hide" : ""}`}
               >
                 {getLabelText(store, numItems)}
               </ROverlay>

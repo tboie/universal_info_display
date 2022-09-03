@@ -31,9 +31,3 @@
 .titlebar .total-pages {
   color: rgb(211, 211, 211);
 }
-
-.titlebar .close {
-  font-weight: bold;
-  color: rgba(150, 150, 150, 1);
-  text-shadow: 1px 1px black;
-}

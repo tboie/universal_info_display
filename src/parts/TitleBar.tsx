@@ -9,6 +9,7 @@ type PartTitleBarType = {
   selectedStore?: Store;
   fetching: boolean;
   map: boolean;
+  setMap?: (val: boolean) => void;
   totalItems: number;
   close: () => void;
   selectedItem?: UniversalInfoDisplayItem;
@@ -21,6 +22,7 @@ const TitleBar = ({
   selectedStore,
   fetching,
   map,
+  setMap,
   totalItems,
   close,
   selectedItem,
@@ -29,15 +31,15 @@ const TitleBar = ({
     if (fetching) {
       return "Fetching " + selectedGroup;
     } else if (selectedStore) {
-      return selectedStore.n.replaceAll("-", " ");
+      return (
+        <span onClick={(e) => setMap && setMap(true)}>
+          {selectedStore.n.replaceAll("-", " ")}
+        </span>
+      );
     } else if (selectedItem) {
       return selectedItem.n;
     } else if (selectedGroup) {
-      return (
-        <span className="group" onClick={(e) => close()}>
-          {selectedGroup}
-        </span>
-      );
+      return <span onClick={(e) => close()}>{selectedGroup}</span>;
     } else {
       return "Cannabis Items Near You";
     }

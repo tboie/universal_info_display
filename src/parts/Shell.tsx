@@ -20,6 +20,7 @@ import filterDefaultData from "./config/filter_defaults.json";
 
 import searchConfig from "./config/search.json";
 import Fuse from "fuse.js";
+import { setSourceMapRange } from "typescript";
 
 // page change and page snap utils
 declare global {
@@ -116,7 +117,7 @@ const UniversalInfoDisplay = () => {
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
 
-  const [map, toggleMap] = useState(false);
+  const [map, setMap] = useState(false);
   const [miles, setMiles] = useState(50);
 
   const [lat, setLat] = useState(0);
@@ -843,7 +844,7 @@ const UniversalInfoDisplay = () => {
           setItems([]);
           setStores([]);
           setKey([]);
-          toggleMap(false);
+          setMap(false);
           setFilter0(undefined);
           setFilter1(undefined);
           setFilter2(undefined);
@@ -853,6 +854,7 @@ const UniversalInfoDisplay = () => {
           setFilter6(undefined);
           setFilter7(undefined);
         }}
+        setMap={(val) => setMap(val)}
       />
 
       {selectedItemIdx > -1 && (
@@ -876,7 +878,7 @@ const UniversalInfoDisplay = () => {
           setSelectedStore={setSelectedStore}
           setSelectedFilterIdx={setSelectedFilterIdx}
           map={map}
-          toggleMap={() => toggleMap(!map)}
+          toggleMap={() => setMap(!map)}
           setSelectedPageIdx={setSelectedPageIdx}
         />
       )}
@@ -936,7 +938,7 @@ const UniversalInfoDisplay = () => {
             filter7={filter7}
             fetching={fetching}
             map={map}
-            toggleMap={(val) => toggleMap(val)}
+            toggleMap={(val) => setMap(val)}
             aliases={
               itemAliases[
                 groupFilters.findIndex((g: any) => g.group === selectedGroup)
