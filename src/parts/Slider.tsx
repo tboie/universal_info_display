@@ -11,7 +11,7 @@ type PartSliderType = {
   choices?: FilterChoice[];
   selected: string[] | FilterChoice[];
   select: (type: SliderType, title: string, field?: string) => void;
-  setSelectedPageIdx?: (val: number) => any;
+  goToPage?: (idx: number) => any;
   fetching: boolean;
   aliases?: any;
   filtersOn?: boolean;
@@ -34,7 +34,7 @@ const Slider = ({
   choices,
   selected,
   select,
-  setSelectedPageIdx,
+  goToPage,
   fetching,
   aliases,
   filtersOn,
@@ -163,10 +163,7 @@ const Slider = ({
           <button
             id="btn-first"
             onClick={(e) => {
-              if (setSelectedPageIdx) {
-                globalThis.pageSliderPressed = false;
-                setSelectedPageIdx(1);
-              }
+              goToPage && goToPage(1);
             }}
           >
             {"<<"}
@@ -174,10 +171,7 @@ const Slider = ({
           <button
             id="btn-last"
             onClick={(e) => {
-              if (setSelectedPageIdx) {
-                globalThis.pageSliderPressed = false;
-                setSelectedPageIdx(titles.length);
-              }
+              goToPage && goToPage(titles.length);
             }}
           >
             {">>"}

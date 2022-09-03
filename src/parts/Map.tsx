@@ -28,7 +28,7 @@ export default function Overlays({
   setSelectedFilterIdx,
   map,
   toggleMap,
-  setSelectedPageIdx,
+  goToPage,
 }: {
   lng: number;
   lat: number;
@@ -40,7 +40,7 @@ export default function Overlays({
   setSelectedFilterIdx: (val: number) => any;
   map: boolean;
   toggleMap: () => any;
-  setSelectedPageIdx: (val: number) => void;
+  goToPage: (idx: number) => void;
 }): JSX.Element {
   const [view, setView] = useState({
     center: selectedStore
@@ -135,7 +135,6 @@ export default function Overlays({
                   // show store items
                   if (!selectedStore || selectedStore !== store) {
                     setSelectedFilterIdx(-1);
-                    setSelectedPageIdx(1);
                     toggleMap();
                   }
 

@@ -12,6 +12,7 @@ type PartItemType = {
   close: (val: number) => any;
   selectedGroup: string;
   getData: (group: string) => void;
+  goToPage: (idx: number) => void;
 };
 
 const Item = ({
@@ -20,6 +21,7 @@ const Item = ({
   close,
   selectedGroup,
   getData,
+  goToPage,
 }: PartItemType) => {
   const [pages, setPages] = useState<number[]>([]);
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
@@ -108,8 +110,8 @@ const Item = ({
         titles={pages.map((n) => n.toString())}
         selected={[selectedPageIdx.toString()]}
         select={(type, title) => setSelectedPageIdx(parseInt(title))}
-        setSelectedPageIdx={setSelectedPageIdx}
         fetching={false}
+        goToPage={goToPage}
       />
     </div>
   );

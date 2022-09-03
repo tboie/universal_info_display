@@ -434,6 +434,27 @@ const UniversalInfoDisplay = () => {
     return filteredItems;
   };
 
+  const filteredItems = useMemo(filterItems, [
+    filter0,
+    filter1,
+    filter2,
+    filter3,
+    filter4,
+    filter5,
+    filter6,
+    filter7,
+    selectedStore,
+    miles,
+    searchStr,
+  ]);
+
+  const goToPage = (idx: number) => {
+    globalThis.contentSliderPressed = false;
+    globalThis.filterControlPressed = false;
+    globalThis.pageSliderPressed = false;
+    setSelectedPageIdx(idx);
+  };
+
   const sliderSelect = (type: SliderType, title: string, field?: string) => {
     const toggleChoice = (
       choices: FilterChoice[],
@@ -477,11 +498,10 @@ const UniversalInfoDisplay = () => {
         setFilter5(undefined);
         setFilter6(undefined);
         setFilter7(undefined);
-        setSelectedPageIdx(1);
         setSelectedGroup(title);
+        goToPage(1);
       }
     } else if (type === "choice" && field) {
-      setSelectedPageIdx(1);
       const obj = getFilterByIdx(selectedFilterIdx);
       if (obj && obj.f) {
         obj.set({
@@ -489,6 +509,7 @@ const UniversalInfoDisplay = () => {
           val: toggleChoice(obj.f.val as FilterChoice[], field, title),
         });
       }
+      goToPage(1);
     }
   };
 
@@ -502,20 +523,6 @@ const UniversalInfoDisplay = () => {
       setMiles(val);
     }
   };
-
-  const filteredItems = useMemo(filterItems, [
-    filter0,
-    filter1,
-    filter2,
-    filter3,
-    filter4,
-    filter5,
-    filter6,
-    filter7,
-    selectedStore,
-    miles,
-    searchStr,
-  ]);
 
   // filter_defaults.json vals not applied, all filters cleared
   const clearFilters = (idx?: number) => {
@@ -534,8 +541,6 @@ const UniversalInfoDisplay = () => {
       return f.type === "choice" ? clearChoiceVal(f) : clearRangeVal(f);
     };
 
-    setSelectedPageIdx(1);
-
     getFilters().forEach((obj) => {
       if (obj && obj.f) {
         if (idx === selectedFilterIdx || typeof idx === "undefined") {
@@ -551,6 +556,7 @@ const UniversalInfoDisplay = () => {
 
     setSearchStr("");
     setSearch(false);
+    goToPage(1);
   };
 
   useEffect(() => {
@@ -864,6 +870,7 @@ const UniversalInfoDisplay = () => {
           close={setSelectedItemIdx}
           selectedGroup={selectedGroup}
           getData={getData}
+          goToPage={goToPage}
         />
       )}
 
@@ -879,7 +886,7 @@ const UniversalInfoDisplay = () => {
           setSelectedFilterIdx={setSelectedFilterIdx}
           map={map}
           toggleMap={() => setMap(!map)}
-          setSelectedPageIdx={setSelectedPageIdx}
+          goToPage={goToPage}
         />
       )}
 
@@ -950,7 +957,10 @@ const UniversalInfoDisplay = () => {
             search={search}
             setSearch={setSearch}
             searchStr={searchStr}
-            setSearchStr={setSearchStr}
+            setSearchStr={(str) => {
+              goToPage(1);
+              setSearchStr(str);
+            }}
             searchResultsLen={
               search && searchStr ? filteredItems.length : undefined
             }
@@ -1007,7 +1017,7 @@ const UniversalInfoDisplay = () => {
           }
           selected={[selectedPageIdx.toString()]}
           select={sliderSelect}
-          setSelectedPageIdx={setSelectedPageIdx}
+          goToPage={goToPage}
           fetching={fetching}
         />
       )}

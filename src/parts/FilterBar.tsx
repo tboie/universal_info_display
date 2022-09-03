@@ -216,7 +216,7 @@ const FilterBar = ({
           setSelectedFilterIdx(-1);
           setSearch && setSearch(true);
         }}
-        onChange={(e) => {
+        onInput={(e) => {
           setSearchStr && setSearchStr(e.currentTarget.value);
         }}
         value={search ? searchStr : ""}
