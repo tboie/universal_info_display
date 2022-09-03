@@ -120,10 +120,11 @@ export default function Overlays({
           </ROverlay>
         </RFeature>
 
-        {stores.map((store) => {
+        {stores.map((store, idx) => {
           const numItems = items.filter((item) => item.s === store.n).length;
           return numItems ? (
             <RFeature
+              key={"store" + idx}
               geometry={new Point(fromLonLat([store.l[1], store.l[0]]))}
               onClick={(e) => {
                 // @ts-ignore
