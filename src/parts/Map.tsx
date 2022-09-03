@@ -87,6 +87,7 @@ export default function Overlays({
       view={[view, setView]}
     >
       <ROSM />
+      <RControl.RRotate className="rotate" autoHide />
       <RControl.RZoom className="zoom" />
 
       <RLayerVector zIndex={10}>

@@ -27,3 +27,12 @@
   right: 0.5em;
   bottom: 0.5em;
 }
+
+.map .rotate {
+  left: 0.5em;
+  bottom: 0.5em;
+}
+
+.ol-hidden {
+  display: none;
+}
