@@ -49,20 +49,18 @@ export default function Overlays({
 
   const getLabelText = (store: Store, numItems: number) => {
     let text = "";
-    if (view.zoom > 12) {
-      text = store.n.replaceAll("-", " ");
+    text = store.n.replaceAll("-", " ");
 
-      if (selectedStore) {
-        if (selectedStore === store) {
-          text = text + " (" + numItems + ")";
-        }
-      } else {
+    if (selectedStore) {
+      if (selectedStore === store) {
         text = text + " (" + numItems + ")";
       }
     } else {
-      if (!selectedStore || selectedStore === store) {
-        text = numItems.toString();
-      }
+      text = text + " (" + numItems + ")";
+    }
+
+    if (store === selectedStore) {
+      text = text + " (SELECTED)";
     }
 
     return text;
@@ -139,12 +137,11 @@ export default function Overlays({
               </RStyle.RStyle>
 
               <ROverlay
-                className={`map-loc${
-                  selectedStore === store ? " selected" : ""
-                }`}
+                className={`map-loc ${
+                  selectedStore === store ? "selected" : ""
+                } ${view.zoom <= 12 && !selectedStore ? "hide" : ""}`}
               >
                 {getLabelText(store, numItems)}
-                {selectedStore === store ? "(Click Pin to Leave)" : ""}
               </ROverlay>
             </RFeature>
           ) : null;
