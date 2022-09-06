@@ -20,7 +20,6 @@ import filterDefaultData from "./config/filter_defaults.json";
 
 import searchConfig from "./config/search.json";
 import Fuse from "fuse.js";
-import { setSourceMapRange } from "typescript";
 
 // page change and page snap utils
 declare global {
@@ -867,7 +866,7 @@ const UniversalInfoDisplay = () => {
         <Item
           selectedItemIdx={selectedItemIdx}
           item={items[selectedItemIdx]}
-          close={setSelectedItemIdx}
+          close={() => setSelectedItemIdx(-1)}
           selectedGroup={selectedGroup}
           getData={getData}
           goToPage={goToPage}

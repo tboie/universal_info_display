@@ -9,7 +9,7 @@ import TitleBar from "./TitleBar";
 type PartItemType = {
   selectedItemIdx: number;
   item: UniversalInfoDisplayItem;
-  close: (val: number) => any;
+  close: () => void;
   selectedGroup: string;
   getData: (group: string) => void;
   goToPage: (idx: number) => void;
@@ -88,7 +88,7 @@ const Item = ({
         fetching={false}
         map={false}
         totalItems={1}
-        close={() => {}}
+        close={close}
         selectedItem={item}
       />
       <ContentSlider
@@ -102,7 +102,7 @@ const Item = ({
         selectedItemIdx={selectedItemIdx}
         getData={getData}
       />
-      <button id="item-close" onClick={() => close(-1)}>
+      <button id="item-close" onClick={close}>
         X
       </button>
       <Slider

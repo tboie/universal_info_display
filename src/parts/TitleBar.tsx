@@ -37,9 +37,9 @@ const TitleBar = ({
         </span>
       );
     } else if (selectedItem) {
-      return selectedItem.n;
+      return <span onClick={close}>{selectedItem.n}</span>;
     } else if (selectedGroup) {
-      return <span onClick={(e) => close()}>{selectedGroup}</span>;
+      return <span onClick={close}>{selectedGroup}</span>;
     } else {
       return "Cannabis Items Near You";
     }
