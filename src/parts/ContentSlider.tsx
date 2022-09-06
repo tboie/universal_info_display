@@ -23,6 +23,7 @@ type PartContentSliderType = {
   rangeModal?: boolean;
   selectedFilter?: Filter;
   setPages?: (pages: number[]) => void;
+  searchStr?: string;
 };
 
 // paginator flag to create new string node when proccing text
@@ -43,6 +44,7 @@ const ContentSlider = ({
   rangeModal,
   selectedFilter,
   setPages,
+  searchStr,
 }: PartContentSliderType) => {
   const [pageProcNum, setPageProcNum] = useState(() => (contentNodes ? 1 : 0));
   const [pagesNodes, setPagesNodes] = useState<React.ReactNode[]>([[]]);
@@ -268,7 +270,7 @@ const ContentSlider = ({
         ) : (
           <Page
             type={"grid"}
-            text={"No Items Found"}
+            text={searchStr ? "No Items Found" : "Searching All Flower"}
             key={"page"}
             num={1}
             items={[]}

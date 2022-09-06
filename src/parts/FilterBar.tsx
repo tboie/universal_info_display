@@ -207,6 +207,16 @@ const FilterBar = ({
   return (
     <div className={`filterbar`}>
       {!search && <img src="/media/search.svg" alt="search" />}
+      {search && (
+        <span
+          className={`back`}
+          onClick={(e) => {
+            setSearch && setSearch(false);
+            setSearchStr && setSearchStr("");
+            //clearFilters();
+          }}
+        >{`<`}</span>
+      )}
 
       <input
         id={`search-input`}
@@ -223,9 +233,9 @@ const FilterBar = ({
         placeholder={search ? `Search All ${selectedGroup}` : ""}
       />
 
-      {searchResultsLen && (
+      {search && searchStr && (
         <span className={`search-results`}>
-          {searchResultsLen.toLocaleString("en", { useGrouping: true }) +
+          {searchResultsLen?.toLocaleString("en", { useGrouping: true }) +
             " items"}
         </span>
       )}
@@ -290,7 +300,6 @@ const FilterBar = ({
         className={"clear-filters"}
         onClick={(e) => {
           if (search) {
-            setSearch && setSearch(false);
             setSearchStr && setSearchStr("");
           } else {
             if (selectedFilterIdx > -1) {

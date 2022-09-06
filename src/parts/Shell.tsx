@@ -214,26 +214,30 @@ const UniversalInfoDisplay = () => {
     let filteredItems: UniversalInfoDisplayItem[] = [...items];
 
     if (search) {
-      // isCaseSensitive: false,
-      // includeScore: false,
-      // shouldSort: true,
-      // includeMatches: false,
-      // findAllMatches: false,
-      // minMatchCharLength: 1,
-      // location: 0,
-      // threshold: 0.6,
-      // distance: 100,
-      // useExtendedSearch: false,
-      // ignoreLocation: false,
-      // ignoreFieldNorm: false,
-      // fieldNormWeight: 1,
-      const options = searchConfig;
-      const fuse = new Fuse(filteredItems, options);
+      if (searchStr) {
+        // isCaseSensitive: false,
+        // includeScore: false,
+        // shouldSort: true,
+        // includeMatches: false,
+        // findAllMatches: false,
+        // minMatchCharLength: 1,
+        // location: 0,
+        // threshold: 0.6,
+        // distance: 100,
+        // useExtendedSearch: false,
+        // ignoreLocation: false,
+        // ignoreFieldNorm: false,
+        // fieldNormWeight: 1,
+        const options = searchConfig;
+        const fuse = new Fuse(filteredItems, options);
 
-      // Change the pattern
-      const pattern = searchStr;
+        // Change the pattern
+        const pattern = searchStr;
 
-      filteredItems = fuse.search(pattern).map((obj) => obj.item);
+        filteredItems = fuse.search(pattern).map((obj) => obj.item);
+      } else {
+        filteredItems = [];
+      }
     } else {
       // store
       if (selectedStore) {
@@ -445,6 +449,7 @@ const UniversalInfoDisplay = () => {
     selectedStore,
     miles,
     searchStr,
+    search,
   ]);
 
   const goToPage = (idx: number) => {
@@ -906,6 +911,7 @@ const UniversalInfoDisplay = () => {
           fetching={fetching}
           rangeModal={rangeModal}
           selectedFilter={getFilterByIdx(selectedFilterIdx)?.f}
+          searchStr={searchStr}
         />
       )}
 
