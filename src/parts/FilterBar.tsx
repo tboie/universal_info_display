@@ -113,9 +113,12 @@ const FilterBar = ({
     return allChoices.length ? allChoices.join(", ") : "";
   };
 
-  // prob re-write this
   const formatRangeText = (f: Filter) => {
     let val = f.name;
+
+    if (aliases && aliases[val]["alias"]) {
+      val = aliases[val]["alias"];
+    }
 
     if (f && f.op) {
       if (filterOn(f)) {
