@@ -116,7 +116,7 @@ const FilterBar = ({
   const formatRangeText = (f: Filter) => {
     let val = f.name;
 
-    if (aliases && aliases[val]["alias"]) {
+    if (aliases && aliases[val] && aliases[val]["alias"]) {
       val = aliases[val]["alias"];
     }
 
