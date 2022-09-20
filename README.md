@@ -16,7 +16,7 @@
 
 ### Demo
 
-- [Universal Info Display Demo](https://universal-info-display.vercel.app/)
+- [Universal Info Display Demo](https://unidisplay.vercel.app/)
 
 ### Install/Run
 
