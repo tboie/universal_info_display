@@ -4,6 +4,8 @@
 
 ### Version 1 (Mobile)
 
+- Update 11/17/22: Would move towards modular app architecture and have separate apps for each group and landing page
+
 - A horizontally scrolled content display system. It's purpose is to display and navigate sets of item data. Location and map features included. UI Components are used to filter and sort item data.
 - Display nearest _x_ items less than _x_ miles (50 default) from device location
 
