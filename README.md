@@ -3,9 +3,6 @@
 <img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
 
 ### Version 1 (Mobile)
-
-- Update 11/17/22: Would move towards modular app architecture and have separate apps for each group and landing page
-
 - A horizontally scrolled content display system. It's purpose is to display and navigate sets of item data. Location and map features included. UI Components are used to filter and sort item data.
 - Display nearest _x_ items less than _x_ miles (50 default) from device location
 
@@ -30,6 +27,8 @@ npm start
 ```
 
 ### Components/Parts
+
+<img width="430" alt="design" src="https://user-images.githubusercontent.com/26150152/210605214-cb84f25c-e00a-4629-a21b-4dfa1839396c.png">
 
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
 - [FilterBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterBar.tsx): Displays UI data filter buttons
