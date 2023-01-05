@@ -42,7 +42,11 @@ npm start
 
 ### UX Flow
 
-<img width="430" alt="flow diagram" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
+<img width="430" alt="ux flow" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
+
+### Data Flow
+
+<img width="430" alt="data flow" src="https://user-images.githubusercontent.com/26150152/210685832-fc334258-00c3-4a8e-a3f2-af6e358e3b90.png">
 
 ### Data Config (TODO: Design left open)
 
