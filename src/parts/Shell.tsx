@@ -563,6 +563,7 @@ const UniversalInfoDisplay = () => {
     goToPage(1);
   };
 
+  // device lat/lng changed
   useEffect(() => {
     const fetchData = async (uri: string) => {
       return fetch(uri)
