@@ -29,7 +29,7 @@ const Grid = ({
       }`}
     >
       {items.map((item, idx) => (
-        <ItemSquare
+        <GridItem
           key={`square${idx}`}
           idx={idx}
           item={item}
@@ -43,7 +43,7 @@ const Grid = ({
   ) : null;
 };
 
-type PartItemType = {
+type PartGridItemType = {
   idx: number;
   item: any;
   selectedGroup: string;
@@ -52,14 +52,14 @@ type PartItemType = {
   getData: (group: string) => void;
 };
 
-const ItemSquare = ({
+const GridItem = ({
   idx,
   item,
   selectedGroup,
   selectedItemIdx,
   setSelectedItemIdx,
   getData,
-}: PartItemType) => {
+}: PartGridItemType) => {
   const [selectedTemplateIdx, setSelectedTemplateIdx] = useState(0);
 
   const groupIdx = groupFilters.findIndex(
