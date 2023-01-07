@@ -26,9 +26,9 @@ npm i
 npm start
 ```
 
-### Components/Parts
+### Design/Parts
 
-<img width="430" alt="Screen Shot 2023-01-07 at 1 48 18 PM" src="https://user-images.githubusercontent.com/26150152/211166059-9bf85fdd-7e20-4011-aa89-c1428dec931b.png">
+<img width="550" alt="Screen Shot 2023-01-07 at 1 57 04 PM" src="https://user-images.githubusercontent.com/26150152/211166369-c929b13d-9f87-454e-a5eb-79a6c6d68694.png">
 
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
 - [FilterBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterBar.tsx): Displays UI data filter buttons
