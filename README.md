@@ -28,7 +28,7 @@ npm start
 
 ### Components/Parts
 
-<img width="430" alt="design" src="https://user-images.githubusercontent.com/26150152/210606570-24c5417f-9f10-4b58-88d6-d3ddeb1533c6.png">
+<img width="430" alt="Screen Shot 2023-01-07 at 1 48 18 PM" src="https://user-images.githubusercontent.com/26150152/211166059-9bf85fdd-7e20-4011-aa89-c1428dec931b.png">
 
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
 - [FilterBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterBar.tsx): Displays UI data filter buttons
@@ -44,24 +44,21 @@ npm start
 
 <img width="430" alt="ux flow" src="https://user-images.githubusercontent.com/26150152/179226458-354bcd17-a83d-41aa-8cfa-7e52709955ec.png">
 
-### Data Flow
+### Data Flow (design open to change)
 
 <img width="430" alt="data flow" src="https://user-images.githubusercontent.com/26150152/210685832-fc334258-00c3-4a8e-a3f2-af6e358e3b90.png">
 
-### Data Config (TODO: Design left open)
+### Data Config
 
-group key --> group items
-
-- items are stored by address(store) in arrays `[location store address].json` in [public/data/groups](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups)
-- a group is a dataset of items [(flower example in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/groups/public/data/groups/flower)
-- [/public/data/keys](https://github.com/tboie/universal_info_display/tree/groups/public/data/keys) are used to link location to item files
-
-- [/src/parts/config](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config) directory used for item field UI configuration
-- [groups.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/groups.json) - group UI filter name/field/alias config
-- [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/filter_defaults.json) - default group filter values
-- [item_aliases.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/item_aliases.json) - item field aliases
-- [template_group.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/template_group.json) - grid group template (1st screen)
-- [template_item.json](https://github.com/tboie/universal_info_display/tree/groups/src/parts/config/template_item.json) - grid item template
+- items are stored by address(store) in arrays `[location store address].json` in [public/data/groups](https://github.com/tboie/universal_info_display/tree/main/public/data/groups)
+- a group is a dataset of items [(flower example in public/data/groups/flower)](https://github.com/tboie/universal_info_display/tree/main/public/data/groups/flower)
+- [/public/data/keys](https://github.com/tboie/universal_info_display/tree/main/public/data/keys) are used to link location to item files
+- [/src/parts/config](https://github.com/tboie/universal_info_display/tree/main/src/parts/config) directory used for item field UI configuration
+- [groups.json](https://github.com/tboie/universal_info_display/tree/main/src/parts/config/groups.json) - group UI filter name/field/alias config
+- [filter_defaults.json](https://github.com/tboie/universal_info_display/tree/main/src/parts/config/filter_defaults.json) - default group filter values
+- [item_aliases.json](https://github.com/tboie/universal_info_display/tree/main/src/parts/config/item_aliases.json) - item field aliases
+- [template_group.json](https://github.com/tboie/universal_info_display/tree/main/src/parts/config/template_group.json) - grid group template (1st screen)
+- [template_item.json](https://github.com/tboie/universal_info_display/tree/main/src/parts/config/template_item.json) - grid item template
 
 ### Performance
 
@@ -127,4 +124,4 @@ Have the item "float" by displaying a slice of a full rotation.
 - OnlInE ShoPPing aka e-commerce
 - community involvement?
 
-- Design and Port to new framework
+- Design and Port to new framework?
