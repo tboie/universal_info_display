@@ -63,7 +63,6 @@ npm start
 ### Performance
 
 - Items are proximity-rendered from currently selected(viewed) page
-- Optimization Opportunity: Pages could be proximity-rendered as well by calculating page placement.
 
 ### Equipment/Info/Tools used for 3D Item object recording with iPhone
 
