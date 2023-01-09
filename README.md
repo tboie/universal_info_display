@@ -28,7 +28,7 @@ npm start
 
 ### Design/Parts
 
-<img width="550" alt="Screen Shot 2023-01-07 at 1 57 04 PM" src="https://user-images.githubusercontent.com/26150152/211166369-c929b13d-9f87-454e-a5eb-79a6c6d68694.png">
+<img width="550" alt="design" src="https://user-images.githubusercontent.com/26150152/211342265-940c7a3b-3359-4b5a-a2c9-33370356b711.png">
 
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
 - [FilterBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterBar.tsx): Displays UI data filter buttons
@@ -114,7 +114,7 @@ Have the item "float" by displaying a slice of a full rotation.
 - Play in forwards then reverse
 
 ### TODO/THINK/(RE)DESIGN
-
+- routing
 - Extend map features? Directions?
 - Custom ranking systems/designs...
 - Social Features
@@ -122,5 +122,4 @@ Have the item "float" by displaying a slice of a full rotation.
 - Gamifications (badges, awards, etc)
 - OnlInE ShoPPing aka e-commerce
 - community involvement?
-
 - Design and Port to new framework?
