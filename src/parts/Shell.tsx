@@ -850,8 +850,6 @@ const UniversalInfoDisplay = () => {
           setSelectedItemIdx(-1);
           setSelectedStore(undefined);
           setFetching(false);
-          setLat(0);
-          setLng(0);
           setItems([]);
           setStores([]);
           setKey([]);
