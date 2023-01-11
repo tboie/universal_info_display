@@ -28,7 +28,7 @@ npm start
 
 ### Design/Parts
 
-<img width="515" alt="design" src="https://user-images.githubusercontent.com/26150152/211624937-8582f145-5687-4f00-93d3-9aa76b50adae.png">
+<img width="518" alt="design" src="https://user-images.githubusercontent.com/26150152/211689101-87e849e6-668a-4634-ab22-9d5c4c2ced10.png">
 
 - [ContentSlider](https://github.com/tboie/universal_info_display/blob/groups/src/parts/ContentSlider.tsx): A scrolling window displaying information
 - [FilterBar](https://github.com/tboie/universal_info_display/blob/groups/src/parts/FilterBar.tsx): Displays UI data filter buttons
