@@ -888,7 +888,7 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {map && (
+      {map && !fetching && (
         <MapWrapper
           lng={lng}
           lat={lat}
@@ -904,7 +904,7 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {!map && (
+      {(!map || fetching) && (
         <ContentSlider
           type={"grid"}
           items={
