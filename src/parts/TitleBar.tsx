@@ -32,14 +32,18 @@ const TitleBar = ({
       return "Fetching " + selectedGroup;
     } else if (selectedStore) {
       return (
-        <span onClick={(e) => setMap && setMap(true)}>
-          {selectedStore.n.replaceAll("-", " ")}
+        <span onClick={(e) => setMap && setMap(!map)}>
+          {"< Store: " + selectedStore.n.replaceAll("-", " ")}
         </span>
       );
     } else if (selectedItem) {
-      return <span onClick={close}>{selectedItem.n}</span>;
+      return (
+        <span onClick={close}>
+          {"< " + selectedItem.s.replaceAll("-", " ")}
+        </span>
+      );
     } else if (selectedGroup) {
-      return <span onClick={close}>{selectedGroup}</span>;
+      return <span onClick={close}>{"< " + selectedGroup}</span>;
     } else {
       return "Cannabis Items Near You";
     }

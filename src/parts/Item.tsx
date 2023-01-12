@@ -91,6 +91,7 @@ const Item = ({
         close={close}
         selectedItem={item}
       />
+      <span className="title">{item.n}</span>
       <ContentSlider
         type={"dynamic"}
         contentNodes={contentNodes}
