@@ -73,8 +73,8 @@
   color: gold;
 }
 
-.filterbar .filters .filter-vals.map {
-  border: 1px dotted #80f077;
+.filterbar .filters .filter-vals.map.on {
+  background-color: rgba(255, 212, 0, 0.2);
 }
 
 .filterbar .filters .filter-vals.sel {
