@@ -1,5 +1,6 @@
 .universal-info-display {
   width: 100%;
+  max-width: 480px;
   height: 100%;
   background-color: #1b1a26;
   display: flex;

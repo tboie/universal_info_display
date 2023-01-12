@@ -14,6 +14,8 @@ body,
   left: 0;
   margin: 0;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 button:focus {
