@@ -188,20 +188,6 @@ const UniversalInfoDisplay = () => {
   const getFilterByIdx = (idx: number) =>
     getFilters().find((obj) => obj.f?.i === idx);
 
-  // TODO: Design
-  const keyPath = "/data/keys";
-  const getData = (group: string) => {
-    setFetching(true);
-    setSelectedGroup(group);
-
-    fetch(`${keyPath}/${group}.json`)
-      .then((r) => r.json())
-      .then((key) => {
-        setKey(key);
-        getLocation();
-      });
-  };
-
   const getDefaultFilterOp = (type: FilterType, name: string) => {
     return type === "range"
       ? name === "$" || name === "mi"
@@ -249,7 +235,7 @@ const UniversalInfoDisplay = () => {
       // choice
       getFilters()
         .map((obj) => obj.f)
-        .filter((f) => f?.type === "choice")
+        .filter((f) => f?.type === "choice" && f.name === "groups")
         .forEach((f) => {
           if (f) {
             (f.val as FilterChoice[]).forEach((c) => {
@@ -493,18 +479,8 @@ const UniversalInfoDisplay = () => {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      if (title !== selectedGroup) {
-        setFilter0(undefined);
-        setFilter1(undefined);
-        setFilter2(undefined);
-        setFilter3(undefined);
-        setFilter4(undefined);
-        setFilter5(undefined);
-        setFilter6(undefined);
-        setFilter7(undefined);
-        setSelectedGroup(title);
-        goToPage(1);
-      }
+      close();
+      getData(title);
     } else if (type === "choice" && field) {
       const obj = getFilterByIdx(selectedFilterIdx);
       if (obj && obj.f) {
@@ -561,6 +537,35 @@ const UniversalInfoDisplay = () => {
     setSearchStr("");
     setSearch(false);
     goToPage(1);
+  };
+
+  // TODO: Design
+  const keyPath = "/data/keys";
+  const getData = (group: string) => {
+    setFetching(true);
+    setSelectedGroup(group);
+
+    fetch(`${keyPath}/${group}.json`)
+      .then((r) => r.json())
+      .then((key) => {
+        setKey(key);
+        getLocation();
+      });
+  };
+
+  const getLocation = () => {
+    setTimeout(() => {
+      console.log("setting location to boston");
+      setLat(42.364506);
+      setLng(-71.038887);
+    }, 500);
+
+    /*
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
+    });
+    */
   };
 
   // device lat/lng changed
@@ -672,7 +677,7 @@ const UniversalInfoDisplay = () => {
         setMiles(maxMiles);
 
         // set filters with groups.json data
-        const groupFilter = groupFilters.find(
+        let groupFilter = groupFilters.find(
           (g: any) => g.group === selectedGroup
         );
         const groupFilterIdx = groupFilters.findIndex(
@@ -680,14 +685,23 @@ const UniversalInfoDisplay = () => {
         );
 
         if (groupFilter) {
-          Object.entries(groupFilter)
-            .filter(([key]) => key !== "group")
-            .forEach(([key, obj]: any, idx) => {
-              let choices: FilterChoice[] = [];
-              let choice_type: FilterChoiceType = "string";
-              let range: FilterRange = [0, 0];
+          Object.entries(groupFilter).forEach(([key, obj]: any, idx) => {
+            let choices: FilterChoice[] = [];
+            let choice_type: FilterChoiceType = "string";
+            let range: FilterRange = [0, 0];
 
-              // choices
+            // groups filter if multiple
+            if (groupFilters.length > 1 && key === "group") {
+              obj = {
+                type: "choice",
+              };
+              choices.push({
+                field: key,
+                values: groupFilters.map((g: any) => g.group),
+                type: "string",
+              });
+            } else {
+              // choices filter
               if (obj.type === "choice") {
                 key.split(",").forEach((field: string) => {
                   const choice_values = getFilterChoicesFromItems(
@@ -708,51 +722,59 @@ const UniversalInfoDisplay = () => {
                   });
                 });
               }
-              // range
+              // range filter
               else if (obj.type === "range") {
                 range = getFilterRangeMinMaxFromItems(key, all_items);
                 if (key === "mi") {
                   range = [minMiles, maxMiles];
                 }
               }
-              // range
+            }
 
-              const fObj: Filter = {
-                i: idx,
-                name: key,
-                alias: obj.alias,
-                type: obj.type as FilterType,
-                props: obj.type === "choice" ? choices : range,
-                val:
-                  obj.type === "choice"
-                    ? getDefaultFilterChoiceVal(
+            const fObj: Filter = {
+              i: idx,
+              name: key,
+              alias: obj.alias,
+              type: obj.type as FilterType,
+              props: obj.type === "choice" ? choices : range,
+              val:
+                obj.type === "choice"
+                  ? key === "group"
+                    ? [
+                        {
+                          field: "group",
+                          values: ["flower"],
+                          type: "string",
+                        },
+                      ]
+                    : getDefaultFilterChoiceVal(
                         groupFilterIdx,
                         choices,
                         choice_type
                       )
-                    : getDefaultFilterRangeVal(key, range),
-                sort: undefined,
-                op: getDefaultFilterOp(obj.type, key),
-              };
+                  : getDefaultFilterRangeVal(key, range),
+              sort: undefined,
+              op: getDefaultFilterOp(obj.type, key),
+            };
 
-              if (idx === 0) {
-                setFilter0(fObj);
-              } else if (idx === 1) {
-                setFilter1(fObj);
-              } else if (idx === 2) {
-                setFilter2(fObj);
-              } else if (idx === 3) {
-                setFilter3(fObj);
-              } else if (idx === 4) {
-                setFilter4(fObj);
-              } else if (idx === 5) {
-                setFilter5(fObj);
-              } else if (idx === 6) {
-                setFilter6(fObj);
-              } else if (idx === 7) {
-                setFilter7(fObj);
-              }
-            });
+            if (idx === 0) {
+              setFilter0(fObj);
+            } else if (idx === 1) {
+              setFilter1(fObj);
+            } else if (idx === 2) {
+              setFilter2(fObj);
+            } else if (idx === 3) {
+              setFilter3(fObj);
+            } else if (idx === 4) {
+              setFilter4(fObj);
+            } else if (idx === 5) {
+              setFilter5(fObj);
+            } else if (idx === 6) {
+              setFilter6(fObj);
+            } else if (idx === 7) {
+              setFilter7(fObj);
+            }
+          });
         }
 
         setFetching(false);
@@ -760,19 +782,26 @@ const UniversalInfoDisplay = () => {
     }
   }, [lat, lng]);
 
-  const getLocation = () => {
-    setTimeout(() => {
-      console.log("setting location to boston");
-      setLat(42.364506);
-      setLng(-71.038887);
-    }, 500);
-
-    /*
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLat(position.coords.latitude);
-      setLng(position.coords.longitude);
-    });
-    */
+  const close = () => {
+    setSelectedGroup("");
+    setSelectedItemIdx(-1);
+    setSelectedFilterIdx(-1);
+    setSelectedStore(undefined);
+    setFetching(false);
+    setItems([]);
+    setStores([]);
+    setKey([]);
+    setLat(0);
+    setLng(0);
+    setMap(false);
+    setFilter0(undefined);
+    setFilter1(undefined);
+    setFilter2(undefined);
+    setFilter3(undefined);
+    setFilter4(undefined);
+    setFilter5(undefined);
+    setFilter6(undefined);
+    setFilter7(undefined);
   };
 
   return (
@@ -845,24 +874,7 @@ const UniversalInfoDisplay = () => {
         fetching={fetching}
         map={map}
         totalItems={filteredItems.length}
-        close={() => {
-          setSelectedGroup("");
-          setSelectedItemIdx(-1);
-          setSelectedStore(undefined);
-          setFetching(false);
-          setItems([]);
-          setStores([]);
-          setKey([]);
-          setMap(false);
-          setFilter0(undefined);
-          setFilter1(undefined);
-          setFilter2(undefined);
-          setFilter3(undefined);
-          setFilter4(undefined);
-          setFilter5(undefined);
-          setFilter6(undefined);
-          setFilter7(undefined);
-        }}
+        close={() => close()}
         setMap={(val) => setMap(val)}
       />
 
@@ -988,9 +1000,17 @@ const UniversalInfoDisplay = () => {
                 return (
                   <Slider
                     key={idx}
-                    type={"choice"}
+                    type={
+                      getFilters()[selectedFilterIdx]?.f?.name === "group"
+                        ? "group"
+                        : "choice"
+                    }
                     choices={f.props as FilterChoice[]}
-                    selected={f.val as FilterChoice[]}
+                    selected={
+                      getFilters()[selectedFilterIdx]?.f?.name === "group"
+                        ? [selectedGroup]
+                        : (f.val as FilterChoice[])
+                    }
                     select={sliderSelect}
                     fetching={fetching}
                     aliases={
@@ -999,6 +1019,11 @@ const UniversalInfoDisplay = () => {
                           (g: any) => g.group === selectedGroup
                         )
                       ]
+                    }
+                    titles={
+                      getFilters()[selectedFilterIdx]?.f?.name === "group"
+                        ? groupFilters.map((g: any) => g.group)
+                        : undefined
                     }
                   />
                 );
