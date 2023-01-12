@@ -793,7 +793,7 @@ const UniversalInfoDisplay = () => {
     setKey([]);
     setLat(0);
     setLng(0);
-    setMap(false);
+    //setMap(false);
     setFilter0(undefined);
     setFilter1(undefined);
     setFilter2(undefined);
@@ -926,7 +926,7 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {selectedGroup && !fetching && (
+      {!fetching && selectedGroup && (
         <div
           className={`filter-controls ${
             selectedFilterIdx > -1 ? "sel" : "off"
@@ -1034,7 +1034,7 @@ const UniversalInfoDisplay = () => {
         </div>
       )}
 
-      {!map && selectedGroup && !fetching && (
+      {!fetching && !map && selectedGroup && (
         <Slider
           type={"page"}
           titles={
