@@ -479,7 +479,7 @@ const UniversalInfoDisplay = () => {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      close();
+      close(map);
       getData(title);
     } else if (type === "choice" && field) {
       const obj = getFilterByIdx(selectedFilterIdx);
@@ -782,7 +782,7 @@ const UniversalInfoDisplay = () => {
     }
   }, [lat, lng]);
 
-  const close = () => {
+  const close = (keepMap?: boolean) => {
     setSelectedGroup("");
     setSelectedItemIdx(-1);
     setSelectedFilterIdx(-1);
@@ -793,7 +793,7 @@ const UniversalInfoDisplay = () => {
     setKey([]);
     setLat(0);
     setLng(0);
-    //setMap(false);
+    if (!keepMap) setMap(false);
     setFilter0(undefined);
     setFilter1(undefined);
     setFilter2(undefined);
@@ -926,7 +926,7 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
-      {!fetching && selectedGroup && (
+      {selectedGroup && !fetching && (
         <div
           className={`filter-controls ${
             selectedFilterIdx > -1 ? "sel" : "off"
