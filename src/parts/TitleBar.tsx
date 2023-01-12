@@ -7,6 +7,7 @@ type PartTitleBarType = {
   selectedPageIdx: number;
   totalPages: number;
   selectedStore?: Store;
+  setSelectedStore?: (val: Store | undefined) => void;
   fetching: boolean;
   map: boolean;
   setMap?: (val: boolean) => void;
@@ -20,6 +21,7 @@ const TitleBar = ({
   selectedPageIdx,
   totalPages,
   selectedStore,
+  setSelectedStore,
   fetching,
   map,
   setMap,
@@ -30,6 +32,25 @@ const TitleBar = ({
   const getTitle = (): string | JSX.Element => {
     if (fetching) {
       return "Fetching " + selectedGroup;
+    } else if (map) {
+      if (selectedStore) {
+        return (
+          <span
+            onClick={(e) => {
+              setMap && setMap(!map);
+              setSelectedStore && setSelectedStore(undefined);
+            }}
+          >
+            {"< Store: " + selectedStore.n}
+          </span>
+        );
+      } else {
+        return (
+          <span onClick={(e) => setMap && setMap(!map)}>
+            {"< " + selectedGroup}
+          </span>
+        );
+      }
     } else if (selectedStore) {
       return (
         <span onClick={(e) => setMap && setMap(!map)}>

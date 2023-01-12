@@ -870,6 +870,7 @@ const UniversalInfoDisplay = () => {
         selectedPageIdx={selectedPageIdx}
         totalPages={chunkArr(filteredItems, 6).length}
         selectedStore={selectedStore}
+        setSelectedStore={(store) => setSelectedStore(store)}
         fetching={fetching}
         map={map}
         totalItems={filteredItems.length}
