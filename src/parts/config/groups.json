@@ -20,9 +20,6 @@
         "b":{
             "alias": "brand",
             "type": "choice"
-        },
-        "mood": {
-            "type": "choice"
         }
     },
     {
