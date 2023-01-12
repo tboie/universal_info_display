@@ -742,8 +742,8 @@ const UniversalInfoDisplay = () => {
                   ? key === "group"
                     ? [
                         {
-                          field: "group",
-                          values: ["flower"],
+                          field: key,
+                          values: [selectedGroup],
                           type: "string",
                         },
                       ]
