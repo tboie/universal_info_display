@@ -125,7 +125,7 @@ const GridItem = ({
             : getData && getData(item.n);
         }}
       >
-        {item[template.title]}
+        {item[template?.title]}
       </span>
 
       <div className="container">
