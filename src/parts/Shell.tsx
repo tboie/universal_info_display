@@ -522,7 +522,7 @@ const UniversalInfoDisplay = () => {
     };
 
     getFilters().forEach((obj) => {
-      if (obj && obj.f) {
+      if (obj && obj.f && obj.f.name !== "group") {
         if (idx === selectedFilterIdx || typeof idx === "undefined") {
           obj.set({
             ...obj.f,
