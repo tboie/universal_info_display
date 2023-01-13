@@ -12,6 +12,7 @@ type PartGridType = {
   selectedGroup: string;
   selectedItemIdx: number;
   setSelectedItemIdx?: (val: number) => any;
+  setItemModal: (val: boolean) => void;
   getData: (group: string) => void;
 };
 
@@ -20,6 +21,7 @@ const Grid = ({
   selectedGroup,
   selectedItemIdx,
   setSelectedItemIdx,
+  setItemModal,
   getData,
 }: PartGridType) => {
   return items.length ? (
@@ -36,6 +38,7 @@ const Grid = ({
           selectedGroup={selectedGroup}
           selectedItemIdx={selectedItemIdx}
           setSelectedItemIdx={setSelectedItemIdx}
+          setItemModal={setItemModal}
           getData={getData}
         />
       ))}
@@ -49,6 +52,7 @@ type PartGridItemType = {
   selectedGroup: string;
   selectedItemIdx: number;
   setSelectedItemIdx?: (val: number) => any;
+  setItemModal: (val: boolean) => void;
   getData: (group: string) => void;
 };
 
@@ -58,6 +62,7 @@ const GridItem = ({
   selectedGroup,
   selectedItemIdx,
   setSelectedItemIdx,
+  setItemModal,
   getData,
 }: PartGridItemType) => {
   const [selectedTemplateIdx, setSelectedTemplateIdx] = useState(0);
@@ -109,20 +114,26 @@ const GridItem = ({
 
   return (
     <div
-      className={`item`}
+      className={`item ${selectedItemIdx === item.idx ? "selected" : ""}`}
       key={item.b + item.n + idx}
       onClick={(e) => {
-        selectedGroup
-          ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
-          : getData && getData(item.n);
+        if (selectedGroup) {
+          setSelectedItemIdx && setSelectedItemIdx(item.idx);
+          setItemModal(true);
+        } else {
+          getData && getData(item.n);
+        }
       }}
     >
       <span
         className={`field title`}
         onClick={(e) => {
-          selectedGroup
-            ? setSelectedItemIdx && setSelectedItemIdx(item.idx)
-            : getData && getData(item.n);
+          if (selectedGroup) {
+            setSelectedItemIdx && setSelectedItemIdx(item.idx);
+            setItemModal(true);
+          } else {
+            getData && getData(item.n);
+          }
         }}
       >
         {item[template?.title]}

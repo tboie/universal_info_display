@@ -31,6 +31,11 @@
   padding: 0.2rem 0 0 0.2rem;
 }
 
+.item-grid .item.selected {
+  border: 1px solid rgb(255, 215, 0, 0.75);
+  border-radius: 0.2rem;
+}
+
 .item-grid .item .field {
   font-size: 1rem;
   z-index: 3;

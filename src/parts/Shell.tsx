@@ -115,6 +115,7 @@ const UniversalInfoDisplay = () => {
 
   const [items, setItems] = useState<UniversalInfoDisplayItem[]>([]);
   const [selectedItemIdx, setSelectedItemIdx] = useState(-1);
+  const [itemModal, setItemModal] = useState(false);
 
   const [map, setMap] = useState(false);
   const [miles, setMiles] = useState(50);
@@ -878,14 +879,15 @@ const UniversalInfoDisplay = () => {
         setMap={(val) => setMap(val)}
       />
 
-      {selectedItemIdx > -1 && (
+      {itemModal && (
         <Item
           selectedItemIdx={selectedItemIdx}
           item={items[selectedItemIdx]}
-          close={() => setSelectedItemIdx(-1)}
+          close={() => setItemModal(false)}
           selectedGroup={selectedGroup}
           getData={getData}
           goToPage={goToPage}
+          setItemModal={setItemModal}
         />
       )}
 
@@ -918,6 +920,7 @@ const UniversalInfoDisplay = () => {
           selectedPageIdx={selectedPageIdx}
           selectedItemIdx={selectedItemIdx}
           setSelectedItemIdx={setSelectedItemIdx}
+          setItemModal={setItemModal}
           getData={(group) => getData(group)}
           fetching={fetching}
           rangeModal={rangeModal}

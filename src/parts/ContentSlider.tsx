@@ -18,6 +18,7 @@ type PartContentSliderType = {
   setSelectedPageIdx: (val: number) => any;
   selectedItemIdx: number;
   setSelectedItemIdx?: (val: any) => any;
+  setItemModal: (val: boolean) => any;
   getData: (group: string) => void;
   fetching?: boolean;
   rangeModal?: boolean;
@@ -39,6 +40,7 @@ const ContentSlider = ({
   setSelectedPageIdx,
   selectedItemIdx,
   setSelectedItemIdx,
+  setItemModal,
   getData,
   fetching,
   rangeModal,
@@ -263,6 +265,7 @@ const ContentSlider = ({
               setSelectedPageIdx={setSelectedPageIdx}
               selectedItemIdx={selectedItemIdx}
               setSelectedItemIdx={setSelectedItemIdx}
+              setItemModal={setItemModal}
               getData={getData}
               fetching={fetching}
             />
@@ -279,6 +282,7 @@ const ContentSlider = ({
             setSelectedPageIdx={setSelectedPageIdx}
             selectedItemIdx={selectedItemIdx}
             setSelectedItemIdx={setSelectedItemIdx}
+            setItemModal={setItemModal}
             getData={getData}
             fetching={fetching}
           />
@@ -298,6 +302,7 @@ const ContentSlider = ({
               setSelectedPageIdx={setSelectedPageIdx}
               selectedItemIdx={selectedItemIdx}
               setSelectedItemIdx={setSelectedItemIdx}
+              setItemModal={setItemModal}
               children={nodes}
               getData={getData}
             />
@@ -321,6 +326,7 @@ const Page = ({
   setSelectedPageIdx,
   selectedItemIdx,
   setSelectedItemIdx,
+  setItemModal,
   getData,
   fetching,
 }: {
@@ -335,6 +341,7 @@ const Page = ({
   setSelectedPageIdx: (val: number) => void;
   selectedItemIdx: number;
   setSelectedItemIdx?: (val: number) => void;
+  setItemModal: (val: boolean) => void;
   getData: (group: string) => void;
   fetching?: boolean;
 }) => {
@@ -481,6 +488,7 @@ const Page = ({
               : []
           }
           setSelectedItemIdx={setSelectedItemIdx}
+          setItemModal={setItemModal}
           selectedGroup={selectedGroup}
           getData={getData}
           selectedItemIdx={selectedItemIdx}

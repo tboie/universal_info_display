@@ -13,6 +13,7 @@ type PartItemType = {
   selectedGroup: string;
   getData: (group: string) => void;
   goToPage: (idx: number) => void;
+  setItemModal: (val: boolean) => void;
 };
 
 const Item = ({
@@ -22,6 +23,7 @@ const Item = ({
   selectedGroup,
   getData,
   goToPage,
+  setItemModal,
 }: PartItemType) => {
   const [pages, setPages] = useState<number[]>([]);
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
@@ -101,6 +103,7 @@ const Item = ({
         setSelectedPageIdx={setSelectedPageIdx}
         setPages={setPages}
         selectedItemIdx={selectedItemIdx}
+        setItemModal={setItemModal}
         getData={getData}
       />
       <button id="item-close" onClick={close}>
