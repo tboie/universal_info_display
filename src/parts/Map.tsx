@@ -36,10 +36,10 @@ export default function Overlays({
   stores: Store[];
   miles: number;
   selectedStore?: Store;
-  setSelectedStore: (store?: Store) => any;
-  setSelectedFilterIdx: (val: number) => any;
+  setSelectedStore: (store?: Store) => void;
+  setSelectedFilterIdx: (val: number) => void;
   map: boolean;
-  toggleMap: () => any;
+  toggleMap: () => void;
   goToPage: (idx: number) => void;
 }): JSX.Element {
   const [view, setView] = useState({

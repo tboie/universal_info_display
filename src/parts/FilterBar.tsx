@@ -19,7 +19,7 @@ type PartFilterBarType = {
   toggleMap: (val: boolean) => void;
   aliases: any;
   selectedStore?: Store;
-  setSelectedStore: (store?: Store) => any;
+  setSelectedStore: (store?: Store) => void;
   clearFilters: (idx?: number) => void;
   search: boolean;
   setSearch: (on: boolean) => void;

@@ -15,10 +15,10 @@ type PartContentSliderType = {
   setContentNodes?: (nodes: JSX.Element[]) => void;
   selectedGroup: string;
   selectedPageIdx: number;
-  setSelectedPageIdx: (val: number) => any;
+  setSelectedPageIdx: (val: number) => void;
   selectedItemIdx: number;
-  setSelectedItemIdx?: (val: any) => any;
-  setItemModal: (val: boolean) => any;
+  setSelectedItemIdx?: (val: number) => void;
+  setItemModal: (val: boolean) => void;
   getData: (group: string) => void;
   fetching?: boolean;
   rangeModal?: boolean;

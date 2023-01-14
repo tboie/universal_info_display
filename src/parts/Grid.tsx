@@ -11,7 +11,7 @@ type PartGridType = {
   items: UniversalInfoDisplayItem[];
   selectedGroup: string;
   selectedItemIdx: number;
-  setSelectedItemIdx?: (val: number) => any;
+  setSelectedItemIdx?: (val: number) => void;
   setItemModal: (val: boolean) => void;
   getData: (group: string) => void;
 };
@@ -51,7 +51,7 @@ type PartGridItemType = {
   item: any;
   selectedGroup: string;
   selectedItemIdx: number;
-  setSelectedItemIdx?: (val: number) => any;
+  setSelectedItemIdx?: (val: number) => void;
   setItemModal: (val: boolean) => void;
   getData: (group: string) => void;
 };
