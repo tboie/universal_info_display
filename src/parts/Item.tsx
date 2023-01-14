@@ -5,12 +5,14 @@ import "./Item.css";
 import { UniversalInfoDisplayItem } from "./Shell";
 import Slider from "./Slider";
 import TitleBar from "./TitleBar";
+import { Store } from "./Shell";
 
 type PartItemType = {
   selectedItemIdx: number;
   item: UniversalInfoDisplayItem;
   close: () => void;
   selectedGroup: string;
+  selectedStore?: Store;
   getData: (group: string) => void;
   goToPage: (idx: number) => void;
   setItemModal: (val: boolean) => void;
@@ -22,6 +24,7 @@ const Item = ({
   item,
   close,
   selectedGroup,
+  selectedStore,
   getData,
   goToPage,
   setItemModal,
@@ -96,6 +99,7 @@ const Item = ({
         close={close}
         selectedItem={item}
         setSelectedFilterIdx={setSelectedFilterIdx}
+        selectedStore={selectedStore}
       />
       <span className="store">{item.s.replaceAll("-", " ")}</span>
       <ContentSlider

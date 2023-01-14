@@ -62,14 +62,18 @@ const TitleBar = ({
           </span>
         );
       }
-    } else if (selectedStore) {
+    } else if (selectedStore && !selectedItem) {
       return (
         <span onClick={(e) => setMap && setMap(!map)}>
           {"< Store: " + selectedStore.n.replaceAll("-", " ")}
         </span>
       );
     } else if (selectedItem) {
-      return <span onClick={close}>{"< " + selectedGroup}</span>;
+      return (
+        <span onClick={close}>
+          {"< " + (selectedStore ? "Store" : selectedGroup)}
+        </span>
+      );
     } else if (selectedGroup) {
       return <span onClick={close}>{"< " + selectedGroup}</span>;
     } else {

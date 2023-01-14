@@ -892,6 +892,7 @@ const UniversalInfoDisplay = () => {
           goToPage={goToPage}
           setItemModal={setItemModal}
           setSelectedFilterIdx={setSelectedFilterIdx}
+          selectedStore={selectedStore}
         />
       )}
 
