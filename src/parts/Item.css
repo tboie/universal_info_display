@@ -14,17 +14,13 @@
   padding: 0.2rem;
   opacity: 0.9;
   text-transform: capitalize;
+  text-align: center;
 }
 
 #item .title {
-  font-size: 1.05rem;
   color: gold;
   padding: 0.2rem;
   opacity: 0.9;
-}
-
-#item .titlebar .title {
-  font-size: 1rem;
 }
 
 /*

@@ -47,6 +47,7 @@ const Item = ({
         width={"300px"}
         height={"300px"}
       />,
+      <span className={`title`}>{item.n}</span>,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
       item.desc,
@@ -97,7 +98,6 @@ const Item = ({
         setSelectedFilterIdx={setSelectedFilterIdx}
       />
       <span className="store">{item.s.replaceAll("-", " ")}</span>
-      <span className="title">{item.n}</span>
       <ContentSlider
         type={"dynamic"}
         contentNodes={contentNodes}
