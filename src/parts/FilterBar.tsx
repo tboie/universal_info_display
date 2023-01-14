@@ -26,6 +26,7 @@ type PartFilterBarType = {
   searchStr: string;
   setSearchStr: (val: string) => void;
   searchResultsLen?: number;
+  goToPage: (val: number) => void;
 };
 
 const FilterBar = ({
@@ -52,6 +53,7 @@ const FilterBar = ({
   searchStr,
   setSearchStr,
   searchResultsLen,
+  goToPage,
 }: PartFilterBarType) => {
   const filters = [
     filter0,
@@ -166,6 +168,7 @@ const FilterBar = ({
         } else {
           toggleMap(false);
           setSelectedFilterIdx(-1);
+          goToPage(1);
         }
       } else if (selectedFilterIdx !== idx && map) {
         setSelectedFilterIdx(idx);

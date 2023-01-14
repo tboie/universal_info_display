@@ -783,7 +783,6 @@ const UniversalInfoDisplay = () => {
   }, [lat, lng]);
 
   const close = (keepMap?: boolean) => {
-    console.log("close called");
     setSelectedGroup("");
     setSelectedItemIdx(-1);
     setSelectedFilterIdx(-1);
@@ -803,7 +802,7 @@ const UniversalInfoDisplay = () => {
     setFilter5(undefined);
     setFilter6(undefined);
     setFilter7(undefined);
-    goToPage(0);
+    goToPage(1);
   };
 
   return (
@@ -987,6 +986,7 @@ const UniversalInfoDisplay = () => {
             searchResultsLen={
               search && searchStr ? filteredItems.length : undefined
             }
+            goToPage={goToPage}
           />
 
           {getFilters().map((obj, idx) => {

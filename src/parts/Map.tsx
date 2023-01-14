@@ -138,6 +138,7 @@ export default function Overlays({
                   if (!selectedStore || selectedStore !== store) {
                     setSelectedFilterIdx(-1);
                     toggleMap();
+                    goToPage(1);
                   }
 
                   setSelectedStore(selectedStore === store ? undefined : store);
