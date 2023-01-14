@@ -15,6 +15,7 @@ type PartTitleBarType = {
   close: () => void;
   selectedItem?: UniversalInfoDisplayItem;
   setSelectedFilterIdx: (val: number) => void;
+  goToPage?: (val: number) => void;
 };
 
 const TitleBar = ({
@@ -30,6 +31,7 @@ const TitleBar = ({
   close,
   selectedItem,
   setSelectedFilterIdx,
+  goToPage,
 }: PartTitleBarType) => {
   const getTitle = (): string | JSX.Element => {
     if (fetching) {
@@ -41,6 +43,7 @@ const TitleBar = ({
             onClick={(e) => {
               setMap && setMap(!map);
               setSelectedStore && setSelectedStore(undefined);
+              goToPage && goToPage(1);
             }}
           >
             {"< Store: " + selectedStore.n}
@@ -52,6 +55,7 @@ const TitleBar = ({
             onClick={(e) => {
               setMap && setMap(!map);
               setSelectedFilterIdx(-1);
+              goToPage && goToPage(1);
             }}
           >
             {"< " + selectedGroup}

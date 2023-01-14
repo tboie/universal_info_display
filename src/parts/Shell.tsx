@@ -879,6 +879,7 @@ const UniversalInfoDisplay = () => {
         close={() => close()}
         setMap={(val) => setMap(val)}
         setSelectedFilterIdx={setSelectedFilterIdx}
+        goToPage={goToPage}
       />
 
       {itemModal && (
