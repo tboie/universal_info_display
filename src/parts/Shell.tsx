@@ -783,6 +783,7 @@ const UniversalInfoDisplay = () => {
   }, [lat, lng]);
 
   const close = (keepMap?: boolean) => {
+    console.log("close called");
     setSelectedGroup("");
     setSelectedItemIdx(-1);
     setSelectedFilterIdx(-1);
@@ -802,6 +803,7 @@ const UniversalInfoDisplay = () => {
     setFilter5(undefined);
     setFilter6(undefined);
     setFilter7(undefined);
+    goToPage(0);
   };
 
   return (
@@ -877,6 +879,7 @@ const UniversalInfoDisplay = () => {
         totalItems={filteredItems.length}
         close={() => close()}
         setMap={(val) => setMap(val)}
+        setSelectedFilterIdx={setSelectedFilterIdx}
       />
 
       {itemModal && (
@@ -888,6 +891,7 @@ const UniversalInfoDisplay = () => {
           getData={getData}
           goToPage={goToPage}
           setItemModal={setItemModal}
+          setSelectedFilterIdx={setSelectedFilterIdx}
         />
       )}
 

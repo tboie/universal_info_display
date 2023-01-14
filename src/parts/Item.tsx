@@ -14,6 +14,7 @@ type PartItemType = {
   getData: (group: string) => void;
   goToPage: (idx: number) => void;
   setItemModal: (val: boolean) => void;
+  setSelectedFilterIdx: (val: number) => void;
 };
 
 const Item = ({
@@ -24,6 +25,7 @@ const Item = ({
   getData,
   goToPage,
   setItemModal,
+  setSelectedFilterIdx,
 }: PartItemType) => {
   const [pages, setPages] = useState<number[]>([]);
   const [selectedPageIdx, setSelectedPageIdx] = useState(1);
@@ -92,6 +94,7 @@ const Item = ({
         totalItems={1}
         close={close}
         selectedItem={item}
+        setSelectedFilterIdx={setSelectedFilterIdx}
       />
       <span className="title">{item.n}</span>
       <ContentSlider
