@@ -17,12 +17,6 @@
   text-align: center;
 }
 
-#item .title {
-  color: gold;
-  padding: 0.2rem;
-  opacity: 0.9;
-}
-
 /*
 #item img {
   width: 100%;
@@ -59,6 +53,12 @@
 
 #item .cover {
   position: relative;
+}
+
+#item .title {
+  color: gold;
+  padding: 0.2rem;
+  opacity: 0.9;
 }
 
 #item .desc {
