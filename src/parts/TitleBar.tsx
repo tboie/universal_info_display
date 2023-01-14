@@ -69,11 +69,7 @@ const TitleBar = ({
         </span>
       );
     } else if (selectedItem) {
-      return (
-        <span onClick={close}>
-          {"< Store: " + selectedItem.s.replaceAll("-", " ")}
-        </span>
-      );
+      return <span onClick={close}>{"< " + selectedGroup}</span>;
     } else if (selectedGroup) {
       return <span onClick={close}>{"< " + selectedGroup}</span>;
     } else {

@@ -96,6 +96,7 @@ const Item = ({
         selectedItem={item}
         setSelectedFilterIdx={setSelectedFilterIdx}
       />
+      <span className="store">{item.s.replaceAll("-", " ")}</span>
       <span className="title">{item.n}</span>
       <ContentSlider
         type={"dynamic"}

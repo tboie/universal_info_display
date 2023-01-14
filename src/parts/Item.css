@@ -8,9 +8,17 @@
   flex-direction: column;
 }
 
-#item .title {
+#item .store {
   color: gold;
   font-size: 1.1rem;
+  padding: 0.2rem;
+  opacity: 0.9;
+  text-transform: capitalize;
+}
+
+#item .title {
+  font-size: 1.05rem;
+  color: gold;
   padding: 0.2rem;
   opacity: 0.9;
 }
