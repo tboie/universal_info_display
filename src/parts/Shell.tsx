@@ -236,7 +236,7 @@ const UniversalInfoDisplay = () => {
       // choice
       getFilters()
         .map((obj) => obj.f)
-        .filter((f) => f?.type === "choice" && f.name === "groups")
+        .filter((f) => f?.type === "choice" && f.name !== "group")
         .forEach((f) => {
           if (f) {
             (f.val as FilterChoice[]).forEach((c) => {
