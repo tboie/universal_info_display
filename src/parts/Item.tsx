@@ -42,7 +42,7 @@ const Item = ({
       />,
       <img
         className={`cover`}
-        src={`/media/flower.gif`}
+        src={`/media/${selectedGroup}.gif`}
         alt={`item`}
         width={"300px"}
         height={"300px"}
