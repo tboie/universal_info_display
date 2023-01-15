@@ -68,6 +68,7 @@
   text-transform: capitalize;
   width: 100%;
   text-align: center;
+  background-color: transparent;
 }
 
 .item-grid .item .container {
@@ -123,6 +124,7 @@
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
+  z-index: 1;
 }
 
 @keyframes fadeInAnimation {
