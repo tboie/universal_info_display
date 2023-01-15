@@ -58,7 +58,7 @@
   position: relative;
 }
 
-#item .title {
+#item .content-slider .title {
   font-size: 1.1rem;
   color: gold;
   padding: 0.2rem;
