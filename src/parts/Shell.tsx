@@ -480,7 +480,7 @@ const UniversalInfoDisplay = () => {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      close(map);
+      close(map, true);
       getData(title);
     } else if (type === "choice" && field) {
       const obj = getFilterByIdx(selectedFilterIdx);
