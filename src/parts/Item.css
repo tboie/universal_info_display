@@ -59,6 +59,7 @@
 }
 
 #item .title {
+  font-size: 1.1rem;
   color: gold;
   padding: 0.2rem;
   opacity: 0.9;
