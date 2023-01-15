@@ -35,7 +35,7 @@ const TitleBar = ({
 }: PartTitleBarType) => {
   const getTitle = (): string | JSX.Element => {
     if (fetching) {
-      return "Fetching " + selectedGroup;
+      return "Loading " + selectedGroup;
     } else if (map) {
       if (selectedStore) {
         return (
