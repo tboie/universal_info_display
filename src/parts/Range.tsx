@@ -69,7 +69,7 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
         <span
           className="range-label min"
           onClick={(e) => {
-            toggleSort();
+            f.name !== "mi" && toggleSort();
           }}
         >
           {(f.name === "$" ? "$" : "") +
@@ -149,7 +149,7 @@ const Range = ({ idx, f, set, setF, setRangeModal }: PartRangeType) => {
         <span
           className="range-label max"
           onClick={(e) => {
-            toggleSort();
+            f.name !== "mi" && toggleSort();
           }}
         >
           {(f.name === "$" ? "$" : "") +
