@@ -52,7 +52,7 @@ const Item = ({
         height={"300px"}
       />,
       <span className={`title`}>{item.n}</span>,
-      <div className={`component`}>COMPONENT</div>,
+      <div className={`component`}>ITEM PROPERTIES</div>,
       item.desc,
       item.desc,
       <div className={`component`}>COMPONENT</div>,
