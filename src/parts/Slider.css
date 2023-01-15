@@ -16,7 +16,6 @@
 .slider.page {
   height: 2.8rem;
   max-height: 2.8rem;
-  border-bottom: 1px solid #2e2f41;
 }
 
 .slider-label {
@@ -75,7 +74,7 @@
   padding-bottom: 0.25rem;
   height: 2.8rem;
   width: calc(2rem + 1px);
-  bottom: 1px;
+  bottom: 0;
 }
 
 .slider #btn-first {
