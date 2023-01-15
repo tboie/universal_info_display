@@ -935,6 +935,10 @@ const UniversalInfoDisplay = () => {
         />
       )}
 
+      {fetching && (
+        <span className="loading">{"Loading " + selectedGroup}</span>
+      )}
+
       {selectedGroup && !fetching && (
         <div
           className={`filter-controls ${
