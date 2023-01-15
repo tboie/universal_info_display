@@ -8,15 +8,6 @@
   flex-direction: column;
 }
 
-#item .store {
-  color: gold;
-  font-size: 1.1rem;
-  padding: 0.2rem;
-  opacity: 0.9;
-  text-transform: capitalize;
-  text-align: center;
-}
-
 /*
 #item img {
   width: 100%;
@@ -39,6 +30,18 @@
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+#item .store {
+  z-index: 1;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.37);
+  color: gold;
+  font-size: 1.1rem;
+  padding: 0.2rem;
+  opacity: 0.9;
+  text-transform: capitalize;
+  text-align: center;
 }
 
 #item .glow {

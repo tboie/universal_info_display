@@ -36,6 +36,7 @@ const Item = ({
 
   function getContentNodes() {
     return [
+      <span className={`store`}>{item.s.replaceAll("-", " ")}</span>,
       <img
         className={`glow`}
         src={`/media/glow.png`}
@@ -101,7 +102,6 @@ const Item = ({
         setSelectedFilterIdx={setSelectedFilterIdx}
         selectedStore={selectedStore}
       />
-      <span className="store">{item.s.replaceAll("-", " ")}</span>
       <ContentSlider
         type={"dynamic"}
         contentNodes={contentNodes}
