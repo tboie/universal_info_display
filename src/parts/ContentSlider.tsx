@@ -464,20 +464,23 @@ const Page = ({
 
   return (
     <div id={`content-page-${type}-${num}`} className={`content-page-${type}`}>
-      {type === "grid" && items?.length === 0 && !fetching && (
-        <>
-          <img className="page-bg" src="/media/bg.jpg" alt="bg" />
-          <span className="no-items">{text}</span>
-        </>
-      )}
-
-      {((type === "grid" && items?.length === 0) || !selectedGroup) && (
-        <img
-          className="page-bg"
-          src={`/media/bg_${fetching ? "animated" : "static"}.gif`}
-          alt="bg"
-        />
-      )}
+      {
+        /* no selected group / fetching / search screen */
+        type === "grid" && (
+          <>
+            {(!selectedGroup || fetching || items?.length === 0) && (
+              <img
+                className="page-bg"
+                src={`/media/bg_${fetching ? "animated" : "static"}.gif`}
+                alt="bg"
+              />
+            )}
+            {!fetching && items?.length === 0 && (
+              <span className="no-items">{text}</span>
+            )}
+          </>
+        )
+      }
 
       {type === "grid" && !fetching && items?.length && (
         <Grid

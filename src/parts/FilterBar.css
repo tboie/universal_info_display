@@ -53,6 +53,7 @@
   overflow-x: scroll;
   height: 100%;
   display: flex;
+  padding-bottom: 0.2rem;
 }
 
 .filterbar .filters span {
