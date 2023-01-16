@@ -8,9 +8,9 @@
   color: #80f077;
   text-shadow: 1px 1px green;
   border-top: 1px solid #2e2f41;
-  height: 2rem;
-  min-height: 2rem;
-  max-height: 2rem;
+  height: 2.2rem;
+  min-height: 2.2rem;
+  max-height: 2.2rem;
 }
 
 .filterbar .back {
