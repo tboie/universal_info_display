@@ -58,12 +58,17 @@
   position: relative;
 }
 
-#item .content-slider .title {
+#item .content-slider .title,
+#item .content-slider .brand {
   font-size: 1.1rem;
   color: gold;
   padding: 0.2rem;
   opacity: 0.9;
   text-align: center;
+}
+
+#item .content-slider .brand {
+  font-size: 1rem;
 }
 
 #item .desc {

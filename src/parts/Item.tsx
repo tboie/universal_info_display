@@ -52,6 +52,7 @@ const Item = ({
         height={"300px"}
       />,
       <span className={`title`}>{item.n}</span>,
+      <span className={`brand`}>{"by " + item.b}</span>,
       <div className={`component`}>ITEM PROPERTIES</div>,
       item.desc,
       item.desc,
