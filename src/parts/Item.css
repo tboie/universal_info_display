@@ -17,7 +17,7 @@
   object-fit: cover;
 }
 */
-
+/*
 #item-close {
   height: 2.5rem;
   width: 100%;
@@ -25,6 +25,7 @@
   color: red;
   opacity: 1;
 }
+*/
 
 #item .template {
   position: relative;
@@ -91,4 +92,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#item .button-bar {
+  height: 2rem;
+}
+
+#item .button-bar button {
+  width: 33.33%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+#item .close {
+  color: red;
+}
+
+#item .buy {
+  color: green;
 }

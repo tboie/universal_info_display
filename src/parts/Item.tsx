@@ -115,9 +115,17 @@ const Item = ({
         setItemModal={setItemModal}
         getData={getData}
       />
-      <button id="item-close" onClick={close}>
-        X
-      </button>
+      <div className="button-bar">
+        <button className="close" onClick={close}>
+          X
+        </button>
+        <button className="buy" onClick={(e) => {}}>
+          Buy
+        </button>
+        <button className="directions" onClick={(e) => {}}>
+          Directions
+        </button>
+      </div>
       <Slider
         type={"page"}
         titles={pages.map((n) => n.toString())}
