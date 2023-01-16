@@ -782,7 +782,11 @@ const UniversalInfoDisplay = () => {
     }
   }, [lat, lng]);
 
-  const close = (keepMap?: boolean, resetMiles?: boolean) => {
+  const close = (
+    keepMap?: boolean,
+    resetMiles?: boolean,
+    keepSearch?: boolean
+  ) => {
     setSelectedGroup("");
     setSelectedItemIdx(-1);
     setSelectedFilterIdx(-1);
@@ -790,6 +794,10 @@ const UniversalInfoDisplay = () => {
     setFetching(false);
     setItems([]);
     setStores([]);
+    if (!keepSearch) {
+      setSearch(false);
+      setSearchStr("");
+    }
     if (resetMiles) setMiles(50);
     setKey([]);
     setLat(0);

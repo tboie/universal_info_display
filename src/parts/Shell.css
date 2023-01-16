@@ -19,7 +19,7 @@
   position: relative;
   width: 100%;
   /* filterbar height */
-  min-height: 2.2rem;
+  min-height: 2.6rem;
   max-height: 16rem;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@
 
 .filter-controls.sel {
   /* filterbar height + slider height */
-  min-height: calc(2.2rem + 2.8rem);
+  min-height: calc(2.6rem + 2.8rem);
 }
 
 .filter-controls.dragging {
@@ -38,9 +38,9 @@
 
 .filter-controls.off {
   /* filterbar height */
-  max-height: 2.2rem;
-  min-height: 2.2rem;
-  height: 2.2rem;
+  max-height: 2.6rem;
+  min-height: 2.6rem;
+  height: 2.6rem;
 }
 
 .filter-controls.column .slider {
