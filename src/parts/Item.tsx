@@ -41,8 +41,8 @@ const Item = ({
         className={`glow`}
         src={`/media/glow.png`}
         alt={`glow`}
-        width={"600px"}
-        height={"600px"}
+        width={"700px"}
+        height={"700px"}
       />,
       <img
         className={`cover`}
