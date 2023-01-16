@@ -466,16 +466,15 @@ const Page = ({
     <div id={`content-page-${type}-${num}`} className={`content-page-${type}`}>
       {
         /* no selected group / fetching / search screen */
-        type === "grid" && (
+        (!selectedGroup || fetching || items?.length === 0) && (
           <>
-            {(!selectedGroup || fetching || items?.length === 0) && (
-              <img
-                className="page-bg"
-                src={`/media/bg_${fetching ? "animated" : "static"}.gif`}
-                alt="bg"
-              />
-            )}
-            {!fetching && items?.length === 0 && (
+            <img
+              className="page-bg"
+              src={`/media/bg_${fetching ? "animated" : "static"}.gif`}
+              alt="bg"
+            />
+
+            {items?.length === 0 && !fetching && (
               <span className="no-items">{text}</span>
             )}
           </>
