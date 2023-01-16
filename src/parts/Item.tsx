@@ -67,16 +67,18 @@ const Item = ({
       item.desc,
       item.desc,
       item.desc,
+      <div className={`component`}>COMPONENT</div>,
+      item.desc,
+      item.desc,
+      /*
+      item.desc,
+      item.desc,
       item.desc,
       item.desc,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
       item.desc,
       item.desc,
-      <div className={`component`}>COMPONENT</div>,
-      item.desc,
-      item.desc,
-      item.desc,
       item.desc,
       item.desc,
       item.desc,
@@ -86,6 +88,7 @@ const Item = ({
       item.desc,
       item.desc,
       <div className={`component`}>COMPONENT</div>,
+      */
     ];
   }
 
