@@ -41,15 +41,15 @@ const Item = ({
         className={`glow`}
         src={`/media/glow.png`}
         alt={`glow`}
-        width={"600px"}
-        height={"600px"}
+        width={"500px"}
+        height={"500px"}
       />,
       <img
         className={`cover`}
         src={`/media/${selectedGroup}.gif`}
         alt={`item`}
-        width={"300px"}
-        height={"300px"}
+        width={"250px"}
+        height={"250px"}
       />,
       <span className={`title`}>{item.n}</span>,
       <span className={`brand`}>{"by " + item.b}</span>,
