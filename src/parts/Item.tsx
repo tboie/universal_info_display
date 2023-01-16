@@ -60,7 +60,6 @@ const Item = ({
       item.desc,
       item.desc,
       <div className={`component`}>COMPONENT</div>,
-      item.desc,
       <div className={`component`}>COMPONENT</div>,
       item.desc,
       <div className={`component`}>COMPONENT</div>,
