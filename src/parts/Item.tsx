@@ -48,8 +48,8 @@ const Item = ({
         className={`cover`}
         src={`/media/${selectedGroup}.gif`}
         alt={`item`}
-        width={"250px"}
-        height={"250px"}
+        width={"600px"}
+        height={"600px"}
       />,
       <span className={`title`}>{item.n}</span>,
       <span className={`brand`}>{"by " + item.b}</span>,
