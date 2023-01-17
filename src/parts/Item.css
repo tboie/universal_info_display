@@ -98,11 +98,14 @@
   height: 2rem;
 }
 
-#item .button-bar button {
+#item .button-bar button,
+#item .button-bar .directions {
   font-size: 1rem;
   width: 33.33%;
   height: 100%;
   border-radius: 0;
+  background-color: lightgray;
+  text-align: center;
 }
 
 #item .close {
@@ -111,4 +114,12 @@
 
 #item .buy {
   color: green;
+}
+
+#item .directions {
+  color: blue;
+  width: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }

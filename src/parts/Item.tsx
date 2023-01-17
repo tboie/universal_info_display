@@ -122,9 +122,27 @@ const Item = ({
         <button className="buy" onClick={(e) => {}}>
           Buy
         </button>
-        <button className="directions" onClick={(e) => {}}>
+        <a
+          className="directions"
+          href="http://maps.google.com/?q=42.364506,-71.038887"
+          target="_blank"
+        >
+          Open Map
+        </a>
+
+        {/*
+        <button
+          className="directions"
+          onClick={(e) => {
+            console.log("directions");
+            //@ts-ignore
+            window.location =
+              window.location.protocol + "//" + "geo:42.364506,-71.038887";
+          }}
+        >
           Directions
         </button>
+        */}
       </div>
       <Slider
         type={"page"}
