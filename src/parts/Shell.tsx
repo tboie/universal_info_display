@@ -901,7 +901,10 @@ const UniversalInfoDisplay = () => {
           goToPage={goToPage}
           setItemModal={setItemModal}
           setSelectedFilterIdx={setSelectedFilterIdx}
-          selectedStore={selectedStore}
+          selectedStore={
+            selectedStore ||
+            stores.find((s) => s.n === items[selectedItemIdx]?.s)
+          }
         />
       )}
 

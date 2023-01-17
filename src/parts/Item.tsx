@@ -89,6 +89,8 @@ const Item = ({
     ];
   }
 
+  console.log(selectedStore);
+
   return (
     <div id="item">
       <TitleBar
@@ -124,7 +126,7 @@ const Item = ({
         </button>
         <a
           className="directions"
-          href="http://maps.google.com/?q=42.364506,-71.038887"
+          href={`http://maps.google.com/?q=${selectedStore?.l[0]},${selectedStore?.l[1]}`}
           target="_blank"
         >
           Directions
