@@ -127,7 +127,7 @@ const Item = ({
           href="http://maps.google.com/?q=42.364506,-71.038887"
           target="_blank"
         >
-          Open Map
+          Directions
         </a>
 
         {/*
