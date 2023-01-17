@@ -53,7 +53,11 @@ const Item = ({
       />,
       <span className={`title`}>{item.n}</span>,
       <span className={`brand`}>{"by " + item.b}</span>,
-      <div className={`component`}>ITEM PROPERTIES</div>,
+      <div className={`component`}>
+        {["g", "%", "t", "mi"].map((f) => (
+          <span>{f !== "t" ? item[f] + f : item[f]}</span>
+        ))}
+      </div>,
       item.desc,
       item.desc,
       <div className={`component`}>COMPONENT</div>,

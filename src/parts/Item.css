@@ -71,8 +71,12 @@
   color: #80f077;
   border: 1px solid #80f077;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+}
+
+#item .component span {
+  justify-content: center;
 }
 
 #item .button-bar {
