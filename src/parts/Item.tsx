@@ -89,8 +89,6 @@ const Item = ({
     ];
   }
 
-  console.log(selectedStore);
-
   return (
     <div id="item">
       <TitleBar
