@@ -903,7 +903,9 @@ const UniversalInfoDisplay = () => {
           setSelectedFilterIdx={setSelectedFilterIdx}
           selectedStore={
             selectedStore ||
-            stores.find((s) => s.n === items[selectedItemIdx]?.s)
+            (map
+              ? stores.find((s) => s.n === items[selectedItemIdx]?.s)
+              : undefined)
           }
         />
       )}
