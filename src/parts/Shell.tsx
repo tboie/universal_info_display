@@ -946,6 +946,7 @@ const UniversalInfoDisplay = () => {
           fetching={fetching}
           rangeModal={rangeModal}
           selectedFilter={getFilterByIdx(selectedFilterIdx)?.f}
+          search={search}
           searchStr={searchStr}
         />
       )}

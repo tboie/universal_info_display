@@ -24,6 +24,7 @@ type PartContentSliderType = {
   rangeModal?: boolean;
   selectedFilter?: Filter;
   setPages?: (pages: number[]) => void;
+  search: boolean;
   searchStr?: string;
 };
 
@@ -46,6 +47,7 @@ const ContentSlider = ({
   rangeModal,
   selectedFilter,
   setPages,
+  search,
   searchStr,
 }: PartContentSliderType) => {
   const [pageProcNum, setPageProcNum] = useState(() => (contentNodes ? 1 : 0));
@@ -273,7 +275,9 @@ const ContentSlider = ({
         ) : (
           <Page
             type={"grid"}
-            text={searchStr ? "No Items Found" : "Searching All Flower"}
+            text={
+              search && !searchStr ? "Searching All Flower" : "No Items Found"
+            }
             key={"page"}
             num={1}
             items={[]}

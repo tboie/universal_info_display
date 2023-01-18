@@ -124,6 +124,7 @@ const Item = ({
         selectedItemIdx={selectedItemIdx}
         setItemModal={setItemModal}
         getData={getData}
+        search={false}
       />
       <div className="button-bar">
         <button className="close" onClick={close}>
