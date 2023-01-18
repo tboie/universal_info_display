@@ -904,9 +904,11 @@ const UniversalInfoDisplay = () => {
           selectedStore={
             selectedStore ||
             (map
-              ? stores.find((s) => s.n === items[selectedItemIdx]?.s)
+              ? stores.find((s) => s.a === items[selectedItemIdx]?.a)
               : undefined)
           }
+          setSelectedStore={setSelectedStore}
+          stores={stores}
         />
       )}
 

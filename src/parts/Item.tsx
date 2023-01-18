@@ -13,6 +13,8 @@ type PartItemType = {
   close: () => void;
   selectedGroup: string;
   selectedStore?: Store;
+  setSelectedStore?: (val: Store | undefined) => void;
+  stores?: Store[];
   getData: (group: string) => void;
   goToPage: (idx: number) => void;
   setItemModal: (val: boolean) => void;
@@ -25,6 +27,8 @@ const Item = ({
   close,
   selectedGroup,
   selectedStore,
+  setSelectedStore,
+  stores,
   getData,
   goToPage,
   setItemModal,
@@ -93,8 +97,10 @@ const Item = ({
     ];
   }
 
+  const store = stores?.find((s) => s.a === item.a);
+
   return (
-    <div id="item">
+    <div id="item" className={`${selectedStore ? "store" : ""}`}>
       <TitleBar
         selectedGroup={selectedGroup}
         selectedPageIdx={selectedPageIdx}
@@ -126,9 +132,24 @@ const Item = ({
         <button className="buy" onClick={(e) => {}}>
           Buy
         </button>
+        {!selectedStore && (
+          <button
+            className="store"
+            onClick={(e) => {
+              console.log(selectedStore);
+              console.log("item store");
+              setSelectedStore && setSelectedStore(store);
+              close();
+            }}
+          >
+            Store
+          </button>
+        )}
         <a
           className="directions"
-          href={`http://maps.google.com/?q=${selectedStore?.l[0]},${selectedStore?.l[1]}`}
+          href={`http://maps.google.com/?q=${
+            selectedStore?.l[0] || store?.l[0]
+          },${selectedStore?.l[1] || store?.l[1]}`}
           target="_blank"
         >
           Directions

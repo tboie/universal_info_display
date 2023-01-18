@@ -86,7 +86,7 @@
 #item .button-bar button,
 #item .button-bar .directions {
   font-size: 1rem;
-  width: 33.33%;
+  width: 25%;
   height: 100%;
   border-radius: 0;
   background-color: lightgray;
@@ -94,17 +94,26 @@
   border: 1px solid rgb(27, 26, 38);
 }
 
-#item .close {
+#item.store .button-bar button,
+#item.store .button-bar .directions {
+  width: 33.33%;
+}
+
+#item .button-bar .close {
   color: red;
 }
 
-#item .buy {
+#item .button-bar .buy {
   color: green;
 }
 
-#item .directions {
+#item .button-bar .store {
+  color: #000;
+}
+
+#item .button-bar .directions {
   color: blue;
-  width: 50%;
+  width: 25%;
   display: inline-flex;
   justify-content: center;
   align-items: center;
