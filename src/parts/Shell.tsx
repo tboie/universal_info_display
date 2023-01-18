@@ -480,7 +480,7 @@ const UniversalInfoDisplay = () => {
     if (type === "page") {
       setSelectedPageIdx(parseInt(title));
     } else if (type === "group") {
-      close(map, true);
+      close(map, true, selectedStore ? true : false);
       getData(title);
     } else if (type === "choice" && field) {
       const obj = getFilterByIdx(selectedFilterIdx);
@@ -785,19 +785,17 @@ const UniversalInfoDisplay = () => {
   const close = (
     keepMap?: boolean,
     resetMiles?: boolean,
-    keepSearch?: boolean
+    keepStore?: boolean
   ) => {
     setSelectedGroup("");
     setSelectedItemIdx(-1);
     setSelectedFilterIdx(-1);
-    setSelectedStore(undefined);
+    if (!keepStore) setSelectedStore(undefined);
     setFetching(false);
     setItems([]);
     setStores([]);
-    if (!keepSearch) {
-      setSearch(false);
-      setSearchStr("");
-    }
+    setSearch(false);
+    setSearchStr("");
     if (resetMiles) setMiles(50);
     setKey([]);
     setLat(0);

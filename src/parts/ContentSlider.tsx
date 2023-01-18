@@ -275,9 +275,7 @@ const ContentSlider = ({
         ) : (
           <Page
             type={"grid"}
-            text={
-              search && !searchStr ? "Searching All Flower" : "No Items Found"
-            }
+            text={search && !searchStr ? "Searching All Flower" : "No Results"}
             key={"page"}
             num={1}
             items={[]}
