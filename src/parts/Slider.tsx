@@ -141,7 +141,7 @@ const Slider = ({
         }
       }}
     >
-      {(type === "page" || type === "group") && !fetching && titles?.length
+      {(type === "page" || type === "group") && titles?.length
         ? titles.map((t, idx) => (
             <Label
               idx={idx + 1}
@@ -154,11 +154,11 @@ const Slider = ({
           ))
         : null}
 
-      {type === "choice" && !fetching && choices?.length
+      {type === "choice" && choices?.length
         ? getAllChoicesLabels(choices).map((ele) => ele)
         : null}
 
-      {type === "page" && !fetching && titles?.length ? (
+      {type === "page" && titles?.length ? (
         <>
           <button
             id="btn-first"
