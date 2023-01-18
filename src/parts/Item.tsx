@@ -137,8 +137,6 @@ const Item = ({
           <button
             className="store"
             onClick={(e) => {
-              console.log(selectedStore);
-              console.log("item store");
               setSelectedStore && setSelectedStore(store);
               close();
             }}
