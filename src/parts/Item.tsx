@@ -153,20 +153,6 @@ const Item = ({
         >
           Directions
         </a>
-
-        {/*
-        <button
-          className="directions"
-          onClick={(e) => {
-            console.log("directions");
-            //@ts-ignore
-            window.location =
-              window.location.protocol + "//" + "geo:42.364506,-71.038887";
-          }}
-        >
-          Directions
-        </button>
-        */}
       </div>
       <Slider
         type={"page"}
