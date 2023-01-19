@@ -40,7 +40,7 @@ const Item = ({
 
   function getContentNodes() {
     return [
-      <span className={`store`}>{item.s.replaceAll("-", " ")}</span>,
+      <span className={`store`}>{item.s}</span>,
       <img
         className={`glow`}
         src={`/media/glow.png`}

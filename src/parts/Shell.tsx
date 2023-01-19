@@ -636,6 +636,7 @@ const UniversalInfoDisplay = () => {
         // create new item for each cut
         stores_all = stores_all.filter((store) => {
           store.items.forEach((item: any) => {
+            item["s"] = item["s"].replaceAll("-", " ");
             item.c.forEach((cut: any) => {
               all_items.push({
                 ...item,

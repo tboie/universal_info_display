@@ -94,9 +94,6 @@ const GridItem = ({
 
     if (f === "$") {
       out = f + val;
-    } else if (f === "s") {
-      // dont do this
-      out = val.replaceAll("-", " ");
     } else if (f === "mi" || selectedTemplateIdx === 0) {
       out = val + f;
     } else {
