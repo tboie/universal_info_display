@@ -29,6 +29,7 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 0.2rem 0 0 0.2rem;
+  text-transform: capitalize;
 }
 
 .item-grid .item.selected {
