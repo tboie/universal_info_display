@@ -6,6 +6,7 @@
 import "./Shell.css";
 
 import { useState, useEffect, useMemo } from "react";
+
 import ContentSlider from "./ContentSlider";
 import FilterBar from "./FilterBar";
 import MapWrapper from "./Map";
@@ -13,13 +14,14 @@ import Range from "./Range";
 import Item from "./Item";
 import Slider, { SliderType } from "./Slider";
 import TitleBar from "./TitleBar";
-import { getDistance } from "geolib";
+
 import groupFilterData from "./config/groups.json";
 import itemAliasData from "./config/item_aliases.json";
 import filterDefaultData from "./config/filter_defaults.json";
 
 import searchConfig from "./config/search.json";
 import Fuse from "fuse.js";
+import { getDistance } from "geolib";
 
 // page change and page snap utils
 declare global {
