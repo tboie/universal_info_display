@@ -3,6 +3,7 @@
 <img width="430" alt="concept" src="https://user-images.githubusercontent.com/26150152/179231190-2058acd2-1232-4a59-8467-d11a9fe26417.png">
 
 ### Version 1 (Mobile)
+
 - A horizontally scrolled content display system. It's purpose is to display and navigate sets of item data. Location and map features included. UI Components are used to filter and sort item data.
 - Display nearest _x_ items less than _x_ miles (50 default) from device location
 
@@ -18,6 +19,8 @@
 - [Universal Info Display Demo (mobile)](https://unidisplay.vercel.app/)
 
 ### Install/Run
+
+node v16
 
 (view using browser dev tools mobile)
 
@@ -114,6 +117,7 @@ Have the item "float" by displaying a slice of a full rotation.
 - Play in forwards then reverse
 
 ### TODO/THINK/(RE)DESIGN
+
 - routing
 - Extend map features? Directions?
 - Custom ranking systems/designs...
